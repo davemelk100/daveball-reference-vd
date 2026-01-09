@@ -48,9 +48,10 @@ export function Header() {
             height={100}
             className="h-auto object-contain border-0"
           />
-          <span>Major League Numbers</span>
         </Link>
-
+        <span className="hidden sm:inline text-[36px] font-league" style={{ color: "#d42821" }}>
+          Major League Numbers
+        </span>
         <div className="flex-1 flex justify-center"></div>
 
         <div className="flex items-center gap-2 lg:gap-4 shrink-0 ml-auto">

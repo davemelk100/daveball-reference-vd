@@ -199,11 +199,11 @@
 
   h1 {
     font-family: var(--font-league-gothic), sans-serif !important;
-    font-size: 60px !important;
+    font-size: 40px !important;
     letter-spacing: 1px !important;
     font-weight: 400 !important;
     text-transform: uppercase !important;
-    padding-bottom: 15px !important;
+    /* padding-bottom: 15px !important; */
   }
 
   .font-league {
