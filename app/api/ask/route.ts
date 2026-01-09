@@ -28,18 +28,29 @@ You can help users explore:
 - Statistical comparisons between players`
 
 export async function POST(req: Request) {
-  const { messages }: { messages: UIMessage[] } = await req.json()
+  try {
+    const { messages }: { messages: UIMessage[] } = await req.json()
 
-  const prompt = convertToModelMessages(messages)
+    const prompt = convertToModelMessages(messages)
 
-  const result = streamText({
-    model: "openai/gpt-4o-mini",
-    system: SYSTEM_PROMPT,
-    messages: prompt,
-    abortSignal: req.signal,
-  })
+    const result = streamText({
+      model: "openai/gpt-4o-mini",
+      system: SYSTEM_PROMPT,
+      messages: prompt,
+      abortSignal: req.signal,
+    })
 
-  return result.toUIMessageStreamResponse({
-    consumeSseStream: consumeStream,
-  })
+    return result.toUIMessageStreamResponse({
+      consumeSseStream: consumeStream,
+    })
+  } catch (error) {
+    console.error("[v0] API ask error:", error)
+    return new Response(
+      JSON.stringify({
+        error: "Failed to process request",
+        details: error instanceof Error ? error.message : "Unknown error",
+      }),
+      { status: 500, headers: { "Content-Type": "application/json" } },
+    )
+  }
 }
