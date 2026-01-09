@@ -1,0 +1,9 @@
+# Major League Numbers - robots.txt
+User-agent: *
+Allow: /
+
+# Disallow API routes
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://majorleaguenumbers.com/sitemap.xml

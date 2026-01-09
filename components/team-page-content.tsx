@@ -1,0 +1,285 @@
+"use client"
+
+import { useState, useEffect } from "react"
+import Link from "next/link"
+import Image from "next/image"
+import dynamic from "next/dynamic"
+import { ArrowLeft, Loader2, AlertCircle } from "lucide-react"
+import { getTeamLogoUrl, getDefaultSeason } from "@/lib/mlb-api"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { SeasonSelector } from "@/components/season-selector"
+import { Skeleton } from "@/components/ui/skeleton"
+
+const RosterTable = dynamic(
+  () =>
+    import("@/components/roster-table").then((mod) => ({
+      default: mod.RosterTable,
+    })),
+  {
+    loading: () => <Skeleton className="h-64 w-full" />,
+    ssr: false,
+  },
+)
+
+const HistoricalChart = dynamic(
+  () =>
+    import("@/components/historical-chart").then((mod) => ({
+      default: mod.HistoricalChart,
+    })),
+  {
+    loading: () => <Skeleton className="h-80 w-full" />,
+    ssr: false,
+  },
+)
+
+const HistoricalTable = dynamic(
+  () =>
+    import("@/components/historical-table").then((mod) => ({
+      default: mod.HistoricalTable,
+    })),
+  {
+    loading: () => <Skeleton className="h-96 w-full" />,
+    ssr: false,
+  },
+)
+
+const TeamLogos = dynamic(
+  () =>
+    import("@/components/team-logos").then((mod) => ({
+      default: mod.TeamLogos,
+    })),
+  {
+    loading: () => <Skeleton className="h-48 w-full" />,
+  },
+)
+
+interface TeamPageContentProps {
+  teamId: number
+  initialData: {
+    team: any
+    roster: any[]
+    teamRecord: any
+    history: any[]
+  }
+}
+
+export function TeamPageContent({ teamId, initialData }: TeamPageContentProps) {
+  const defaultSeason = getDefaultSeason()
+  const [season, setSeason] = useState(defaultSeason)
+  const [team, setTeam] = useState(initialData?.team || null)
+  const [roster, setRoster] = useState(initialData?.roster || [])
+  const [teamRecord, setTeamRecord] = useState(initialData?.teamRecord || null)
+  const [history] = useState(initialData?.history || [])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (season === defaultSeason) {
+      setTeam(initialData?.team || null)
+      setRoster(initialData?.roster || [])
+      setTeamRecord(initialData?.teamRecord || null)
+      setError(null)
+      return
+    }
+
+    const fetchData = async () => {
+      setLoading(true)
+      setError(null)
+      try {
+        const res = await fetch(`/api/team/${teamId}?season=${season}`)
+        if (!res.ok) {
+          throw new Error(`Failed to fetch: ${res.status}`)
+        }
+        const data = await res.json()
+        setTeam(data.team || null)
+        setRoster(data.roster || [])
+        setTeamRecord(data.teamRecord || null)
+      } catch (err) {
+        console.error("Error fetching team data:", err)
+        setError("Failed to load team data. Please try again.")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [season, teamId, defaultSeason, initialData])
+
+  if (!team) {
+    return (
+      <main className="container py-8">
+        <Link
+          href="/teams"
+          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Back to Teams
+        </Link>
+        <Card>
+          <CardContent className="py-12 flex flex-col items-center gap-4">
+            <AlertCircle className="h-12 w-12 text-muted-foreground" />
+            <p className="text-muted-foreground text-center">
+              {error || "Unable to load team data. The API may be temporarily unavailable."}
+            </p>
+          </CardContent>
+        </Card>
+      </main>
+    )
+  }
+
+  const pitchers = roster.filter((p) => p.primaryPosition?.type === "Pitcher")
+  const catchers = roster.filter((p) => p.primaryPosition?.abbreviation === "C")
+  const infielders = roster.filter((p) => ["1B", "2B", "3B", "SS"].includes(p.primaryPosition?.abbreviation || ""))
+  const outfielders = roster.filter((p) => ["LF", "CF", "RF", "OF"].includes(p.primaryPosition?.abbreviation || ""))
+  const dh = roster.filter((p) => p.primaryPosition?.abbreviation === "DH")
+
+  return (
+    <main className="container py-8">
+      <Link
+        href="/teams"
+        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors"
+      >
+        <ArrowLeft className="h-4 w-4" />
+        Back to Teams
+      </Link>
+
+      {error && (
+        <Card className="mb-6 border-destructive">
+          <CardContent className="py-4 flex items-center gap-2 text-destructive">
+            <AlertCircle className="h-4 w-4" />
+            {error}
+          </CardContent>
+        </Card>
+      )}
+
+      <div className="flex flex-col md:flex-row gap-6 mb-4">
+        <div className="relative h-24 w-24 shrink-0">
+          <Image
+            src={getTeamLogoUrl(team.id) || "/placeholder.svg"}
+            alt={`${team.name} logo`}
+            fill
+            className="object-contain"
+          />
+        </div>
+        <div className="flex-1">
+          <div className="mb-4 flex items-center gap-4">
+            <h1 className="mb-0">{team.name}</h1>
+            <SeasonSelector season={season} onSeasonChange={setSeason} />
+            {loading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+          </div>
+          <p className="text-muted-foreground mt-1">
+            {team.league?.name} &middot; {team.division?.name}
+          </p>
+          <p className="text-sm text-muted-foreground mt-1">{team.locationName}</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+        {teamRecord ? (
+          <>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">Record</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">
+                  {teamRecord.wins}-{teamRecord.losses}
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">Win %</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">{teamRecord.winningPercentage}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">Games Back</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">{teamRecord.gamesBack || "-"}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">Run Diff</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p
+                  className={`text-2xl font-bold ${
+                    teamRecord.runDifferential > 0
+                      ? "text-green-500"
+                      : teamRecord.runDifferential < 0
+                        ? "text-red-500"
+                        : ""
+                  }`}
+                >
+                  {teamRecord.runDifferential > 0 ? "+" : ""}
+                  {teamRecord.runDifferential}
+                </p>
+              </CardContent>
+            </Card>
+          </>
+        ) : (
+          <Card className="col-span-2 sm:col-span-4">
+            <CardContent className="py-6 text-center text-muted-foreground">
+              No standings data available for {season}
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
+      <Tabs defaultValue="history" className="space-y-6">
+        <TabsList>
+          <TabsTrigger value="history">Historical Data (1960-Present)</TabsTrigger>
+          <TabsTrigger value="roster">{season} Roster</TabsTrigger>
+          <TabsTrigger value="logos">Logos</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="history" className="space-y-6">
+          {history.length > 0 ? (
+            <>
+              <HistoricalChart data={history} teamName={team.name} />
+              <HistoricalTable data={history} />
+            </>
+          ) : (
+            <Card>
+              <CardContent className="py-12 text-center text-muted-foreground">
+                No historical data available for this team.
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        <TabsContent value="roster" className="space-y-8">
+          <h2 className="text-2xl font-bold">{season} Roster</h2>
+          {roster.length > 0 ? (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <RosterTable players={pitchers} title="Pitchers" />
+              <div className="space-y-8">
+                <RosterTable players={catchers} title="Catchers" />
+                <RosterTable players={infielders} title="Infielders" />
+                <RosterTable players={outfielders} title="Outfielders" />
+                {dh.length > 0 && <RosterTable players={dh} title="Designated Hitters" />}
+              </div>
+            </div>
+          ) : (
+            <Card>
+              <CardContent className="py-12 text-center text-muted-foreground">
+                No roster data available for {season}
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+
+        <TabsContent value="logos">
+          <TeamLogos teamId={team.id} teamName={team.name} />
+        </TabsContent>
+      </Tabs>
+    </main>
+  )
+}
