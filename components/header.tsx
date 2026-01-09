@@ -19,6 +19,7 @@ const navigation = [
   { name: "Standings", href: "/standings" },
   { name: "All Stars", href: "/all-star" },
   { name: "HOF", href: "/hof" },
+  { name: "Ask AI", href: "/ask" },
 ]
 
 export function Header() {
