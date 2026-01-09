@@ -1,14 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
 import { StatCard } from "@/components/stat-card"
 import { LeadersTable } from "@/components/leaders-table"
 import { SeasonSelector } from "@/components/season-selector"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import useSWR from "swr"
 import type { AwardWinner } from "@/lib/awards-data"
 import { Skeleton } from "@/components/ui/skeleton"
+import { AlertCircle } from "lucide-react"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 // Lazy load heavy components
 const LeadersBarChart = dynamic(
@@ -64,8 +65,6 @@ interface DashboardData {
   eraLeaders: any[]
   kLeaders: any[]
   standings: any[]
-  mvpWinners: { al: AwardWinner[]; nl: AwardWinner[] }
-  cyYoungWinners: { al: AwardWinner[]; nl: AwardWinner[] }
   leagueLeaders?: {
     hr: { al: LeagueLeader; nl: LeagueLeader }
     avg: { al: LeagueLeader; nl: LeagueLeader }
@@ -83,14 +82,113 @@ interface DashboardData {
   }
 }
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json())
+const MLB_API_BASE = "https://statsapi.mlb.com/api/v1"
+
+async function fetchLeaders(statGroup: string, leaderCategory: string, season: number, limit = 10) {
+  try {
+    const url = `${MLB_API_BASE}/stats/leaders?leaderCategories=${leaderCategory}&season=${season}&sportId=1&limit=${limit}&statGroup=${statGroup}`
+    const response = await fetch(url)
+    if (!response.ok) return []
+    const data = await response.json()
+    return data.leagueLeaders?.[0]?.leaders || []
+  } catch {
+    return []
+  }
+}
+
+async function fetchLeadersByLeague(
+  statGroup: string,
+  leaderCategory: string,
+  season: number,
+  leagueId: number,
+  limit = 10,
+) {
+  try {
+    const url = `${MLB_API_BASE}/stats/leaders?leaderCategories=${leaderCategory}&season=${season}&sportId=1&limit=${limit}&statGroup=${statGroup}&leagueId=${leagueId}`
+    const response = await fetch(url)
+    if (!response.ok) return []
+    const data = await response.json()
+    return data.leagueLeaders?.[0]?.leaders || []
+  } catch {
+    return []
+  }
+}
+
+async function fetchClientData(season: number): Promise<DashboardData & { error?: string }> {
+  try {
+    const AL_LEAGUE_ID = 103
+    const NL_LEAGUE_ID = 104
+
+    const [
+      hrLeaders,
+      avgLeaders,
+      eraLeaders,
+      kLeaders,
+      hrLeadersAL,
+      hrLeadersNL,
+      avgLeadersAL,
+      avgLeadersNL,
+      eraLeadersAL,
+      eraLeadersNL,
+      kLeadersAL,
+      kLeadersNL,
+    ] = await Promise.all([
+      fetchLeaders("hitting", "homeRuns", season, 10),
+      fetchLeaders("hitting", "battingAverage", season, 10),
+      fetchLeaders("pitching", "earnedRunAverage", season, 10),
+      fetchLeaders("pitching", "strikeouts", season, 10),
+      fetchLeadersByLeague("hitting", "homeRuns", season, AL_LEAGUE_ID, 10),
+      fetchLeadersByLeague("hitting", "homeRuns", season, NL_LEAGUE_ID, 10),
+      fetchLeadersByLeague("hitting", "battingAverage", season, AL_LEAGUE_ID, 10),
+      fetchLeadersByLeague("hitting", "battingAverage", season, NL_LEAGUE_ID, 10),
+      fetchLeadersByLeague("pitching", "earnedRunAverage", season, AL_LEAGUE_ID, 10),
+      fetchLeadersByLeague("pitching", "earnedRunAverage", season, NL_LEAGUE_ID, 10),
+      fetchLeadersByLeague("pitching", "strikeouts", season, AL_LEAGUE_ID, 10),
+      fetchLeadersByLeague("pitching", "strikeouts", season, NL_LEAGUE_ID, 10),
+    ])
+
+    return {
+      hrLeaders,
+      avgLeaders,
+      eraLeaders,
+      kLeaders,
+      standings: [],
+      leagueLeaders: {
+        hr: { al: hrLeadersAL[0], nl: hrLeadersNL[0] },
+        avg: { al: avgLeadersAL[0], nl: avgLeadersNL[0] },
+        era: { al: eraLeadersAL[0], nl: eraLeadersNL[0] },
+      },
+      chartLeaders: {
+        hr: { al: hrLeadersAL, nl: hrLeadersNL },
+        k: { al: kLeadersAL, nl: kLeadersNL },
+      },
+      tableLeaders: {
+        hr: { al: hrLeadersAL, nl: hrLeadersNL },
+        avg: { al: avgLeadersAL, nl: avgLeadersNL },
+        era: { al: eraLeadersAL, nl: eraLeadersNL },
+        k: { al: kLeadersAL, nl: kLeadersNL },
+      },
+    }
+  } catch (error) {
+    return {
+      hrLeaders: [],
+      avgLeaders: [],
+      eraLeaders: [],
+      kLeaders: [],
+      standings: [],
+      error: "Failed to load MLB data. Please refresh the page.",
+    }
+  }
+}
 
 export function DashboardContent({
-  initialData,
   initialSeason,
+  mvpWinners,
+  cyYoungWinners,
 }: {
-  initialData: DashboardData
   initialSeason: number
+  mvpWinners: { al: AwardWinner[]; nl: AwardWinner[] }
+  cyYoungWinners: { al: AwardWinner[]; nl: AwardWinner[] }
 }) {
   const [season, setSeason] = useState(initialSeason)
   const [selectedLeague, setSelectedLeague] = useState<"AL" | "NL">("AL")
@@ -98,25 +196,30 @@ export function DashboardContent({
   const [tableLeague, setTableLeague] = useState<"AL" | "NL">("AL")
   const [awardsLeague, setAwardsLeague] = useState<"AL" | "NL">("AL")
 
-  const { data, isLoading } = useSWR<DashboardData>(`/api/dashboard?season=${season}`, fetcher, {
-    fallbackData: season === initialSeason ? initialData : undefined,
-    revalidateOnFocus: false,
-  })
+  const [data, setData] = useState<DashboardData | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    setIsLoading(true)
+    setError(null)
+    fetchClientData(season)
+      .then((result) => {
+        if (result.error) {
+          setError(result.error)
+        }
+        setData(result)
+      })
+      .finally(() => setIsLoading(false))
+  }, [season])
 
   const hrLeaders = data?.hrLeaders || []
   const avgLeaders = data?.avgLeaders || []
   const eraLeaders = data?.eraLeaders || []
   const kLeaders = data?.kLeaders || []
-  const mvpWinners = data?.mvpWinners || { al: [], nl: [] }
-  const cyYoungWinners = data?.cyYoungWinners || { al: [], nl: [] }
   const leagueLeaders = data?.leagueLeaders
   const chartLeaders = data?.chartLeaders
   const tableLeaders = data?.tableLeaders
-
-  const currentYear = new Date().getFullYear()
-  const isCurrentSeason = season === currentYear
-  const seasonStatus = isCurrentSeason ? "In Progress" : "Completed"
-  const seasonDescription = isCurrentSeason ? "Regular season games" : "Final standings"
 
   const formatLeader = (al: LeagueLeader | undefined, nl: LeagueLeader | undefined) => {
     const leader = selectedLeague === "AL" ? al : nl
@@ -138,6 +241,15 @@ export function DashboardContent({
         <h1 className="mb-0 shrink-0 whitespace-nowrap">Home</h1>
         <SeasonSelector season={season} onSeasonChange={setSeason} isLoading={isLoading} />
       </div>
+
+      {/* Error message */}
+      {error && (
+        <Alert variant="destructive" className="my-6">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Data Unavailable</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
 
       {/* Daily Trivia & Player of the Day Row */}
       <div className="grid gap-6 lg:grid-cols-2 mb-8 mt-6">
