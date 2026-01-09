@@ -5,8 +5,8 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Search, Loader2 } from "lucide-react"
 import Link from "next/link"
-import { searchPlayers, type Player } from "@/lib/mlb-api"
 import { cn } from "@/lib/utils"
+import type { Player } from "@/lib/mlb-api"
 
 export function PlayerSearch() {
   const [query, setQuery] = useState("")
@@ -22,8 +22,9 @@ export function PlayerSearch() {
 
     setIsLoading(true)
     try {
-      const players = await searchPlayers(searchQuery)
-      setResults(players)
+      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`)
+      const data = await response.json()
+      setResults(data.players || [])
     } catch (error) {
       console.error("Search error:", error)
       setResults([])

@@ -1,8 +1,6 @@
 "use client"
 
-import type React from "react"
-
-import { useRef, useEffect, useState } from "react"
+import { useRef, useEffect } from "react"
 import { useChat } from "@ai-sdk/react"
 import { Send, Bot, User, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -21,11 +19,18 @@ const exampleQuestions = [
 
 export function AskPageContent() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const [localInput, setLocalInput] = useState("")
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const { messages, handleSubmit, isLoading, error, append } = useChat({
+  const chatHelpers = useChat({
     api: "/api/ask",
   })
+
+  const messages = chatHelpers.messages
+  const input = chatHelpers.input ?? ""
+  const handleInputChange = chatHelpers.handleInputChange ?? (() => {})
+  const handleSubmit = chatHelpers.handleSubmit
+  const isLoading = chatHelpers.isLoading
+  const error = chatHelpers.error
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -33,14 +38,18 @@ export function AskPageContent() {
 
   const handleExampleClick = (question: string) => {
     if (isLoading) return
-    append({ role: "user", content: question })
-  }
-
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!localInput.trim() || isLoading) return
-    append({ role: "user", content: localInput })
-    setLocalInput("")
+    const inputEl = inputRef.current
+    if (inputEl) {
+      // Set value via native setter to trigger React's onChange
+      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set
+      nativeInputValueSetter?.call(inputEl, question)
+      inputEl.dispatchEvent(new Event("input", { bubbles: true }))
+      // Submit after a tick
+      setTimeout(() => {
+        const form = document.getElementById("chat-form") as HTMLFormElement
+        if (form) form.requestSubmit()
+      }, 10)
+    }
   }
 
   return (
@@ -126,18 +135,20 @@ export function AskPageContent() {
 
         {/* Input area */}
         <div className="border-t p-4">
-          <form onSubmit={onSubmit} className="flex gap-2">
+          <form id="chat-form" onSubmit={handleSubmit} className="flex gap-2">
             <input
+              ref={inputRef}
               id="chat-input"
               name="chat-input"
               type="text"
-              value={localInput}
-              onChange={(e) => setLocalInput(e.target.value)}
+              value={input}
+              onChange={handleInputChange}
               placeholder="Ask about baseball stats, players, or history..."
               className="flex-1 px-4 py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
               disabled={isLoading}
+              autoComplete="off"
             />
-            <Button type="submit" disabled={isLoading || !localInput.trim()}>
+            <Button type="submit" disabled={isLoading || !input.trim()}>
               {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             </Button>
           </form>
