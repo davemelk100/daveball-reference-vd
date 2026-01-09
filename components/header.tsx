@@ -62,7 +62,7 @@ export function Header() {
                 : "text-muted-foreground hover:text-foreground hover:bg-secondary/50",
             )}
           >
-            <Image src="/chat-mlb.svg" alt="" width={20} height={20} className="h-5 w-5" />
+            <Image src="/chat-mlb.svg" alt="" width={30} height={30} className="h-[30px] w-auto" />
             <span className="hidden sm:inline">ChatMLB</span>
           </Link>
 
