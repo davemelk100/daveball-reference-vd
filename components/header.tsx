@@ -13,13 +13,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
 const navigation = [
+  { name: "🤖 ChatMLB", href: "/ask" },
   { name: "Home", href: "/" },
   { name: "Players", href: "/players" },
   { name: "Teams", href: "/teams" },
   { name: "Standings", href: "/standings" },
   { name: "All Stars", href: "/all-star" },
   { name: "HOF", href: "/hof" },
-  { name: "Ask AI", href: "/ask" },
 ]
 
 export function Header() {

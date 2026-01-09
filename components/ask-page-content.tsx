@@ -5,10 +5,11 @@ import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { useChat } from "@ai-sdk/react"
 import { DefaultChatTransport } from "ai"
-import { Send, Bot, User, Loader2, Sparkles } from "lucide-react"
+import { Send, Bot, User, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
+import ReactMarkdown from "react-markdown"
 
 const exampleQuestions = [
   "Who has the most home runs in a single season?",
@@ -47,14 +48,9 @@ export function AskPageContent() {
 
   return (
     <div className="container mx-auto px-4 py-6 max-w-4xl">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 rounded-lg bg-primary/10">
-          <Sparkles className="h-6 w-6 text-primary" />
-        </div>
-        <div>
-          <h1 className="text-2xl font-bold whitespace-nowrap">Ask AI</h1>
-          <p className="text-sm text-muted-foreground">Ask questions about baseball statistics and history</p>
-        </div>
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold whitespace-nowrap">ChatMLB</h1>
+        <p className="text-sm text-muted-foreground">Ask questions about baseball statistics and history</p>
       </div>
 
       <Card className="flex flex-col h-[calc(100vh-220px)] min-h-[500px]">
@@ -99,8 +95,15 @@ export function AskPageContent() {
                   >
                     {message.parts.map((part, index) => {
                       if (part.type === "text") {
-                        return (
-                          <div key={index} className="whitespace-pre-wrap text-sm">
+                        return message.role === "assistant" ? (
+                          <div
+                            key={index}
+                            className="text-sm prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-headings:my-2"
+                          >
+                            <ReactMarkdown>{part.text}</ReactMarkdown>
+                          </div>
+                        ) : (
+                          <div key={index} className="text-sm">
                             {part.text}
                           </div>
                         )
