@@ -5,6 +5,8 @@ export const metadata = {
   description: "Ask questions about baseball statistics and history",
 }
 
+export const dynamic = "force-dynamic"
+
 export default function AskPage() {
   return <AskPageContent />
 }
