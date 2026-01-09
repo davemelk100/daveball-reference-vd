@@ -46,7 +46,7 @@ export function Header() {
             alt="Major League Numbers Logo"
             width={120}
             height={100}
-            className="h-auto w-[120px] object-contain border-0 mt-2"
+            className="h-auto w-[120px] object-contain border-0 mt-5"
           />
         </Link>
         <span className="hidden md:block text-[48px] font-league whitespace-nowrap" style={{ color: "#d42821" }}>

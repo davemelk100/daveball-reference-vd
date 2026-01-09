@@ -48,7 +48,10 @@ export function HofPageContent({ hofMembers }: HofPageContentProps) {
         <div className="flex items-center gap-4">
           <h1 className="shrink-0 whitespace-nowrap">Hall of Fame</h1>
           <Select value={selectedYear} onValueChange={setSelectedYear}>
-            <SelectTrigger className="w-auto border-0 shadow-none p-0 h-auto bg-transparent hover:bg-transparent focus:ring-0 focus-visible:ring-0">
+            <SelectTrigger
+              className="w-auto border-0 shadow-none p-0 h-auto bg-transparent hover:bg-transparent focus:ring-0 focus-visible:ring-0"
+              iconClassName="size-8 opacity-100"
+            >
               <div className="flex items-center gap-2">
                 <span className="sr-only font-league text-2xl md:text-2xl font-semibold text-[#4e6095]">Induction Year</span>
                 <span className="font-league text-[40px] leading-none font-bold border-b-2 border-foreground">
