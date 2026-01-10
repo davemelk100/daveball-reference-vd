@@ -69,7 +69,7 @@ export function AskPageContent() {
           {messages.length === 0 && !error ? (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <Bot className="h-12 w-12 text-muted-foreground/50 mb-4" />
-              <h2 className="font-league text-3xl font-semibold mb-2">What would you like to know?</h2>
+              <h2 className="font-league text-3xl font-semibold mr-4 mb-2">What would you like to know?</h2>
               <p className="text-sm text-muted-foreground mb-6 max-w-md">
                 Ask me anything about baseball statistics, player comparisons, team history, or MLB records.
               </p>

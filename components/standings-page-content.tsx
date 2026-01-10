@@ -127,13 +127,13 @@ export function StandingsPageContent({ initialStandings, initialSeason }: Standi
             <TabsContent value="all" className="space-y-6">
               <div className="grid gap-6 xl:grid-cols-2">
                 <div className="space-y-6">
-                  <h2 className="font-league text-3xl font-semibold">American League</h2>
+                  <h2 className="font-league text-3xl font-semibold mr-4">American League</h2>
                   {sortedAL.map((division, idx) => (
                     <StandingsTable key={division.division?.id || idx} division={division} />
                   ))}
                 </div>
                 <div className="space-y-6">
-                  <h2 className="font-league text-3xl font-semibold">National League</h2>
+                  <h2 className="font-league text-3xl font-semibold mr-4">National League</h2>
                   {sortedNL.map((division, idx) => (
                     <StandingsTable key={division.division?.id || idx} division={division} />
                   ))}
