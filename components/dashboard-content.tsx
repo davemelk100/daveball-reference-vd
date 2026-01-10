@@ -160,7 +160,6 @@ export function DashboardContent({
       {/* Hero Section */}
       <div className="mb-0 flex items-center gap-4">
         <h1 className="mb-0 shrink-0 whitespace-nowrap">Home</h1>
-        <SeasonSelector season={season} onSeasonChange={setSeason} isLoading={isLoading} />
       </div>
 
       {isLoading && !data && (
@@ -189,6 +188,7 @@ export function DashboardContent({
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-league text-2xl font-semibold">League Best</h2>
+          <SeasonSelector season={season} onSeasonChange={setSeason} isLoading={isLoading} />
           <Tabs value={selectedLeague} onValueChange={(value) => setSelectedLeague(value as "AL" | "NL")}>
             <TabsList>
               <TabsTrigger value="AL">AL</TabsTrigger>
