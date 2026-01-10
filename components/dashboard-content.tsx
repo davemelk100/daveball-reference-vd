@@ -159,7 +159,7 @@ export function DashboardContent({
     <main className="container py-2">
       {/* Hero Section */}
       <div className="mb-0 flex items-center gap-4">
-        <h1 className="mb-0 shrink-0 whitespace-nowrap">Home</h1>
+        <h1 className="hidden mb-0 shrink-0 whitespace-nowrap">MLB Stats. At your fingertips.</h1>
       </div>
 
       {isLoading && !data && (
@@ -187,7 +187,7 @@ export function DashboardContent({
       {/* Quick Stats */}
       {/* <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-league text-2xl font-semibold">League Best</h2>
+          <h2 className="font-league text-3xl font-semibold">League Best</h2>
           <Tabs value={selectedLeague} onValueChange={(value) => setSelectedLeague(value as "AL" | "NL")}>
             <TabsList>
               <TabsTrigger value="AL">AL</TabsTrigger>
@@ -219,8 +219,8 @@ export function DashboardContent({
 
       {/* Award Winners */}
       <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-league text-2xl font-semibold">Award Winners</h2>
+        <div className="flex items-center justify-start mb-4">
+          <h2 className="font-league text-3xl font-semibold">Award Winners</h2>
           <Tabs value={awardsLeague} onValueChange={(value) => setAwardsLeague(value as "AL" | "NL")}>
             <TabsList>
               <TabsTrigger value="AL">AL</TabsTrigger>
@@ -241,7 +241,7 @@ export function DashboardContent({
       {/* Data Visualizations Section */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-league text-2xl font-semibold">Data Visualizations</h2>
+          <h2 className="font-league text-3xl font-semibold">Data Visualizations</h2>
           <Tabs value={chartLeague} onValueChange={(value) => setChartLeague(value as "AL" | "NL")}>
             <TabsList>
               <TabsTrigger value="AL">AL</TabsTrigger>
@@ -265,8 +265,8 @@ export function DashboardContent({
 
       {/* Leaders Grid */}
       <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-league text-2xl font-semibold">League Leaders</h2>
+        <div className="flex items-center mb-4">
+          <h2 className="font-league text-3xl font-semibold">League Leaders</h2>
           <div className="flex items-center gap-4">
             <Tabs value={tableLeague} onValueChange={(value) => setTableLeague(value as "AL" | "NL")}>
               <TabsList>

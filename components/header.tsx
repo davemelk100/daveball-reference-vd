@@ -38,15 +38,15 @@ export function Header() {
   }
 
   return (
-    <header className="z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-[80px] lg:h-[116px] items-center gap-4">
+    <header className="z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3">
+      <div className="container flex items-center gap-4">
         <Link href="/" className="flex-shrink-0 border-0 flex items-center gap-3">
           <Image
             src="/mln-logo.svg"
             alt="Major League Numbers Logo"
-            width={120}
+            width={200}
             height={100}
-            className="h-auto w-[120px] object-contain border-0"
+            className="h-auto object-contain border-0"
           />
         </Link>
         <span className="hidden md:block text-[48px] font-league whitespace-nowrap" style={{ color: "#d42821" }}>

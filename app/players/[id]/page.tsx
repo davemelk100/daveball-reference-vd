@@ -180,7 +180,7 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
         {/* Current Season Stats Quick View */}
         {(currentHitting || currentPitching) && (
           <div className="mb-8">
-            <h2 className="font-league text-2xl font-semibold mb-4">2024 Season</h2>
+            <h2 className="font-league text-3xl font-semibold mb-4">2024 Season</h2>
             {isPitcher && currentPitching ? (
               <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
                 <StatCard
