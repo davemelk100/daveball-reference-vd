@@ -1,4 +1,5 @@
-import { consumeStream, convertToModelMessages, streamText, type UIMessage } from "ai"
+import { streamText, type CoreMessage, createUIMessageStreamResponse, createUIMessageStream } from "ai"
+import { gateway } from "@ai-sdk/gateway"
 
 export const maxDuration = 30
 
@@ -27,21 +28,49 @@ You can help users explore:
 - Historical matchups and memorable moments
 - Statistical comparisons between players`
 
+// Helper to extract text from UI message parts
+function getTextFromParts(parts: Array<{ type: string; text?: string }>): string {
+  if (!parts || !Array.isArray(parts)) return ""
+  return parts
+    .filter((part) => part.type === "text" && part.text)
+    .map((part) => part.text)
+    .join("")
+}
+
 export async function POST(req: Request) {
   try {
-    const { messages }: { messages: UIMessage[] } = await req.json()
+    const { messages } = await req.json()
 
-    const prompt = convertToModelMessages(messages)
+    // Convert UI messages to CoreMessage format (handle both parts and content formats)
+    const coreMessages: CoreMessage[] = messages.map(
+      (msg: { role: string; content?: string; parts?: Array<{ type: string; text?: string }> }) => ({
+        role: msg.role as "user" | "assistant",
+        content: msg.content || getTextFromParts(msg.parts || []),
+      })
+    )
 
-    const result = streamText({
-      model: "openai/gpt-4o-mini",
-      system: SYSTEM_PROMPT,
-      messages: prompt,
-      abortSignal: req.signal,
-    })
+    const textPartId = crypto.randomUUID()
 
-    return result.toUIMessageStreamResponse({
-      consumeSseStream: consumeStream,
+    return createUIMessageStreamResponse({
+      stream: createUIMessageStream({
+        async execute({ writer }) {
+          const result = await streamText({
+            model: gateway("openai/gpt-4o-mini"),
+            system: SYSTEM_PROMPT,
+            messages: coreMessages,
+          })
+
+          // Start the text part
+          writer.write({ type: "text-start", id: textPartId })
+
+          for await (const text of result.textStream) {
+            writer.write({ type: "text-delta", id: textPartId, delta: text })
+          }
+
+          // End the text part
+          writer.write({ type: "text-end", id: textPartId })
+        },
+      }),
     })
   } catch (error) {
     console.error("[v0] API ask error:", error)

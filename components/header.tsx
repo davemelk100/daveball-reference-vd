@@ -55,8 +55,7 @@ export function Header() {
         <div className="flex-1 flex justify-center"></div>
 
         <div className="flex items-center gap-2 lg:gap-4 shrink-0 ml-auto">
-          {/* Commented out ChatMLB link until feature is working properly */}
-          {/* <Link
+          <Link
             href="/ask"
             className={cn(
               "flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors whitespace-nowrap",
@@ -67,7 +66,7 @@ export function Header() {
           >
             <Image src="/chat-mlb.svg" alt="" width={30} height={30} className="h-[30px] w-auto" />
             <span className="hidden sm:inline">ChatMLB</span>
-          </Link> */}
+          </Link>
 
           <nav className="hidden md:flex items-center gap-1">
             {navigation.map((item) => (
