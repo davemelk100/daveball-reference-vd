@@ -34,42 +34,27 @@ export function Header() {
         </span>
         <div className="flex-1 flex justify-center"></div>
 
-        {/* ChatMLB button and nav - 1300px+ only */}
-        <div className="hidden min-[1300px]:flex items-center gap-2 min-[1300px]:gap-4 shrink-0">
-          <Link
-            href="/ask"
-            className={cn(
-              "flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors whitespace-nowrap",
-              pathname === "/ask"
-                ? "bg-secondary/50 text-foreground"
-                : "text-muted-foreground hover:text-foreground hover:bg-secondary/50",
-            )}
-          >
-            <Image src="/chat-mlb.svg" alt="" width={30} height={30} className="h-[30px] w-auto" />
-            <span>ChatMLB</span>
-          </Link>
-
-          <nav className="flex items-center gap-1">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  "px-3 py-2 text-xs font-medium rounded-md transition-colors whitespace-nowrap",
-                  pathname === item.href
-                    ? "bg-secondary/50 text-foreground"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/50",
-                )}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
-        </div>
+        {/* Nav links - 1300px+ only */}
+        <nav className="hidden min-[1300px]:flex items-center gap-1 shrink-0">
+          {navigation.map((item) => (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={cn(
+                "px-3 py-2 text-xs font-medium rounded-md transition-colors whitespace-nowrap",
+                pathname === item.href
+                  ? "bg-secondary/50 text-foreground"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/50",
+              )}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </nav>
       </div>
 
-      {/* ChatMLB button row for < 1300px */}
-      <div className="min-[1300px]:hidden container mt-3">
+      {/* ChatMLB button row - all viewports */}
+      <div className="container mt-3">
         <Link
           href="/ask"
           className={cn(
@@ -79,7 +64,7 @@ export function Header() {
               : "bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-secondary/50",
           )}
         >
-          <Image src="/chat-mlb.svg" alt="" width={24} height={24} className="h-6 w-auto" />
+          <Image src="/chat-mlb.svg" alt="" width={40} height={40} className="h-[40px] w-auto" />
           <span>ChatMLB</span>
         </Link>
       </div>
