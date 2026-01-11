@@ -30,8 +30,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   icons: {
-    icon: "/favicon.svg",
-    apple: "/favicon.svg",
+    icon: "/chat-mlb.svg",
+    apple: "/chat-mlb.svg",
   },
   keywords: [
     "MLB",
