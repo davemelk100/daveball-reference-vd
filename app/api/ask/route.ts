@@ -1,4 +1,4 @@
-import { streamText, type CoreMessage, createUIMessageStreamResponse, createUIMessageStream } from "ai"
+import { streamText, type CoreMessage } from "ai"
 import { gateway } from "@ai-sdk/gateway"
 
 export const maxDuration = 30
@@ -49,29 +49,13 @@ export async function POST(req: Request) {
       })
     )
 
-    const textPartId = crypto.randomUUID()
-
-    return createUIMessageStreamResponse({
-      stream: createUIMessageStream({
-        async execute({ writer }) {
-          const result = await streamText({
-            model: gateway("openai/gpt-4o-mini"),
-            system: SYSTEM_PROMPT,
-            messages: coreMessages,
-          })
-
-          // Start the text part
-          writer.write({ type: "text-start", id: textPartId })
-
-          for await (const text of result.textStream) {
-            writer.write({ type: "text-delta", id: textPartId, delta: text })
-          }
-
-          // End the text part
-          writer.write({ type: "text-end", id: textPartId })
-        },
-      }),
+    const result = await streamText({
+      model: gateway("openai/gpt-4o-mini"),
+      system: SYSTEM_PROMPT,
+      messages: coreMessages,
     })
+
+    return result.toDataStreamResponse()
   } catch (error) {
     console.error("[v0] API ask error:", error)
     return new Response(

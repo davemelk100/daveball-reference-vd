@@ -1,38 +1,16 @@
 "use client"
 
-import { useRef, useEffect, useState, useMemo } from "react"
-import { useChat } from "@ai-sdk/react"
-import { DefaultChatTransport, type UIMessage } from "ai"
+import { useRef, useEffect } from "react"
+import { useChat, type Message } from "@ai-sdk/react"
 import { Send, Bot, User, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import ReactMarkdown from "react-markdown"
 
-// Helper to extract text content from a message (handles both old and new formats)
-function getMessageText(message: UIMessage): string {
-  // New format: parts array
-  if (message.parts && Array.isArray(message.parts)) {
-    const textParts = message.parts
-      .filter((part) => part.type === "text")
-      .map((part) => {
-        // Handle both { text: string } and { value: string } formats
-        if ("text" in part && typeof part.text === "string") {
-          return part.text
-        }
-        if ("value" in part && typeof (part as { value?: string }).value === "string") {
-          return (part as { value: string }).value
-        }
-        return ""
-      })
-      .join("")
-    if (textParts) return textParts
-  }
-  // Old format: content string
-  if (typeof (message as { content?: string }).content === "string") {
-    return (message as { content: string }).content
-  }
-  return ""
+// Helper to extract text content from a message
+function getMessageText(message: Message): string {
+  return message.content
 }
 
 const exampleQuestions = [
@@ -43,31 +21,23 @@ const exampleQuestions = [
 export function AskPageContent() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
-  const [input, setInput] = useState("")
 
-  const transport = useMemo(() => new DefaultChatTransport({ api: "/api/ask" }), [])
-
-  const { messages, sendMessage, status, error } = useChat({
-    transport,
+  const { messages, input, setInput, handleSubmit, isLoading, error } = useChat({
+    api: "/api/ask",
   })
-
-  const isLoading = status === "streaming" || status === "submitted"
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages, isLoading])
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!input.trim() || isLoading) return
-    const message = input.trim()
-    setInput("")
-    await sendMessage({ text: message })
-  }
-
   const handleExampleClick = async (question: string) => {
     if (isLoading) return
-    await sendMessage({ text: question })
+    setInput(question)
+    // Submit after setting input
+    const form = document.getElementById("chat-form") as HTMLFormElement
+    if (form) {
+      form.requestSubmit()
+    }
   }
 
   return (
@@ -105,12 +75,7 @@ export function AskPageContent() {
             </div>
           ) : (
             <>
-              {messages.map((message) => {
-                // Debug: log message structure
-                if (message.role === "assistant") {
-                  console.log("Assistant message:", JSON.stringify(message, null, 2))
-                }
-                return (
+              {messages.map((message) => (
                 <div
                   key={message.id}
                   className={cn("flex gap-3", message.role === "user" ? "justify-end" : "justify-start")}
@@ -140,7 +105,7 @@ export function AskPageContent() {
                     </div>
                   )}
                 </div>
-              )})}
+              ))}
 
               {isLoading && messages[messages.length - 1]?.role === "user" && (
                 <div className="flex gap-3 justify-start">
