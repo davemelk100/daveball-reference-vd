@@ -13,10 +13,20 @@ import ReactMarkdown from "react-markdown"
 function getMessageText(message: UIMessage): string {
   // New format: parts array
   if (message.parts && Array.isArray(message.parts)) {
-    return message.parts
-      .filter((part): part is { type: "text"; text: string } => part.type === "text")
-      .map((part) => part.text)
+    const textParts = message.parts
+      .filter((part) => part.type === "text")
+      .map((part) => {
+        // Handle both { text: string } and { value: string } formats
+        if ("text" in part && typeof part.text === "string") {
+          return part.text
+        }
+        if ("value" in part && typeof (part as { value?: string }).value === "string") {
+          return (part as { value: string }).value
+        }
+        return ""
+      })
       .join("")
+    if (textParts) return textParts
   }
   // Old format: content string
   if (typeof (message as { content?: string }).content === "string") {
@@ -95,7 +105,12 @@ export function AskPageContent() {
             </div>
           ) : (
             <>
-              {messages.map((message) => (
+              {messages.map((message) => {
+                // Debug: log message structure
+                if (message.role === "assistant") {
+                  console.log("Assistant message:", JSON.stringify(message, null, 2))
+                }
+                return (
                 <div
                   key={message.id}
                   className={cn("flex gap-3", message.role === "user" ? "justify-end" : "justify-start")}
@@ -125,7 +140,8 @@ export function AskPageContent() {
                     </div>
                   )}
                 </div>
-              ))}
+              )})}
+
               {isLoading && messages[messages.length - 1]?.role === "user" && (
                 <div className="flex gap-3 justify-start">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
