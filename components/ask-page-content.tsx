@@ -28,10 +28,6 @@ function getMessageText(message: UIMessage): string {
 const exampleQuestions = [
   "Who has the most home runs in a single season?",
   "Compare Babe Ruth and Mike Trout's career stats",
-  "Which team has won the most World Series?",
-  "Who were the 2024 MVP winners?",
-  "What is the triple crown in baseball?",
-  "Tell me about the 1927 Yankees",
 ]
 
 export function AskPageContent() {
@@ -116,7 +112,7 @@ export function AskPageContent() {
                     )}
                   >
                     {message.role === "assistant" ? (
-                      <div className="text-sm prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-headings:my-2">
+                      <div className="text-sm prose dark:prose-invert max-w-none prose-p:my-1 prose-p:text-sm prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-li:text-sm prose-headings:my-2 prose-headings:text-base">
                         <ReactMarkdown>{getMessageText(message)}</ReactMarkdown>
                       </div>
                     ) : (
