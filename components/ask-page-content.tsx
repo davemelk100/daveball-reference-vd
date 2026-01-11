@@ -22,7 +22,7 @@ export function AskPageContent() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const { messages, input, setInput, handleSubmit, isLoading, error } = useChat({
+  const { messages, input, setInput, handleSubmit, isLoading, error, append } = useChat({
     api: "/api/ask",
   })
 
@@ -30,14 +30,13 @@ export function AskPageContent() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages, isLoading])
 
-  const handleExampleClick = async (question: string) => {
+  const handleExampleClick = (question: string) => {
     if (isLoading) return
-    setInput(question)
-    // Submit after setting input
-    const form = document.getElementById("chat-form") as HTMLFormElement
-    if (form) {
-      form.requestSubmit()
-    }
+    // Use append to directly send the message
+    append({
+      role: "user",
+      content: question,
+    })
   }
 
   return (
@@ -130,14 +129,14 @@ export function AskPageContent() {
               id="chat-input"
               name="chat-input"
               type="text"
-              value={input}
+              value={input ?? ""}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about baseball stats, players, or history..."
               className="flex-1 px-4 py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
               disabled={isLoading}
               autoComplete="off"
             />
-            <Button type="submit" disabled={isLoading || !input.trim()}>
+            <Button type="submit" disabled={isLoading || !input?.trim()}>
               {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
             </Button>
           </form>
