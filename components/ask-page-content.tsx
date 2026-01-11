@@ -1,55 +1,63 @@
 "use client"
 
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState, useMemo } from "react"
 import { useChat } from "@ai-sdk/react"
+import { DefaultChatTransport, type UIMessage } from "ai"
 import { Send, Bot, User, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import ReactMarkdown from "react-markdown"
 
+// Helper to extract text content from a message (handles both old and new formats)
+function getMessageText(message: UIMessage): string {
+  // New format: parts array
+  if (message.parts && Array.isArray(message.parts)) {
+    return message.parts
+      .filter((part): part is { type: "text"; text: string } => part.type === "text")
+      .map((part) => part.text)
+      .join("")
+  }
+  // Old format: content string
+  if (typeof (message as { content?: string }).content === "string") {
+    return (message as { content: string }).content
+  }
+  return ""
+}
+
 const exampleQuestions = [
   "Who has the most home runs in a single season?",
   "Compare Babe Ruth and Mike Trout's career stats",
-  "Which team has won the most World Series?",
-  "Who were the 2024 MVP winners?",
-  "What is the triple crown in baseball?",
-  "Tell me about the 1927 Yankees",
 ]
 
 export function AskPageContent() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [input, setInput] = useState("")
 
-  const chatHelpers = useChat({
-    api: "/api/ask",
+  const transport = useMemo(() => new DefaultChatTransport({ api: "/api/ask" }), [])
+
+  const { messages, sendMessage, status, error } = useChat({
+    transport,
   })
 
-  const messages = chatHelpers.messages
-  const input = chatHelpers.input ?? ""
-  const handleInputChange = chatHelpers.handleInputChange ?? (() => { })
-  const handleSubmit = chatHelpers.handleSubmit
-  const isLoading = chatHelpers.isLoading
-  const error = chatHelpers.error
+  const isLoading = status === "streaming" || status === "submitted"
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }, [messages, isLoading])
 
-  const handleExampleClick = (question: string) => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!input.trim() || isLoading) return
+    const message = input.trim()
+    setInput("")
+    await sendMessage({ text: message })
+  }
+
+  const handleExampleClick = async (question: string) => {
     if (isLoading) return
-    const inputEl = inputRef.current
-    if (inputEl) {
-      // Set value via native setter to trigger React's onChange
-      const nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, "value")?.set
-      nativeInputValueSetter?.call(inputEl, question)
-      inputEl.dispatchEvent(new Event("input", { bubbles: true }))
-      // Submit after a tick
-      setTimeout(() => {
-        const form = document.getElementById("chat-form") as HTMLFormElement
-        if (form) form.requestSubmit()
-      }, 10)
-    }
+    await sendMessage({ text: question })
   }
 
   return (
@@ -104,11 +112,11 @@ export function AskPageContent() {
                     )}
                   >
                     {message.role === "assistant" ? (
-                      <div className="text-sm prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-headings:my-2">
-                        <ReactMarkdown>{message.content || ""}</ReactMarkdown>
+                      <div className="text-sm prose dark:prose-invert max-w-none prose-p:my-1 prose-p:text-sm prose-ul:my-1 prose-ol:my-1 prose-li:my-0 prose-li:text-sm prose-headings:my-2 prose-headings:text-base">
+                        <ReactMarkdown>{getMessageText(message)}</ReactMarkdown>
                       </div>
                     ) : (
-                      <div className="text-sm">{message.content || ""}</div>
+                      <div className="text-sm">{getMessageText(message)}</div>
                     )}
                   </div>
                   {message.role === "user" && (
@@ -142,7 +150,7 @@ export function AskPageContent() {
               name="chat-input"
               type="text"
               value={input}
-              onChange={handleInputChange}
+              onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about baseball stats, players, or history..."
               className="flex-1 px-4 py-2 rounded-lg border bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
               disabled={isLoading}
