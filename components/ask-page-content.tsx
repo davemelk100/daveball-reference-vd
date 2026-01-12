@@ -3,10 +3,18 @@
 import { useRef, useEffect, useState, useMemo, useCallback } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { Send, Bot, User, Loader2 } from "lucide-react";
+import { Send, Bot, User, Loader2, Plus, Save, History, X, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
+import {
+  getSavedChats,
+  saveChat,
+  deleteChat,
+  generateChatId,
+  generateChatTitle,
+  type SavedChat,
+} from "@/lib/chat-storage";
 
 // Helper to extract text content from a message
 function getMessageText(message: UIMessage): string {
@@ -44,17 +52,27 @@ export function AskPageContent() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState("");
   const [randomPrompt, setRandomPrompt] = useState("");
+  const [currentChatId, setCurrentChatId] = useState<string | null>(null);
+  const [savedChats, setSavedChats] = useState<SavedChat[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
+  const [chatKey, setChatKey] = useState(0);
 
   const transport = useMemo(
     () => new DefaultChatTransport({ api: "/api/ask" }),
     []
   );
 
-  const { messages, sendMessage, status, error } = useChat({
+  const { messages, sendMessage, status, error, setMessages } = useChat({
     transport,
+    id: `chat-${chatKey}`,
   });
 
   const isLoading = status === "streaming" || status === "submitted";
+
+  // Load saved chats on mount
+  useEffect(() => {
+    setSavedChats(getSavedChats());
+  }, []);
 
   // Set random prompt on mount
   useEffect(() => {
@@ -73,20 +91,144 @@ export function AskPageContent() {
     await sendMessage({ text: message });
   };
 
+  const handleNewChat = useCallback(() => {
+    setCurrentChatId(null);
+    setMessages([]);
+    setChatKey((prev) => prev + 1);
+    setRandomPrompt(chatPrompts[Math.floor(Math.random() * chatPrompts.length)]);
+    setShowHistory(false);
+  }, [setMessages]);
+
+  const handleSaveChat = useCallback(() => {
+    if (messages.length === 0) return;
+
+    const chatId = currentChatId || generateChatId();
+    const chat: SavedChat = {
+      id: chatId,
+      title: generateChatTitle(messages),
+      messages: messages,
+      createdAt: currentChatId
+        ? savedChats.find((c) => c.id === currentChatId)?.createdAt || Date.now()
+        : Date.now(),
+      updatedAt: Date.now(),
+    };
+
+    saveChat(chat);
+    setCurrentChatId(chatId);
+    setSavedChats(getSavedChats());
+  }, [messages, currentChatId, savedChats]);
+
+  const handleLoadChat = useCallback(
+    (chat: SavedChat) => {
+      setCurrentChatId(chat.id);
+      setMessages(chat.messages);
+      setChatKey((prev) => prev + 1);
+      setShowHistory(false);
+    },
+    [setMessages]
+  );
+
+  const handleDeleteChat = useCallback(
+    (chatId: string, e: React.MouseEvent) => {
+      e.stopPropagation();
+      deleteChat(chatId);
+      setSavedChats(getSavedChats());
+      if (currentChatId === chatId) {
+        handleNewChat();
+      }
+    },
+    [currentChatId, handleNewChat]
+  );
+
   return (
     <div className="flex flex-col h-[calc(100vh-180px)]">
       {/* Header */}
       <div className="mx-auto px-[calc(1rem+25px)] max-w-4xl w-full">
         <div className="mb-4 flex items-center gap-4">
           <img src="/chat-mlb.svg" alt="ChatMLB" className="h-24 w-24" />
-          <div>
+          <div className="flex-1">
             <h1 className="text-2xl font-bold whitespace-nowrap">ChatMLB</h1>
             <p className="text-sm text-muted-foreground">
               Ask questions about baseball statistics and history
             </p>
           </div>
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowHistory(!showHistory)}
+              className="gap-1"
+            >
+              <History className="h-4 w-4" />
+              <span className="hidden sm:inline">History</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleSaveChat}
+              disabled={messages.length === 0}
+              className="gap-1"
+            >
+              <Save className="h-4 w-4" />
+              <span className="hidden sm:inline">Save</span>
+            </Button>
+            <Button variant="outline" size="sm" onClick={handleNewChat} className="gap-1">
+              <Plus className="h-4 w-4" />
+              <span className="hidden sm:inline">New</span>
+            </Button>
+          </div>
         </div>
       </div>
+
+      {/* Chat History Sidebar */}
+      {showHistory && (
+        <div className="fixed inset-0 z-50 bg-black/50" onClick={() => setShowHistory(false)}>
+          <div
+            className="absolute right-0 top-0 h-full w-80 bg-background shadow-lg p-4 overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-semibold">Saved Chats</h2>
+              <Button variant="ghost" size="sm" onClick={() => setShowHistory(false)}>
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+            {savedChats.length === 0 ? (
+              <p className="text-muted-foreground text-sm">No saved chats yet.</p>
+            ) : (
+              <div className="space-y-2">
+                {savedChats.map((chat) => (
+                  <div
+                    key={chat.id}
+                    className={cn(
+                      "p-3 rounded-lg cursor-pointer hover:bg-muted transition-colors group",
+                      currentChatId === chat.id && "bg-muted"
+                    )}
+                    onClick={() => handleLoadChat(chat)}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium truncate">{chat.title}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {new Date(chat.updatedAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="opacity-0 group-hover:opacity-100 h-8 w-8 p-0"
+                        onClick={(e) => handleDeleteChat(chat.id, e)}
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Messages area - scrollable */}
       <div className="flex-1 overflow-y-auto">
