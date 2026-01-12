@@ -3,7 +3,7 @@
 import { useRef, useEffect, useState, useMemo, useCallback } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { Send, Bot, User, Loader2, Plus, Save, History, X, Trash2 } from "lucide-react";
+import { Send, Bot, User, Loader2, Plus, History, X, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
@@ -56,6 +56,8 @@ export function AskPageContent() {
   const [savedChats, setSavedChats] = useState<SavedChat[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [chatKey, setChatKey] = useState(0);
+  const [lastSavedLength, setLastSavedLength] = useState(0);
+  const pendingMessagesRef = useRef<UIMessage[] | null>(null);
 
   const transport = useMemo(
     () => new DefaultChatTransport({ api: "/api/ask" }),
@@ -66,6 +68,14 @@ export function AskPageContent() {
     transport,
     id: `chat-${chatKey}`,
   });
+
+  // Apply pending messages after chat key changes
+  useEffect(() => {
+    if (pendingMessagesRef.current) {
+      setMessages(pendingMessagesRef.current);
+      pendingMessagesRef.current = null;
+    }
+  }, [chatKey, setMessages]);
 
   const isLoading = status === "streaming" || status === "submitted";
 
@@ -83,6 +93,37 @@ export function AskPageContent() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading]);
 
+  // Autosave chat when messages change (after assistant response completes)
+  useEffect(() => {
+    // Only autosave when:
+    // 1. We have messages
+    // 2. Not currently loading (assistant finished responding)
+    // 3. Messages length changed since last save
+    // 4. Last message is from assistant (complete exchange)
+    if (
+      messages.length > 0 &&
+      !isLoading &&
+      messages.length !== lastSavedLength &&
+      messages[messages.length - 1]?.role === "assistant"
+    ) {
+      const chatId = currentChatId || generateChatId();
+      const chat: SavedChat = {
+        id: chatId,
+        title: generateChatTitle(messages),
+        messages: messages,
+        createdAt: currentChatId
+          ? savedChats.find((c) => c.id === currentChatId)?.createdAt || Date.now()
+          : Date.now(),
+        updatedAt: Date.now(),
+      };
+
+      saveChat(chat);
+      setCurrentChatId(chatId);
+      setSavedChats(getSavedChats());
+      setLastSavedLength(messages.length);
+    }
+  }, [messages, isLoading, currentChatId, savedChats, lastSavedLength]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
@@ -95,37 +136,20 @@ export function AskPageContent() {
     setCurrentChatId(null);
     setMessages([]);
     setChatKey((prev) => prev + 1);
+    setLastSavedLength(0);
     setRandomPrompt(chatPrompts[Math.floor(Math.random() * chatPrompts.length)]);
     setShowHistory(false);
   }, [setMessages]);
 
-  const handleSaveChat = useCallback(() => {
-    if (messages.length === 0) return;
-
-    const chatId = currentChatId || generateChatId();
-    const chat: SavedChat = {
-      id: chatId,
-      title: generateChatTitle(messages),
-      messages: messages,
-      createdAt: currentChatId
-        ? savedChats.find((c) => c.id === currentChatId)?.createdAt || Date.now()
-        : Date.now(),
-      updatedAt: Date.now(),
-    };
-
-    saveChat(chat);
-    setCurrentChatId(chatId);
-    setSavedChats(getSavedChats());
-  }, [messages, currentChatId, savedChats]);
-
   const handleLoadChat = useCallback(
     (chat: SavedChat) => {
       setCurrentChatId(chat.id);
-      setMessages(chat.messages);
+      pendingMessagesRef.current = chat.messages;
       setChatKey((prev) => prev + 1);
+      setLastSavedLength(chat.messages.length);
       setShowHistory(false);
     },
-    [setMessages]
+    []
   );
 
   const handleDeleteChat = useCallback(
@@ -142,43 +166,40 @@ export function AskPageContent() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-180px)]">
-      {/* Header */}
-      <div className="mx-auto px-[calc(1rem+25px)] max-w-4xl w-full">
-        <div className="mb-4 flex items-center gap-4">
-          <img src="/chat-mlb.svg" alt="ChatMLB" className="h-24 w-24" />
-          <div className="flex-1">
-            <h1 className="text-2xl font-bold whitespace-nowrap">ChatMLB</h1>
-            <p className="text-sm text-muted-foreground">
+      {/* Scrollable area - includes header and messages */}
+      <div className="flex-1 overflow-y-auto">
+        {/* Header */}
+        <div className="mx-auto px-4 sm:px-[calc(1rem+25px)] max-w-4xl w-full">
+          <div className="mb-4">
+            <div className="flex items-center gap-4">
+              <img src="/chat-mlb.svg" alt="ChatMLB" className="h-24 w-24" />
+              <div className="flex-1">
+                <h1 className="text-2xl font-bold whitespace-nowrap">ChatMLB</h1>
+                <p className="hidden sm:block text-sm text-muted-foreground">
+                  Ask questions about baseball statistics and history
+                </p>
+              </div>
+              <div className="flex gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowHistory(!showHistory)}
+                className="gap-1"
+              >
+                <History className="h-4 w-4" />
+                <span className="hidden sm:inline">History</span>
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleNewChat} className="gap-1">
+                <Plus className="h-4 w-4" />
+                <span className="hidden sm:inline">New</span>
+              </Button>
+              </div>
+            </div>
+            <p className="sm:hidden text-sm text-muted-foreground mt-2">
               Ask questions about baseball statistics and history
             </p>
           </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowHistory(!showHistory)}
-              className="gap-1"
-            >
-              <History className="h-4 w-4" />
-              <span className="hidden sm:inline">History</span>
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleSaveChat}
-              disabled={messages.length === 0}
-              className="gap-1"
-            >
-              <Save className="h-4 w-4" />
-              <span className="hidden sm:inline">Save</span>
-            </Button>
-            <Button variant="outline" size="sm" onClick={handleNewChat} className="gap-1">
-              <Plus className="h-4 w-4" />
-              <span className="hidden sm:inline">New</span>
-            </Button>
-          </div>
         </div>
-      </div>
 
       {/* Chat History Sidebar */}
       {showHistory && (
@@ -230,9 +251,8 @@ export function AskPageContent() {
         </div>
       )}
 
-      {/* Messages area - scrollable */}
-      <div className="flex-1 overflow-y-auto">
-        <div className="mx-auto px-[calc(1rem+25px)] max-w-4xl space-y-1">
+        {/* Messages */}
+        <div className="mx-auto px-4 sm:px-[calc(1rem+25px)] max-w-4xl space-y-1">
           {error && (
             <div className="bg-destructive/10 text-destructive p-3 rounded-lg text-sm">
               Error: {error.message}
@@ -292,7 +312,7 @@ export function AskPageContent() {
 
       {/* Input area - fixed at bottom */}
       <div className="shrink-0 pt-4 pb-4 bg-background">
-        <div className="mx-auto px-[calc(1rem+25px)] max-w-4xl">
+        <div className="mx-auto px-4 sm:px-[calc(1rem+25px)] max-w-4xl">
           {messages.length === 0 && randomPrompt && (
             <p className="text-center text-muted-foreground mb-3 text-lg">
               {randomPrompt}
