@@ -65,12 +65,12 @@ export function AskPageContent() {
         className={cn(
           "flex flex-col transition-all duration-300",
           messages.length === 0
-            ? "h-[200px]"
+            ? "h-[100px]"
             : "h-[calc(100vh-220px)] min-h-[500px]"
         )}
       >
         {/* Messages area */}
-        <div className="flex-1 overflow-y-auto space-y-4">
+        <div className="flex-1 overflow-y-auto space-y-1">
           {error && (
             <div className="bg-destructive/10 text-destructive p-3 rounded-lg text-sm">
               Error: {error.message}

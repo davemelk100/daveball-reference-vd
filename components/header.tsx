@@ -33,7 +33,7 @@ export function Header() {
           />
         </Link>
         <span
-          className="text-2xl sm:text-3xl min-[1300px]:text-[48px] font-league whitespace-nowrap"
+          className="text-4xl sm:text-4xl min-[1300px]:text-[48px] font-league whitespace-nowrap"
           style={{ color: "#d42821" }}
         >
           Major League Numbers
@@ -64,7 +64,7 @@ export function Header() {
         <div className="container mt-3">
           <Link
             href="/ask"
-            className="flex items-center justify-center gap-2 w-full px-4 py-3 text-sm font-medium rounded-md transition-colors bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+            className="shadow-lg flex items-center justify-center gap-2 w-full px-4 py-3 text-sm font-medium rounded-md transition-colors bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-secondary/50"
           >
             <Image
               src="/chat-mlb.svg"
