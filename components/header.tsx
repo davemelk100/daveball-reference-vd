@@ -27,9 +27,9 @@ export function Header() {
           <Image
             src="/mln-logo.svg"
             alt="Major League Numbers Logo"
-            width={200}
-            height={100}
-            className="h-auto object-contain border-0"
+            width={100}
+            height={80}
+            className="W-auto object-contain border-0"
           />
         </Link>
         <span
