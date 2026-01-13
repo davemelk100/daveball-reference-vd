@@ -4,7 +4,7 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono, League_Gothic } from "next/font/google"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { FooterNav } from "@/components/footer-nav"
+import { FooterNav, LeftNav } from "@/components/footer-nav"
 import { PageLoader } from "@/components/page-loader"
 import { WebsiteJsonLd } from "@/components/json-ld"
 import { Toaster } from "@/components/ui/sonner"
@@ -103,11 +103,14 @@ export default function RootLayout({
         <WebsiteJsonLd />
       </head>
       <body className={`font-sans antialiased min-h-screen flex flex-col ${leagueGothic.variable}`}>
-        <Header />
-        <Suspense fallback={<PageLoader />}>
-          <div className="pb-16 min-[1300px]:pb-0">{children}</div>
-        </Suspense>
-        <Footer />
+        <LeftNav />
+        <div className="min-[1300px]:ml-20">
+          <Header />
+          <Suspense fallback={<PageLoader />}>
+            <div className="pb-16 min-[1300px]:pb-0">{children}</div>
+          </Suspense>
+          <Footer />
+        </div>
         <FooterNav />
         <Toaster />
         {/* <Analytics /> */}
