@@ -34,7 +34,7 @@ export function Header() {
         {pathname !== "/ask" && (
           <Link
             href="/ask"
-            className="hidden sm:flex shadow-lg items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors bg-gradient-to-r from-blue-600 to-red-600 text-white hover:from-blue-700 hover:to-red-700 w-1/2"
+            className="hidden sm:flex shadow-lg items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-md w-1/2 border"
           >
             <Image
               src="/chat-mlb-2.svg"
@@ -52,7 +52,7 @@ export function Header() {
         <div className="sm:hidden container mt-3">
           <Link
             href="/ask"
-            className="shadow-lg flex items-center justify-center gap-2 w-full px-4 py-2 text-sm font-medium rounded-md transition-colors bg-gradient-to-r from-blue-600 to-red-600 text-white hover:from-blue-700 hover:to-red-700"
+            className="shadow-lg flex items-center justify-center gap-2 w-full px-4 py-2 text-sm font-medium rounded-md border"
           >
             <Image
               src="/chat-mlb-2.svg"
