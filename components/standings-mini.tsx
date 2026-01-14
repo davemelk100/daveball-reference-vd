@@ -39,6 +39,7 @@ export function StandingsMini({ division }: StandingsMiniProps) {
                         alt={record.team?.name || "Team"}
                         fill
                         className="object-contain"
+                        loading="lazy"
                       />
                     </div>
                     <span className="font-medium">{record.team?.abbreviation || record.team?.teamName}</span>

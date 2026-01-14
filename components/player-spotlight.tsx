@@ -35,17 +35,18 @@ export function PlayerSpotlight() {
           {!imageError ? (
             <Image
               src={
-                getPlayerHeadshotUrl(player.id, "large") || "/placeholder.svg"
+                getPlayerHeadshotUrl(player.id, "medium") || "/placeholder.svg"
               }
               alt={player.name}
-              width={300}
-              height={300}
-              className="w-auto h-[80px] sm:h-[300px] rounded-xl transition-transform group-hover:scale-105"
+              width={213}
+              height={213}
+              className="w-auto h-[80px] sm:h-[200px] rounded-xl transition-transform group-hover:scale-105"
               onError={() => setImageError(true)}
+              priority
             />
           ) : (
-            <div className="w-[80px] h-[80px] sm:w-[300px] sm:h-[300px] bg-muted flex items-center justify-center rounded-xl">
-              <User className="h-8 w-8 sm:h-24 sm:w-24 text-muted-foreground" />
+            <div className="w-[80px] h-[80px] sm:w-[200px] sm:h-[200px] bg-muted flex items-center justify-center rounded-xl">
+              <User className="h-8 w-8 sm:h-16 sm:w-16 text-muted-foreground" />
             </div>
           )}
         </Link>

@@ -18,8 +18,9 @@ const nextConfig = {
         hostname: "www.mlbstatic.com",
       },
     ],
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 60 * 60 * 24, // 24 hours
   },
- 
 }
 
 export default nextConfig

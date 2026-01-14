@@ -50,6 +50,7 @@ export function StandingsTable({ division }: StandingsTableProps) {
                             width={24}
                             height={24}
                             className="w-6 h-6 object-contain"
+                            loading="lazy"
                           />
                         )}
                         <span className="font-medium">{record.team?.name}</span>
