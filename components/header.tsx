@@ -12,29 +12,29 @@ export function Header() {
       <div className="container flex items-center gap-4">
         <Link
           href="/"
-          className="hidden sm:flex flex-shrink-0 border-0 items-center gap-3"
+          className="sm:flex flex-shrink-0 border-0 items-center gap-3"
         >
           <Image
-            src="/mln-logo.svg"
+            src="/mln-logo-wide.svg"
             alt="Major League Numbers Logo"
-            width={100}
+            width={400}
             height={80}
             className="W-auto object-contain border-0"
           />
         </Link>
-        <Link
+        {/* <Link
           href="/"
           className="text-4xl sm:text-4xl min-[1300px]:text-[48px] font-league whitespace-nowrap"
           style={{ color: "#d42821" }}
         >
           Major League Numbers
-        </Link>
+        </Link> */}
         <div className="flex-1 hidden sm:block" />
         {/* ChatMLB button - desktop (same row) */}
         {pathname !== "/ask" && (
           <Link
             href="/ask"
-            className="hidden sm:flex shadow-lg items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-md w-1/2 border"
+            className="hidden sm:flex shadow-lg items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-md w-1/2"
           >
             <Image
               src="/chat-mlb-2.svg"
@@ -43,7 +43,7 @@ export function Header() {
               height={100}
               className="h-[40px] w-auto"
             />
-            <span className="text-xl">Try ChatMLB!</span>
+            <span className="text-xl">ChatMLB</span>
           </Link>
         )}
       </div>
@@ -52,7 +52,7 @@ export function Header() {
         <div className="sm:hidden container mt-3">
           <Link
             href="/ask"
-            className="shadow-lg flex items-center justify-center gap-2 w-full px-4 py-2 text-sm font-medium rounded-md border"
+            className="shadow-lg flex items-center justify-center gap-2 w-full px-4 py-2 text-sm font-medium rounded-md "
           >
             <Image
               src="/chat-mlb-2.svg"
@@ -61,7 +61,7 @@ export function Header() {
               height={100}
               className="h-[40px] w-auto"
             />
-            <span className="text-xl">Try ChatMLB!</span>
+            <span className="text-xl">ChatMLB</span>
           </Link>
         </div>
       )}
