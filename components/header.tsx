@@ -37,7 +37,7 @@ export function Header() {
             className="hidden sm:flex shadow-lg items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors bg-gradient-to-r from-blue-600 to-red-600 text-white hover:from-blue-700 hover:to-red-700 w-1/2"
           >
             <Image
-              src="/chat-mlb.svg"
+              src="/chat-mlb-2.svg"
               alt=""
               width={100}
               height={100}
@@ -55,7 +55,7 @@ export function Header() {
             className="shadow-lg flex items-center justify-center gap-2 w-full px-4 py-2 text-sm font-medium rounded-md transition-colors bg-gradient-to-r from-blue-600 to-red-600 text-white hover:from-blue-700 hover:to-red-700"
           >
             <Image
-              src="/chat-mlb.svg"
+              src="/chat-mlb-2.svg"
               alt=""
               width={100}
               height={100}

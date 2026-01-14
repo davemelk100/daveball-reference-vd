@@ -3,7 +3,16 @@
 import { useRef, useEffect, useState, useMemo, useCallback } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
-import { Send, Bot, User, Loader2, Plus, History, X, Trash2 } from "lucide-react";
+import {
+  Send,
+  Bot,
+  User,
+  Loader2,
+  Plus,
+  History,
+  X,
+  Trash2,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import ReactMarkdown from "react-markdown";
@@ -86,7 +95,9 @@ export function AskPageContent() {
 
   // Set random prompt on mount
   useEffect(() => {
-    setRandomPrompt(chatPrompts[Math.floor(Math.random() * chatPrompts.length)]);
+    setRandomPrompt(
+      chatPrompts[Math.floor(Math.random() * chatPrompts.length)]
+    );
   }, []);
 
   useEffect(() => {
@@ -114,7 +125,8 @@ export function AskPageContent() {
         title: generateChatTitle(messages),
         messages: messages,
         createdAt: currentChatId
-          ? savedChats.find((c) => c.id === currentChatId)?.createdAt || Date.now()
+          ? savedChats.find((c) => c.id === currentChatId)?.createdAt ||
+            Date.now()
           : Date.now(),
         updatedAt: Date.now(),
       };
@@ -139,20 +151,19 @@ export function AskPageContent() {
     setMessages([]);
     setChatKey((prev) => prev + 1);
     setLastSavedLength(0);
-    setRandomPrompt(chatPrompts[Math.floor(Math.random() * chatPrompts.length)]);
+    setRandomPrompt(
+      chatPrompts[Math.floor(Math.random() * chatPrompts.length)]
+    );
     setShowHistory(false);
   }, [setMessages]);
 
-  const handleLoadChat = useCallback(
-    (chat: SavedChat) => {
-      setCurrentChatId(chat.id);
-      pendingMessagesRef.current = chat.messages;
-      setChatKey((prev) => prev + 1);
-      setLastSavedLength(chat.messages.length);
-      setShowHistory(false);
-    },
-    []
-  );
+  const handleLoadChat = useCallback((chat: SavedChat) => {
+    setCurrentChatId(chat.id);
+    pendingMessagesRef.current = chat.messages;
+    setChatKey((prev) => prev + 1);
+    setLastSavedLength(chat.messages.length);
+    setShowHistory(false);
+  }, []);
 
   const handleDeleteChat = useCallback(
     (chatId: string, e: React.MouseEvent) => {
@@ -168,14 +179,21 @@ export function AskPageContent() {
 
   // Chat History Sidebar (shared between both layouts)
   const historySidebar = showHistory && (
-    <div className="fixed inset-0 z-50 bg-black/50" onClick={() => setShowHistory(false)}>
+    <div
+      className="fixed inset-0 z-50 bg-black/50"
+      onClick={() => setShowHistory(false)}
+    >
       <div
         className="absolute right-0 top-0 h-full w-80 bg-background shadow-lg p-4 overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold">Saved Chats</h2>
-          <Button variant="ghost" size="sm" onClick={() => setShowHistory(false)}>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowHistory(false)}
+          >
             <X className="h-4 w-4" />
           </Button>
         </div>
@@ -233,7 +251,12 @@ export function AskPageContent() {
             <History className="h-4 w-4" />
             <span className="hidden sm:inline">History</span>
           </Button>
-          <Button variant="outline" size="sm" onClick={handleNewChat} className="gap-1">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleNewChat}
+            className="gap-1"
+          >
             <Plus className="h-4 w-4" />
             <span className="hidden sm:inline">New</span>
           </Button>
@@ -241,11 +264,8 @@ export function AskPageContent() {
 
         {/* Centered content */}
         <div className="flex-1 flex flex-col items-center justify-center px-4">
-          <img src="/chat-mlb.svg" alt="ChatMLB" className="h-32 w-32 mb-4" />
+          <img src="/chat-mlb-2.svg" alt="ChatMLB" className="h-32 w-32 mb-4" />
           <h1 className="text-3xl font-bold mb-2">ChatMLB</h1>
-          <p className="text-muted-foreground mb-8 text-center">
-            Ask questions about baseball statistics and history
-          </p>
 
           {randomPrompt && (
             <p className="text-center text-muted-foreground mb-4 text-lg">
@@ -253,7 +273,11 @@ export function AskPageContent() {
             </p>
           )}
 
-          <form id="chat-form" onSubmit={handleSubmit} className="flex gap-2 w-full max-w-2xl">
+          <form
+            id="chat-form"
+            onSubmit={handleSubmit}
+            className="flex gap-2 w-full max-w-2xl"
+          >
             <input
               ref={inputRef}
               id="chat-input"
@@ -266,7 +290,11 @@ export function AskPageContent() {
               disabled={isLoading}
               autoComplete="off"
             />
-            <Button type="submit" disabled={isLoading || !input.trim()} size="lg">
+            <Button
+              type="submit"
+              disabled={isLoading || !input.trim()}
+              size="lg"
+            >
               {isLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
@@ -290,12 +318,11 @@ export function AskPageContent() {
         <div className="mx-auto px-4 sm:px-[calc(1rem+25px)] max-w-4xl w-full">
           <div className="mb-4">
             <div className="flex items-center gap-4">
-              <img src="/chat-mlb.svg" alt="ChatMLB" className="h-24 w-24" />
+              <img src="/chat-mlb-2.svg" alt="ChatMLB" className="h-24 w-24" />
               <div className="flex-1">
-                <h1 className="text-2xl font-bold whitespace-nowrap">ChatMLB</h1>
-                <p className="hidden sm:block text-sm text-muted-foreground">
-                  Ask questions about baseball statistics and history
-                </p>
+                <h1 className="text-2xl font-bold whitespace-nowrap">
+                  ChatMLB
+                </h1>
               </div>
               <div className="flex gap-2">
                 <Button
@@ -307,15 +334,17 @@ export function AskPageContent() {
                   <History className="h-4 w-4" />
                   <span className="hidden sm:inline">History</span>
                 </Button>
-                <Button variant="outline" size="sm" onClick={handleNewChat} className="gap-1">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleNewChat}
+                  className="gap-1"
+                >
                   <Plus className="h-4 w-4" />
                   <span className="hidden sm:inline">New</span>
                 </Button>
               </div>
             </div>
-            <p className="sm:hidden text-sm text-muted-foreground mt-2">
-              Ask questions about baseball statistics and history
-            </p>
           </div>
         </div>
 

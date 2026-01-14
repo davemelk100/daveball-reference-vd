@@ -3,7 +3,15 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Home, Users, Trophy, BarChart3, Star, Award, type LucideIcon } from "lucide-react";
+import {
+  Home,
+  Users,
+  Trophy,
+  BarChart3,
+  Star,
+  Award,
+  type LucideIcon,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -20,7 +28,7 @@ const navigation: NavItem[] = [
   { name: "Standings", href: "/standings", icon: BarChart3 },
   { name: "All Stars", href: "/all-star", icon: Star },
   { name: "HOF", href: "/hof", icon: Award },
-  { name: "ChatMLB", href: "/ask", image: "/chat-mlb.svg" },
+  { name: "ChatMLB", href: "/ask", image: "/chat-mlb-2.svg" },
 ];
 
 export function LeftNav() {
@@ -44,11 +52,19 @@ export function LeftNav() {
               )}
             >
               {item.image ? (
-                <Image src={item.image} alt={item.name} width={20} height={20} className="h-5 w-5" />
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
               ) : Icon ? (
                 <Icon className="h-5 w-5" />
               ) : null}
-              <span className="text-xs font-medium text-center leading-tight">{item.name}</span>
+              <span className="text-xs font-medium text-center leading-tight">
+                {item.name}
+              </span>
             </Link>
           );
         })}
@@ -79,7 +95,13 @@ export function FooterNav() {
               )}
             >
               {item.image ? (
-                <Image src={item.image} alt={item.name} width={20} height={20} className="h-5 w-5" />
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
               ) : Icon ? (
                 <Icon className="h-5 w-5" />
               ) : null}
