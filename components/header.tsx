@@ -15,21 +15,28 @@ export function Header() {
           href="/"
           className="flex flex-shrink-0 border-0 items-center gap-3"
         >
-          <Image
+           <Image
+          src="/chat-mlb-2.svg"
+          alt=""
+          width={100}
+          height={100}
+          style={{ height: "80px", width: "auto" }}
+        />
+        </Link>
+        <h1
+          className="uppercase tracking-wide"
+          style={{ color: "#f4232b" }}
+        >
+          Major League Numbers
+        </h1>
+          {/* <Image
             src="/mln-logo-wide.svg"
             alt="Major League Numbers Logo"
             width={400}
             height={80}
             style={{ width: "180px", height: "auto" }}
             className="object-contain border-0"
-          />
-        </Link>
-        <h1
-          className="hidden sm:block font-league text-2xl lg:text-4xl font-bold uppercase tracking-wide"
-          style={{ color: "#f4232b" }}
-        >
-          Major League Numbers
-        </h1>
+          /> */}
       </div>
       {/* ChatMLB button and Search button - below header */}
       {pathname !== "/ask" && pathname !== "/search" && (

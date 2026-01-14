@@ -199,18 +199,19 @@
 
   h1 {
     font-family: var(--font-league-gothic), sans-serif !important;
-    font-size: 40px !important;
+    font-size: 42px !important;
     letter-spacing: 1px !important;
     font-weight: 400 !important;
     text-transform: uppercase !important;
     /* padding-bottom: 15px !important; */
   }
 
-  .font-league {
+  h2, .font-league {
     font-family: var(--font-league-gothic), sans-serif !important;
     letter-spacing: 1px !important;
     font-weight: 400 !important;
     text-transform: uppercase !important;
+    font-size: 34px !important;
   }
 }
 

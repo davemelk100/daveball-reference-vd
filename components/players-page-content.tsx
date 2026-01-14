@@ -146,7 +146,7 @@ export function PlayersPageContent({ initialPlayers, initialSeason }: PlayersPag
     <main className="container py-2">
       <div className="mb-6 flex flex-wrap md:flex-nowrap items-center gap-4">
         <div className="flex items-center gap-4">
-          <h1 className="mb-0 shrink-0 whitespace-nowrap">Players</h1>
+          <h2 className="mb-0 shrink-0 whitespace-nowrap">Players</h2>
           <SeasonSelector season={season} onSeasonChange={setSeason} />
           <Select value={leagueFilter} onValueChange={(value) => setLeagueFilter(value as LeagueFilter)}>
             <SelectTrigger

@@ -133,7 +133,7 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
           </div>
           <div className="flex-1">
             <div className="mb-4 flex items-center gap-3">
-              <h1 className="font-league mb-0 leading-tight">{player.fullName}</h1>
+              <h2 className="font-league mb-0 leading-tight">{player.fullName}</h2>
               {player.active && (
                 <Badge
                   variant="outline"

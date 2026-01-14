@@ -41,7 +41,7 @@ export function HofPageContent({ hofMembers }: HofPageContentProps) {
     <main className="container py-2">
       <div className="mb-8 flex flex-wrap md:flex-nowrap items-center gap-4">
         <div className="flex items-center gap-4">
-          <h1 className="shrink-0 whitespace-nowrap">Hall of Fame</h1>
+          <h2 className="shrink-0 whitespace-nowrap">Hall of Fame</h2>
           <Select value={selectedYear} onValueChange={setSelectedYear}>
             <SelectTrigger
               className="w-auto border-0 shadow-none p-0 h-auto bg-transparent hover:bg-transparent focus:ring-0 focus-visible:ring-0"

@@ -92,7 +92,7 @@ export function AllStarPageContent({ initialSeason, rosters }: AllStarPageConten
     <main className="container py-2">
       <div className="mb-6 flex flex-wrap md:flex-nowrap items-center gap-4">
         <div className="flex items-center gap-4">
-          <h1 className="mb-0 shrink-0 whitespace-nowrap">All-Star Game Rosters</h1>
+          <h2 className="mb-0 shrink-0 whitespace-nowrap">All-Star Game Rosters</h2>
           <SeasonSelector
             season={initialSeason}
             onSeasonChange={handleSeasonChange}

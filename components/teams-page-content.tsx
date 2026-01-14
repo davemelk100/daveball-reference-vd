@@ -57,7 +57,7 @@ export function TeamsPageContent({ initialTeams, initialSeason }: TeamsPageConte
   return (
     <main className="container py-2">
       <div className="flex items-center gap-4 mb-8">
-        <h1 className="mb-0 shrink-0 whitespace-nowrap">Teams</h1>
+        <h2 className="mb-0 shrink-0 whitespace-nowrap">Teams</h2>
         <SeasonSelector season={season} onSeasonChange={setSeason} isLoading={isLoading} />
       </div>
 
