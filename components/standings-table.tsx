@@ -1,9 +1,10 @@
 "use client"
 
+import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
-import type { Division } from "@/lib/mlb-api"
+import { getTeamLogoUrl, type Division } from "@/lib/mlb-api"
 
 interface StandingsTableProps {
   division: Division
@@ -42,6 +43,15 @@ export function StandingsTable({ division }: StandingsTableProps) {
                     <TableCell className="text-center text-muted-foreground">{idx + 1}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
+                        {record.team?.id && (
+                          <Image
+                            src={getTeamLogoUrl(record.team.id)}
+                            alt={record.team?.name || "Team logo"}
+                            width={24}
+                            height={24}
+                            className="w-6 h-6 object-contain"
+                          />
+                        )}
                         <span className="font-medium">{record.team?.name}</span>
                         <span className="text-xs text-muted-foreground">({record.team?.abbreviation})</span>
                       </div>

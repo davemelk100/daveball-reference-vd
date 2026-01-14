@@ -24,8 +24,8 @@ export function Header() {
           />
         </Link>
         <div className="flex-1" />
-        {/* ChatMLB button and Search - desktop */}
-        <div className="hidden sm:flex items-center gap-3">
+        {/* ChatMLB button and Search - large desktop */}
+        <div className="hidden lg:flex items-center gap-3">
           {pathname !== "/ask" && (
             <Link
               href="/ask"
@@ -38,19 +38,19 @@ export function Header() {
                 height={100}
                 className="h-[40px] w-auto"
               />
-              <span className="text-xl">ChatMLB</span>
+              <span className="text-md">ChatMLB</span>
             </Link>
           )}
           <ExpandableSearch />
         </div>
-        {/* Search icon - mobile (in header row) */}
-        <div className="sm:hidden">
+        {/* Search icon - tablet and mobile (in header row) */}
+        <div className="lg:hidden">
           <ExpandableSearch />
         </div>
       </div>
-      {/* ChatMLB button - mobile (own row) */}
+      {/* ChatMLB button - tablet and below (own row) */}
       {pathname !== "/ask" && (
-        <div className="sm:hidden container mt-3">
+        <div className="lg:hidden container mt-3">
           <Link
             href="/ask"
             className="shadow-lg flex items-center justify-center gap-2 w-full px-4 py-2 text-sm font-medium rounded-md"
@@ -62,7 +62,7 @@ export function Header() {
               height={100}
               className="h-[40px] w-auto"
             />
-            <span className="text-xl">ChatMLB</span>
+            <span className="text-md">ChatMLB</span>
           </Link>
         </div>
       )}

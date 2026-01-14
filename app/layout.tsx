@@ -109,10 +109,10 @@ export default function RootLayout({
         className={`font-sans antialiased min-h-screen flex flex-col ${leagueGothic.variable}`}
       >
         <LeftNav />
-        <div className="min-[1300px]:ml-20 flex flex-col flex-1">
+        <div className="sm:ml-20 flex flex-col flex-1">
           <Header />
           <Suspense fallback={<PageLoader />}>
-            <div className="pb-16 min-[1300px]:pb-0 flex-1">{children}</div>
+            <div className="pb-16 sm:pb-0 flex-1">{children}</div>
           </Suspense>
           <Footer />
         </div>
