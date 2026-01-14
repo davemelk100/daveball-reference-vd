@@ -160,7 +160,7 @@ export function DashboardContent({ initialSeason }: { initialSeason: number }) {
       {/* Quick Stats */}
       {/* <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-league text-3xl font-semibold mr-4">League Best</h2>
+          <h2 className="font-league text-4xl font-semibold mr-4">League Best</h2>
           <Tabs value={selectedLeague} onValueChange={(value) => setSelectedLeague(value as "AL" | "NL")}>
             <TabsList>
               <TabsTrigger value="AL">AL</TabsTrigger>
@@ -193,7 +193,7 @@ export function DashboardContent({ initialSeason }: { initialSeason: number }) {
       {/* Leaders Grid */}
       <div className="mb-8">
         <div className="flex items-center mb-4">
-          <h2 className="font-league text-3xl font-semibold mr-4">
+          <h2 className="font-league text-4xl font-semibold mr-4">
             League Leaders
           </h2>
           <div className="flex items-center gap-4">

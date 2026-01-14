@@ -272,7 +272,7 @@ export function TeamPageContent({ teamId, initialData }: TeamPageContentProps) {
         </TabsList>
 
         <TabsContent value="roster" className="space-y-8">
-          <h2 className="font-league text-2xl font-bold">{season} Roster</h2>
+          <h2 className="font-league text-4xl font-bold">{season} Roster</h2>
           {roster.length > 0 ? (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <RosterTable players={pitchers} title="Pitchers" />

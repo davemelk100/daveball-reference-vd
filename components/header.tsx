@@ -20,7 +20,7 @@ export function Header() {
             alt="Major League Numbers Logo"
             width={400}
             height={80}
-            className="w-[200px] sm:w-[400px] h-auto object-contain border-0"
+            className="w-[180px] h-auto object-contain border-0"
           />
         </Link>
         <div className="flex-1" />

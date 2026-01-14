@@ -188,7 +188,7 @@ export function AskPageContent() {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold">Saved Chats</h2>
+          <h2 className="text-4xl font-semibold">Saved Chats</h2>
           <Button
             variant="ghost"
             size="sm"

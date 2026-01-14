@@ -377,7 +377,7 @@ function TriviaPanelContent() {
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <h2 className="font-league text-3xl font-semibold mr-4 text-primary uppercase tracking-wider">Daily Trivia</h2>
+            <h2 className="font-league text-4xl font-semibold mr-4 text-primary uppercase tracking-wider">Daily Trivia</h2>
             {isComplete && (
               <Badge variant="secondary" className="ml-1 text-xs bg-primary/20 text-primary">
                 Today: {totalCorrect}/5

@@ -174,7 +174,7 @@ export function PlayersPageContent({ initialPlayers, initialSeason }: PlayersPag
       </div>
 
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-league text-3xl font-semibold mr-4">
+        <h2 className="font-league text-4xl font-semibold mr-4">
           {season} {showAll ? "Roster" : "Featured"}
           {(isLoading || isFetchingAll) && (
             <Loader2 className="inline-block ml-2 h-4 w-4 animate-spin text-muted-foreground" />
