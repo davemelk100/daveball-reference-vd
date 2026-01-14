@@ -20,10 +20,17 @@ export function Header() {
             alt="Major League Numbers Logo"
             width={400}
             height={80}
-            className="w-[180px] h-auto object-contain border-0"
+            style={{ width: "180px", height: "auto" }}
+            className="object-contain border-0"
           />
         </Link>
-        <div className="flex-1" />
+        <h1
+          className="hidden sm:block flex-1 text-center font-league text-2xl lg:text-4xl font-bold uppercase tracking-wide"
+          style={{ color: "#f4232b" }}
+        >
+          Major League Numbers
+        </h1>
+        <div className="flex-1 sm:hidden" />
         {/* ChatMLB button and Search - large desktop */}
         <div className="hidden lg:flex items-center gap-3">
           {pathname !== "/ask" && (
@@ -36,7 +43,7 @@ export function Header() {
                 alt=""
                 width={100}
                 height={100}
-                className="h-[40px] w-auto"
+                style={{ height: "40px", width: "auto" }}
               />
               <span className="text-md">ChatMLB</span>
             </Link>
@@ -60,7 +67,7 @@ export function Header() {
               alt=""
               width={100}
               height={100}
-              className="h-[40px] w-auto"
+              style={{ height: "40px", width: "auto" }}
             />
             <span className="text-md">ChatMLB</span>
           </Link>
