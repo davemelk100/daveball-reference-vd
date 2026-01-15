@@ -199,11 +199,17 @@
 
   h1 {
     font-family: var(--font-league-gothic), sans-serif !important;
-    font-size: 42px !important;
+    font-size: 20px;
     letter-spacing: 1px !important;
     font-weight: 400 !important;
     text-transform: uppercase !important;
     /* padding-bottom: 15px !important; */
+  }
+
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 42px;
+    }
   }
 
   h2, .font-league {
@@ -236,5 +242,16 @@
   .container {
     padding-left: 3rem;
     padding-right: 3rem;
+  }
+}
+
+/* Header h1 responsive sizing */
+header h1 {
+  font-size: 26px;
+}
+
+@media (min-width: 768px) {
+  header h1 {
+    font-size: 42px;
   }
 }

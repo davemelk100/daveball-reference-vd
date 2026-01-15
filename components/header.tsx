@@ -13,14 +13,14 @@ export function Header() {
       <div className="container flex items-center gap-4">
         <Link
           href="/"
-          className="flex flex-shrink-0 border-0 items-center gap-3"
+          className="hidden md:flex flex-shrink-0 border-0 items-center gap-3"
         >
            <Image
           src="/chat-mlb-2.svg"
           alt=""
           width={100}
           height={100}
-          style={{ height: "80px", width: "auto" }}
+          className="h-20 w-auto"
         />
         </Link>
         <h1
@@ -40,10 +40,10 @@ export function Header() {
       </div>
       {/* ChatMLB button and Search button - below header */}
       {pathname !== "/ask" && pathname !== "/search" && (
-        <div className="container mt-3 flex items-center gap-4">
+        <div className="container mt-3 flex flex-col md:flex-row items-center gap-3 md:gap-4">
           <Link
             href="/ask"
-            className="flex items-center justify-center gap-2 px-4 h-14 text-sm font-medium rounded-md w-1/2 border border-primary/20 hover:border-primary/40 transition-all shadow-sm"
+            className="flex items-center justify-center gap-2 px-4 h-14 text-sm font-medium rounded-md w-full md:w-1/2 border border-primary/20 hover:border-primary/40 transition-all shadow-sm"
           >
             <Image
               src="/chat-mlb-2.svg"
@@ -56,7 +56,7 @@ export function Header() {
           </Link>
           <Link
             href="/search"
-            className="flex items-center justify-center gap-2 px-4 h-14 text-sm font-medium rounded-md w-1/2 border border-primary/20 hover:border-primary/40 transition-all shadow-sm"
+            className="flex items-center justify-center gap-2 px-4 h-14 text-sm font-medium rounded-md w-full md:w-1/2 border border-primary/20 hover:border-primary/40 transition-all shadow-sm"
           >
             <Search className="h-5 w-5 text-muted-foreground" />
             <span className="text-md">Search</span>
