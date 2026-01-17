@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { User } from "lucide-react";
+import { Calendar, MapPin, Hand, Users, Loader2 } from "lucide-react";
 import {
   getDailyPlayer,
   type SpotlightPlayer,
@@ -12,11 +12,28 @@ import Link from "next/link";
 
 export function PlayerSpotlight() {
   const [player, setPlayer] = useState<SpotlightPlayer | null>(null);
-  const [imageError, setImageError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getDailyPlayer().then(setPlayer);
+    getDailyPlayer()
+      .then(setPlayer)
+      .finally(() => setLoading(false));
   }, []);
+
+  if (loading) {
+    return (
+      <div className="w-full h-full bg-muted/30 rounded-lg border p-3 sm:p-4 space-y-2 sm:space-y-4">
+        <div className="flex items-center gap-2">
+          <h2 className="font-league text-xl sm:text-4xl font-semibold mr-4 text-primary tracking-wider">
+            Daily Random Player
+          </h2>
+        </div>
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      </div>
+    );
+  }
 
   if (!player) return null;
 
@@ -32,25 +49,16 @@ export function PlayerSpotlight() {
           href={`/players/${player.id}`}
           className="shrink-0 group relative overflow-hidden rounded-xl"
         >
-          {!imageError ? (
-            <Image
-              src={
-                getPlayerHeadshotUrl(player.id, "medium") || "/placeholder.svg"
-              }
-              alt={player.name}
-              width={213}
-              height={213}
-              className="rounded-xl transition-transform group-hover:scale-105"
-              onError={() => setImageError(true)}
-              priority
-            />
-          ) : (
-            <div className="w-[80px] h-[80px] sm:w-[200px] sm:h-[200px] bg-muted flex items-center justify-center rounded-xl">
-              <User className="h-8 w-8 sm:h-16 sm:w-16 text-muted-foreground" />
-            </div>
-          )}
+          <Image
+            src={getPlayerHeadshotUrl(player.id, "medium")}
+            alt={player.name}
+            width={213}
+            height={213}
+            className="rounded-xl transition-transform group-hover:scale-105"
+            priority
+          />
         </Link>
-        <div className="space-y-1 sm:space-y-3 flex-1 min-w-0">
+        <div className="space-y-2 sm:space-y-3 flex-1 min-w-0">
           <div>
             <Link
               href={`/players/${player.id}`}
@@ -58,48 +66,83 @@ export function PlayerSpotlight() {
             >
               {player.name}
             </Link>
-            <div className="flex flex-wrap gap-x-2 text-sm sm:text-base text-muted-foreground mt-1">
-              <span>{player.position}</span>
-              <span>•</span>
-              <span>{player.team}</span>
-              <span className="hidden sm:inline">
-                <span className="mr-2">•</span>
-                {player.years}
-              </span>
-              {player.birthplace && (
-                <span className="hidden sm:inline">
-                  <span className="mr-2">•</span>
-                  {player.birthplace}
-                </span>
-              )}
+            <p className="text-sm text-muted-foreground mt-1">
+              {player.team} • {player.position}
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-1 text-sm text-muted-foreground">
+            <div className="flex items-center gap-1">
+              <Calendar className="h-4 w-4" />
+              <span>{player.years}</span>
             </div>
+            {player.birthplace && (
+              <div className="flex items-center gap-1">
+                <MapPin className="h-4 w-4" />
+                <span>{player.birthplace}</span>
+              </div>
+            )}
+            {player.bats && (
+              <div className="flex items-center gap-1">
+                <Hand className="h-4 w-4" />
+                <span>Bats {player.bats}</span>
+              </div>
+            )}
+            {player.throws && (
+              <div className="flex items-center gap-1">
+                <Users className="h-4 w-4" />
+                <span>Throws {player.throws}</span>
+              </div>
+            )}
           </div>
 
           {player.careerStats && (
-            <div className="hidden sm:block text-sm font-medium text-foreground bg-muted/50 px-3 py-2 rounded-lg">
-              {player.careerStats}
-            </div>
-          )}
-
-          {player.fact && (
-            <p className="hidden sm:block text-sm text-muted-foreground leading-relaxed">
-              {player.fact}
-            </p>
-          )}
-
-          {player.highlights && player.highlights.length > 0 && (
-            <div className="hidden sm:block space-y-1">
-              <span className="text-xs font-semibold text-primary uppercase tracking-wider">
-                Career Highlights
+            <div className="hidden sm:block">
+              <span className="text-sm font-semibold text-primary uppercase tracking-wider">
+                Career Stats
               </span>
-              <ul className="text-sm text-muted-foreground space-y-0.5">
-                {player.highlights.map((highlight, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <span className="text-primary">•</span>
-                    <span>{highlight}</span>
-                  </li>
-                ))}
-              </ul>
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground mt-1">
+                {player.careerStats.isPitcher ? (
+                  <>
+                    {player.careerStats.wins !== undefined && player.careerStats.losses !== undefined && (
+                      <span><strong>{player.careerStats.wins}-{player.careerStats.losses}</strong> W-L</span>
+                    )}
+                    {player.careerStats.era && (
+                      <span><strong>{player.careerStats.era}</strong> ERA</span>
+                    )}
+                    {player.careerStats.strikeouts !== undefined && (
+                      <span><strong>{player.careerStats.strikeouts.toLocaleString()}</strong> K</span>
+                    )}
+                    {player.careerStats.saves !== undefined && (
+                      <span><strong>{player.careerStats.saves}</strong> SV</span>
+                    )}
+                    {player.careerStats.inningsPitched && (
+                      <span><strong>{player.careerStats.inningsPitched}</strong> IP</span>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {player.careerStats.avg && (
+                      <span><strong>{player.careerStats.avg}</strong> AVG</span>
+                    )}
+                    {player.careerStats.hr !== undefined && (
+                      <span><strong>{player.careerStats.hr.toLocaleString()}</strong> HR</span>
+                    )}
+                    {player.careerStats.rbi !== undefined && (
+                      <span><strong>{player.careerStats.rbi.toLocaleString()}</strong> RBI</span>
+                    )}
+                    {player.careerStats.hits !== undefined && (
+                      <span><strong>{player.careerStats.hits.toLocaleString()}</strong> H</span>
+                    )}
+                    {player.careerStats.sb !== undefined && (
+                      <span><strong>{player.careerStats.sb.toLocaleString()}</strong> SB</span>
+                    )}
+                    {player.careerStats.games !== undefined && (
+                      <span><strong>{player.careerStats.games.toLocaleString()}</strong> G</span>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
           )}
         </div>
