@@ -10,13 +10,48 @@ import { getPlayerHeadshotUrl } from "@/lib/mlb-api";
 import Image from "next/image";
 import Link from "next/link";
 
+const STORAGE_KEY = "dailyRandomPlayer";
+
+function getTodayKey(): string {
+  const today = new Date();
+  return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+}
+
 export function PlayerSpotlight() {
   const [player, setPlayer] = useState<SpotlightPlayer | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const todayKey = getTodayKey();
+
+    // Check localStorage for cached player
+    try {
+      const cached = localStorage.getItem(STORAGE_KEY);
+      if (cached) {
+        const { date, player: cachedPlayer } = JSON.parse(cached);
+        if (date === todayKey && cachedPlayer) {
+          setPlayer(cachedPlayer);
+          setLoading(false);
+          return;
+        }
+      }
+    } catch {
+      // Ignore localStorage errors
+    }
+
+    // Fetch new player and cache it
     getDailyPlayer()
-      .then(setPlayer)
+      .then((newPlayer) => {
+        setPlayer(newPlayer);
+        try {
+          localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify({ date: todayKey, player: newPlayer })
+          );
+        } catch {
+          // Ignore localStorage errors
+        }
+      })
       .finally(() => setLoading(false));
   }, []);
 
@@ -50,11 +85,11 @@ export function PlayerSpotlight() {
           className="shrink-0 group relative overflow-hidden rounded-xl"
         >
           <Image
-            src={getPlayerHeadshotUrl(player.id, "medium")}
+            src={getPlayerHeadshotUrl(player.id, "large")}
             alt={player.name}
-            width={213}
-            height={213}
-            className="rounded-xl transition-transform group-hover:scale-105"
+            width={275}
+            height={275}
+            className="rounded-xl transition-transform group-hover:scale-105 w-[70px] sm:w-[275px] h-auto"
             priority
           />
         </Link>
@@ -101,7 +136,7 @@ export function PlayerSpotlight() {
               <span className="text-sm font-semibold text-primary uppercase tracking-wider">
                 Career Stats
               </span>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground mt-1">
+              <div className="flex flex-col gap-1 text-sm text-muted-foreground mt-1">
                 {player.careerStats.isPitcher ? (
                   <>
                     {player.careerStats.wins !== undefined && player.careerStats.losses !== undefined && (
