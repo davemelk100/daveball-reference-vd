@@ -13,7 +13,7 @@ import {
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, Calendar, MapPin, Ruler, Scale, Star } from "lucide-react";
+import { ArrowLeft, Calendar, MapPin, Ruler, Scale, Star, GraduationCap } from "lucide-react";
 
 interface PlayerPageProps {
   params: Promise<{ id: string }>;
@@ -175,6 +175,16 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
                 </span>
                 <span className="text-muted-foreground">
                   ({allStarAppearances.map((a) => a.season).join(", ")})
+                </span>
+              </div>
+            )}
+            {player.draft && (
+              <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+                <GraduationCap className="h-4 w-4" />
+                <span>
+                  Drafted {player.draft.year} by {player.draft.team?.name || "Unknown"}
+                  {player.draft.round ? ` (Round ${player.draft.round}, Pick ${player.draft.pickNumber})` : ""}
+                  {player.draft.school?.name ? ` from ${player.draft.school.name}` : ""}
                 </span>
               </div>
             )}

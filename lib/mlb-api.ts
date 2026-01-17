@@ -43,6 +43,19 @@ export interface Player {
     name: string
   }
   stats?: PlayerStats[]
+  draftYear?: number
+  mlbDebutDate?: string
+  draft?: {
+    year: number
+    round: string
+    pickNumber: number
+    school?: {
+      name: string
+    }
+    team?: {
+      name: string
+    }
+  }
 }
 
 export interface PlayerStats {
@@ -253,7 +266,7 @@ export async function getPlayer(playerId: number): Promise<Player | null> {
 
   try {
     const res = await fetchWithRetry(
-      `${BASE_URL}/people/${playerId}?hydrate=currentTeam,stats(group=[hitting,pitching,fielding],type=[yearByYear])`,
+      `${BASE_URL}/people/${playerId}?hydrate=currentTeam,draft,stats(group=[hitting,pitching,fielding],type=[yearByYear])`,
     )
     const data = await safeJsonParse(res)
     const result = data?.people?.[0] || null
