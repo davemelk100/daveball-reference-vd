@@ -1,5 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { searchBaseballCard, searchBaseballCards, isEbayConfigured } from "@/lib/ebay-api";
+import {
+  searchBaseballCard,
+  searchBaseballCards,
+  isEbayConfigured,
+} from "@/lib/ebay-api";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -37,9 +41,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ card });
     }
   } catch (error) {
-    console.error("Error fetching baseball card:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
+    console.error("Error fetching baseball card:", message);
     return NextResponse.json(
-      { error: "Failed to fetch baseball card" },
+      { error: "Failed to fetch baseball card", message },
       { status: 500 }
     );
   }

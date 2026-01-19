@@ -6,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Search, Loader2, Users, Trophy } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { getTeamLogoUrl } from "@/lib/mlb-api"
 import { searchPlayers, getPlayerHeadshotUrl, getTeams, getAllPlayers, type Player, type Team } from "@/lib/mlb-api"
 import { cn } from "@/lib/utils"
 import Fuse from "fuse.js"
@@ -148,7 +149,7 @@ export function SearchPageContent() {
                         />
                       ) : (
                         <Image
-                          src={`https://www.mlbstatic.com/team-logos/${result.data.id}.svg`}
+                          src={getTeamLogoUrl(result.data.id)}
                           alt={result.data.name}
                           width={50}
                           height={50}

@@ -78,9 +78,16 @@ export function FooterNav() {
   const pathname = usePathname();
 
   // Only show essential nav items on mobile footer
-  const mobileNavigation = navigation.filter(
-    (item) => !["All Stars", "HOF", "ChatMLB", "Standings"].includes(item.name)
-  );
+  const mobileNavigation = navigation
+    .filter((item) => !["All Stars", "HOF"].includes(item.name))
+    .map((item) =>
+      item.name === "Home"
+        ? { ...item, name: "Standings", href: "/standings", icon: BarChart3, image: undefined }
+        : item
+    )
+    .filter(
+      (item, index, self) => self.findIndex((i) => i.name === item.name) === index
+    );
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t border-border safe-area-bottom sm:hidden">

@@ -130,8 +130,7 @@ export async function searchBaseballCard(
 
     if (!response.ok) {
       const error = await response.text();
-      console.error("eBay search failed:", error);
-      return null;
+      throw new Error(`eBay search failed: ${error}`);
     }
 
     const data: EbaySearchResponse = await response.json();
@@ -156,7 +155,7 @@ export async function searchBaseballCard(
     };
   } catch (error) {
     console.error("Error searching for baseball card:", error);
-    return null;
+    throw error;
   }
 }
 
@@ -189,7 +188,8 @@ export async function searchBaseballCards(
     );
 
     if (!response.ok) {
-      return [];
+      const error = await response.text();
+      throw new Error(`eBay search failed: ${error}`);
     }
 
     const data: EbaySearchResponse = await response.json();
@@ -210,7 +210,7 @@ export async function searchBaseballCards(
       }));
   } catch (error) {
     console.error("Error searching for baseball cards:", error);
-    return [];
+    throw error;
   }
 }
 

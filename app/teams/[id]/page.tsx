@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Suspense } from "react"
 import { notFound } from "next/navigation"
-import { getTeam, getTeamRoster, getStandings, getDefaultSeason } from "@/lib/mlb-api"
+import { getTeam, getTeamLogoUrl, getTeamRoster, getStandings, getDefaultSeason } from "@/lib/mlb-api"
 import { TeamPageContent } from "@/components/team-page-content"
 import { TeamJsonLd, BreadcrumbJsonLd } from "@/components/json-ld"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: TeamPageProps): Promise<Metad
       type: "website",
       images: [
         {
-          url: `https://www.mlbstatic.com/team-logos/${team.id}.svg`,
+          url: getTeamLogoUrl(team.id),
           width: 200,
           height: 200,
           alt: `${team.name} logo`,
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: TeamPageProps): Promise<Metad
       card: "summary",
       title: `${team.name} Stats & Roster`,
       description,
-      images: [`https://www.mlbstatic.com/team-logos/${team.id}.svg`],
+      images: [getTeamLogoUrl(team.id)],
     },
   }
 }

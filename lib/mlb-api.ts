@@ -1,342 +1,361 @@
 // Major League Numbers API utilities
 
-const BASE_URL = "https://statsapi.mlb.com/api/v1"
+const BASE_URL = "https://statsapi.mlb.com/api/v1";
 
-const cache = new Map<string, { data: any; timestamp: number; ttl: number }>()
-const CACHE_TTL = 5 * 60 * 1000 // 5 minutes default
-const CACHE_TTL_LONG = 24 * 60 * 60 * 1000 // 24 hours for static data
-const CACHE_TTL_HISTORY = 7 * 24 * 60 * 60 * 1000 // 7 days for historical data
+const cache = new Map<string, { data: any; timestamp: number; ttl: number }>();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes default
+const CACHE_TTL_LONG = 24 * 60 * 60 * 1000; // 24 hours for static data
+const CACHE_TTL_HISTORY = 7 * 24 * 60 * 60 * 1000; // 7 days for historical data
 
 function getCached<T>(key: string): T | null {
-  const cached = cache.get(key)
+  const cached = cache.get(key);
   if (cached && Date.now() - cached.timestamp < cached.ttl) {
-    return cached.data as T
+    return cached.data as T;
   }
-  return null
+  return null;
 }
 
 function setCache(key: string, data: any, ttl: number = CACHE_TTL): void {
-  cache.set(key, { data, timestamp: Date.now(), ttl })
+  cache.set(key, { data, timestamp: Date.now(), ttl });
 }
 
 export interface Player {
-  id: number
-  fullName: string
-  firstName: string
-  lastName: string
-  primaryNumber?: string
-  birthDate: string
-  currentAge: number
-  birthCity: string
-  birthCountry: string
-  height: string
-  weight: number
-  active: boolean
+  id: number;
+  fullName: string;
+  firstName: string;
+  lastName: string;
+  primaryNumber?: string;
+  birthDate: string;
+  currentAge: number;
+  birthCity: string;
+  birthCountry: string;
+  height: string;
+  weight: number;
+  active: boolean;
   primaryPosition: {
-    code: string
-    name: string
-    type: string
-    abbreviation: string
-  }
+    code: string;
+    name: string;
+    type: string;
+    abbreviation: string;
+  };
   currentTeam?: {
-    id: number
-    name: string
-  }
-  stats?: PlayerStats[]
-  draftYear?: number
-  mlbDebutDate?: string
+    id: number;
+    name: string;
+  };
+  stats?: PlayerStats[];
+  draftYear?: number;
+  mlbDebutDate?: string;
   draft?: {
-    year: number
-    round: string
-    pickNumber: number
+    year: number;
+    round: string;
+    pickNumber: number;
     school?: {
-      name: string
-    }
+      name: string;
+    };
     team?: {
-      name: string
-    }
-  }
+      name: string;
+    };
+  };
 }
 
 export interface PlayerStats {
-  season: string
+  season: string;
   stat: {
-    gamesPlayed?: number
-    groundOuts?: number
-    airOuts?: number
-    runs?: number
-    doubles?: number
-    triples?: number
-    homeRuns?: number
-    strikeOuts?: number
-    baseOnBalls?: number
-    hits?: number
-    avg?: string
-    atBats?: number
-    obp?: string
-    slg?: string
-    ops?: string
-    rbi?: number
-    stolenBases?: number
+    gamesPlayed?: number;
+    groundOuts?: number;
+    airOuts?: number;
+    runs?: number;
+    doubles?: number;
+    triples?: number;
+    homeRuns?: number;
+    strikeOuts?: number;
+    baseOnBalls?: number;
+    hits?: number;
+    avg?: string;
+    atBats?: number;
+    obp?: string;
+    slg?: string;
+    ops?: string;
+    rbi?: number;
+    stolenBases?: number;
     // Pitching stats
-    wins?: number
-    losses?: number
-    era?: string
-    inningsPitched?: string
-    pitchStrikeOuts?: number
-    whip?: string
-    saves?: number
+    wins?: number;
+    losses?: number;
+    era?: string;
+    inningsPitched?: string;
+    pitchStrikeOuts?: number;
+    whip?: string;
+    saves?: number;
     // Fielding stats
-    position?: string
-    games?: number
-    gamesStarted?: number
-    innings?: string
-    chances?: number
-    putOuts?: number
-    assists?: number
-    errors?: number
-    doublePlays?: number
-    fieldingPercentage?: string
-    rangeFactorPerGame?: string
-    rangeFactorPer9Inn?: string
-    passedBall?: number
-    throwingErrors?: number
-  }
+    position?: string;
+    games?: number;
+    gamesStarted?: number;
+    innings?: string;
+    chances?: number;
+    putOuts?: number;
+    assists?: number;
+    errors?: number;
+    doublePlays?: number;
+    fieldingPercentage?: string;
+    rangeFactorPerGame?: string;
+    rangeFactorPer9Inn?: string;
+    passedBall?: number;
+    throwingErrors?: number;
+  };
   team?: {
-    id: number
-    name: string
-  }
-  position?: string
+    id: number;
+    name: string;
+  };
+  position?: string;
 }
 
 export interface Team {
-  id: number
-  name: string
-  teamName: string
-  abbreviation: string
-  locationName: string
+  id: number;
+  name: string;
+  teamName: string;
+  abbreviation: string;
+  locationName: string;
   division: {
-    id: number
-    name: string
-  }
+    id: number;
+    name: string;
+  };
   league: {
-    id: number
-    name: string
-  }
+    id: number;
+    name: string;
+  };
 }
 
 export interface StandingsRecord {
-  team: Team
-  wins: number
-  losses: number
-  winningPercentage: string
-  gamesBack: string
-  runsScored: number
-  runsAllowed: number
-  runDifferential: number
+  team: Team;
+  wins: number;
+  losses: number;
+  winningPercentage: string;
+  gamesBack: string;
+  runsScored: number;
+  runsAllowed: number;
+  runDifferential: number;
   streak: {
-    streakCode: string
-  }
+    streakCode: string;
+  };
 }
 
 export interface Division {
   division: {
-    id: number
-    name: string
-  }
-  teamRecords: StandingsRecord[]
+    id: number;
+    name: string;
+  };
+  teamRecords: StandingsRecord[];
 }
 
 export interface TeamHistoricalRecord {
-  season: number
-  wins: number
-  losses: number
-  winningPercentage: string
-  runsScored: number
-  runsAllowed: number
-  runDifferential: number
-  divisionRank?: number
-  leagueRank?: number
-  playoffResult?: string
+  season: number;
+  wins: number;
+  losses: number;
+  winningPercentage: string;
+  runsScored: number;
+  runsAllowed: number;
+  runDifferential: number;
+  divisionRank?: number;
+  leagueRank?: number;
+  playoffResult?: string;
 }
 
 export interface PostseasonAppearance {
-  season: number
-  round: string // "World Series", "LCS", "LDS", "Wild Card"
-  won: boolean
-  opponent?: string
-  result?: string // "4-2", "3-1", etc.
+  season: number;
+  round: string; // "World Series", "LCS", "LDS", "Wild Card"
+  won: boolean;
+  opponent?: string;
+  result?: string; // "4-2", "3-1", etc.
 }
 
 export interface TeamPostseasonHistory {
-  worldSeriesWins: number
-  worldSeriesAppearances: number
-  pennants: number // League Championships
-  playoffAppearances: number
-  appearances: PostseasonAppearance[]
+  worldSeriesWins: number;
+  worldSeriesAppearances: number;
+  pennants: number; // League Championships
+  playoffAppearances: number;
+  appearances: PostseasonAppearance[];
 }
 
 export interface AwardWinner {
-  id: number
-  playerId: number
-  playerName: string
-  season: number
-  awardName: string
+  id: number;
+  playerId: number;
+  playerName: string;
+  season: number;
+  awardName: string;
   team?: {
-    id: number
-    name: string
-  }
-  notes?: string
+    id: number;
+    name: string;
+  };
+  notes?: string;
 }
 
 export interface Coach {
   person: {
-    id: number
-    fullName: string
-    link: string
-  }
-  jerseyNumber: string
-  job: string
-  jobId: string
-  title: string
+    id: number;
+    fullName: string;
+    link: string;
+  };
+  jerseyNumber: string;
+  job: string;
+  jobId: string;
+  title: string;
 }
 
-async function fetchWithRetry(url: string, retries = 3, delay = 1000): Promise<Response | null> {
+async function fetchWithRetry(
+  url: string,
+  retries = 3,
+  delay = 1000
+): Promise<Response | null> {
   for (let i = 0; i < retries; i++) {
     try {
-      const res = await fetch(url)
+      const res = await fetch(url);
 
       if (res.status === 429 || res.status === 503) {
         if (i < retries - 1) {
-          await new Promise((resolve) => setTimeout(resolve, delay * (i + 1)))
-          continue
+          await new Promise((resolve) => setTimeout(resolve, delay * (i + 1)));
+          continue;
         }
-        return null
+        return null;
       }
 
       if (!res.ok) {
-        return null
+        return null;
       }
 
-      return res
+      return res;
     } catch {
       if (i < retries - 1) {
-        await new Promise((resolve) => setTimeout(resolve, delay * (i + 1)))
-        continue
+        await new Promise((resolve) => setTimeout(resolve, delay * (i + 1)));
+        continue;
       }
-      return null
+      return null;
     }
   }
-  return null
+  return null;
 }
 
 async function safeJsonParse(res: Response | null): Promise<any | null> {
-  if (!res) return null
+  if (!res) return null;
   try {
-    const text = await res.text()
+    const text = await res.text();
     if (text.startsWith("Too Many")) {
-      return null
+      return null;
     }
-    return JSON.parse(text)
+    return JSON.parse(text);
   } catch {
-    return null
+    return null;
   }
 }
 
 export async function searchPlayers(query: string): Promise<Player[]> {
-  const cacheKey = `search:${query}`
-  const cached = getCached<Player[]>(cacheKey)
-  if (cached) return cached
+  const cacheKey = `search:${query}`;
+  const cached = getCached<Player[]>(cacheKey);
+  if (cached) return cached;
 
   try {
-    const res = await fetchWithRetry(`${BASE_URL}/people/search?names=${encodeURIComponent(query)}&sportId=1&limit=10`)
-    const data = await safeJsonParse(res)
-    const result = data?.people || []
-    setCache(cacheKey, result)
-    return result
+    const res = await fetchWithRetry(
+      `${BASE_URL}/people/search?names=${encodeURIComponent(
+        query
+      )}&sportId=1&limit=10`
+    );
+    const data = await safeJsonParse(res);
+    const result = data?.people || [];
+    setCache(cacheKey, result);
+    return result;
   } catch {
-    return []
+    return [];
   }
 }
 
 export async function getPlayer(playerId: number): Promise<Player | null> {
-  const cacheKey = `player:${playerId}`
-  const cached = getCached<Player | null>(cacheKey)
-  if (cached) return cached
+  const cacheKey = `player:${playerId}`;
+  const cached = getCached<Player | null>(cacheKey);
+  if (cached) return cached;
 
   try {
     const res = await fetchWithRetry(
-      `${BASE_URL}/people/${playerId}?hydrate=currentTeam,draft,stats(group=[hitting,pitching,fielding],type=[yearByYear])`,
-    )
-    const data = await safeJsonParse(res)
-    const result = data?.people?.[0] || null
-    setCache(cacheKey, result)
-    return result
+      `${BASE_URL}/people/${playerId}?hydrate=currentTeam,draft,stats(group=[hitting,pitching,fielding],type=[yearByYear])`
+    );
+    const data = await safeJsonParse(res);
+    const result = data?.people?.[0] || null;
+    setCache(cacheKey, result);
+    return result;
   } catch {
-    return null
+    return null;
   }
 }
 
-export async function getAllPlayers(season = getDefaultSeason()): Promise<Player[]> {
-  const cacheKey = `all-players:${season}`
-  const cached = getCached<Player[]>(cacheKey)
-  if (cached) return cached
+export async function getAllPlayers(
+  season = getDefaultSeason()
+): Promise<Player[]> {
+  const cacheKey = `all-players:${season}`;
+  const cached = getCached<Player[]>(cacheKey);
+  if (cached) return cached;
 
-  try {
-    const res = await fetchWithRetry(`${BASE_URL}/sports/1/players?season=${season}`)
-    const data = await safeJsonParse(res)
-    const result = data?.people || []
-    setCache(cacheKey, result, CACHE_TTL_LONG)
-    return result
-  } catch {
-    return []
-  }
-}
-
-export async function getPlayerStats(playerId: number, season = getDefaultSeason()): Promise<PlayerStats[]> {
   try {
     const res = await fetchWithRetry(
-      `${BASE_URL}/people/${playerId}/stats?stats=season&season=${season}&group=hitting,pitching`,
-    )
-    const data = await safeJsonParse(res)
-    return data?.stats?.[0]?.splits || []
+      `${BASE_URL}/sports/1/players?season=${season}`
+    );
+    const data = await safeJsonParse(res);
+    const result = data?.people || [];
+    setCache(cacheKey, result, CACHE_TTL_LONG);
+    return result;
   } catch {
-    return []
+    return [];
+  }
+}
+
+export async function getPlayerStats(
+  playerId: number,
+  season = getDefaultSeason()
+): Promise<PlayerStats[]> {
+  try {
+    const res = await fetchWithRetry(
+      `${BASE_URL}/people/${playerId}/stats?stats=season&season=${season}&group=hitting,pitching`
+    );
+    const data = await safeJsonParse(res);
+    return data?.stats?.[0]?.splits || [];
+  } catch {
+    return [];
   }
 }
 
 export async function getTeams(season?: number): Promise<Team[]> {
-  const cacheKey = `teams:${season || "current"}`
-  const cached = getCached<Team[]>(cacheKey)
-  if (cached) return cached
+  const cacheKey = `teams:${season || "current"}`;
+  const cached = getCached<Team[]>(cacheKey);
+  if (cached) return cached;
 
   try {
-    const seasonParam = season ? `&season=${season}` : ""
-    const res = await fetchWithRetry(`${BASE_URL}/teams?sportId=1${seasonParam}`)
-    const data = await safeJsonParse(res)
-    const result = data?.teams || []
-    setCache(cacheKey, result)
-    return result
+    const seasonParam = season ? `&season=${season}` : "";
+    const res = await fetchWithRetry(
+      `${BASE_URL}/teams?sportId=1${seasonParam}`
+    );
+    const data = await safeJsonParse(res);
+    const result = data?.teams || [];
+    setCache(cacheKey, result);
+    return result;
   } catch {
-    return []
+    return [];
   }
 }
 
-export async function getStandings(season = getDefaultSeason()): Promise<Division[]> {
-  const cacheKey = `standings:${season}`
-  const cached = getCached<Division[]>(cacheKey)
-  if (cached) return cached
+export async function getStandings(
+  season = getDefaultSeason()
+): Promise<Division[]> {
+  const cacheKey = `standings:${season}`;
+  const cached = getCached<Division[]>(cacheKey);
+  if (cached) return cached;
 
   try {
     const res = await fetchWithRetry(
-      `${BASE_URL}/standings?leagueId=103,104&season=${season}&standingsTypes=regularSeason&hydrate=team(division)`,
-    )
-    const data = await safeJsonParse(res)
-    const result = data?.records || []
-    setCache(cacheKey, result)
-    return result
+      `${BASE_URL}/standings?leagueId=103,104&season=${season}&standingsTypes=regularSeason&hydrate=team(division)`
+    );
+    const data = await safeJsonParse(res);
+    const result = data?.records || [];
+    setCache(cacheKey, result);
+    return result;
   } catch {
-    return []
+    return [];
   }
 }
 
@@ -344,22 +363,22 @@ export async function getLeaders(
   statType: "hitting" | "pitching",
   statCategory: string,
   season = getDefaultSeason(),
-  limit = 10,
+  limit = 10
 ): Promise<any[]> {
-  const cacheKey = `leaders:${statType}:${statCategory}:${season}:${limit}`
-  const cached = getCached<any[]>(cacheKey)
-  if (cached) return cached
+  const cacheKey = `leaders:${statType}:${statCategory}:${season}:${limit}`;
+  const cached = getCached<any[]>(cacheKey);
+  if (cached) return cached;
 
   try {
     const res = await fetchWithRetry(
-      `${BASE_URL}/stats/leaders?leaderCategories=${statCategory}&season=${season}&sportId=1&limit=${limit}&statGroup=${statType}`,
-    )
-    const data = await safeJsonParse(res)
-    const result = data?.leagueLeaders?.[0]?.leaders || []
-    setCache(cacheKey, result)
-    return result
+      `${BASE_URL}/stats/leaders?leaderCategories=${statCategory}&season=${season}&sportId=1&limit=${limit}&statGroup=${statType}`
+    );
+    const data = await safeJsonParse(res);
+    const result = data?.leagueLeaders?.[0]?.leaders || [];
+    setCache(cacheKey, result);
+    return result;
   } catch {
-    return []
+    return [];
   }
 }
 
@@ -368,143 +387,165 @@ export async function getLeadersByLeague(
   statCategory: string,
   leagueId: 103 | 104, // 103 = AL, 104 = NL
   season = getDefaultSeason(),
-  limit = 5,
+  limit = 5
 ): Promise<any[]> {
-  const cacheKey = `leaders:${statType}:${statCategory}:${leagueId}:${season}:${limit}`
-  const cached = getCached<any[]>(cacheKey)
-  if (cached) return cached
+  const cacheKey = `leaders:${statType}:${statCategory}:${leagueId}:${season}:${limit}`;
+  const cached = getCached<any[]>(cacheKey);
+  if (cached) return cached;
 
   try {
     const res = await fetchWithRetry(
-      `${BASE_URL}/stats/leaders?leaderCategories=${statCategory}&season=${season}&sportId=1&limit=${limit}&statGroup=${statType}&leagueId=${leagueId}`,
-    )
-    const data = await safeJsonParse(res)
-    const result = data?.leagueLeaders?.[0]?.leaders || []
-    setCache(cacheKey, result)
-    return result
+      `${BASE_URL}/stats/leaders?leaderCategories=${statCategory}&season=${season}&sportId=1&limit=${limit}&statGroup=${statType}&leagueId=${leagueId}`
+    );
+    const data = await safeJsonParse(res);
+    const result = data?.leagueLeaders?.[0]?.leaders || [];
+    setCache(cacheKey, result);
+    return result;
   } catch {
-    return []
+    return [];
   }
 }
 
 export async function getTeam(teamId: number): Promise<Team | null> {
-  const cacheKey = `team:${teamId}`
-  const cached = getCached<Team | null>(cacheKey)
-  if (cached) return cached
+  const cacheKey = `team:${teamId}`;
+  const cached = getCached<Team | null>(cacheKey);
+  if (cached) return cached;
 
   try {
-    const res = await fetchWithRetry(`${BASE_URL}/teams/${teamId}`)
-    const data = await safeJsonParse(res)
-    const result = data?.teams?.[0] || null
-    setCache(cacheKey, result)
-    return result
+    const res = await fetchWithRetry(`${BASE_URL}/teams/${teamId}`);
+    const data = await safeJsonParse(res);
+    const result = data?.teams?.[0] || null;
+    setCache(cacheKey, result);
+    return result;
   } catch {
-    return null
+    return null;
   }
 }
 
-export async function getTeamRoster(teamId: number, season = getDefaultSeason()): Promise<Player[]> {
-  const cacheKey = `roster:${teamId}:${season}`
-  const cached = getCached<Player[]>(cacheKey)
-  if (cached) return cached
+export async function getTeamRoster(
+  teamId: number,
+  season = getDefaultSeason()
+): Promise<Player[]> {
+  const cacheKey = `roster:${teamId}:${season}`;
+  const cached = getCached<Player[]>(cacheKey);
+  if (cached) return cached;
 
   try {
-    const res = await fetchWithRetry(`${BASE_URL}/teams/${teamId}/roster?season=${season}`)
-    const data = await safeJsonParse(res)
+    const res = await fetchWithRetry(
+      `${BASE_URL}/teams/${teamId}/roster?season=${season}`
+    );
+    const data = await safeJsonParse(res);
     const result =
       data?.roster?.map((r: any) => ({
         ...r.person,
         primaryNumber: r.jerseyNumber,
         primaryPosition: r.position,
         status: r.status,
-      })) || []
-    setCache(cacheKey, result)
-    return result
+      })) || [];
+    setCache(cacheKey, result);
+    return result;
   } catch {
-    return []
+    return [];
   }
 }
 
-export async function getTeamStats(teamId: number, season = getDefaultSeason()): Promise<any> {
+export async function getTeamStats(
+  teamId: number,
+  season = getDefaultSeason()
+): Promise<any> {
   try {
     const res = await fetchWithRetry(
-      `${BASE_URL}/teams/${teamId}/stats?stats=season&season=${season}&group=hitting,pitching`,
-    )
-    const data = await safeJsonParse(res)
-    return data?.stats || []
+      `${BASE_URL}/teams/${teamId}/stats?stats=season&season=${season}&group=hitting,pitching`
+    );
+    const data = await safeJsonParse(res);
+    return data?.stats || [];
   } catch {
-    return []
+    return [];
   }
 }
 
-export async function getTeamCoaches(teamId: number, season = getDefaultSeason()): Promise<Coach[]> {
-  const cacheKey = `coaches:${teamId}:${season}`
-  const cached = getCached<Coach[]>(cacheKey)
-  if (cached) return cached
+export async function getTeamCoaches(
+  teamId: number,
+  season = getDefaultSeason()
+): Promise<Coach[]> {
+  const cacheKey = `coaches:${teamId}:${season}`;
+  const cached = getCached<Coach[]>(cacheKey);
+  if (cached) return cached;
 
   try {
-    const res = await fetchWithRetry(`${BASE_URL}/teams/${teamId}/coaches?season=${season}`)
-    const data = await safeJsonParse(res)
-    const result = data?.roster || []
-    setCache(cacheKey, result)
-    return result
+    const res = await fetchWithRetry(
+      `${BASE_URL}/teams/${teamId}/coaches?season=${season}`
+    );
+    const data = await safeJsonParse(res);
+    const result = data?.roster || [];
+    setCache(cacheKey, result);
+    return result;
   } catch {
-    return []
+    return [];
   }
 }
 
-export async function getTeamManager(teamId: number, season = getDefaultSeason()): Promise<Coach | null> {
-  const coaches = await getTeamCoaches(teamId, season)
-  return coaches.find((c) => c.jobId === "MNGR") || null
+export async function getTeamManager(
+  teamId: number,
+  season = getDefaultSeason()
+): Promise<Coach | null> {
+  const coaches = await getTeamCoaches(teamId, season);
+  return coaches.find((c) => c.jobId === "MNGR") || null;
 }
 
 export async function getTeamHistory(
   teamId: number,
   startYear = 1960,
-  endYear = getDefaultSeason(),
+  endYear = getDefaultSeason()
 ): Promise<TeamHistoricalRecord[]> {
-  const cacheKey = `team-history-${teamId}-${startYear}-${endYear}`
-  const cached = getCached<TeamHistoricalRecord[]>(cacheKey)
-  if (cached) return cached
+  const cacheKey = `team-history-${teamId}-${startYear}-${endYear}`;
+  const cached = getCached<TeamHistoricalRecord[]>(cacheKey);
+  if (cached) return cached;
 
-  const records: TeamHistoricalRecord[] = []
-  const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i)
+  const records: TeamHistoricalRecord[] = [];
+  const years = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, i) => startYear + i
+  );
 
   // Process in larger chunks (5 years) with shorter delay for faster loading
   for (let i = 0; i < years.length; i += 5) {
-    const chunk = years.slice(i, i + 5)
+    const chunk = years.slice(i, i + 5);
 
     // Shorter delay between batches
     if (i > 0) {
-      await new Promise((resolve) => setTimeout(resolve, 200))
+      await new Promise((resolve) => setTimeout(resolve, 200));
     }
 
     const results = await Promise.all(
       chunk.map(async (year) => {
         // Check if we have this year cached individually
-        const yearCacheKey = `standings-${year}`
-        let data = getCached<any>(yearCacheKey)
+        const yearCacheKey = `standings-${year}`;
+        let data = getCached<any>(yearCacheKey);
 
         if (!data) {
           try {
             const res = await fetchWithRetry(
-              `${BASE_URL}/standings?leagueId=103,104&season=${year}&standingsTypes=regularSeason&hydrate=team`,
-            )
-            data = await safeJsonParse(res)
+              `${BASE_URL}/standings?leagueId=103,104&season=${year}&standingsTypes=regularSeason&hydrate=team`
+            );
+            data = await safeJsonParse(res);
             if (data) {
               // Cache historical years for longer (they don't change)
-              const ttl = year < new Date().getFullYear() ? CACHE_TTL_HISTORY : CACHE_TTL
-              setCache(yearCacheKey, data, ttl)
+              const ttl =
+                year < new Date().getFullYear() ? CACHE_TTL_HISTORY : CACHE_TTL;
+              setCache(yearCacheKey, data, ttl);
             }
           } catch {
-            return null
+            return null;
           }
         }
 
-        if (!data) return null
+        if (!data) return null;
 
         for (const division of data.records || []) {
-          const teamRecord = division.teamRecords?.find((r: any) => r.team.id === teamId)
+          const teamRecord = division.teamRecords?.find(
+            (r: any) => r.team.id === teamId
+          );
           if (teamRecord) {
             return {
               season: year,
@@ -516,114 +557,126 @@ export async function getTeamHistory(
               runDifferential: teamRecord.runDifferential || 0,
               divisionRank: teamRecord.divisionRank,
               leagueRank: teamRecord.leagueRank,
-            } as TeamHistoricalRecord
+            } as TeamHistoricalRecord;
           }
         }
-        return null
-      }),
-    )
-    records.push(...results.filter((r): r is TeamHistoricalRecord => r !== null))
+        return null;
+      })
+    );
+    records.push(
+      ...results.filter((r): r is TeamHistoricalRecord => r !== null)
+    );
   }
 
-  const sorted = records.sort((a, b) => b.season - a.season)
+  const sorted = records.sort((a, b) => b.season - a.season);
   // Cache full team history for 7 days
-  setCache(cacheKey, sorted, CACHE_TTL_HISTORY)
-  return sorted
+  setCache(cacheKey, sorted, CACHE_TTL_HISTORY);
+  return sorted;
 }
 
 export async function getTeamPostseasonHistory(
   teamId: number,
   startYear = 1995,
-  endYear = getDefaultSeason(),
+  endYear = getDefaultSeason()
 ): Promise<TeamPostseasonHistory> {
-  const cacheKey = `team-postseason-${teamId}-${startYear}-${endYear}`
-  const cached = getCached<TeamPostseasonHistory>(cacheKey)
-  if (cached) return cached
+  const cacheKey = `team-postseason-${teamId}-${startYear}-${endYear}`;
+  const cached = getCached<TeamPostseasonHistory>(cacheKey);
+  if (cached) return cached;
 
-  const appearances: PostseasonAppearance[] = []
-  let worldSeriesWins = 0
-  let worldSeriesAppearances = 0
-  let pennants = 0
-  const playoffYears = new Set<number>()
+  const appearances: PostseasonAppearance[] = [];
+  let worldSeriesWins = 0;
+  let worldSeriesAppearances = 0;
+  let pennants = 0;
+  const playoffYears = new Set<number>();
 
   // Fetch postseason data year by year (more reliable than date range)
-  const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => startYear + i)
+  const years = Array.from(
+    { length: endYear - startYear + 1 },
+    (_, i) => startYear + i
+  );
 
   for (let i = 0; i < years.length; i += 10) {
-    const chunk = years.slice(i, i + 10)
+    const chunk = years.slice(i, i + 10);
 
     if (i > 0) {
-      await new Promise((resolve) => setTimeout(resolve, 100))
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
     await Promise.all(
       chunk.map(async (year) => {
         try {
           const res = await fetchWithRetry(
-            `${BASE_URL}/schedule?sportId=1&teamId=${teamId}&season=${year}&gameType=F,D,L,W`,
-          )
-          const data = await safeJsonParse(res)
+            `${BASE_URL}/schedule?sportId=1&teamId=${teamId}&season=${year}&gameType=F,D,L,W`
+          );
+          const data = await safeJsonParse(res);
 
-          if (!data?.dates?.length) return
+          if (!data?.dates?.length) return;
 
           // Track series results for this year
-          const seriesResults: Record<string, { wins: number; losses: number; opponent: string }> = {}
+          const seriesResults: Record<
+            string,
+            { wins: number; losses: number; opponent: string }
+          > = {};
 
           for (const date of data.dates) {
             for (const game of date.games || []) {
-              if (game.status?.abstractGameState !== "Final") continue
+              if (game.status?.abstractGameState !== "Final") continue;
 
-              playoffYears.add(year)
+              playoffYears.add(year);
 
-              const gameType = game.gameType
-              const isHome = game.teams?.home?.team?.id === teamId
-              const teamData = isHome ? game.teams?.home : game.teams?.away
-              const opponentData = isHome ? game.teams?.away : game.teams?.home
-              const teamWon = teamData?.isWinner
+              const gameType = game.gameType;
+              const isHome = game.teams?.home?.team?.id === teamId;
+              const teamData = isHome ? game.teams?.home : game.teams?.away;
+              const opponentData = isHome ? game.teams?.away : game.teams?.home;
+              const teamWon = teamData?.isWinner;
 
-              let round = ""
-              if (gameType === "W") round = "World Series"
-              else if (gameType === "L") round = "LCS"
-              else if (gameType === "D") round = "LDS"
-              else if (gameType === "F") round = "Wild Card"
+              let round = "";
+              if (gameType === "W") round = "World Series";
+              else if (gameType === "L") round = "LCS";
+              else if (gameType === "D") round = "LDS";
+              else if (gameType === "F") round = "Wild Card";
 
-              if (!round) continue
+              if (!round) continue;
 
               if (!seriesResults[round]) {
-                seriesResults[round] = { wins: 0, losses: 0, opponent: opponentData?.team?.name || "Unknown" }
+                seriesResults[round] = {
+                  wins: 0,
+                  losses: 0,
+                  opponent: opponentData?.team?.name || "Unknown",
+                };
               }
 
               if (teamWon) {
-                seriesResults[round].wins++
+                seriesResults[round].wins++;
               } else {
-                seriesResults[round].losses++
+                seriesResults[round].losses++;
               }
             }
           }
 
           // Convert series results to appearances
           for (const [round, result] of Object.entries(seriesResults)) {
-            const won = result.wins > result.losses
+            const won = result.wins > result.losses;
             appearances.push({
               season: year,
               round,
               won,
               opponent: result.opponent,
               result: `${result.wins}-${result.losses}`,
-            })
+            });
 
             if (round === "World Series") {
-              worldSeriesAppearances++
-              if (won) worldSeriesWins++
+              worldSeriesAppearances++;
+              if (won) worldSeriesWins++;
             } else if (round === "LCS" && won) {
-              pennants++
+              pennants++;
             }
           }
         } catch (error) {
           // Skip this year on error
         }
-      }),
-    )
+      })
+    );
   }
 
   const history: TeamPostseasonHistory = {
@@ -632,224 +685,291 @@ export async function getTeamPostseasonHistory(
     pennants,
     playoffAppearances: playoffYears.size,
     appearances: appearances.sort((a, b) => b.season - a.season),
-  }
+  };
 
-  setCache(cacheKey, history, CACHE_TTL_HISTORY)
-  return history
+  setCache(cacheKey, history, CACHE_TTL_HISTORY);
+  return history;
 }
 
-export async function getFranchiseHistory(teamId: number): Promise<{ allTeamIds: number[]; name: string }> {
+export async function getFranchiseHistory(
+  teamId: number
+): Promise<{ allTeamIds: number[]; name: string }> {
   try {
-    const res = await fetchWithRetry(`${BASE_URL}/teams/${teamId}?hydrate=previousScheduledTeams`)
-    const data = await safeJsonParse(res)
-    const team = data?.teams?.[0]
+    const res = await fetchWithRetry(
+      `${BASE_URL}/teams/${teamId}?hydrate=previousScheduledTeams`
+    );
+    const data = await safeJsonParse(res);
+    const team = data?.teams?.[0];
 
     // Collect all historical team IDs for this franchise
-    const allTeamIds = [teamId]
+    const allTeamIds = [teamId];
     if (team?.previousScheduledTeams) {
-      team.previousScheduledTeams.forEach((t: any) => allTeamIds.push(t.id))
+      team.previousScheduledTeams.forEach((t: any) => allTeamIds.push(t.id));
     }
 
-    return { allTeamIds, name: team?.name || "" }
+    return { allTeamIds, name: team?.name || "" };
   } catch {
-    return { allTeamIds: [teamId], name: "" }
+    return { allTeamIds: [teamId], name: "" };
   }
 }
 
-export async function getAwardWinners(awardId: string, season?: number): Promise<AwardWinner[]> {
+export async function getAwardWinners(
+  awardId: string,
+  season?: number
+): Promise<AwardWinner[]> {
   try {
     const url = season
       ? `${BASE_URL}/awards/${awardId}/recipients?season=${season}&sportId=1`
-      : `${BASE_URL}/awards/${awardId}/recipients?sportId=1`
+      : `${BASE_URL}/awards/${awardId}/recipients?sportId=1`;
 
-    const res = await fetchWithRetry(url)
-    const data = await safeJsonParse(res)
+    const res = await fetchWithRetry(url);
+    const data = await safeJsonParse(res);
 
     return (data?.awards || []).map((award: any) => ({
       id: award.id,
       playerId: award.player?.id,
       playerName: award.player?.nameFirstLast || award.player?.fullName,
-      season: award.season ? Number.parseInt(award.season) : award.date ? new Date(award.date).getFullYear() : 0,
+      season: award.season
+        ? Number.parseInt(award.season)
+        : award.date
+        ? new Date(award.date).getFullYear()
+        : 0,
       awardName: award.name || awardId,
-      team: award.team ? { id: award.team.id, name: award.team.name } : undefined,
+      team: award.team
+        ? { id: award.team.id, name: award.team.name }
+        : undefined,
       notes: award.notes,
-    }))
+    }));
   } catch {
-    return []
+    return [];
   }
 }
 
-export async function getMVPWinners(season?: number): Promise<{ al: AwardWinner[]; nl: AwardWinner[] }> {
+export async function getMVPWinners(
+  season?: number
+): Promise<{ al: AwardWinner[]; nl: AwardWinner[] }> {
   try {
-    const [alMvp, nlMvp] = await Promise.all([getAwardWinners("MLBMVP", season), getAwardWinners("NLMVP", season)])
+    const [alMvp, nlMvp] = await Promise.all([
+      getAwardWinners("MLBMVP", season),
+      getAwardWinners("NLMVP", season),
+    ]);
 
     return {
       al: alMvp.sort((a, b) => b.season - a.season),
       nl: nlMvp.sort((a, b) => b.season - a.season),
-    }
+    };
   } catch {
-    return { al: [], nl: [] }
+    return { al: [], nl: [] };
   }
 }
 
-export async function getCyYoungWinners(season?: number): Promise<{ al: AwardWinner[]; nl: AwardWinner[] }> {
+export async function getCyYoungWinners(
+  season?: number
+): Promise<{ al: AwardWinner[]; nl: AwardWinner[] }> {
   try {
-    const [alCy, nlCy] = await Promise.all([getAwardWinners("MLBCY", season), getAwardWinners("NLCY", season)])
+    const [alCy, nlCy] = await Promise.all([
+      getAwardWinners("MLBCY", season),
+      getAwardWinners("NLCY", season),
+    ]);
 
     return {
       al: alCy.sort((a, b) => b.season - a.season),
       nl: nlCy.sort((a, b) => b.season - a.season),
-    }
+    };
   } catch {
-    return { al: [], nl: [] }
+    return { al: [], nl: [] };
   }
 }
 
-export async function getAllStarRosters(season?: number): Promise<{ al: AwardWinner[]; nl: AwardWinner[] }> {
+export async function getAllStarRosters(
+  season?: number
+): Promise<{ al: AwardWinner[]; nl: AwardWinner[] }> {
   try {
-    const [alStars, nlStars] = await Promise.all([getAwardWinners("ALAS", season), getAwardWinners("NLAS", season)])
+    const [alStars, nlStars] = await Promise.all([
+      getAwardWinners("ALAS", season),
+      getAwardWinners("NLAS", season),
+    ]);
 
     return {
-      al: alStars.sort((a, b) => (a.team?.name || "").localeCompare(b.team?.name || "")),
-      nl: nlStars.sort((a, b) => (a.team?.name || "").localeCompare(b.team?.name || "")),
-    }
+      al: alStars.sort((a, b) =>
+        (a.team?.name || "").localeCompare(b.team?.name || "")
+      ),
+      nl: nlStars.sort((a, b) =>
+        (a.team?.name || "").localeCompare(b.team?.name || "")
+      ),
+    };
   } catch {
-    return { al: [], nl: [] }
+    return { al: [], nl: [] };
   }
 }
 
 export interface AllStarAppearance {
-  season: number
-  league: "AL" | "NL"
+  season: number;
+  league: "AL" | "NL";
   team?: {
-    id: number
-    name: string
-  }
+    id: number;
+    name: string;
+  };
 }
 
-export async function getPlayerAllStarAppearances(playerId: number): Promise<AllStarAppearance[]> {
-  const cacheKey = `allstar:${playerId}`
-  const cached = getCached<AllStarAppearance[]>(cacheKey)
-  if (cached) return cached
+export async function getPlayerAllStarAppearances(
+  playerId: number
+): Promise<AllStarAppearance[]> {
+  const cacheKey = `allstar:${playerId}`;
+  const cached = getCached<AllStarAppearance[]>(cacheKey);
+  if (cached) return cached;
 
   try {
     const [alRes, nlRes] = await Promise.all([
       fetchWithRetry(`${BASE_URL}/awards/ALAS/recipients?sportId=1`),
       fetchWithRetry(`${BASE_URL}/awards/NLAS/recipients?sportId=1`),
-    ])
+    ]);
 
-    const [alData, nlData] = await Promise.all([safeJsonParse(alRes), safeJsonParse(nlRes)])
+    const [alData, nlData] = await Promise.all([
+      safeJsonParse(alRes),
+      safeJsonParse(nlRes),
+    ]);
 
-    const appearances: AllStarAppearance[] = []
+    const appearances: AllStarAppearance[] = [];
 
     for (const award of alData?.awards || []) {
       if (award.player?.id === playerId) {
         appearances.push({
-          season: award.season ? Number.parseInt(award.season) : new Date(award.date).getFullYear(),
+          season: award.season
+            ? Number.parseInt(award.season)
+            : new Date(award.date).getFullYear(),
           league: "AL",
-          team: award.team ? { id: award.team.id, name: award.team.name } : undefined,
-        })
+          team: award.team
+            ? { id: award.team.id, name: award.team.name }
+            : undefined,
+        });
       }
     }
 
     for (const award of nlData?.awards || []) {
       if (award.player?.id === playerId) {
         appearances.push({
-          season: award.season ? Number.parseInt(award.season) : new Date(award.date).getFullYear(),
+          season: award.season
+            ? Number.parseInt(award.season)
+            : new Date(award.date).getFullYear(),
           league: "NL",
-          team: award.team ? { id: award.team.id, name: award.team.name } : undefined,
-        })
+          team: award.team
+            ? { id: award.team.id, name: award.team.name }
+            : undefined,
+        });
       }
     }
 
-    const sorted = appearances.sort((a, b) => b.season - a.season)
-    setCache(cacheKey, sorted, CACHE_TTL_LONG)
-    return sorted
+    const sorted = appearances.sort((a, b) => b.season - a.season);
+    setCache(cacheKey, sorted, CACHE_TTL_LONG);
+    return sorted;
   } catch {
-    return []
+    return [];
   }
 }
 
 export interface HallOfFamer {
-  playerId: number
-  playerName: string
-  inductionYear: number
-  position?: string
+  playerId: number;
+  playerName: string;
+  inductionYear: number;
+  position?: string;
   team?: {
-    id: number
-    name: string
-  }
+    id: number;
+    name: string;
+  };
 }
 
 export async function getHallOfFamers(): Promise<HallOfFamer[]> {
-  const cacheKey = "hof:all"
-  const cached = getCached<HallOfFamer[]>(cacheKey)
-  if (cached) return cached
+  const cacheKey = "hof:all";
+  const cached = getCached<HallOfFamer[]>(cacheKey);
+  if (cached) return cached;
 
   try {
-    const res = await fetchWithRetry(`${BASE_URL}/awards/MLBHOF/recipients?sportId=1`)
-    const data = await safeJsonParse(res)
+    const res = await fetchWithRetry(
+      `${BASE_URL}/awards/MLBHOF/recipients?sportId=1`
+    );
+    const data = await safeJsonParse(res);
 
-    const hofMembers: HallOfFamer[] = (data?.awards || []).map((award: any) => ({
-      playerId: award.player?.id,
-      playerName: award.player?.nameFirstLast || award.player?.fullName || "Unknown",
-      inductionYear: award.season ? Number.parseInt(award.season) : award.date ? new Date(award.date).getFullYear() : 0,
-      position: award.player?.primaryPosition?.abbreviation,
-      team: award.team ? { id: award.team.id, name: award.team.name } : undefined,
-    }))
+    const hofMembers: HallOfFamer[] = (data?.awards || []).map(
+      (award: any) => ({
+        playerId: award.player?.id,
+        playerName:
+          award.player?.nameFirstLast || award.player?.fullName || "Unknown",
+        inductionYear: award.season
+          ? Number.parseInt(award.season)
+          : award.date
+          ? new Date(award.date).getFullYear()
+          : 0,
+        position: award.player?.primaryPosition?.abbreviation,
+        team: award.team
+          ? { id: award.team.id, name: award.team.name }
+          : undefined,
+      })
+    );
 
-    const sorted = hofMembers.sort((a, b) => b.inductionYear - a.inductionYear)
-    setCache(cacheKey, sorted, CACHE_TTL_LONG)
-    return sorted
+    const sorted = hofMembers.sort((a, b) => b.inductionYear - a.inductionYear);
+    setCache(cacheKey, sorted, CACHE_TTL_LONG);
+    return sorted;
   } catch {
-    return []
+    return [];
   }
 }
 
 // Helper functions for player headshots and team logos
-export function getPlayerHeadshotUrl(playerId: number, size: "small" | "medium" | "large" = "medium"): string {
+export function getPlayerHeadshotUrl(
+  playerId: number,
+  size: "small" | "medium" | "large" = "medium"
+): string {
   const sizeMap = {
     small: 67,
     medium: 213,
     large: 426,
-  }
-  const width = sizeMap[size]
-  return `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_${width},q_auto:best/v1/people/${playerId}/headshot/67/current`
+  };
+  const width = sizeMap[size];
+  return `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_${width},q_auto:best/v1/people/${playerId}/headshot/67/current`;
 }
 
-export function getTeamLogoUrl(teamId: number, size: "small" | "medium" | "large" = "medium"): string {
-  // MLB static team logos - uses SVG which scales well
-  return `https://www.mlbstatic.com/team-logos/${teamId}.svg`
+export function getTeamLogoUrl(
+  teamId: number,
+  size: "small" | "medium" | "large" = "medium"
+): string {
+  return `https://www.mlbstatic.com/team-logos/${teamId}.svg`;
 }
 
 // Helper function to get the default season (2025 until April 2026)
 export function getDefaultSeason(): number {
-  const now = new Date()
-  const year = now.getFullYear()
-  const month = now.getMonth() // 0-indexed, so March = 2, April = 3
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth(); // 0-indexed, so March = 2, April = 3
 
   // Use 2025 until April 2026, then use current year
   if (year < 2026 || (year === 2026 && month < 3)) {
-    return 2025
+    return 2025;
   }
-  return year
+  return year;
 }
 
-export async function getTeamSchedule(teamId: number, season = getDefaultSeason(), limit = 10): Promise<any[]> {
-  const cacheKey = `schedule:${teamId}:${season}:${limit}`
-  const cached = getCached<any[]>(cacheKey)
-  if (cached) return cached
+export async function getTeamSchedule(
+  teamId: number,
+  season = getDefaultSeason(),
+  limit = 10
+): Promise<any[]> {
+  const cacheKey = `schedule:${teamId}:${season}:${limit}`;
+  const cached = getCached<any[]>(cacheKey);
+  if (cached) return cached;
 
   try {
-    const endDate = new Date().toISOString().split("T")[0]
-    const startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]
+    const endDate = new Date().toISOString().split("T")[0];
+    const startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .split("T")[0];
 
     const res = await fetchWithRetry(
-      `${BASE_URL}/schedule?sportId=1&teamId=${teamId}&season=${season}&startDate=${startDate}&endDate=${endDate}&gameType=R`,
-    )
-    const data = await safeJsonParse(res)
+      `${BASE_URL}/schedule?sportId=1&teamId=${teamId}&season=${season}&startDate=${startDate}&endDate=${endDate}&gameType=R`
+    );
+    const data = await safeJsonParse(res);
 
-    const games: any[] = []
+    const games: any[] = [];
     for (const date of data?.dates || []) {
       for (const game of date.games || []) {
         if (game.status?.abstractGameState === "Final") {
@@ -858,54 +978,58 @@ export async function getTeamSchedule(teamId: number, season = getDefaultSeason(
             gameDate: game.gameDate,
             homeTeam: game.teams?.home?.team,
             awayTeam: game.teams?.away?.team,
-          })
+          });
         }
       }
     }
 
-    const result = games.slice(0, limit)
-    setCache(cacheKey, result)
-    return result
+    const result = games.slice(0, limit);
+    setCache(cacheKey, result);
+    return result;
   } catch {
-    return []
+    return [];
   }
 }
 
 export interface GameUniform {
-  gamePk: number
-  gameDate?: string
+  gamePk: number;
+  gameDate?: string;
   homeTeam?: {
-    id: number
-    name: string
+    id: number;
+    name: string;
     uniform?: {
-      jersey: string
-      pants: string
-      helmet: string
-      cap: string
-    }
-  }
+      jersey: string;
+      pants: string;
+      helmet: string;
+      cap: string;
+    };
+  };
   awayTeam?: {
-    id: number
-    name: string
+    id: number;
+    name: string;
     uniform?: {
-      jersey: string
-      pants: string
-      helmet: string
-      cap: string
-    }
-  }
+      jersey: string;
+      pants: string;
+      helmet: string;
+      cap: string;
+    };
+  };
 }
 
-export async function getGameUniforms(gamePks: number[]): Promise<GameUniform[]> {
-  if (gamePks.length === 0) return []
+export async function getGameUniforms(
+  gamePks: number[]
+): Promise<GameUniform[]> {
+  if (gamePks.length === 0) return [];
 
-  const cacheKey = `uniforms:${gamePks.join(",")}`
-  const cached = getCached<GameUniform[]>(cacheKey)
-  if (cached) return cached
+  const cacheKey = `uniforms:${gamePks.join(",")}`;
+  const cached = getCached<GameUniform[]>(cacheKey);
+  if (cached) return cached;
 
   try {
-    const res = await fetchWithRetry(`${BASE_URL}/uniforms/game?gamePks=${gamePks.join(",")}`)
-    const data = await safeJsonParse(res)
+    const res = await fetchWithRetry(
+      `${BASE_URL}/uniforms/game?gamePks=${gamePks.join(",")}`
+    );
+    const data = await safeJsonParse(res);
 
     const uniforms: GameUniform[] = (data?.games || []).map((game: any) => ({
       gamePk: game.gamePk,
@@ -938,11 +1062,11 @@ export async function getGameUniforms(gamePks: number[]): Promise<GameUniform[]>
               : undefined,
           }
         : undefined,
-    }))
+    }));
 
-    setCache(cacheKey, uniforms)
-    return uniforms
+    setCache(cacheKey, uniforms);
+    return uniforms;
   } catch {
-    return []
+    return [];
   }
 }

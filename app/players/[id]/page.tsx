@@ -13,7 +13,15 @@ import {
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, Calendar, MapPin, Ruler, Scale, Star, GraduationCap } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  MapPin,
+  Ruler,
+  Scale,
+  Star,
+  GraduationCap,
+} from "lucide-react";
 import { BaseballCardGallery } from "@/components/baseball-card";
 
 interface PlayerPageProps {
@@ -95,6 +103,10 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
   const currentPitching = pitchingStats.find((s: any) => s.season === "2024");
 
   const isPitcher = player.primaryPosition?.type === "Pitcher";
+  const hasHittingStats = hittingStats.length > 0;
+  const hasPitchingStats = pitchingStats.length > 0;
+  const hasFieldingStats = fieldingStats.length > 0;
+  const hasAnyStats = hasHittingStats || hasPitchingStats || hasFieldingStats;
 
   return (
     <>
@@ -133,7 +145,7 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
             />
           </div>
           <div className="flex-1">
-            <div className="mb-4 flex items-center gap-3">
+            <div className="mb-1 flex items-center gap-3">
               <h2 className="font-league leading-tight">{player.fullName}</h2>
               {player.active && (
                 <Badge
@@ -183,9 +195,14 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
               <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
                 <GraduationCap className="h-4 w-4" />
                 <span>
-                  Drafted {player.draft.year} by {player.draft.team?.name || "Unknown"}
-                  {player.draft.round ? ` (Round ${player.draft.round}, Pick ${player.draft.pickNumber})` : ""}
-                  {player.draft.school?.name ? ` from ${player.draft.school.name}` : ""}
+                  Drafted {player.draft.year} by{" "}
+                  {player.draft.team?.name || "Unknown"}
+                  {player.draft.round
+                    ? ` (Round ${player.draft.round}, Pick ${player.draft.pickNumber})`
+                    : ""}
+                  {player.draft.school?.name
+                    ? ` from ${player.draft.school.name}`
+                    : ""}
                 </span>
               </div>
             )}
@@ -195,13 +212,16 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
         {/* Current Season Stats Quick View */}
         {(currentHitting || currentPitching) && (
           <div className="mb-8">
-            <h2 className="font-league text-4xl font-semibold mb-4">2024 Season</h2>
+            <h2 className="font-league text-4xl font-semibold mb-4">
+              2024 Season
+            </h2>
             {isPitcher && currentPitching ? (
               <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
                 <StatCard
                   title="W-L"
-                  value={`${currentPitching.stat.wins || 0}-${currentPitching.stat.losses || 0
-                    }`}
+                  value={`${currentPitching.stat.wins || 0}-${
+                    currentPitching.stat.losses || 0
+                  }`}
                 />
                 <StatCard title="ERA" value={currentPitching.stat.era || "—"} />
                 <StatCard
@@ -242,18 +262,30 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
 
         {/* Career Stats Tables and Baseball Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="lg:col-span-3 space-y-6">
-            {hittingStats.length > 0 && (
+          {hasHittingStats && (
+            <div className="lg:col-span-4">
               <PlayerStatsTable stats={hittingStats} type="hitting" />
-            )}
-            {pitchingStats.length > 0 && (
+            </div>
+          )}
+          {hasPitchingStats && (
+            <div className="lg:col-span-3">
               <PlayerStatsTable stats={pitchingStats} type="pitching" />
-            )}
-            {fieldingStats.length > 0 && (
-              <PlayerStatsTable stats={fieldingStats} type="fielding" />
-            )}
+            </div>
+          )}
 
-            {hittingStats.length === 0 && pitchingStats.length === 0 && fieldingStats.length === 0 && (
+          {/* Baseball Cards Sidebar */}
+          <div className={hasPitchingStats ? "lg:col-span-1" : "lg:col-span-4"}>
+            <BaseballCardGallery playerName={player.fullName} limit={4} />
+          </div>
+
+          {hasFieldingStats && (
+            <div className="lg:col-span-4">
+              <PlayerStatsTable stats={fieldingStats} type="fielding" />
+            </div>
+          )}
+
+          {!hasAnyStats && (
+            <div className="lg:col-span-4">
               <Card>
                 <CardHeader>
                   <CardTitle>Career Statistics</CardTitle>
@@ -264,13 +296,8 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
                   </p>
                 </CardContent>
               </Card>
-            )}
-          </div>
-
-          {/* Baseball Cards Sidebar */}
-          <div className="lg:col-span-1">
-            <BaseballCardGallery playerName={player.fullName} limit={4} />
-          </div>
+            </div>
+          )}
         </div>
       </main>
     </>

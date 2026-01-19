@@ -5,7 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import dynamic from "next/dynamic"
 import { ArrowLeft, Loader2, AlertCircle, ChevronDown, ChevronUp, Trophy } from "lucide-react"
-import { getTeamLogoUrl, getDefaultSeason, type TeamPostseasonHistory } from "@/lib/mlb-api"
+import { getDefaultSeason, type TeamPostseasonHistory } from "@/lib/mlb-api"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { SeasonSelector } from "@/components/season-selector"
@@ -189,7 +189,7 @@ export function TeamPageContent({ teamId, initialData }: TeamPageContentProps) {
       <div className="flex flex-row gap-3 md:gap-6 mb-4 items-start">
         <div className="relative h-14 w-14 md:h-24 md:w-24 shrink-0">
           <Image
-            src={getTeamLogoUrl(team.id) || "/placeholder.svg"}
+            src={`https://www.mlbstatic.com/team-logos/${team.id}.svg`}
             alt={`${team.name} logo`}
             fill
             className="object-contain"

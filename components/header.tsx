@@ -46,7 +46,8 @@ export function Header() {
                 borderLeft: "1px solid #dce4ec",
                 borderRight: "1px solid #a8b4c0",
                 borderBottom: "2px solid #98a4b0",
-                boxShadow: "0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4)",
+                boxShadow:
+                  "0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4)",
               }}
             >
               <Image
@@ -69,7 +70,8 @@ export function Header() {
                 borderLeft: "1px solid #dce4ec",
                 borderRight: "1px solid #a8b4c0",
                 borderBottom: "2px solid #98a4b0",
-                boxShadow: "0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4)",
+                boxShadow:
+                  "0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4)",
               }}
             >
               <Image
@@ -77,10 +79,10 @@ export function Header() {
                 alt=""
                 width={100}
                 height={100}
-                className="hidden sm:block"
+                className="block"
                 style={{ height: "24px", width: "auto" }}
               />
-              <span className="text-sm">ChatMLB</span>
+              <span className="text-sm hidden sm:inline">ChatMLB</span>
             </Link>
           </>
         )}

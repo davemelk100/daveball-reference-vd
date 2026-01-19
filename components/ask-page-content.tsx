@@ -234,33 +234,35 @@ export function AskPageContent() {
     </div>
   );
 
+  const chatActions = (
+    <div className="flex justify-end gap-2 px-4 pt-4">
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => setShowHistory(!showHistory)}
+        className="gap-1"
+      >
+        <History className="h-4 w-4" />
+        <span className="hidden sm:inline">History</span>
+      </Button>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={handleNewChat}
+        className="gap-1"
+      >
+        <Plus className="h-4 w-4" />
+        <span className="hidden sm:inline">New</span>
+      </Button>
+    </div>
+  );
+
   // Empty state - centered layout
   if (messages.length === 0) {
     return (
       <div className="flex flex-col h-[calc(100vh-180px)]">
         {historySidebar}
-
-        {/* History/New buttons in top right */}
-        <div className="absolute top-4 right-4 flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowHistory(!showHistory)}
-            className="gap-1"
-          >
-            <History className="h-4 w-4" />
-            <span className="hidden sm:inline">History</span>
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleNewChat}
-            className="gap-1"
-          >
-            <Plus className="h-4 w-4" />
-            <span className="hidden sm:inline">New</span>
-          </Button>
-        </div>
+        {chatActions}
 
         {/* Centered content */}
         <div className="flex-1 flex flex-col items-center justify-center px-4">
@@ -290,10 +292,7 @@ export function AskPageContent() {
               disabled={isLoading}
               autoComplete="off"
             />
-            <Button
-              type="submit"
-              disabled={isLoading || !input.trim()}
-            >
+            <Button type="submit" disabled={isLoading || !input.trim()}>
               {isLoading ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
@@ -310,6 +309,7 @@ export function AskPageContent() {
   return (
     <div className="flex flex-col h-[calc(100vh-180px)]">
       {historySidebar}
+      {chatActions}
 
       {/* Scrollable area - includes header and messages */}
       <div className="flex-1 overflow-y-auto">
@@ -323,26 +323,7 @@ export function AskPageContent() {
                   ChatMLB
                 </h1>
               </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setShowHistory(!showHistory)}
-                  className="gap-1"
-                >
-                  <History className="h-4 w-4" />
-                  <span className="hidden sm:inline">History</span>
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleNewChat}
-                  className="gap-1"
-                >
-                  <Plus className="h-4 w-4" />
-                  <span className="hidden sm:inline">New</span>
-                </Button>
-              </div>
+              <div className="flex gap-2" />
             </div>
           </div>
         </div>

@@ -1,3 +1,5 @@
+import { getTeamLogoUrl } from "@/lib/mlb-api"
+
 interface JsonLdProps {
   data: Record<string, unknown>
 }
@@ -106,7 +108,7 @@ export function TeamJsonLd({ team }: TeamJsonLdProps) {
       "@type": "SportsOrganization",
       name: "Major League Baseball",
     },
-    logo: `https://www.mlbstatic.com/team-logos/${team.id}.svg`,
+    logo: getTeamLogoUrl(team.id),
     location: team.venue?.name
       ? {
           "@type": "Place",

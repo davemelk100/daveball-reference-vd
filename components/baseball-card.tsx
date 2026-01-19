@@ -111,26 +111,50 @@ interface BaseballCardGalleryProps {
   limit?: number;
 }
 
+function getEbaySearchUrl(query: string): string {
+  const params = new URLSearchParams({
+    _nkw: `${query} baseball card`,
+  });
+  return `https://www.ebay.com/sch/i.html?${params.toString()}`;
+}
+
 export function BaseballCardGallery({
   playerName,
   limit = 4,
 }: BaseballCardGalleryProps) {
   const [cards, setCards] = useState<BaseballCardData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchCards() {
       try {
         const response = await fetch(
-          `/api/baseball-card?name=${encodeURIComponent(playerName)}&limit=${limit}`
+          `/api/baseball-card?name=${encodeURIComponent(
+            playerName
+          )}&limit=${limit}`
         );
 
-        if (response.ok) {
-          const data = await response.json();
-          setCards(data.cards || []);
+        if (!response.ok) {
+          let message = "Unable to load baseball cards.";
+          try {
+            const data = await response.json();
+            if (data?.error) {
+              message = data.error;
+            }
+          } catch {
+            // ignore parse error
+          }
+          setError(message);
+          setCards([]);
+          return;
         }
+
+        const data = await response.json();
+        setCards(data.cards || []);
       } catch {
-        // Silently fail
+        setError("Unable to load baseball cards.");
+        setCards([]);
       } finally {
         setLoading(false);
       }
@@ -153,7 +177,26 @@ export function BaseballCardGallery({
   }
 
   if (cards.length === 0) {
-    return null;
+    const searchUrl = getEbaySearchUrl(playerName);
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Baseball Cards on eBay</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2 text-sm text-muted-foreground">
+          <p>{error || "No baseball cards found for this player."}</p>
+          <a
+            href={searchUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+          >
+            Search on eBay
+            <ExternalLink className="h-3 w-3" />
+          </a>
+        </CardContent>
+      </Card>
+    );
   }
 
   return (

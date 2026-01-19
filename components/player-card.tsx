@@ -9,6 +9,8 @@ interface PlayerCardProps {
 }
 
 export function PlayerCard({ player }: PlayerCardProps) {
+  const positionAbbreviation = player.primaryPosition?.abbreviation
+
   return (
     <Link href={`/players/${player.id}`}>
       <Card className="hover:bg-secondary/50 transition-colors cursor-pointer h-full">
@@ -28,7 +30,9 @@ export function PlayerCard({ player }: PlayerCardProps) {
               <h3 className="font-semibold truncate">{player.fullName}</h3>
               <p className="text-sm text-muted-foreground truncate">{player.currentTeam?.name || "Free Agent"}</p>
               <div className="flex items-center gap-2 mt-0.5">
-                <Badge variant="secondary">{player.primaryPosition?.abbreviation || "—"}</Badge>
+                {positionAbbreviation && positionAbbreviation !== "—" && (
+                  <Badge variant="secondary">{positionAbbreviation}</Badge>
+                )}
                 {player.active && (
                   <Badge variant="outline" className="border-green-500/50 text-green-500">
                     Active
