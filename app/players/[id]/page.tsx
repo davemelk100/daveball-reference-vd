@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
-import { PlayerStatsTable } from "@/components/player-stats-table";
 import { StatCard } from "@/components/stat-card";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlayerJsonLd, BreadcrumbJsonLd } from "@/components/json-ld";
 import {
@@ -22,7 +20,7 @@ import {
   Star,
   GraduationCap,
 } from "lucide-react";
-import { BaseballCardGallery } from "@/components/baseball-card";
+import { PlayerPageContent } from "@/components/player-page-content";
 
 interface PlayerPageProps {
   params: Promise<{ id: string }>;
@@ -106,7 +104,6 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
   const hasHittingStats = hittingStats.length > 0;
   const hasPitchingStats = pitchingStats.length > 0;
   const hasFieldingStats = fieldingStats.length > 0;
-  const hasAnyStats = hasHittingStats || hasPitchingStats || hasFieldingStats;
 
   return (
     <>
@@ -260,45 +257,16 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
           </div>
         )}
 
-        {/* Career Stats Tables and Baseball Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {hasHittingStats && (
-            <div className="lg:col-span-4">
-              <PlayerStatsTable stats={hittingStats} type="hitting" />
-            </div>
-          )}
-          {hasPitchingStats && (
-            <div className="lg:col-span-3">
-              <PlayerStatsTable stats={pitchingStats} type="pitching" />
-            </div>
-          )}
-
-          {/* Baseball Cards Sidebar */}
-          <div className={hasPitchingStats ? "lg:col-span-1" : "lg:col-span-4"}>
-            <BaseballCardGallery playerName={player.fullName} limit={4} />
-          </div>
-
-          {hasFieldingStats && (
-            <div className="lg:col-span-4">
-              <PlayerStatsTable stats={fieldingStats} type="fielding" />
-            </div>
-          )}
-
-          {!hasAnyStats && (
-            <div className="lg:col-span-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Career Statistics</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground">
-                    No career statistics available for this player.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          )}
-        </div>
+        {/* Career Stats Toggle */}
+        <PlayerPageContent
+          playerName={player.fullName}
+          hittingStats={hittingStats}
+          pitchingStats={pitchingStats}
+          fieldingStats={fieldingStats}
+          hasHittingStats={hasHittingStats}
+          hasPitchingStats={hasPitchingStats}
+          hasFieldingStats={hasFieldingStats}
+        />
       </main>
     </>
   );

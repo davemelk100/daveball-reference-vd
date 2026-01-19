@@ -183,16 +183,15 @@ export function BaseballCardGallery({
         <CardHeader>
           <CardTitle className="text-lg">Baseball Cards on eBay</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-2 text-sm text-muted-foreground">
-          <p>{error || "No baseball cards found for this player."}</p>
+        <CardContent>
           <a
             href={searchUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
+            className="inline-flex items-center gap-2 text-base text-primary hover:underline font-medium"
           >
             Search on eBay
-            <ExternalLink className="h-3 w-3" />
+            <ExternalLink className="h-4 w-4" />
           </a>
         </CardContent>
       </Card>
