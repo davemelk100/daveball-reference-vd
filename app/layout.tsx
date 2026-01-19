@@ -8,6 +8,7 @@ import { FooterNav, LeftNav } from "@/components/footer-nav";
 import { PageLoader } from "@/components/page-loader";
 import { WebsiteJsonLd } from "@/components/json-ld";
 import { Toaster } from "@/components/ui/sonner";
+import { UpdatesBanner } from "@/components/updates-banner";
 // import { Analytics } from "@vercel/analytics/react"
 import "@/styles/globals.css";
 
@@ -111,6 +112,7 @@ export default function RootLayout({
         <LeftNav />
         <div className="sm:ml-20 flex flex-col flex-1">
           <Header />
+          <UpdatesBanner />
           <Suspense fallback={<PageLoader />}>
             <div className="pb-16 sm:pb-0 flex-1">{children}</div>
           </Suspense>
