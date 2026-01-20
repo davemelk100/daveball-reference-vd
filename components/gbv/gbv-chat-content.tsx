@@ -225,7 +225,7 @@ export function GbvChatContent() {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold">Saved Chats</h2>
+          <h2 className="text-xl font-semibold text-black">Saved Chats</h2>
           <Button
             variant="ghost"
             size="sm"
@@ -337,7 +337,7 @@ export function GbvChatContent() {
             />
             <Button type="submit" disabled={isLoading || !input.trim()}>
               {isLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin text-black" />
               ) : (
                 <Send className="h-4 w-4" />
               )}
@@ -394,7 +394,13 @@ export function GbvChatContent() {
             >
               {message.role === "assistant" && (
                 <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Bot className="h-4 w-4 text-primary" />
+                  <Image
+                    src="/gbv-rune.svg"
+                    alt="GBV rune"
+                    width={20}
+                    height={20}
+                    className="h-5 w-5 gbv-rune-white"
+                  />
                 </div>
               )}
               <div
@@ -402,11 +408,11 @@ export function GbvChatContent() {
                   "rounded-lg px-4 py-2 max-w-[80%]",
                   message.role === "user"
                     ? "bg-primary text-primary-foreground"
-                    : "bg-[#eaeaea]"
+                    : "bg-[#eaeaea] text-black"
                 )}
               >
                 {message.role === "assistant" ? (
-                  <div className="prose dark:prose-invert max-w-none text-sm [&_p]:text-sm [&_li]:text-sm [&_p]:my-1 [&_ul]:my-1 [&_ol]:my-1 [&_li]:my-0 [&_h1]:text-base [&_h2]:text-base [&_h3]:text-sm [&_h1]:my-2 [&_h2]:my-2 [&_h3]:my-1">
+                  <div className="prose max-w-none text-sm text-black [&_p]:text-sm [&_li]:text-sm [&_p]:my-1 [&_ul]:my-1 [&_ol]:my-1 [&_li]:my-0 [&_h1]:text-base [&_h2]:text-base [&_h3]:text-sm [&_h1]:my-2 [&_h2]:my-2 [&_h3]:my-1">
                     <ReactMarkdown>{getMessageText(message)}</ReactMarkdown>
                   </div>
                 ) : (
@@ -424,10 +430,16 @@ export function GbvChatContent() {
           {isLoading && messages[messages.length - 1]?.role === "user" && (
             <div className="flex gap-3 justify-start">
               <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                <Bot className="h-4 w-4 text-primary" />
+                <Image
+                  src="/gbv-rune.svg"
+                  alt="GBV rune"
+                  width={20}
+                  height={20}
+                  className="h-5 w-5 gbv-rune-white"
+                />
               </div>
               <div className="rounded-lg px-4 py-2 bg-[#eaeaea]">
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin text-black" />
               </div>
             </div>
           )}
@@ -453,7 +465,7 @@ export function GbvChatContent() {
             />
             <Button type="submit" disabled={isLoading || !input.trim()}>
               {isLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin text-black" />
               ) : (
                 <Send className="h-4 w-4" />
               )}

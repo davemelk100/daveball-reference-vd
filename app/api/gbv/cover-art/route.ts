@@ -195,31 +195,40 @@ export async function POST(request: Request) {
 
     const results = await Promise.all(
       albums.slice(0, 40).map(
-        async (album: { title: string; artist?: string; year?: number; primaryType?: string }) => {
-          const artist = album.artist || "Guided By Voices";
-          const cacheKey = `${artist}:${album.title}`;
+        async (album: { title?: string; artist?: string; year?: number; primaryType?: string }) => {
+          const title = album.title?.trim() || "";
+          if (!title) {
+            return { title: "Unknown", coverUrl: null };
+          }
 
-        // Check cache first
-        const cached = coverArtCache.get(cacheKey);
-        if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-          return { title: album.title, coverUrl: cached.url };
-        }
+          try {
+            const artist = album.artist || "Guided By Voices";
+            const cacheKey = `${artist}:${title}`;
 
-        // Search and get cover
-        const mbid = await searchMusicBrainz(artist, album.title, {
-          year: album.year,
-          primaryType: album.primaryType,
-        });
-        if (!mbid) {
-          coverArtCache.set(cacheKey, { url: null, timestamp: Date.now() });
-          return { title: album.title, coverUrl: null };
-        }
+            // Check cache first
+            const cached = coverArtCache.get(cacheKey);
+            if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+              return { title, coverUrl: cached.url };
+            }
 
-        const coverUrl = await getCoverArt(mbid);
-        coverArtCache.set(cacheKey, { url: coverUrl, timestamp: Date.now() });
+            // Search and get cover
+            const mbid = await searchMusicBrainz(artist, title, {
+              year: album.year,
+              primaryType: album.primaryType,
+            });
+            if (!mbid) {
+              coverArtCache.set(cacheKey, { url: null, timestamp: Date.now() });
+              return { title, coverUrl: null };
+            }
 
-        return { title: album.title, coverUrl, mbid };
-      })
+            const coverUrl = await getCoverArt(mbid);
+            coverArtCache.set(cacheKey, { url: coverUrl, timestamp: Date.now() });
+
+            return { title, coverUrl, mbid };
+          } catch {
+            return { title, coverUrl: null };
+          }
+        })
     );
 
     return NextResponse.json({ results });
