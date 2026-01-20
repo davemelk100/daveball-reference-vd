@@ -6,11 +6,60 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, Loader2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Member {
   id: number;
   name: string;
   active: boolean;
+}
+
+function MemberAvatar({ name }: { name: string }) {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    let isActive = true;
+    const fetchImage = async () => {
+      try {
+        const res = await fetch(
+          `/api/gbv/commons-image?name=${encodeURIComponent(name)}`
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        if (isActive) {
+          setImageUrl(data.imageUrl || null);
+        }
+      } catch {
+        if (isActive) {
+          setImageUrl(null);
+        }
+      }
+    };
+
+    fetchImage();
+    return () => {
+      isActive = false;
+    };
+  }, [name]);
+
+  if (!imageUrl) {
+    return (
+      <div className="w-16 h-16 bg-muted rounded-full mb-3 mx-auto flex items-center justify-center">
+        <Users className="h-8 w-8 text-muted-foreground" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-16 h-16 mb-3 mx-auto relative">
+      <Image
+        src={imageUrl}
+        alt={`${name} photo`}
+        fill
+        className="rounded-full object-cover"
+      />
+    </div>
+  );
 }
 
 export function GbvMembersContent() {
@@ -74,9 +123,7 @@ export function GbvMembersContent() {
           <Link key={member.id} href={`/gbv/members/${member.id}`}>
             <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
               <CardContent className="p-4 text-center">
-                <div className="w-16 h-16 bg-muted rounded-full mb-3 mx-auto flex items-center justify-center">
-                  <Users className="h-8 w-8 text-muted-foreground" />
-                </div>
+                <MemberAvatar name={member.name} />
                 <h3 className="font-semibold text-sm">{member.name}</h3>
                 <Badge variant={member.active ? "default" : "secondary"} className="mt-2">
                   {member.active ? "Active" : "Past"}

@@ -19,6 +19,14 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "commons.wikimedia.org",
+      },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org",
+      },
+      {
+        protocol: "https",
         hostname: "i.discogs.com",
       },
       {

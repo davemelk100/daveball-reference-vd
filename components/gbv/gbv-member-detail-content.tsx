@@ -31,6 +31,7 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
   const [releases, setReleases] = useState<Release[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [commonsImageUrl, setCommonsImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchMember() {
@@ -63,6 +64,33 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
     fetchMember();
   }, [memberId]);
 
+  useEffect(() => {
+    if (!member?.name) return;
+    let isActive = true;
+
+    const fetchCommonsImage = async () => {
+      try {
+        const res = await fetch(
+          `/api/gbv/commons-image?name=${encodeURIComponent(member.name)}`
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        if (isActive) {
+          setCommonsImageUrl(data.imageUrl || null);
+        }
+      } catch {
+        if (isActive) {
+          setCommonsImageUrl(null);
+        }
+      }
+    };
+
+    fetchCommonsImage();
+    return () => {
+      isActive = false;
+    };
+  }, [member?.name]);
+
   if (isLoading) {
     return (
       <main className="container py-6">
@@ -91,8 +119,6 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
     );
   }
 
-  const profileImage = member.images?.find((img) => img.type === "primary") || member.images?.[0];
-
   return (
     <main className="container py-6">
       <Link href="/gbv/members">
@@ -106,9 +132,9 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
         <div className="lg:col-span-1">
           <Card>
             <CardContent className="p-4">
-              {profileImage ? (
+              {commonsImageUrl ? (
                 <Image
-                  src={profileImage.uri}
+                  src={commonsImageUrl}
                   alt={member.name}
                   width={300}
                   height={300}

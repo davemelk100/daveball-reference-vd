@@ -119,10 +119,10 @@ export function GbvDashboardContent() {
   const albumCount = albums.length;
 
   const stats = [
-    { label: "Studio Albums", value: albumCount > 0 ? `${albumCount}+` : "32+", icon: Disc3 },
-    { label: "Total Songs", value: "2,500+", icon: Music },
-    { label: "Band Members", value: artist?.members ? `${artist.members.length}+` : "30+", icon: Users },
-    { label: "Years Active", value: "40+", icon: Calendar },
+    { label: "Studio Albums", value: albumCount > 0 ? `${albumCount}+` : "32+" },
+    { label: "Total Songs", value: "2,500+" },
+    { label: "Band Members", value: artist?.members ? `${artist.members.length}+` : "30+" },
+    { label: "Years Active", value: "40+" },
   ];
 
   // Get the best available image for an album
@@ -145,22 +145,14 @@ export function GbvDashboardContent() {
     <main className="container py-2">
       {/* Stats Row */}
       <div className="grid gap-4 grid-cols-2 md:grid-cols-4 mb-8 mt-6">
-        {stats.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Card key={stat.label}>
-              <CardContent className="flex items-center gap-4 p-4">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  <Icon className="h-6 w-6 text-primary" />
-                </div>
-                <div>
-                  <p className="text-2xl font-bold">{stat.value}</p>
-                  <p className="text-sm text-muted-foreground">{stat.label}</p>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+        {stats.map((stat) => (
+          <Card key={stat.label}>
+            <CardContent className="p-4 text-center">
+              <p className="text-2xl font-bold">{stat.value}</p>
+              <p className="text-sm text-muted-foreground">{stat.label}</p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       {/* Daily Fact & Featured */}

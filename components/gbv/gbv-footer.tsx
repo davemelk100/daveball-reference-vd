@@ -14,9 +14,6 @@ export function GbvFooter() {
               height={24}
               className="h-6 w-6"
             />
-            <span className="font-semibold" style={{ color: "#4a90d9" }}>
-              Guided By Numbers
-            </span>
           </div>
           <nav className="flex items-center gap-6 text-sm text-muted-foreground">
             <Link href="/gbv/albums" className="hover:text-foreground transition-colors">
@@ -32,9 +29,6 @@ export function GbvFooter() {
               Chat GBV
             </Link>
           </nav>
-          <p className="text-sm text-muted-foreground">
-            A tribute to Guided By Voices
-          </p>
         </div>
       </div>
     </footer>

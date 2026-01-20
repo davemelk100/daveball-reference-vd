@@ -79,14 +79,11 @@ export function FooterNav() {
 
   // Only show essential nav items on mobile footer
   const mobileNavigation = navigation
-    .filter((item) => !["All Stars", "HOF"].includes(item.name))
+    .filter((item) => !["All Stars", "HOF", "Home"].includes(item.name))
     .map((item) =>
-      item.name === "Home"
-        ? { ...item, name: "Standings", href: "/standings", icon: BarChart3, image: undefined }
+      item.name === "Standings"
+        ? { ...item, icon: BarChart3, image: undefined }
         : item
-    )
-    .filter(
-      (item, index, self) => self.findIndex((i) => i.name === item.name) === index
     );
 
   return (
