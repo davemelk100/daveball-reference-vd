@@ -32,6 +32,33 @@ function getImageFilename(entity: any): string | null {
   return typeof imageClaim === "string" ? imageClaim : null;
 }
 
+async function searchWikidata(term: string) {
+  const searchUrl = `${WIKIDATA_API}?action=wbsearchentities&search=${encodeURIComponent(
+    term
+  )}&language=en&format=json&limit=5`;
+  const searchData = await fetchJson(searchUrl);
+  return searchData?.search || [];
+}
+
+async function findImageFromResults(results: Array<{ id: string }>) {
+  for (const result of results) {
+    const entityUrl = `${WIKIDATA_API}?action=wbgetentities&ids=${result.id}&props=claims&format=json`;
+    const entityData = await fetchJson(entityUrl);
+    const entity = entityData?.entities?.[result.id];
+    const filename = getImageFilename(entity);
+    if (filename) {
+      const imageUrl = `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(
+        filename
+      )}`;
+      const sourceUrl = `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(
+        filename
+      )}`;
+      return { imageUrl, sourceUrl };
+    }
+  }
+  return null;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const name = searchParams.get("name");
@@ -41,33 +68,33 @@ export async function GET(request: Request) {
   }
 
   try {
-    const searchUrl = `${WIKIDATA_API}?action=wbsearchentities&search=${encodeURIComponent(
-      name
-    )}&language=en&format=json&limit=5`;
-    const searchData = await fetchJson(searchUrl);
-    const results = searchData?.search || [];
+    const results = await searchWikidata(name);
     if (results.length === 0) {
       return NextResponse.json({ imageUrl: null }, { status: 200 });
     }
 
     const best = pickBestResult(results);
-    const entityUrl = `${WIKIDATA_API}?action=wbgetentities&ids=${best.id}&props=claims&format=json`;
-    const entityData = await fetchJson(entityUrl);
-    const entity = entityData?.entities?.[best.id];
-    const filename = getImageFilename(entity);
+    const prioritized = best ? [best, ...results.filter((r) => r.id !== best.id)] : results;
+    const firstPass = await findImageFromResults(prioritized);
+    if (firstPass) {
+      return NextResponse.json(firstPass);
+    }
 
-    if (!filename) {
+    const fallbackResults = await searchWikidata(`${name} Guided By Voices`);
+    if (fallbackResults.length === 0) {
       return NextResponse.json({ imageUrl: null }, { status: 200 });
     }
 
-    const imageUrl = `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(
-      filename
-    )}`;
-    const sourceUrl = `https://commons.wikimedia.org/wiki/File:${encodeURIComponent(
-      filename
-    )}`;
+    const fallbackBest = pickBestResult(fallbackResults);
+    const fallbackPrioritized = fallbackBest
+      ? [fallbackBest, ...fallbackResults.filter((r) => r.id !== fallbackBest.id)]
+      : fallbackResults;
+    const fallbackImage = await findImageFromResults(fallbackPrioritized);
+    if (fallbackImage) {
+      return NextResponse.json(fallbackImage);
+    }
 
-    return NextResponse.json({ imageUrl, sourceUrl });
+    return NextResponse.json({ imageUrl: null }, { status: 200 });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json({ error: message }, { status: 500 });

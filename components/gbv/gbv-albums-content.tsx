@@ -21,6 +21,14 @@ interface Album {
   releaseType?: string;
 }
 
+function getPrimaryType(format?: string | string[], releaseType?: string) {
+  if (!format && releaseType !== "release") return "Album";
+  const normalized = Array.isArray(format) ? format.join(" ") : format || "";
+  if (normalized.toLowerCase().includes("single")) return "Single";
+  if (releaseType === "release") return "Single";
+  return "Album";
+}
+
 export function GbvAlbumsContent() {
   const [albums, setAlbums] = useState<Album[]>([]);
   const [filteredAlbums, setFilteredAlbums] = useState<Album[]>([]);
@@ -41,7 +49,11 @@ export function GbvAlbumsContent() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          albums: newAlbums.map((a) => ({ title: a.title })),
+          albums: newAlbums.map((a) => ({
+            title: a.title,
+            year: a.year,
+            primaryType: getPrimaryType(a.format, a.releaseType),
+          })),
         }),
       });
 

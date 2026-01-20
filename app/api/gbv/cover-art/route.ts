@@ -31,9 +31,53 @@ interface CoverArtImage {
 const coverArtCache = new Map<string, { url: string | null; timestamp: number }>();
 const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
 
-async function searchMusicBrainz(artist: string, album: string): Promise<string | null> {
+type ReleaseGroupMatchOptions = {
+  year?: number;
+  primaryType?: string;
+};
+
+function normalizeType(value?: string) {
+  return value?.toLowerCase() || "";
+}
+
+function pickBestReleaseGroup(
+  releaseGroups: MusicBrainzReleaseGroup[],
+  options: ReleaseGroupMatchOptions
+) {
+  const { year, primaryType } = options;
+  const targetType = normalizeType(primaryType);
+
+  const scored = releaseGroups.map((group) => {
+    let bonus = 0;
+    const groupType = normalizeType(group["primary-type"]);
+    const releaseYear = group["first-release-date"]?.slice(0, 4);
+
+    if (targetType && groupType === targetType) {
+      bonus += 20;
+    }
+
+    if (year && releaseYear === String(year)) {
+      bonus += 15;
+    }
+
+    if (!targetType && (groupType === "album" || groupType === "single")) {
+      bonus += 5;
+    }
+
+    return { group, score: group.score + bonus };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored[0]?.group ?? null;
+}
+
+async function searchMusicBrainz(
+  artist: string,
+  album: string,
+  options: ReleaseGroupMatchOptions
+): Promise<string | null> {
   const query = encodeURIComponent(`artist:"${artist}" AND releasegroup:"${album}"`);
-  const url = `${MUSICBRAINZ_BASE}/release-group?query=${query}&fmt=json&limit=1`;
+  const url = `${MUSICBRAINZ_BASE}/release-group?query=${query}&fmt=json&limit=5`;
 
   const response = await fetch(url, {
     headers: { "User-Agent": USER_AGENT },
@@ -46,8 +90,8 @@ async function searchMusicBrainz(artist: string, album: string): Promise<string 
 
   if (releaseGroups.length === 0) return null;
 
-  // Return the MBID of the best match
-  return releaseGroups[0].id;
+  const best = pickBestReleaseGroup(releaseGroups, options);
+  return best?.id ?? null;
 }
 
 async function getCoverArt(mbid: string): Promise<string | null> {
@@ -93,6 +137,8 @@ export async function GET(request: Request) {
   const artist = searchParams.get("artist") || "Guided By Voices";
   const album = searchParams.get("album");
   const mbid = searchParams.get("mbid"); // Optional: direct MBID lookup
+  const year = searchParams.get("year");
+  const primaryType = searchParams.get("primaryType");
 
   if (!album && !mbid) {
     return NextResponse.json({ error: "Album title or MBID required" }, { status: 400 });
@@ -110,7 +156,10 @@ export async function GET(request: Request) {
 
     // If no MBID provided, search MusicBrainz
     if (!releaseGroupId && album) {
-      releaseGroupId = await searchMusicBrainz(artist, album);
+      releaseGroupId = await searchMusicBrainz(artist, album, {
+        year: year ? Number(year) : undefined,
+        primaryType: primaryType || undefined,
+      });
     }
 
     if (!releaseGroupId) {
@@ -145,9 +194,10 @@ export async function POST(request: Request) {
     }
 
     const results = await Promise.all(
-      albums.slice(0, 20).map(async (album: { title: string; artist?: string }) => {
-        const artist = album.artist || "Guided By Voices";
-        const cacheKey = `${artist}:${album.title}`;
+      albums.slice(0, 40).map(
+        async (album: { title: string; artist?: string; year?: number; primaryType?: string }) => {
+          const artist = album.artist || "Guided By Voices";
+          const cacheKey = `${artist}:${album.title}`;
 
         // Check cache first
         const cached = coverArtCache.get(cacheKey);
@@ -156,7 +206,10 @@ export async function POST(request: Request) {
         }
 
         // Search and get cover
-        const mbid = await searchMusicBrainz(artist, album.title);
+        const mbid = await searchMusicBrainz(artist, album.title, {
+          year: album.year,
+          primaryType: album.primaryType,
+        });
         if (!mbid) {
           coverArtCache.set(cacheKey, { url: null, timestamp: Date.now() });
           return { title: album.title, coverUrl: null };

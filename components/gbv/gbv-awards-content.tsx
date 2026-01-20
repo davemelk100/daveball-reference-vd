@@ -16,7 +16,6 @@ const criticalAcclaim = [
     publication: "Rolling Stone",
     accolade: "Alien Lanes - 4 stars",
     year: 1995,
-    sourceLabel: "Review excerpt",
   },
   {
     publication: "Pitchfork",

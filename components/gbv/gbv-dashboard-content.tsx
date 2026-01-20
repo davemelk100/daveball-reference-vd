@@ -32,6 +32,14 @@ interface ArtistData {
   members?: Member[];
 }
 
+function getPrimaryType(format?: string | string[], releaseType?: string) {
+  if (!format && releaseType !== "release") return "Album";
+  const normalized = Array.isArray(format) ? format.join(" ") : format || "";
+  if (normalized.toLowerCase().includes("single")) return "Single";
+  if (releaseType === "release") return "Single";
+  return "Album";
+}
+
 function MemberAvatar({ name }: { name: string }) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
@@ -146,7 +154,11 @@ export function GbvDashboardContent() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          albums: albumsToFetch.map((a) => ({ title: a.title })),
+          albums: albumsToFetch.map((a) => ({
+            title: a.title,
+            year: a.year,
+            primaryType: getPrimaryType(a.format, a.releaseType),
+          })),
         }),
       });
 
@@ -340,10 +352,17 @@ export function GbvDashboardContent() {
               ))
             : Array.from({ length: 4 }).map((_, i) => (
                 <Card key={i}>
-                  <CardContent className="p-4">
-                    <Skeleton className="w-full aspect-square rounded-lg mb-3" />
-                    <Skeleton className="h-5 w-3/4 mb-2" />
-                    <Skeleton className="h-4 w-1/2" />
+                  <CardContent className="p-4 text-center">
+                    <div className="w-full aspect-square bg-muted rounded-lg mb-3 flex items-center justify-center">
+                      <Image
+                        src="/gbv-rune.svg"
+                        alt="GBV rune"
+                        width={48}
+                        height={48}
+                        className="h-12 w-12"
+                      />
+                    </div>
+                    <p className="text-sm text-muted-foreground">Loading release...</p>
                   </CardContent>
                 </Card>
               ))}
@@ -375,10 +394,17 @@ export function GbvDashboardContent() {
               ))
             : Array.from({ length: 4 }).map((_, i) => (
                 <Card key={i}>
-                  <CardContent className="p-4">
-                    <Skeleton className="w-16 h-16 rounded-full mb-3" />
-                    <Skeleton className="h-5 w-3/4 mb-2" />
-                    <Skeleton className="h-4 w-1/2" />
+                  <CardContent className="p-4 text-center">
+                    <div className="w-16 h-16 bg-muted rounded-full mb-3 mx-auto flex items-center justify-center">
+                      <Image
+                        src="/gbv-rune.svg"
+                        alt="GBV rune"
+                        width={32}
+                        height={32}
+                        className="h-8 w-8"
+                      />
+                    </div>
+                    <p className="text-sm text-muted-foreground">Loading member...</p>
                   </CardContent>
                 </Card>
               ))}

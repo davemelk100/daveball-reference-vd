@@ -27,9 +27,11 @@ interface DiscogsArtist {
 }
 
 async function fetchFromDiscogs(endpoint: string) {
+  const token = process.env.DISCOGS_USER_TOKEN || process.env.DISCOGS_TOKEN;
   const response = await fetch(`${DISCOGS_BASE_URL}${endpoint}`, {
     headers: {
       "User-Agent": USER_AGENT,
+      ...(token ? { Authorization: `Discogs token=${token}` } : {}),
     },
     next: { revalidate: 3600 },
   });
