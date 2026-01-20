@@ -21,9 +21,19 @@ interface DiscogsArtist {
   id: number;
   name: string;
   profile: string;
-  members?: Array<{ id: number; name: string; active: boolean }>;
+  members?: Array<{ id: number; name: string; active: boolean; resource_url?: string }>;
+  images?: Array<{ uri?: string; uri150?: string; type?: string }>;
   namevariations?: string[];
   urls?: string[];
+}
+
+const memberImageCache = new Map<number, { url: string | null; timestamp: number }>();
+const MEMBER_IMAGE_TTL = 24 * 60 * 60 * 1000;
+
+function pickDiscogsImage(images?: Array<{ uri?: string; uri150?: string; type?: string }>) {
+  if (!images || images.length === 0) return null;
+  const primary = images.find((img) => img.type === "primary") || images[0];
+  return primary?.uri150 || primary?.uri || null;
 }
 
 async function fetchFromDiscogs(endpoint: string) {
@@ -48,15 +58,58 @@ export async function GET(request: Request) {
   const type = searchParams.get("type") || "artist";
   const page = searchParams.get("page") || "1";
   const perPage = searchParams.get("per_page") || "50";
+  const maxPagesParam = searchParams.get("max_pages");
+  const maxPages = Math.max(1, Number(maxPagesParam || 5));
+  const includeMemberImages = searchParams.get("include_member_images") === "true";
+  const memberImageLimit = Math.max(0, Number(searchParams.get("member_image_limit") || 30));
 
   try {
     if (type === "artist") {
       const data: DiscogsArtist = await fetchFromDiscogs(`/artists/${GBV_ARTIST_ID}`);
+      const members = data.members || [];
+
+      if (includeMemberImages && members.length > 0 && memberImageLimit > 0) {
+        const membersToFetch = members.slice(0, memberImageLimit);
+        const results = await Promise.all(
+          membersToFetch.map(async (member) => {
+            const cached = memberImageCache.get(member.id);
+            if (cached && Date.now() - cached.timestamp < MEMBER_IMAGE_TTL) {
+              return { id: member.id, imageUrl: cached.url };
+            }
+
+            try {
+              const memberData: DiscogsArtist = await fetchFromDiscogs(`/artists/${member.id}`);
+              const imageUrl = pickDiscogsImage(memberData.images);
+              memberImageCache.set(member.id, { url: imageUrl, timestamp: Date.now() });
+              return { id: member.id, imageUrl };
+            } catch {
+              memberImageCache.set(member.id, { url: null, timestamp: Date.now() });
+              return { id: member.id, imageUrl: null };
+            }
+          })
+        );
+
+        const imageMap = new Map(results.map((result) => [result.id, result.imageUrl]));
+        const enrichedMembers = members.map((member) => ({
+          ...member,
+          imageUrl: imageMap.has(member.id) ? imageMap.get(member.id) : undefined,
+        }));
+
+        return NextResponse.json({
+          id: data.id,
+          name: data.name,
+          profile: data.profile,
+          members: enrichedMembers,
+          namevariations: data.namevariations,
+          urls: data.urls,
+        });
+      }
+
       return NextResponse.json({
         id: data.id,
         name: data.name,
         profile: data.profile,
-        members: data.members,
+        members,
         namevariations: data.namevariations,
         urls: data.urls,
       });
@@ -96,7 +149,7 @@ export async function GET(request: Request) {
         allReleases = [...allReleases, ...data.releases];
         totalPages = data.pagination.pages;
         currentPage++;
-      } while (currentPage <= totalPages && currentPage <= 5); // Limit to 5 pages max
+      } while (currentPage <= totalPages && currentPage <= maxPages);
 
       const albums = allReleases
         .filter((release: DiscogsRelease) => {

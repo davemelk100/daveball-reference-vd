@@ -23,6 +23,7 @@ interface Member {
   id: number;
   name: string;
   active: boolean;
+  imageUrl?: string | null;
 }
 
 interface ArtistData {
@@ -40,10 +41,15 @@ function getPrimaryType(format?: string | string[], releaseType?: string) {
   return "Album";
 }
 
-function MemberAvatar({ name }: { name: string }) {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+function MemberAvatar({ name, imageUrl }: { name: string; imageUrl?: string | null }) {
+  const [resolvedImageUrl, setResolvedImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
+    if (imageUrl) {
+      setResolvedImageUrl(imageUrl);
+      return;
+    }
+
     let isActive = true;
     const fetchImage = async () => {
       try {
@@ -53,11 +59,11 @@ function MemberAvatar({ name }: { name: string }) {
         if (!res.ok) return;
         const data = await res.json();
         if (isActive) {
-          setImageUrl(data.imageUrl || null);
+          setResolvedImageUrl(data.imageUrl || null);
         }
       } catch {
         if (isActive) {
-          setImageUrl(null);
+          setResolvedImageUrl(null);
         }
       }
     };
@@ -66,9 +72,9 @@ function MemberAvatar({ name }: { name: string }) {
     return () => {
       isActive = false;
     };
-  }, [name]);
+  }, [name, imageUrl]);
 
-  if (!imageUrl) {
+  if (!resolvedImageUrl) {
     return (
       <div className="w-16 h-16 bg-muted rounded-full mb-3 flex items-center justify-center">
         <Image
@@ -85,7 +91,7 @@ function MemberAvatar({ name }: { name: string }) {
   return (
     <div className="w-16 h-16 mb-3 relative">
       <Image
-        src={imageUrl}
+        src={resolvedImageUrl}
         alt={`${name} photo`}
         fill
         className="rounded-full object-cover"
@@ -118,8 +124,8 @@ export function GbvDashboardContent() {
     async function fetchData() {
       try {
         const [albumsRes, artistRes] = await Promise.all([
-          fetch("/api/gbv/discogs?type=albums"),
-          fetch("/api/gbv/discogs?type=artist"),
+          fetch("/api/gbv/discogs?type=albums&max_pages=1"),
+          fetch("/api/gbv/discogs?type=artist&include_member_images=true&member_image_limit=20"),
         ]);
 
         if (!albumsRes.ok || !artistRes.ok) {
@@ -312,24 +318,24 @@ export function GbvDashboardContent() {
             View all →
           </Link>
         </div>
-        <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-4">
+        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {featuredAlbums.length > 0
             ? featuredAlbums.map((album) => (
                 <Link key={album.id} href={`/gbv/albums/${album.id}`}>
                   <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
-                    <CardContent className="p-4">
+                    <CardContent className="p-3">
                       {getAlbumImage(album) ? (
                         <Image
                           src={getAlbumImage(album)!}
                           alt={album.title}
-                          width={300}
-                          height={300}
-                          className="w-full aspect-square rounded-lg object-cover mb-3"
+                          width={200}
+                          height={200}
+                          className="w-full aspect-square rounded-lg object-cover mb-2"
                           unoptimized
                           loading="lazy"
                         />
                       ) : (
-                        <div className="w-full aspect-square bg-muted rounded-lg mb-3 flex items-center justify-center">
+                        <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
                           <Image
                             src="/gbv-rune.svg"
                             alt="GBV rune"
@@ -383,7 +389,7 @@ export function GbvDashboardContent() {
                 <Link key={member.id} href={`/gbv/members/${member.id}`}>
                   <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
                     <CardContent className="p-4">
-                      <MemberAvatar name={member.name} />
+                      <MemberAvatar name={member.name} imageUrl={member.imageUrl} />
                       <h3 className="font-semibold">{member.name}</h3>
                       <Badge variant="outline" className="mt-1">
                         Active

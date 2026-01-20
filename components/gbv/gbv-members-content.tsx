@@ -12,12 +12,18 @@ interface Member {
   id: number;
   name: string;
   active: boolean;
+  imageUrl?: string | null;
 }
 
-function MemberAvatar({ name }: { name: string }) {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+function MemberAvatar({ name, imageUrl }: { name: string; imageUrl?: string | null }) {
+  const [resolvedImageUrl, setResolvedImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
+    if (imageUrl) {
+      setResolvedImageUrl(imageUrl);
+      return;
+    }
+
     let isActive = true;
     const fetchImage = async () => {
       try {
@@ -27,11 +33,11 @@ function MemberAvatar({ name }: { name: string }) {
         if (!res.ok) return;
         const data = await res.json();
         if (isActive) {
-          setImageUrl(data.imageUrl || null);
+          setResolvedImageUrl(data.imageUrl || null);
         }
       } catch {
         if (isActive) {
-          setImageUrl(null);
+          setResolvedImageUrl(null);
         }
       }
     };
@@ -40,9 +46,9 @@ function MemberAvatar({ name }: { name: string }) {
     return () => {
       isActive = false;
     };
-  }, [name]);
+  }, [name, imageUrl]);
 
-  if (!imageUrl) {
+  if (!resolvedImageUrl) {
     return (
       <div className="w-16 h-16 bg-muted rounded-full mb-3 mx-auto flex items-center justify-center">
         <Image
@@ -59,7 +65,7 @@ function MemberAvatar({ name }: { name: string }) {
   return (
     <div className="w-16 h-16 mb-3 mx-auto relative">
       <Image
-        src={imageUrl}
+        src={resolvedImageUrl}
         alt={`${name} photo`}
         fill
         className="rounded-full object-cover"
@@ -76,7 +82,9 @@ export function GbvMembersContent() {
   useEffect(() => {
     async function fetchMembers() {
       try {
-        const res = await fetch("/api/gbv/discogs?type=artist");
+        const res = await fetch(
+          "/api/gbv/discogs?type=artist&include_member_images=true&member_image_limit=60"
+        );
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
         setMembers(data.members || []);
@@ -129,7 +137,7 @@ export function GbvMembersContent() {
           <Link key={member.id} href={`/gbv/members/${member.id}`}>
             <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
               <CardContent className="p-4 text-center">
-                <MemberAvatar name={member.name} />
+                <MemberAvatar name={member.name} imageUrl={member.imageUrl} />
                 <h3 className="font-semibold text-sm">{member.name}</h3>
                 <Badge variant={member.active ? "default" : "secondary"} className="mt-2">
                   {member.active ? "Active" : "Past"}

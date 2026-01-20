@@ -31,6 +31,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "img.discogs.com",
+      },
+      {
+        protocol: "https",
         hostname: "st.discogs.com",
       },
       {
