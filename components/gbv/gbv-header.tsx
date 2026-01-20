@@ -35,11 +35,11 @@ export function GbvHeader() {
               href="/gbv/ask"
               className="hidden lg:flex flex-1 items-center justify-center gap-2 px-4 h-10 text-sm font-medium rounded-lg transition-all mx-4 active:translate-y-[1px]"
               style={{
-                background: "linear-gradient(180deg, #e8d8f0 0%, #d0b8e0 100%)",
-                borderTop: "1px solid #f4e8f8",
-                borderLeft: "1px solid #ecdce4",
-                borderRight: "1px solid #c0a8d0",
-                borderBottom: "2px solid #b098c0",
+                background: "linear-gradient(180deg, #f1f1f1 0%, #d9d9d9 100%)",
+                borderTop: "1px solid #f6f6f6",
+                borderLeft: "1px solid #eeeeee",
+                borderRight: "1px solid #c6c6c6",
+                borderBottom: "2px solid #b5b5b5",
                 boxShadow:
                   "0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4)",
               }}
@@ -59,11 +59,11 @@ export function GbvHeader() {
               href="/gbv/ask"
               className="lg:hidden flex items-center justify-center gap-2 px-3 h-10 text-sm font-medium rounded-lg transition-all ml-auto active:translate-y-[1px]"
               style={{
-                background: "linear-gradient(180deg, #e8d8f0 0%, #d0b8e0 100%)",
-                borderTop: "1px solid #f4e8f8",
-                borderLeft: "1px solid #ecdce4",
-                borderRight: "1px solid #c0a8d0",
-                borderBottom: "2px solid #b098c0",
+                background: "linear-gradient(180deg, #f1f1f1 0%, #d9d9d9 100%)",
+                borderTop: "1px solid #f6f6f6",
+                borderLeft: "1px solid #eeeeee",
+                borderRight: "1px solid #c6c6c6",
+                borderBottom: "2px solid #b5b5b5",
                 boxShadow:
                   "0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4)",
               }}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   Home,
@@ -17,10 +18,11 @@ interface NavItem {
   name: string;
   href: string;
   icon?: LucideIcon;
+  image?: string;
 }
 
 const navigation: NavItem[] = [
-  { name: "Chat GBV", href: "/gbv/ask", icon: Music },
+  { name: "Chat GBV", href: "/gbv/ask", image: "/gbv-rune.svg" },
   { name: "Home", href: "/gbv", icon: Home },
   { name: "Albums", href: "/gbv/albums", icon: Disc3 },
   { name: "Members", href: "/gbv/members", icon: Users },
@@ -49,7 +51,17 @@ export function GbvLeftNav() {
                   : "text-muted-foreground hover:text-foreground hover:bg-muted"
               )}
             >
-              {Icon && <Icon className="h-5 w-5" />}
+              {item.image ? (
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
+              ) : (
+                Icon && <Icon className="h-5 w-5" />
+              )}
               <span className="text-xs font-medium text-center leading-tight">
                 {item.name}
               </span>
@@ -86,7 +98,17 @@ export function GbvFooterNav() {
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              {Icon && <Icon className="h-5 w-5" />}
+              {item.image ? (
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={20}
+                  height={20}
+                  className="h-5 w-5"
+                />
+              ) : (
+                Icon && <Icon className="h-5 w-5" />
+              )}
               <span className="text-sm font-medium">{item.name}</span>
             </Link>
           );
