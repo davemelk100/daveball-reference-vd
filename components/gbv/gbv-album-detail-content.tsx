@@ -151,7 +151,7 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
 
               {album.uri && (
                 <a
-                  href={`https://www.discogs.com${album.uri}`}
+                  href={album.uri.startsWith("http") ? album.uri : `https://www.discogs.com${album.uri}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center text-sm text-primary hover:underline"

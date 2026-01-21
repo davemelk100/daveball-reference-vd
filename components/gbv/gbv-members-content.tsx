@@ -103,7 +103,7 @@ function MemberAvatar({
 
   if (!resolvedImageUrl || hasError) {
     return (
-      <div className="w-16 h-16 rounded-full mb-3 mx-auto flex items-center justify-center">
+      <div className="w-16 h-16 rounded-md mb-3 mx-auto flex items-center justify-center">
         <Image
           src="/chat-gbv-box.svg"
           alt="GBV rune"
@@ -122,7 +122,7 @@ function MemberAvatar({
         alt={`${name} photo`}
         fill
         sizes="64px"
-        className="rounded-full object-cover"
+        className="rounded-md object-cover"
         onError={() => setHasError(true)}
         unoptimized
       />
