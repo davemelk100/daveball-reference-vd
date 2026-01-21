@@ -40,10 +40,62 @@ function MemberAvatar({
   imageUrl?: string | null;
 }) {
   const [hasError, setHasError] = useState(false);
+  const [resolvedImageUrl, setResolvedImageUrl] = useState<string | null>(null);
+  const [lookupAttempted, setLookupAttempted] = useState(false);
   const normalizedImageUrl = imageUrl?.replace(/^http:/, "https:") || null;
   const fallbackImageUrl =
     MEMBER_IMAGE_FALLBACKS[name.toLowerCase()] || null;
-  const resolvedImageUrl = normalizedImageUrl || fallbackImageUrl;
+
+  useEffect(() => {
+    if (normalizedImageUrl && !hasError) {
+      setResolvedImageUrl(normalizedImageUrl);
+      return;
+    }
+
+    if (fallbackImageUrl && !lookupAttempted) {
+      setResolvedImageUrl(fallbackImageUrl);
+      setLookupAttempted(true);
+      return;
+    }
+
+    if (lookupAttempted) return;
+
+    const cacheKey = `gbv-member-image:${name.toLowerCase()}`;
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        setResolvedImageUrl(cached);
+        setLookupAttempted(true);
+        return;
+      }
+    } catch {
+      // ignore cache errors
+    }
+
+    async function fetchCommons() {
+      try {
+        const res = await fetch(
+          `/api/gbv/commons-image?name=${encodeURIComponent(name)}`
+        );
+        if (!res.ok) return;
+        const data = await res.json();
+        if (typeof data?.imageUrl === "string" && data.imageUrl.length > 0) {
+          setResolvedImageUrl(data.imageUrl);
+          try {
+            localStorage.setItem(cacheKey, data.imageUrl);
+          } catch {
+            // ignore cache errors
+          }
+        }
+      } catch {
+        // ignore lookup errors
+      } finally {
+        setLookupAttempted(true);
+      }
+    }
+
+    fetchCommons();
+  }, [fallbackImageUrl, hasError, lookupAttempted, name, normalizedImageUrl]);
 
   if (!resolvedImageUrl || hasError) {
     return (
