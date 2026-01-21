@@ -19,6 +19,7 @@ interface Album {
   mainRelease?: number;
   format?: string | string[];
   releaseType?: string;
+  coverUrl?: string | null;
 }
 
 export function GbvAlbumsContent() {
@@ -34,7 +35,13 @@ export function GbvAlbumsContent() {
         const res = await fetch("/api/gbv/discogs?type=albums");
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
-        setAlbums(data.albums || []);
+        const albumsList = data.albums || [];
+        setAlbums(albumsList);
+
+        // Fetch cover art for first batch
+        if (albumsList.length > 0) {
+          fetchCoverArt(albumsList.slice(0, 20));
+        }
       } catch (err) {
         console.error(err);
       } finally {
@@ -44,8 +51,43 @@ export function GbvAlbumsContent() {
     fetchAlbums();
   }, []);
 
+  async function fetchCoverArt(albumsToFetch: Album[]) {
+    try {
+      const response = await fetch("/api/gbv/cover-art", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          albums: albumsToFetch.map((a) => ({
+            title: a.title,
+            year: a.year,
+          })),
+        }),
+      });
+
+      if (!response.ok) return;
+
+      const data = await response.json();
+      const coverMap = new Map<string, string | null>();
+
+      for (const result of data.results || []) {
+        coverMap.set(result.title, result.coverUrl);
+      }
+
+      setAlbums((prev) =>
+        prev.map((album) => ({
+          ...album,
+          coverUrl: coverMap.has(album.title)
+            ? coverMap.get(album.title)
+            : album.coverUrl,
+        }))
+      );
+    } catch (err) {
+      console.error("Failed to fetch cover art:", err);
+    }
+  }
+
   const getAlbumImage = (album: Album): string | null => {
-    return album.thumb || null;
+    return album.coverUrl || album.thumb || null;
   };
 
   // Memoized filtered and sorted albums

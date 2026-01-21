@@ -21,6 +21,7 @@ interface Album {
   mainRelease?: number;
   format?: string | string[];
   releaseType?: string;
+  coverUrl?: string | null;
 }
 
 interface Member {
@@ -129,6 +130,11 @@ export function GbvDashboardContent() {
         const albumsList: Album[] = albumsData.albums || [];
         setAlbums(albumsList);
         setArtist(artistData);
+
+        // Fetch cover art for the first 8 albums
+        if (albumsList.length > 0) {
+          fetchCoverArt(albumsList.slice(0, 8));
+        }
       } catch (err) {
         setError("Failed to load data from Discogs");
         console.error(err);
@@ -139,6 +145,41 @@ export function GbvDashboardContent() {
 
     fetchData();
   }, []);
+
+  async function fetchCoverArt(albumsToFetch: Album[]) {
+    try {
+      const response = await fetch("/api/gbv/cover-art", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          albums: albumsToFetch.map((a) => ({
+            title: a.title,
+            year: a.year,
+          })),
+        }),
+      });
+
+      if (!response.ok) return;
+
+      const data = await response.json();
+      const coverMap = new Map<string, string | null>();
+
+      for (const result of data.results || []) {
+        coverMap.set(result.title, result.coverUrl);
+      }
+
+      setAlbums((prev) =>
+        prev.map((album) => ({
+          ...album,
+          coverUrl: coverMap.has(album.title)
+            ? coverMap.get(album.title)
+            : album.coverUrl,
+        }))
+      );
+    } catch (err) {
+      console.error("Failed to fetch cover art:", err);
+    }
+  }
 
   const featuredAlbums = albums.slice(0, 8);
   const activeMembers = artist?.members?.filter((m) => m.active) || [];
@@ -159,7 +200,7 @@ export function GbvDashboardContent() {
 
   // Get the best available image for an album
   const getAlbumImage = (album: Album): string | null => {
-    return album.thumb || null;
+    return album.coverUrl || album.thumb || null;
   };
 
   if (isLoading) {
