@@ -34,6 +34,8 @@ interface DiscogsArtist {
 
 const memberImageCache = new Map<number, { url: string | null; timestamp: number }>();
 const MEMBER_IMAGE_TTL = 24 * 60 * 60 * 1000;
+const albumsCache = new Map<string, { albums: any[]; timestamp: number }>();
+const ALBUMS_CACHE_TTL = 24 * 60 * 60 * 1000;
 
 async function pickDiscogsImage(
   images?: Array<{ uri?: string; uri150?: string; type?: string }>
@@ -179,18 +181,31 @@ export async function GET(request: Request) {
     }
 
     if (type === "albums") {
+      const cacheKey = `albums:${maxPages}`;
+      const cachedAlbums = albumsCache.get(cacheKey);
+      if (cachedAlbums && Date.now() - cachedAlbums.timestamp < ALBUMS_CACHE_TTL) {
+        return NextResponse.json({ albums: cachedAlbums.albums, cached: true });
+      }
+
       // Fetch all pages to get complete album list
       let allReleases: DiscogsRelease[] = [];
       let currentPage = 1;
       let totalPages = 1;
 
       do {
-        const data = await fetchFromDiscogs(
-          `/artists/${GBV_ARTIST_ID}/releases?page=${currentPage}&per_page=100&sort=year&sort_order=asc`
-        );
-        allReleases = [...allReleases, ...data.releases];
-        totalPages = data.pagination.pages;
-        currentPage++;
+        try {
+          const data = await fetchFromDiscogs(
+            `/artists/${GBV_ARTIST_ID}/releases?page=${currentPage}&per_page=100&sort=year&sort_order=asc`
+          );
+          allReleases = [...allReleases, ...data.releases];
+          totalPages = data.pagination.pages;
+          currentPage++;
+        } catch (error) {
+          if (cachedAlbums?.albums?.length) {
+            return NextResponse.json({ albums: cachedAlbums.albums, cached: true });
+          }
+          throw error;
+        }
       } while (currentPage <= totalPages && currentPage <= maxPages);
 
       const albums = allReleases
@@ -213,6 +228,7 @@ export async function GET(request: Request) {
           releaseType: release.type,
         }));
 
+      albumsCache.set(cacheKey, { albums, timestamp: Date.now() });
       return NextResponse.json({ albums });
     }
 

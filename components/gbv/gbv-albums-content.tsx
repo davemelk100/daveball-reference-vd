@@ -34,11 +34,34 @@ export function GbvAlbumsContent() {
 
   useEffect(() => {
     async function fetchAlbums() {
+      const cacheKey = "gbv-albums-cache";
+      try {
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          const parsed = JSON.parse(cached) as { timestamp: number; albums: Album[] };
+          if (parsed?.albums?.length) {
+            setAlbums(parsed.albums);
+            setIsLoading(false);
+          }
+        }
+      } catch {
+        // ignore cache errors
+      }
+
       try {
         const res = await fetch("/api/gbv/discogs?type=albums");
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
-        setAlbums(data.albums || []);
+        const nextAlbums = data.albums || [];
+        setAlbums(nextAlbums);
+        try {
+          localStorage.setItem(
+            cacheKey,
+            JSON.stringify({ timestamp: Date.now(), albums: nextAlbums })
+          );
+        } catch {
+          // ignore cache errors
+        }
       } catch (err) {
         console.error(err);
       } finally {
