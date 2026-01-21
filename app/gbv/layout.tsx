@@ -61,8 +61,8 @@ export default function GbvLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="gbv-shell min-h-screen">
-      <JsonLd
+      <div className="gbv-shell min-h-screen">
+        <JsonLd
         data={{
           "@context": "https://schema.org",
           "@type": "WebSite",

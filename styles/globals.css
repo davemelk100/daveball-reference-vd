@@ -269,7 +269,7 @@
 
   .gbv-shell button svg,
   .gbv-shell [data-slot="button"] svg {
-    color: #000000;
+    /* color: #000000; */
   }
 
   .gbv-shell input,

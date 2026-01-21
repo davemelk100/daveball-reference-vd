@@ -3,6 +3,16 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Generate source maps in production for debugging
+  productionBrowserSourceMaps: true,
+  // Enable modern JavaScript output and minimize legacy code
+  experimental: {
+    optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
+  },
+  // Compiler optimizations
+  compiler: {
+    removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error", "warn"] } : false,
+  },
   images: {
     remotePatterns: [
       {
@@ -39,6 +49,14 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "s.discogs.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.discogs.com",
+      },
+      {
+        protocol: "https",
         hostname: "coverartarchive.org",
       },
       {
@@ -51,6 +69,64 @@ const nextConfig = {
   },
   async headers() {
     return [
+      // Cache GBV API responses
+      {
+        source: "/api/gbv/discogs",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=3600, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
+        source: "/api/gbv/cover-art",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=86400, stale-while-revalidate=604800",
+          },
+        ],
+      },
+      {
+        source: "/api/gbv/commons-image",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=86400, stale-while-revalidate=604800",
+          },
+        ],
+      },
+      {
+        source: "/api/gbv/image-proxy",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      // Cache static assets (SVGs, images, fonts)
+      {
+        source: "/:path*.(svg|png|jpg|jpeg|webp|avif|ico|woff|woff2)",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      // Cache JS and CSS (Next.js adds hashes to filenames)
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      // Default for all other routes
       {
         source: "/:path*",
         headers: [

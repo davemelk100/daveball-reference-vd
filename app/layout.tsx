@@ -7,11 +7,12 @@ import { Toaster } from "@/components/ui/sonner";
 // import { Analytics } from "@vercel/analytics/react"
 import "@/styles/globals.css";
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const _geist = Geist({ subsets: ["latin"], display: "swap" });
+const _geistMono = Geist_Mono({ subsets: ["latin"], display: "swap" });
 const leagueGothic = League_Gothic({
   subsets: ["latin"],
   variable: "--font-league-gothic",
+  display: "swap",
 });
 
 export const metadata: Metadata = {

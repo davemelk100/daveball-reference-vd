@@ -31,6 +31,11 @@ interface CoverArtImage {
 const coverArtCache = new Map<string, { url: string | null; timestamp: number }>();
 const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
 
+// Normalize cache key to improve hit rate
+function createCacheKey(artist: string, album: string): string {
+  return `${artist.toLowerCase().trim()}:${album.toLowerCase().trim()}`;
+}
+
 type ReleaseGroupMatchOptions = {
   year?: number;
   primaryType?: string;
@@ -144,8 +149,8 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Album title or MBID required" }, { status: 400 });
   }
 
-  // Check cache
-  const cacheKey = mbid || `${artist}:${album}`;
+  // Check cache with normalized key
+  const cacheKey = mbid || createCacheKey(artist, album || "");
   const cached = coverArtCache.get(cacheKey);
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
     return NextResponse.json({ coverUrl: cached.url, cached: true });
@@ -203,7 +208,7 @@ export async function POST(request: Request) {
 
           try {
             const artist = album.artist || "Guided By Voices";
-            const cacheKey = `${artist}:${title}`;
+            const cacheKey = createCacheKey(artist, title);
 
             // Check cache first
             const cached = coverArtCache.get(cacheKey);

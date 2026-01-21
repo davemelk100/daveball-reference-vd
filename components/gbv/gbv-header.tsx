@@ -11,6 +11,18 @@ export function GbvHeader() {
 
   return (
     <header className="z-50 w-full bg-transparent py-1">
+      {/* Mobile: Title on its own row */}
+      <div className="container sm:hidden">
+        <Link href="/gbv">
+          <h1
+            className="uppercase tracking-wide text-white text-center"
+            style={{ fontSize: "36px" }}
+          >
+            Guided By Data
+          </h1>
+        </Link>
+      </div>
+
       {/* Main header row */}
       <div className="container flex items-center gap-4">
         <Link href="/gbv" className="flex-shrink-0 border-0 items-center gap-3">
@@ -19,12 +31,13 @@ export function GbvHeader() {
             alt="GBV"
             width={173}
             height={173}
-            className="h-[140px] w-[140px] sm:h-[173px] sm:w-[173px]"
+            className="h-[100px] w-[100px] sm:h-[173px] sm:w-[173px]"
             priority
-            loading="eager"
+            fetchPriority="high"
           />
         </Link>
-        <Link href="/gbv">
+        {/* Desktop/tablet: Title inline */}
+        <Link href="/gbv" className="hidden sm:block">
           <h1
             className={cn("uppercase tracking-wide flex-shrink-0 text-white")}
             style={{ fontSize: "55px" }}
@@ -57,7 +70,7 @@ export function GbvHeader() {
                 height={24}
                 className="h-6 w-6 gbv-nav-icon"
               />
-              <span className="text-sm hidden sm:inline text-black">ChatGBV</span>
+              <span className="text-sm text-black">ChatGBV</span>
             </Link>
           </>
         )}

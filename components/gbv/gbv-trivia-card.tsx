@@ -325,7 +325,7 @@ function GbvTriviaCardContent() {
 
 function GbvTriviaPanelContent() {
   return (
-    <Card className="w-full h-full">
+    <Card className="w-full h-full min-h-[120px]">
       <CardContent className="p-4 flex flex-col gap-2">
         <h2 className="text-lg font-semibold">Daily GBV Trivia</h2>
         <div>
@@ -337,9 +337,21 @@ function GbvTriviaPanelContent() {
   );
 }
 
+function GbvTriviaPanelSkeleton() {
+  return (
+    <Card className="w-full h-full min-h-[120px]">
+      <CardContent className="p-4 flex flex-col gap-2">
+        <div className="h-6 w-40 bg-muted rounded animate-pulse" />
+        <div className="h-10 w-32 bg-muted rounded animate-pulse" />
+        <div className="h-4 w-64 bg-muted rounded animate-pulse" />
+      </CardContent>
+    </Card>
+  );
+}
+
 export function GbvTriviaPanel() {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<GbvTriviaPanelSkeleton />}>
       <GbvTriviaPanelContent />
     </Suspense>
   );

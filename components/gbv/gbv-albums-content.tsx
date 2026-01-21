@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, Search } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { getReleaseType, getProxiedImageUrl } from "@/lib/gbv-utils";
 
 interface Album {
   id: number;
@@ -21,17 +22,8 @@ interface Album {
   releaseType?: string;
 }
 
-function getPrimaryType(format?: string | string[], releaseType?: string) {
-  if (!format && releaseType !== "release") return "Album";
-  const normalized = Array.isArray(format) ? format.join(" ") : format || "";
-  if (normalized.toLowerCase().includes("single")) return "Single";
-  if (releaseType === "release") return "Single";
-  return "Album";
-}
-
 export function GbvAlbumsContent() {
   const [albums, setAlbums] = useState<Album[]>([]);
-  const [filteredAlbums, setFilteredAlbums] = useState<Album[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<"year-asc" | "year-desc" | "title">("year-asc");
@@ -52,7 +44,7 @@ export function GbvAlbumsContent() {
           albums: newAlbums.map((a) => ({
             title: a.title,
             year: a.year,
-            primaryType: getPrimaryType(a.format, a.releaseType),
+            primaryType: getReleaseType(a.format, a.releaseType),
           })),
         }),
       });
@@ -92,7 +84,6 @@ export function GbvAlbumsContent() {
         const data = await res.json();
         const albumsList = data.albums || [];
         setAlbums(albumsList);
-        setFilteredAlbums(albumsList);
 
         // Fetch cover art for first 20 albums
         if (albumsList.length > 0) {
@@ -123,24 +114,30 @@ export function GbvAlbumsContent() {
   }, [albums, loadedCovers.size, fetchCoverArt]);
 
   const getAlbumImage = (album: Album): string | null => {
-    return album.coverUrl || album.thumb || null;
+    const url = album.coverUrl || album.thumb || null;
+    return getProxiedImageUrl(url);
   };
 
-  const getReleaseType = (format?: string | string[], releaseType?: string) => {
-    if (!format) return "Album";
-    const normalized = Array.isArray(format) ? format.join(" ") : format;
-    if (normalized.toLowerCase().includes("single")) return "Single";
-    if (releaseType === "release") return "Single";
-    return "Album";
-  };
-
-  useEffect(() => {
+  // Memoized filtered and sorted albums
+  const visibleAlbums = useMemo(() => {
     let result = [...albums];
 
     // Filter by search
     if (search) {
+      const searchLower = search.toLowerCase();
       result = result.filter((album) =>
-        album.title.toLowerCase().includes(search.toLowerCase())
+        album.title.toLowerCase().includes(searchLower)
+      );
+    }
+
+    // Filter by release type
+    if (releaseFilter === "albums") {
+      result = result.filter(
+        (album) => getReleaseType(album.format, album.releaseType) === "Album"
+      );
+    } else if (releaseFilter === "singles") {
+      result = result.filter(
+        (album) => getReleaseType(album.format, album.releaseType) === "Single"
       );
     }
 
@@ -153,21 +150,8 @@ export function GbvAlbumsContent() {
       result.sort((a, b) => a.title.localeCompare(b.title));
     }
 
-    setFilteredAlbums(result);
-  }, [albums, search, sortBy]);
-
-  const albumsOnly = filteredAlbums.filter(
-    (album) => getReleaseType(album.format, album.releaseType) === "Album"
-  );
-  const singlesOnly = filteredAlbums.filter(
-    (album) => getReleaseType(album.format, album.releaseType) === "Single"
-  );
-  const visibleAlbums =
-    releaseFilter === "albums"
-      ? albumsOnly
-      : releaseFilter === "singles"
-        ? singlesOnly
-        : filteredAlbums;
+    return result;
+  }, [albums, search, sortBy, releaseFilter]);
 
   if (isLoading) {
     return (
@@ -238,6 +222,7 @@ export function GbvAlbumsContent() {
                     width={200}
                     height={200}
                     className="w-full aspect-square rounded-lg object-cover mb-2"
+                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
                     unoptimized
                     priority={index === 0}
                     loading={index < 6 ? "eager" : "lazy"}
