@@ -106,8 +106,7 @@ export function GbvRecordOfDayCard() {
                   alt={`${record.title} cover`}
                   className="rounded-md object-cover w-full h-full"
                   loading="eager"
-                  cacheKey={cacheKey}
-                  preferProxy
+                  preferProxy={false}
                 />
               </Link>
             ) : (
@@ -116,8 +115,7 @@ export function GbvRecordOfDayCard() {
                 alt={`${record.title} cover`}
                 className="rounded-md object-cover w-full h-full"
                 loading="eager"
-                cacheKey={cacheKey}
-                preferProxy
+                preferProxy={false}
               />
             )
           ) : (

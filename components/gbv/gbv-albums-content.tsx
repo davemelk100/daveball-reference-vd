@@ -13,7 +13,7 @@ import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
 import { getReleaseType, getProxiedImageUrl } from "@/lib/gbv-utils";
 
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 30;
 
 interface Album {
   id: number;
