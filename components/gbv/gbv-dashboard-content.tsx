@@ -109,6 +109,7 @@ export function GbvDashboardContent() {
   const [artist, setArtist] = useState<ArtistData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [coversLoaded, setCoversLoaded] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -131,9 +132,9 @@ export function GbvDashboardContent() {
         setAlbums(albumsList);
         setArtist(artistData);
 
-        // Fetch cover art for the first 8 albums
+        // Fetch cover art for the first 6 albums
         if (albumsList.length > 0) {
-          fetchCoverArt(albumsList.slice(0, 8));
+          fetchCoverArt(albumsList.slice(0, 6));
         }
       } catch (err) {
         setError("Failed to load data from Discogs");
@@ -156,6 +157,7 @@ export function GbvDashboardContent() {
             title: a.title,
             year: a.year,
           })),
+          useSmallThumbnails: true,
         }),
       });
 
@@ -176,12 +178,14 @@ export function GbvDashboardContent() {
             : album.coverUrl,
         }))
       );
+      setCoversLoaded(true);
     } catch (err) {
       console.error("Failed to fetch cover art:", err);
+      setCoversLoaded(true);
     }
   }
 
-  const featuredAlbums = albums.slice(0, 8);
+  const featuredAlbums = albums.slice(0, 6);
   const activeMembers = artist?.members?.filter((m) => m.active) || [];
   const albumCount = albums.length;
 
@@ -201,6 +205,13 @@ export function GbvDashboardContent() {
   // Get the best available image for an album
   const getAlbumImage = (album: Album): string | null => {
     return album.coverUrl || album.thumb || null;
+  };
+
+  // Check if cover is still loading
+  const isLoadingCover = (album: Album): boolean => {
+    if (album.coverUrl || album.thumb) return false;
+    if (coversLoaded) return false;
+    return true;
   };
 
   if (isLoading) {
@@ -250,9 +261,11 @@ export function GbvDashboardContent() {
                       width={80}
                       height={80}
                       className="w-20 h-20 rounded-lg object-cover"
-                                            priority
+                      priority
                       loading="eager"
                     />
+                  ) : isLoadingCover(featuredAlbums[0]) ? (
+                    <Skeleton className="w-20 h-20 rounded-lg" />
                   ) : (
                     <div className="w-20 h-20 bg-muted rounded-lg flex items-center justify-center">
                       <Image
@@ -313,9 +326,11 @@ export function GbvDashboardContent() {
                           width={200}
                           height={200}
                           className="w-full aspect-square rounded-lg object-cover mb-2"
-                                                    priority={index === 0}
+                          priority={index === 0}
                           loading={index < 6 ? "eager" : "lazy"}
                         />
+                      ) : isLoadingCover(album) ? (
+                        <Skeleton className="w-full aspect-square rounded-lg mb-2" />
                       ) : (
                         <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
                           <Image

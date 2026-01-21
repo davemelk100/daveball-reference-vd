@@ -99,7 +99,7 @@ async function searchMusicBrainz(
   return best?.id ?? null;
 }
 
-async function getCoverArt(mbid: string): Promise<string | null> {
+async function getCoverArt(mbid: string, useSmallThumbnails: boolean = false): Promise<string | null> {
   try {
     // Try release-group first (more likely to have art)
     const url = `${COVER_ART_BASE}/release-group/${mbid}`;
@@ -120,7 +120,15 @@ async function getCoverArt(mbid: string): Promise<string | null> {
     // Find front cover
     const frontCover = images.find((img) => img.front);
     if (frontCover) {
-      // Prefer 500px thumbnail for good quality without being too large
+      // Use smaller thumbnails for list views, larger for detail views
+      if (useSmallThumbnails) {
+        return toHttps(
+          frontCover.thumbnails["250"] ||
+          frontCover.thumbnails.small ||
+          frontCover.thumbnails["500"] ||
+          frontCover.image
+        ) || null;
+      }
       return toHttps(
         frontCover.thumbnails["500"] ||
         frontCover.thumbnails["1200"] ||
@@ -132,6 +140,9 @@ async function getCoverArt(mbid: string): Promise<string | null> {
     // Fallback to first image
     if (images.length > 0) {
       const first = images[0];
+      if (useSmallThumbnails) {
+        return toHttps(first.thumbnails["250"] || first.thumbnails.small || first.image) || null;
+      }
       return toHttps(first.thumbnails["500"] || first.thumbnails.large || first.image) || null;
     }
 
@@ -193,54 +204,90 @@ export async function GET(request: Request) {
   }
 }
 
+// Rate limiting helper - process sequentially with delay to respect MusicBrainz limits
+async function processWithRateLimit<T, R>(
+  items: T[],
+  processor: (item: T) => Promise<R>,
+  delayMs: number = 300
+): Promise<R[]> {
+  const results: R[] = [];
+  for (const item of items) {
+    results.push(await processor(item));
+    if (items.indexOf(item) < items.length - 1) {
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+    }
+  }
+  return results;
+}
+
 // Batch endpoint to get multiple covers at once
 export async function POST(request: Request) {
   try {
-    const { albums } = await request.json();
+    const { albums, useSmallThumbnails } = await request.json();
 
     if (!Array.isArray(albums)) {
       return NextResponse.json({ error: "Albums array required" }, { status: 400 });
     }
 
-    const results = await Promise.all(
-      albums.slice(0, 40).map(
-        async (album: { title?: string; artist?: string; year?: number; primaryType?: string }) => {
-          const title = album.title?.trim() || "";
-          if (!title) {
-            return { title: "Unknown", coverUrl: null };
-          }
+    // Limit batch size to prevent timeout
+    const albumsToProcess = albums.slice(0, 12);
 
-          try {
-            const artist = album.artist || "Guided By Voices";
-            const cacheKey = createCacheKey(artist, title);
+    // Separate cached vs uncached albums
+    const cachedResults: Array<{ title: string; coverUrl: string | null }> = [];
+    const uncachedAlbums: Array<{ title: string; artist?: string; year?: number; primaryType?: string }> = [];
 
-            // Check cache first
-            const cached = coverArtCache.get(cacheKey);
-            if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-              return { title, coverUrl: cached.url };
-            }
+    for (const album of albumsToProcess) {
+      const title = album.title?.trim() || "";
+      if (!title) {
+        cachedResults.push({ title: "Unknown", coverUrl: null });
+        continue;
+      }
 
-            // Search and get cover
-            const mbid = await searchMusicBrainz(artist, title, {
-              year: album.year,
-              primaryType: album.primaryType,
-            });
-            if (!mbid) {
-              coverArtCache.set(cacheKey, { url: null, timestamp: Date.now() });
-              return { title, coverUrl: null };
-            }
+      const artist = album.artist || "Guided By Voices";
+      const cacheKey = createCacheKey(artist, title);
+      const cached = coverArtCache.get(cacheKey);
 
-            const coverUrl = await getCoverArt(mbid);
-            coverArtCache.set(cacheKey, { url: coverUrl, timestamp: Date.now() });
+      if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+        cachedResults.push({ title, coverUrl: cached.url });
+      } else {
+        uncachedAlbums.push({ ...album, title });
+      }
+    }
 
-            return { title, coverUrl, mbid };
-          } catch {
+    // Process uncached albums with rate limiting
+    const uncachedResults = await processWithRateLimit(
+      uncachedAlbums,
+      async (album) => {
+        const title = album.title;
+        try {
+          const artist = album.artist || "Guided By Voices";
+          const cacheKey = createCacheKey(artist, title);
+
+          const mbid = await searchMusicBrainz(artist, title, {
+            year: album.year,
+            primaryType: album.primaryType,
+          });
+
+          if (!mbid) {
+            coverArtCache.set(cacheKey, { url: null, timestamp: Date.now() });
             return { title, coverUrl: null };
           }
-        })
+
+          const coverUrl = await getCoverArt(mbid, useSmallThumbnails);
+          coverArtCache.set(cacheKey, { url: coverUrl, timestamp: Date.now() });
+
+          return { title, coverUrl, mbid };
+        } catch {
+          return { title, coverUrl: null };
+        }
+      },
+      350 // 350ms delay between requests to respect rate limits
     );
 
-    return NextResponse.json({ results });
+    // Combine results in original order
+    const allResults = [...cachedResults, ...uncachedResults];
+
+    return NextResponse.json({ results: allResults });
   } catch (error) {
     console.error("Batch cover art error:", error);
     return NextResponse.json({ error: "Failed to fetch cover art" }, { status: 500 });

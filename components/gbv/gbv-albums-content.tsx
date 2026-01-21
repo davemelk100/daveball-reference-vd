@@ -7,11 +7,12 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, Search } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import Image from "next/image";
 import { getReleaseType } from "@/lib/gbv-utils";
 
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 6;
 
 interface Album {
   id: number;
@@ -113,6 +114,7 @@ export function GbvAlbumsContent() {
               title: a.title,
               year: a.year,
             })),
+            useSmallThumbnails: true,
           }),
         });
 
@@ -152,6 +154,15 @@ export function GbvAlbumsContent() {
 
   const getAlbumImage = (album: Album): string | null => {
     return album.coverUrl || album.thumb || null;
+  };
+
+  const isLoadingCover = (album: Album): boolean => {
+    // If album has a cover or thumb, not loading
+    if (album.coverUrl || album.thumb) return false;
+    // If we've already tried to load this cover, not loading
+    if (loadedCoverTitles.has(album.title)) return false;
+    // Otherwise, it's in the loading state
+    return true;
   };
 
   const handleLoadMore = () => {
@@ -231,6 +242,8 @@ export function GbvAlbumsContent() {
                     priority={index === 0}
                     loading={index < 6 ? "eager" : "lazy"}
                   />
+                ) : isLoadingCover(album) ? (
+                  <Skeleton className="w-full aspect-square rounded-lg mb-2" />
                 ) : (
                   <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
                     <Image
