@@ -7,12 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, Search } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
 import Image from "next/image";
 import { getReleaseType } from "@/lib/gbv-utils";
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 12;
 
 interface Album {
   id: number;
@@ -22,7 +21,6 @@ interface Album {
   mainRelease?: number;
   format?: string | string[];
   releaseType?: string;
-  coverUrl?: string | null;
 }
 
 export function GbvAlbumsContent() {
@@ -32,8 +30,6 @@ export function GbvAlbumsContent() {
   const [sortBy, setSortBy] = useState<"year-asc" | "year-desc" | "title">("year-asc");
   const [releaseFilter, setReleaseFilter] = useState<"all" | "albums" | "singles">("albums");
   const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
-  const [loadingCovers, setLoadingCovers] = useState(false);
-  const [loadedCoverTitles, setLoadedCoverTitles] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     async function fetchAlbums() {
@@ -95,74 +91,8 @@ export function GbvAlbumsContent() {
   const visibleAlbums = filteredAlbums.slice(0, displayCount);
   const hasMore = displayCount < filteredAlbums.length;
 
-  // Fetch cover art for visible albums that don't have covers yet
-  useEffect(() => {
-    const albumsNeedingCovers = visibleAlbums.filter(
-      (album) => !album.coverUrl && !loadedCoverTitles.has(album.title)
-    );
-
-    if (albumsNeedingCovers.length === 0) return;
-
-    async function fetchCovers() {
-      setLoadingCovers(true);
-      try {
-        const response = await fetch("/api/gbv/cover-art", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            albums: albumsNeedingCovers.map((a) => ({
-              title: a.title,
-              year: a.year,
-            })),
-            useSmallThumbnails: true,
-          }),
-        });
-
-        if (!response.ok) return;
-
-        const data = await response.json();
-        const coverMap = new Map<string, string | null>();
-
-        for (const result of data.results || []) {
-          coverMap.set(result.title, result.coverUrl);
-        }
-
-        // Mark these titles as loaded
-        setLoadedCoverTitles((prev) => {
-          const newSet = new Set(prev);
-          albumsNeedingCovers.forEach((a) => newSet.add(a.title));
-          return newSet;
-        });
-
-        setAlbums((prev) =>
-          prev.map((album) => ({
-            ...album,
-            coverUrl: coverMap.has(album.title)
-              ? coverMap.get(album.title)
-              : album.coverUrl,
-          }))
-        );
-      } catch (err) {
-        console.error("Failed to fetch cover art:", err);
-      } finally {
-        setLoadingCovers(false);
-      }
-    }
-
-    fetchCovers();
-  }, [visibleAlbums.length, displayCount]);
-
   const getAlbumImage = (album: Album): string | null => {
-    return album.coverUrl || album.thumb || null;
-  };
-
-  const isLoadingCover = (album: Album): boolean => {
-    // If album has a cover or thumb, not loading
-    if (album.coverUrl || album.thumb) return false;
-    // If we've already tried to load this cover, not loading
-    if (loadedCoverTitles.has(album.title)) return false;
-    // Otherwise, it's in the loading state
-    return true;
+    return album.thumb || null;
   };
 
   const handleLoadMore = () => {
@@ -242,8 +172,6 @@ export function GbvAlbumsContent() {
                     priority={index === 0}
                     loading={index < 6 ? "eager" : "lazy"}
                   />
-                ) : isLoadingCover(album) ? (
-                  <Skeleton className="w-full aspect-square rounded-lg mb-2" />
                 ) : (
                   <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
                     <Image
@@ -274,16 +202,8 @@ export function GbvAlbumsContent() {
             onClick={handleLoadMore}
             variant="outline"
             className="text-black"
-            disabled={loadingCovers}
           >
-            {loadingCovers ? (
-              <>
-                <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                Loading...
-              </>
-            ) : (
-              `Load More (${filteredAlbums.length - displayCount} remaining)`
-            )}
+            Load More ({filteredAlbums.length - displayCount} remaining)
           </Button>
         </div>
       )}

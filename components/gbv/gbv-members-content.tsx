@@ -22,39 +22,7 @@ function MemberAvatar({
   name: string;
   imageUrl?: string | null;
 }) {
-  const [resolvedImageUrl, setResolvedImageUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (imageUrl) {
-      setResolvedImageUrl(imageUrl);
-      return;
-    }
-
-    let isActive = true;
-    const fetchImage = async () => {
-      try {
-        const res = await fetch(
-          `/api/gbv/commons-image?name=${encodeURIComponent(name)}`,
-        );
-        if (!res.ok) return;
-        const data = await res.json();
-        if (isActive) {
-          setResolvedImageUrl(data.imageUrl || null);
-        }
-      } catch {
-        if (isActive) {
-          setResolvedImageUrl(null);
-        }
-      }
-    };
-
-    fetchImage();
-    return () => {
-      isActive = false;
-    };
-  }, [name, imageUrl]);
-
-  if (!resolvedImageUrl) {
+  if (!imageUrl) {
     return (
       <div className="w-16 h-16 rounded-full mb-3 mx-auto flex items-center justify-center">
         <Image
@@ -71,11 +39,11 @@ function MemberAvatar({
   return (
     <div className="w-16 h-16 mb-3 mx-auto relative">
       <Image
-        src={resolvedImageUrl}
+        src={imageUrl}
         alt={`${name} photo`}
         fill
         className="rounded-full object-cover"
-              />
+      />
     </div>
   );
 }

@@ -45,39 +45,7 @@ function MemberAvatar({
   name: string;
   imageUrl?: string | null;
 }) {
-  const [resolvedImageUrl, setResolvedImageUrl] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (imageUrl) {
-      setResolvedImageUrl(imageUrl);
-      return;
-    }
-
-    let isActive = true;
-    const fetchImage = async () => {
-      try {
-        const res = await fetch(
-          `/api/gbv/commons-image?name=${encodeURIComponent(name)}`,
-        );
-        if (!res.ok) return;
-        const data = await res.json();
-        if (isActive) {
-          setResolvedImageUrl(data.imageUrl || null);
-        }
-      } catch {
-        if (isActive) {
-          setResolvedImageUrl(null);
-        }
-      }
-    };
-
-    fetchImage();
-    return () => {
-      isActive = false;
-    };
-  }, [name, imageUrl]);
-
-  if (!resolvedImageUrl) {
+  if (!imageUrl) {
     return (
       <div className="w-16 h-16 bg-muted rounded-full mb-3 flex items-center justify-center">
         <Image
@@ -95,7 +63,7 @@ function MemberAvatar({
   return (
     <div className="w-16 h-16 mb-3 relative">
       <Image
-        src={resolvedImageUrl}
+        src={imageUrl}
         alt={`${name} photo`}
         fill
         className="rounded-full object-cover"
@@ -109,7 +77,6 @@ export function GbvDashboardContent() {
   const [artist, setArtist] = useState<ArtistData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [coversLoaded, setCoversLoaded] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -131,7 +98,6 @@ export function GbvDashboardContent() {
         const albumsList: Album[] = albumsData.albums || [];
         setAlbums(albumsList);
         setArtist(artistData);
-        setCoversLoaded(true); // Skip cover art fetching on dashboard for faster load
       } catch (err) {
         setError("Failed to load data from Discogs");
         console.error(err);
@@ -142,44 +108,6 @@ export function GbvDashboardContent() {
 
     fetchData();
   }, []);
-
-  async function fetchCoverArt(albumsToFetch: Album[]) {
-    try {
-      const response = await fetch("/api/gbv/cover-art", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          albums: albumsToFetch.map((a) => ({
-            title: a.title,
-            year: a.year,
-          })),
-          useSmallThumbnails: true,
-        }),
-      });
-
-      if (!response.ok) return;
-
-      const data = await response.json();
-      const coverMap = new Map<string, string | null>();
-
-      for (const result of data.results || []) {
-        coverMap.set(result.title, result.coverUrl);
-      }
-
-      setAlbums((prev) =>
-        prev.map((album) => ({
-          ...album,
-          coverUrl: coverMap.has(album.title)
-            ? coverMap.get(album.title)
-            : album.coverUrl,
-        }))
-      );
-      setCoversLoaded(true);
-    } catch (err) {
-      console.error("Failed to fetch cover art:", err);
-      setCoversLoaded(true);
-    }
-  }
 
   const featuredAlbums = albums.slice(0, 6);
   const activeMembers = artist?.members?.filter((m) => m.active) || [];
@@ -198,16 +126,9 @@ export function GbvDashboardContent() {
     { label: "Years Active", value: "40+" },
   ];
 
-  // Get the best available image for an album
+  // Get the best available image for an album (thumb from Discogs if available)
   const getAlbumImage = (album: Album): string | null => {
-    return album.coverUrl || album.thumb || null;
-  };
-
-  // Check if cover is still loading
-  const isLoadingCover = (album: Album): boolean => {
-    if (album.coverUrl || album.thumb) return false;
-    if (coversLoaded) return false;
-    return true;
+    return album.thumb || null;
   };
 
   if (isLoading) {
@@ -260,8 +181,6 @@ export function GbvDashboardContent() {
                       priority
                       loading="eager"
                     />
-                  ) : isLoadingCover(featuredAlbums[0]) ? (
-                    <Skeleton className="w-20 h-20 rounded-lg" />
                   ) : (
                     <div className="w-20 h-20 bg-muted rounded-lg flex items-center justify-center">
                       <Image
@@ -325,8 +244,6 @@ export function GbvDashboardContent() {
                           priority={index === 0}
                           loading={index < 6 ? "eager" : "lazy"}
                         />
-                      ) : isLoadingCover(album) ? (
-                        <Skeleton className="w-full aspect-square rounded-lg mb-2" />
                       ) : (
                         <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
                           <Image
