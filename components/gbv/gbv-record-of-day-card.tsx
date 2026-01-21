@@ -18,6 +18,23 @@ export function GbvRecordOfDayCard() {
 
     const normalizeImageUrl = (url: string | null | undefined) =>
       url ? url.replace(/^http:/, "https:") : null;
+    const cacheKey = `gbv-record-cover:${daily.title}:${daily.year}`;
+
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        const parsed = JSON.parse(cached) as {
+          url?: string;
+          source?: "primary" | "fallback";
+        };
+        if (parsed?.url) {
+          coverSourceRef.current = parsed.source || "fallback";
+          setCoverUrl(parsed.url);
+        }
+      }
+    } catch {
+      // ignore cache errors
+    }
 
     async function fetchCoverArt() {
       try {
@@ -35,6 +52,14 @@ export function GbvRecordOfDayCard() {
           if (normalized) {
             coverSourceRef.current = "primary";
             setCoverUrl(normalized);
+            try {
+              localStorage.setItem(
+                cacheKey,
+                JSON.stringify({ url: normalized, source: "primary" })
+              );
+            } catch {
+              // ignore cache errors
+            }
           }
         }
       } catch {
@@ -65,6 +90,14 @@ export function GbvRecordOfDayCard() {
         if (fallbackThumb && coverSourceRef.current !== "primary") {
           coverSourceRef.current = "fallback";
           setCoverUrl(fallbackThumb);
+          try {
+            localStorage.setItem(
+              cacheKey,
+              JSON.stringify({ url: fallbackThumb, source: "fallback" })
+            );
+          } catch {
+            // ignore cache errors
+          }
         }
       } catch {
         // ignore album lookup errors

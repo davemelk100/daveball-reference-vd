@@ -209,16 +209,6 @@ export function GbvDashboardContent() {
   const membersToShow =
     activeMembers.length > 0 ? activeMembers.slice(0, 5) : fallbackMembers;
 
-  const stats = [
-    { label: "Studio Albums", value: "32+" },
-    { label: "Total Songs", value: "2,500+" },
-    {
-      label: "Band Members",
-      value: artist?.members ? `${artist.members.length}+` : "30+",
-    },
-    { label: "Years Active", value: "40+" },
-  ];
-
   if (isLoading) {
     return (
       <main className="container py-2">
@@ -232,18 +222,6 @@ export function GbvDashboardContent() {
 
   return (
     <main className="container py-2">
-      {/* Stats Row */}
-      <div className="grid gap-4 grid-cols-2 md:grid-cols-4 mb-8 mt-6">
-        {stats.map((stat) => (
-          <Card key={stat.label}>
-            <CardContent className="p-4 text-center">
-              <p className="text-2xl font-bold">{stat.value}</p>
-              <p className="text-sm text-muted-foreground">{stat.label}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
       {/* Daily Trivia + Record of the Day */}
       <div className="mb-8 grid gap-4 md:grid-cols-2">
         <GbvTriviaPanel />
