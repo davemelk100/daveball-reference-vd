@@ -45,10 +45,9 @@ export function PlayerPageContent({
         {hasHittingStats && (
           <Button
             variant="ghost"
-            size="sm"
             onClick={() => setActiveView("batting")}
             className={cn(
-              "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+              "rounded-md px-4 text-sm font-medium transition-colors",
               activeView === "batting"
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground"
@@ -60,10 +59,9 @@ export function PlayerPageContent({
         {hasPitchingStats && (
           <Button
             variant="ghost"
-            size="sm"
             onClick={() => setActiveView("pitching")}
             className={cn(
-              "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+              "rounded-md px-4 text-sm font-medium transition-colors",
               activeView === "pitching"
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground"
@@ -75,10 +73,9 @@ export function PlayerPageContent({
         {hasFieldingStats && (
           <Button
             variant="ghost"
-            size="sm"
             onClick={() => setActiveView("fielding")}
             className={cn(
-              "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+              "rounded-md px-4 text-sm font-medium transition-colors",
               activeView === "fielding"
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground"
@@ -89,10 +86,9 @@ export function PlayerPageContent({
         )}
         <Button
           variant="ghost"
-          size="sm"
           onClick={() => setActiveView("cards")}
           className={cn(
-            "rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
+            "rounded-md px-4 text-sm font-medium transition-colors",
             activeView === "cards"
               ? "bg-background text-foreground shadow-sm"
               : "text-muted-foreground hover:text-foreground"

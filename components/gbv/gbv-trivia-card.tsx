@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Popover,
   PopoverContent,
@@ -324,15 +325,15 @@ function GbvTriviaCardContent() {
 
 function GbvTriviaPanelContent() {
   return (
-    <div className="rounded-xl border p-4 w-full h-full">
-      <div className="flex flex-col gap-2">
+    <Card className="w-full h-full">
+      <CardContent className="p-4 flex flex-col gap-2">
         <h2 className="text-lg font-semibold">Daily GBV Trivia</h2>
         <div>
           <GbvTriviaCardContent />
         </div>
         <p className="text-sm">Test your Guided By Voices knowledge.</p>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
