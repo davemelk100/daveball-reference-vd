@@ -34,6 +34,8 @@ function MemberAvatar({
   name: string;
   imageUrl?: string | null;
 }) {
+  const normalizedImageUrl = imageUrl?.replace(/^http:/, "https:") || null;
+
   if (!imageUrl) {
     return (
       <div className="w-16 h-16 bg-muted rounded-full mb-3 flex items-center justify-center">
@@ -52,9 +54,10 @@ function MemberAvatar({
   return (
     <div className="w-16 h-16 mb-3 relative">
       <Image
-        src={imageUrl}
+        src={normalizedImageUrl || "/chat-gbv-box.svg"}
         alt={`${name} photo`}
         fill
+        sizes="64px"
         className="rounded-full object-cover"
       />
     </div>

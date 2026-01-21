@@ -33,7 +33,9 @@ const MEMBER_IMAGE_TTL = 24 * 60 * 60 * 1000;
 function pickDiscogsImage(images?: Array<{ uri?: string; uri150?: string; type?: string }>) {
   if (!images || images.length === 0) return null;
   const primary = images.find((img) => img.type === "primary") || images[0];
-  return primary?.uri150 || primary?.uri || null;
+  const url = primary?.uri150 || primary?.uri || null;
+  if (!url) return null;
+  return url.replace(/^http:/, "https:");
 }
 
 async function fetchFromDiscogs(endpoint: string) {

@@ -159,13 +159,15 @@ export async function GET(request: Request) {
   const mbid = searchParams.get("mbid"); // Optional: direct MBID lookup
   const year = searchParams.get("year");
   const primaryType = searchParams.get("primaryType");
+  const size = searchParams.get("size") || "large";
 
   if (!album && !mbid) {
     return NextResponse.json({ error: "Album title or MBID required" }, { status: 400 });
   }
 
   // Check cache with normalized key
-  const cacheKey = mbid || createCacheKey(artist, album || "");
+  const cacheKeyBase = mbid || createCacheKey(artist, album || "");
+  const cacheKey = `${cacheKeyBase}:${size}`;
   const cached = coverArtCache.get(cacheKey);
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
     return NextResponse.json({ coverUrl: cached.url, cached: true });
@@ -188,7 +190,7 @@ export async function GET(request: Request) {
     }
 
     // Get cover art
-    const coverUrl = await getCoverArt(releaseGroupId);
+    const coverUrl = await getCoverArt(releaseGroupId, size === "small");
 
     // Cache the result
     coverArtCache.set(cacheKey, { url: coverUrl, timestamp: Date.now() });

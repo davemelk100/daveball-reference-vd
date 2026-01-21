@@ -22,7 +22,7 @@ export function GbvRecordOfDayCard() {
             daily.title
           )}&artist=${encodeURIComponent("Guided By Voices")}&year=${
             daily.year
-          }&primaryType=album`
+          }&primaryType=album&size=small`
         );
         if (!res.ok) return;
         const data = await res.json();
@@ -88,7 +88,7 @@ export function GbvRecordOfDayCard() {
                   src={coverUrl}
                   alt={`${record.title} cover`}
                   fill
-                  sizes="50vw"
+                  sizes="(min-width: 768px) 25vw, 50vw"
                   className="rounded-md object-cover"
                   loading="eager"
                 />
@@ -98,7 +98,7 @@ export function GbvRecordOfDayCard() {
                 src={coverUrl}
                 alt={`${record.title} cover`}
                 fill
-                sizes="50vw"
+                sizes="(min-width: 768px) 25vw, 50vw"
                 className="rounded-md object-cover"
                 loading="eager"
               />

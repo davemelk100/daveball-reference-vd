@@ -340,7 +340,7 @@ function GbvTriviaPanelContent() {
             src="/chat-gbv-box.svg"
             alt="GBV rune"
             fill
-            sizes="50vw"
+            sizes="(min-width: 768px) 25vw, 50vw"
             className="gbv-rune-white object-contain"
             loading="eager"
           />
