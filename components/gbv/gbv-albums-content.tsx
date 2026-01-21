@@ -9,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, Search } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
 import { getReleaseType, getProxiedImageUrl } from "@/lib/gbv-utils";
 
 const ITEMS_PER_PAGE = 12;
@@ -162,16 +163,15 @@ export function GbvAlbumsContent() {
             <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
               <CardContent className="p-3">
                 {getAlbumImage(album) ? (
-                  <Image
-                    src={getAlbumImage(album)!}
+                  <GbvRemoteImage
+                    src={getAlbumImage(album)}
                     alt={album.title}
                     width={200}
                     height={200}
                     className="w-full aspect-square rounded-lg object-cover mb-2"
-                    sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
-                    priority={index === 0}
                     loading={index < 6 ? "eager" : "lazy"}
-                    unoptimized
+                    cacheKey={`gbv-album-thumb:${album.id}`}
+                    preferProxy
                   />
                 ) : (
                   <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">

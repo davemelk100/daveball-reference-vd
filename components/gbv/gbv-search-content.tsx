@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getProxiedImageUrl } from "@/lib/gbv-utils";
 import { Loader2, Users } from "lucide-react";
@@ -172,13 +173,14 @@ export function GbvSearchContent() {
                 <Link key={album.id} href={`/gbv/albums/${album.id}`}>
                   <div className="flex flex-col gap-2">
                     {getAlbumImage(album) ? (
-                      <Image
-                        src={getAlbumImage(album)!}
+                      <GbvRemoteImage
+                        src={getAlbumImage(album)}
                         alt={album.title}
                         width={200}
                         height={200}
                         className="w-full aspect-square rounded-lg object-cover"
-                        unoptimized
+                        cacheKey={`gbv-search-album:${album.id}`}
+                        preferProxy
                       />
                     ) : (
                       <div className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center">

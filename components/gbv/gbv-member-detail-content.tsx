@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, ExternalLink, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { getProxiedImageUrl } from "@/lib/gbv-utils";
+import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
 
 interface Release {
   id: number;
@@ -136,14 +136,15 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
           <Card>
             <CardContent className="p-4">
               {commonsImageUrl ? (
-                <Image
-                  src={getProxiedImageUrl(commonsImageUrl)!}
+                <GbvRemoteImage
+                  src={commonsImageUrl}
                   alt={member.name}
                   width={300}
                   height={300}
                   className="w-full aspect-square rounded-lg object-cover mb-4"
-                  unoptimized
-                                  />
+                  cacheKey={`gbv-member-photo:${memberId}`}
+                  preferProxy
+                />
               ) : (
                 <div className="w-full aspect-square bg-muted rounded-lg mb-4 flex items-center justify-center">
                   <Image
@@ -203,14 +204,15 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
                       className="text-center"
                     >
                       {release.thumb ? (
-                        <Image
-                          src={getProxiedImageUrl(release.thumb)!}
+                        <GbvRemoteImage
+                          src={release.thumb}
                           alt={release.title}
                           width={100}
                           height={100}
                           className="w-full aspect-square rounded object-cover mb-2"
-                          unoptimized
-                                                  />
+                          cacheKey={`gbv-member-release:${release.id}`}
+                          preferProxy
+                        />
                       ) : (
                         <div className="w-full aspect-square bg-muted rounded mb-2 flex items-center justify-center">
                           <Image

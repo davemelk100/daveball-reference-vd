@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, ExternalLink, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { getProxiedImageUrl } from "@/lib/gbv-utils";
+import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
 
 interface Track {
   position: string;
@@ -84,10 +84,9 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
   }
 
   // Use MusicBrainz cover art, fallback to Discogs images (which may be empty without auth)
-  const displayImage = getProxiedImageUrl(
+  const displayImage =
     album.images?.find((img) => img.type === "primary")?.uri ||
-      album.images?.[0]?.uri
-  );
+    album.images?.[0]?.uri;
 
   return (
     <main className="container py-6">
@@ -103,15 +102,15 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
           <Card>
             <CardContent className="p-4">
               {displayImage ? (
-                <Image
+                <GbvRemoteImage
                   src={displayImage}
                   alt={album.title}
                   width={500}
                   height={500}
                   className="w-full aspect-square rounded-lg object-cover mb-4"
-                                    priority
                   loading="eager"
-                  unoptimized
+                  cacheKey={`gbv-album-cover:${albumId}`}
+                  preferProxy
                 />
               ) : (
                 <div className="w-full aspect-square bg-muted rounded-lg mb-4 flex items-center justify-center">
