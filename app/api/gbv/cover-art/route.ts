@@ -209,7 +209,7 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("Cover art error:", error);
-    return NextResponse.json({ error: "Failed to fetch cover art" }, { status: 500 });
+    return NextResponse.json({ coverUrl: null, error: "Failed to fetch cover art" });
   }
 }
 
