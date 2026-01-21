@@ -26,6 +26,13 @@ interface ArtistDetail {
   images?: Array<{ uri: string; type: string }>;
   urls?: string[];
   realname?: string;
+  groups?: Array<{
+    id?: number;
+    name: string;
+    resource_url?: string;
+    uri?: string;
+    active?: boolean;
+  }>;
 }
 
 export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
@@ -200,48 +207,43 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
           </Card>
         </div>
 
-        {/* Releases */}
+        {/* Discography */}
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
               <CardTitle>Discography</CardTitle>
             </CardHeader>
             <CardContent>
-              {releases.length > 0 ? (
-                <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
+              {member.groups && member.groups.length > 0 ? (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {member.groups.map((group) => (
+                    <div
+                      key={group.id ?? group.name}
+                      className="flex items-center justify-between rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white hover:bg-white/20"
+                    >
+                      <span className="font-semibold">{group.name}</span>
+                      <span className="text-xs text-white/70">
+                        {group.active === false ? "Inactive" : "Active"}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : releases.length > 0 ? (
+                <div className="grid gap-3 sm:grid-cols-2">
                   {releases.map((release) => (
                     <div
                       key={`${release.id}-${release.title}-${release.year ?? "unknown"}`}
-                      className="text-center"
+                      className="flex items-center justify-between rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white"
                     >
-                      {release.thumb ? (
-                        <GbvRemoteImage
-                          src={release.thumb}
-                          alt={release.title}
-                          width={100}
-                          height={100}
-                          className="w-full aspect-square rounded object-cover mb-2"
-                          cacheKey={`gbv-member-release:${release.id}`}
-                          preferProxy
-                        />
-                      ) : (
-                        <div className="w-full aspect-square bg-muted rounded mb-2 flex items-center justify-center">
-                          <Image
-                            src="/chat-gbv-box.svg"
-                            alt="GBV rune"
-                            width={32}
-                            height={32}
-                            className="h-8 w-8 gbv-nav-icon"
-                          />
-                        </div>
-                      )}
-                      <p className="text-xs font-medium truncate">{release.title}</p>
-                      <p className="text-xs text-muted-foreground">{release.year}</p>
+                      <span className="font-semibold">{release.title}</span>
+                      <span className="text-xs text-white/70">
+                        {release.year ?? "—"}
+                      </span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-muted-foreground">No releases found</p>
+                <p className="text-muted-foreground">No discography found</p>
               )}
             </CardContent>
           </Card>

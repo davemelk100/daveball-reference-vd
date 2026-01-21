@@ -6,7 +6,7 @@ export function GbvFooter() {
     <footer className="bg-transparent py-2 mt-auto">
       <div className="container">
         <div className="flex flex-col md:flex-row items-center justify-between gap-2">
-          <nav className="flex items-center gap-4 text-[11px] text-white md:hidden">
+          <nav className="flex items-center gap-3 text-[10px] text-white md:hidden">
             <Link
               href="/gbv/albums"
               className="transition-colors hover:underline hover:decoration-current"
@@ -27,8 +27,8 @@ export function GbvFooter() {
             </Link>
           </nav>
         </div>
-        <div className="mt-2 text-[11px] text-white">
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="mt-2 text-[10px] text-white">
+          <div className="flex flex-wrap items-center gap-1.5">
             <span>Sources:</span>
             <a
               href="https://www.discogs.com/"
