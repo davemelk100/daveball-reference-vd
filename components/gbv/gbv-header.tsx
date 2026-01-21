@@ -27,11 +27,11 @@ export function GbvHeader() {
         <Popover>
           <PopoverTrigger asChild>
             <Button
-              variant="outline"
-              className="h-12 w-12 p-0 bg-white text-black hover:bg-white"
+              variant="ghost"
+              className="h-12 w-12 p-0 gbv-search-button"
               aria-label="Search GBV"
             >
-              <Search className="h-5 w-5" />
+              <Search className="gbv-search-icon" />
             </Button>
           </PopoverTrigger>
           <PopoverContent
@@ -40,20 +40,26 @@ export function GbvHeader() {
             sideOffset={8}
             collisionPadding={16}
           >
-            <GbvSearch />
+            <GbvSearch
+              placeholder="Search GBV..."
+              inputClassName="text-black placeholder:text-gray-400 bg-white"
+            />
           </PopoverContent>
         </Popover>
       </div>
 
       {/* Main header row */}
       <div className="container flex items-center gap-4">
-        <Link href="/gbv" className="flex-shrink-0 border-0 items-center gap-3">
+        <Link
+          href="/gbv"
+          className="flex w-full justify-center lg:w-auto lg:flex-shrink-0 border-0 items-center gap-3"
+        >
           <Image
             src="/gbv-mlb.svg"
             alt="GBV"
-            width={173}
-            height={173}
-            className="h-[100px] w-[100px] sm:h-[173px] sm:w-[173px]"
+            width={140}
+            height={140}
+            className="w-full h-auto p-0 sm:w-[173px] sm:h-[173px] sm:p-0"
             priority
             fetchPriority="high"
           />
@@ -68,33 +74,6 @@ export function GbvHeader() {
           </h1>
         </Link>
 
-        {/* Mobile actions */}
-        <div className="ml-auto flex items-center gap-2 lg:hidden">
-          {pathname !== "/gbv/ask" && (
-            <Link
-              href="/gbv/ask"
-              className="flex items-center justify-center gap-2 px-5 h-12 text-sm font-medium rounded-lg transition-all active:translate-y-[1px] text-black"
-              style={{
-                background: "#ffffff",
-                borderTop: "1px solid #f6f6f6",
-                borderLeft: "1px solid #eeeeee",
-                borderRight: "1px solid #c6c6c6",
-                borderBottom: "2px solid #b5b5b5",
-                boxShadow:
-                  "0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4)",
-              }}
-            >
-              <Image
-                src="/gbv-rune.svg"
-                alt=""
-                width={24}
-                height={24}
-                className="h-6 w-6 gbv-nav-icon"
-              />
-              <span className="text-sm text-black">ChatGBV</span>
-            </Link>
-          )}
-        </div>
 
         {/* Desktop actions - chat to the left of search */}
         <div className="hidden lg:flex items-center gap-4 ml-auto">
@@ -127,6 +106,34 @@ export function GbvHeader() {
           </div>
         </div>
       </div>
+
+      {/* Mobile ChatGBV row */}
+      {pathname !== "/gbv/ask" && (
+        <div className="container mt-2 lg:hidden">
+          <Link
+            href="/gbv/ask"
+            className="flex items-center justify-center gap-2 px-5 h-12 text-sm font-medium rounded-lg transition-all active:translate-y-[1px] text-black"
+            style={{
+              background: "#ffffff",
+              borderTop: "1px solid #f6f6f6",
+              borderLeft: "1px solid #eeeeee",
+              borderRight: "1px solid #c6c6c6",
+              borderBottom: "2px solid #b5b5b5",
+              boxShadow:
+                "0 2px 4px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.4)",
+            }}
+          >
+            <Image
+              src="/gbv-rune.svg"
+              alt=""
+              width={24}
+              height={24}
+              className="h-6 w-6 gbv-nav-icon"
+            />
+            <span className="text-sm text-black">ChatGBV</span>
+          </Link>
+        </div>
+      )}
 
     </header>
   );

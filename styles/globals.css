@@ -271,6 +271,21 @@
     background-color: #f2f2f2;
   }
 
+  .gbv-shell .gbv-search-button {
+    background-color: transparent;
+    color: #ffffff;
+  }
+
+  .gbv-shell .gbv-search-button:hover {
+    background-color: transparent;
+  }
+
+  .gbv-shell .gbv-search-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+
   .gbv-shell button,
   .gbv-shell [data-slot="button"] {
     /* color: #000000; */

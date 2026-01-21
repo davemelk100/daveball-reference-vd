@@ -22,7 +22,13 @@ interface Member {
 let cachedAlbums: Album[] | null = null;
 let cachedMembers: Member[] | null = null;
 
-export function GbvSearch() {
+export function GbvSearch({
+  placeholder = "Search albums, songs, members...",
+  inputClassName = "",
+}: {
+  placeholder?: string;
+  inputClassName?: string;
+} = {}) {
   const [query, setQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [albums, setAlbums] = useState<Album[]>([]);
@@ -114,14 +120,14 @@ export function GbvSearch() {
       <form onSubmit={handleSubmit} className="relative">
         <Input
           type="search"
-          placeholder="Search albums, songs, members..."
+          placeholder={placeholder}
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
-          className="h-12 pr-10 gbv-input-white placeholder:text-white/70"
+          className={`h-12 pr-10 gbv-input-white placeholder:text-white/70 ${inputClassName}`}
         />
         <button
           type="submit"
