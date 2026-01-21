@@ -10,6 +10,7 @@ import { Loader2, Search } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
+import { getLocalAlbumImage } from "@/lib/gbv-album-images";
 import { getReleaseType, getProxiedImageUrl } from "@/lib/gbv-utils";
 
 const ITEMS_PER_PAGE = 12;
@@ -116,7 +117,7 @@ export function GbvAlbumsContent() {
   const hasMore = displayCount < filteredAlbums.length;
 
   const getAlbumImage = (album: Album): string | null => {
-    return getProxiedImageUrl(album.thumb);
+    return getLocalAlbumImage(album.id) || getProxiedImageUrl(album.thumb);
   };
 
   const handleLoadMore = () => {
