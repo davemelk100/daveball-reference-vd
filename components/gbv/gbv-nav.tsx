@@ -83,7 +83,7 @@ export function GbvFooterNav() {
 
   // Only show essential nav items on mobile footer
   const mobileNavigation = navigation
-    .filter((item) => !["Home", "Timeline", "Awards"].includes(item.name))
+    .filter((item) => !["Home", "Timeline", "Awards", "Side Projects"].includes(item.name))
     .slice(0, 5);
 
   return (

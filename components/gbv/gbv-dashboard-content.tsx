@@ -260,7 +260,7 @@ export function GbvDashboardContent() {
           </h2>
           <Link
             href="/gbv/members"
-            className="text-sm text-muted-foreground hover:text-foreground"
+            className="uppercase text-sm text-muted-foreground hover:text-foreground"
           >
             View all →
           </Link>
@@ -308,7 +308,7 @@ export function GbvDashboardContent() {
           </h2>
           <Link
             href="/gbv/side-projects"
-            className="text-sm text-muted-foreground hover:text-foreground"
+            className="uppercase text-sm text-muted-foreground hover:text-foreground"
           >
             View all →
           </Link>
