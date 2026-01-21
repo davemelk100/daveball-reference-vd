@@ -17,10 +17,7 @@ export function GbvHeader() {
       {/* Mobile/Tablet: Title row with search */}
       <div className="container lg:hidden flex items-center justify-between gap-3">
         <Link href="/gbv" className="flex-1">
-          <h1
-            className="uppercase tracking-wide text-white font-semibold"
-            style={{ fontSize: "55px" }}
-          >
+          <h1 className="uppercase tracking-wide text-white font-semibold text-[32px] sm:text-[55px]">
             Guided By Data
           </h1>
         </Link>
@@ -67,8 +64,9 @@ export function GbvHeader() {
         {/* Desktop: Title inline */}
         <Link href="/gbv" className="hidden lg:block">
           <h1
-            className={cn("uppercase tracking-wide flex-shrink-0 text-white")}
-            style={{ fontSize: "55px" }}
+            className={cn(
+              "uppercase tracking-wide flex-shrink-0 text-white text-[32px] sm:text-[55px]"
+            )}
           >
             Guided By Data
           </h1>
