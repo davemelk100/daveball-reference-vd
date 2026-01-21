@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,17 +11,6 @@ import {
   pollardSideProjects,
   type SideProject,
 } from "../../lib/gbv-side-projects";
-
-interface Album {
-  id: number;
-  title: string;
-  year: number;
-  thumb: string;
-  mainRelease?: number;
-  format?: string | string[];
-  releaseType?: string;
-  coverUrl?: string | null;
-}
 
 interface Member {
   id: number;
@@ -73,7 +61,6 @@ function MemberAvatar({
 }
 
 export function GbvDashboardContent() {
-  const [albums, setAlbums] = useState<Album[]>([]);
   const [artist, setArtist] = useState<ArtistData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -81,22 +68,15 @@ export function GbvDashboardContent() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const [albumsRes, artistRes] = await Promise.all([
-          fetch("/api/gbv/discogs?type=albums&max_pages=1"),
-          fetch(
-            "/api/gbv/discogs?type=artist&include_member_images=true&member_image_limit=20",
-          ),
-        ]);
+        const artistRes = await fetch(
+          "/api/gbv/discogs?type=artist&include_member_images=true&member_image_limit=20",
+        );
 
-        if (!albumsRes.ok || !artistRes.ok) {
+        if (!artistRes.ok) {
           throw new Error("Failed to fetch data");
         }
 
-        const albumsData = await albumsRes.json();
         const artistData = await artistRes.json();
-
-        const albumsList: Album[] = albumsData.albums || [];
-        setAlbums(albumsList);
         setArtist(artistData);
       } catch (err) {
         setError("Failed to load data from Discogs");
@@ -109,15 +89,10 @@ export function GbvDashboardContent() {
     fetchData();
   }, []);
 
-  const featuredAlbums = albums.slice(0, 6);
   const activeMembers = artist?.members?.filter((m) => m.active) || [];
-  const albumCount = albums.length;
 
   const stats = [
-    {
-      label: "Studio Albums",
-      value: albumCount > 0 ? `${albumCount}+` : "32+",
-    },
+    { label: "Studio Albums", value: "32+" },
     { label: "Total Songs", value: "2,500+" },
     {
       label: "Band Members",
@@ -125,11 +100,6 @@ export function GbvDashboardContent() {
     },
     { label: "Years Active", value: "40+" },
   ];
-
-  // Get the best available image for an album (thumb from Discogs if available)
-  const getAlbumImage = (album: Album): string | null => {
-    return album.thumb || null;
-  };
 
   if (isLoading) {
     return (
@@ -156,58 +126,9 @@ export function GbvDashboardContent() {
         ))}
       </div>
 
-      {/* Daily Trivia & Featured */}
-      <div className="grid gap-6 lg:grid-cols-2 mb-8">
+      {/* Daily Trivia */}
+      <div className="mb-8">
         <GbvTriviaPanel />
-
-        {/* Featured Album */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-league text-2xl">
-              Album Spotlight
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {featuredAlbums[0] ? (
-              <Link href={`/gbv/albums/${featuredAlbums[0].id}`}>
-                <div className="flex items-center gap-4 hover:opacity-80 transition-opacity">
-                  {getAlbumImage(featuredAlbums[0]) ? (
-                    <Image
-                      src={getAlbumImage(featuredAlbums[0])!}
-                      alt={featuredAlbums[0].title}
-                      width={80}
-                      height={80}
-                      className="w-20 h-20 rounded-lg object-cover"
-                      priority
-                      loading="eager"
-                    />
-                  ) : (
-                    <div className="w-20 h-20 bg-muted rounded-lg flex items-center justify-center">
-                      <Image
-                        src="/chat-gbv-box.svg"
-                        alt="GBV rune"
-                        width={32}
-                        height={32}
-                        className="h-8 w-8 gbv-nav-icon"
-                        loading="eager"
-                      />
-                    </div>
-                  )}
-                  <div>
-                    <h3 className="text-xl font-semibold">
-                      {featuredAlbums[0].title}
-                    </h3>
-                    <p className="text-muted-foreground">
-                      {featuredAlbums[0].year}
-                    </p>
-                  </div>
-                </div>
-              </Link>
-            ) : (
-              <Skeleton className="h-20 w-full" />
-            )}
-          </CardContent>
-        </Card>
       </div>
 
       {/* Error Message */}
@@ -216,75 +137,6 @@ export function GbvDashboardContent() {
           <CardContent className="p-4 text-destructive">{error}</CardContent>
         </Card>
       )}
-
-      {/* Albums from Discogs */}
-      <div className="mb-8">
-        <div className="flex items-center gap-4 mb-4">
-          <h2 className="font-league text-4xl font-semibold">Discography</h2>
-          <Link
-            href="/gbv/albums"
-            className="text-sm text-muted-foreground hover:text-foreground"
-          >
-            View all →
-          </Link>
-        </div>
-        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-          {featuredAlbums.length > 0
-            ? featuredAlbums.map((album, index) => (
-                <Link key={album.id} href={`/gbv/albums/${album.id}`}>
-                  <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
-                    <CardContent className="p-3">
-                      {getAlbumImage(album) ? (
-                        <Image
-                          src={getAlbumImage(album)!}
-                          alt={album.title}
-                          width={200}
-                          height={200}
-                          className="w-full aspect-square rounded-lg object-cover mb-2"
-                          priority={index === 0}
-                          loading={index < 6 ? "eager" : "lazy"}
-                        />
-                      ) : (
-                        <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
-                          <Image
-                            src="/chat-gbv-box.svg"
-                            alt="GBV rune"
-                            width={48}
-                            height={48}
-                            className="h-12 w-12 gbv-nav-icon"
-                            loading="eager"
-                          />
-                        </div>
-                      )}
-                      <h3 className="font-semibold truncate">{album.title}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {album.year}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))
-            : Array.from({ length: 4 }).map((_, i) => (
-                <Card key={i}>
-                  <CardContent className="p-4 text-center">
-                    <div className="w-full aspect-square bg-muted rounded-lg mb-3 flex items-center justify-center">
-                      <Image
-                        src="/chat-gbv-box.svg"
-                        alt="GBV rune"
-                        width={48}
-                        height={48}
-                        className="h-12 w-12 gbv-nav-icon"
-                        loading="eager"
-                      />
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      Loading release...
-                    </p>
-                  </CardContent>
-                </Card>
-              ))}
-        </div>
-      </div>
 
       {/* Band Members */}
       <div className="mb-8">
