@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
@@ -9,7 +9,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, Search } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { getReleaseType, getProxiedImageUrl } from "@/lib/gbv-utils";
+import { getReleaseType } from "@/lib/gbv-utils";
 
 interface Album {
   id: number;
@@ -17,7 +17,6 @@ interface Album {
   year: number;
   thumb: string;
   mainRelease?: number;
-  coverUrl?: string | null;
   format?: string | string[];
   releaseType?: string;
 }
@@ -28,53 +27,6 @@ export function GbvAlbumsContent() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<"year-asc" | "year-desc" | "title">("year-asc");
   const [releaseFilter, setReleaseFilter] = useState<"all" | "albums" | "singles">("albums");
-  const [loadedCovers, setLoadedCovers] = useState<Set<string>>(new Set());
-
-  // Fetch cover art in batches
-  const fetchCoverArt = useCallback(async (albumsToFetch: Album[]) => {
-    // Filter out albums we've already tried to load
-    const newAlbums = albumsToFetch.filter((a) => !loadedCovers.has(a.title));
-    if (newAlbums.length === 0) return;
-
-    try {
-      const response = await fetch("/api/gbv/cover-art", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          albums: newAlbums.map((a) => ({
-            title: a.title,
-            year: a.year,
-            primaryType: getReleaseType(a.format, a.releaseType),
-          })),
-        }),
-      });
-
-      if (!response.ok) return;
-
-      const data = await response.json();
-      const coverMap = new Map<string, string | null>();
-
-      for (const result of data.results || []) {
-        coverMap.set(result.title, result.coverUrl);
-      }
-
-      // Mark these as loaded
-      setLoadedCovers((prev) => {
-        const newSet = new Set(prev);
-        newAlbums.forEach((a) => newSet.add(a.title));
-        return newSet;
-      });
-
-      setAlbums((prev) =>
-        prev.map((album) => ({
-          ...album,
-          coverUrl: coverMap.has(album.title) ? coverMap.get(album.title) : album.coverUrl,
-        }))
-      );
-    } catch (err) {
-      console.error("Failed to fetch cover art:", err);
-    }
-  }, [loadedCovers]);
 
   useEffect(() => {
     async function fetchAlbums() {
@@ -82,13 +34,7 @@ export function GbvAlbumsContent() {
         const res = await fetch("/api/gbv/discogs?type=albums");
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
-        const albumsList = data.albums || [];
-        setAlbums(albumsList);
-
-        // Fetch cover art for first 20 albums
-        if (albumsList.length > 0) {
-          fetchCoverArt(albumsList.slice(0, 20));
-        }
+        setAlbums(data.albums || []);
       } catch (err) {
         console.error(err);
       } finally {
@@ -98,24 +44,8 @@ export function GbvAlbumsContent() {
     fetchAlbums();
   }, []);
 
-  // Load more covers as user scrolls/views more albums
-  useEffect(() => {
-    if (albums.length > 0 && loadedCovers.size < albums.length) {
-      // Load covers for albums that don't have them yet (in batches of 20)
-      const startIndex = loadedCovers.size;
-      const endIndex = Math.min(startIndex + 20, albums.length);
-      if (startIndex < albums.length) {
-        const timer = setTimeout(() => {
-          fetchCoverArt(albums.slice(startIndex, endIndex));
-        }, 500); // Delay to avoid rate limiting
-        return () => clearTimeout(timer);
-      }
-    }
-  }, [albums, loadedCovers.size, fetchCoverArt]);
-
   const getAlbumImage = (album: Album): string | null => {
-    const url = album.coverUrl || album.thumb || null;
-    return getProxiedImageUrl(url);
+    return album.thumb || null;
   };
 
   // Memoized filtered and sorted albums

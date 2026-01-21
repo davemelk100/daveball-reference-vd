@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Music, Calendar, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { GbvTriviaPanel } from "@/components/gbv/gbv-trivia-card";
@@ -19,7 +19,6 @@ interface Album {
   year: number;
   thumb: string;
   mainRelease?: number;
-  coverUrl?: string | null;
   format?: string | string[];
   releaseType?: string;
 }
@@ -36,14 +35,6 @@ interface ArtistData {
   name: string;
   profile: string;
   members?: Member[];
-}
-
-function getPrimaryType(format?: string | string[], releaseType?: string) {
-  if (!format && releaseType !== "release") return "Album";
-  const normalized = Array.isArray(format) ? format.join(" ") : format || "";
-  if (normalized.toLowerCase().includes("single")) return "Single";
-  if (releaseType === "release") return "Single";
-  return "Album";
 }
 
 function MemberAvatar({
@@ -138,11 +129,6 @@ export function GbvDashboardContent() {
         const albumsList: Album[] = albumsData.albums || [];
         setAlbums(albumsList);
         setArtist(artistData);
-
-        // Fetch cover art for the first 8 albums
-        if (albumsList.length > 0) {
-          fetchCoverArt(albumsList.slice(0, 8));
-        }
       } catch (err) {
         setError("Failed to load data from Discogs");
         console.error(err);
@@ -153,42 +139,6 @@ export function GbvDashboardContent() {
 
     fetchData();
   }, []);
-
-  async function fetchCoverArt(albumsToFetch: Album[]) {
-    try {
-      const response = await fetch("/api/gbv/cover-art", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          albums: albumsToFetch.map((a) => ({
-            title: a.title,
-            year: a.year,
-            primaryType: getPrimaryType(a.format, a.releaseType),
-          })),
-        }),
-      });
-
-      if (!response.ok) return;
-
-      const data = await response.json();
-      const coverMap = new Map<string, string | null>();
-
-      for (const result of data.results || []) {
-        coverMap.set(result.title, result.coverUrl);
-      }
-
-      setAlbums((prev) =>
-        prev.map((album) => ({
-          ...album,
-          coverUrl: coverMap.has(album.title)
-            ? coverMap.get(album.title)
-            : album.coverUrl,
-        })),
-      );
-    } catch (err) {
-      console.error("Failed to fetch cover art:", err);
-    }
-  }
 
   const featuredAlbums = albums.slice(0, 8);
   const activeMembers = artist?.members?.filter((m) => m.active) || [];
@@ -209,15 +159,7 @@ export function GbvDashboardContent() {
 
   // Get the best available image for an album
   const getAlbumImage = (album: Album): string | null => {
-    return album.coverUrl || album.thumb || null;
-  };
-
-  const getReleaseType = (format?: string | string[], releaseType?: string) => {
-    if (!format) return "Album";
-    const normalized = Array.isArray(format) ? format.join(" ") : format;
-    if (normalized.toLowerCase().includes("single")) return "Single";
-    if (releaseType === "release") return "Single";
-    return "Album";
+    return album.thumb || null;
   };
 
   if (isLoading) {

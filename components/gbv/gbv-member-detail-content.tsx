@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Users, Loader2, ExternalLink, ArrowLeft } from "lucide-react";
+import { Loader2, ExternalLink, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { getProxiedImageUrl } from "@/lib/gbv-utils";
 
 interface Release {
   id: number;
@@ -16,7 +15,6 @@ interface Release {
   thumb: string;
   type: string;
   role: string;
-  coverUrl?: string | null;
 }
 
 interface ArtistDetail {
@@ -34,44 +32,6 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [commonsImageUrl, setCommonsImageUrl] = useState<string | null>(null);
-
-  const fetchCoverArt = useCallback(async (releasesToFetch: Release[]) => {
-    if (releasesToFetch.length === 0) return;
-
-    try {
-      const response = await fetch("/api/gbv/cover-art", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          albums: releasesToFetch.map((r) => ({
-            title: r.title,
-            year: r.year,
-            primaryType: r.type === "master" ? "Album" : "Album",
-          })),
-        }),
-      });
-
-      if (!response.ok) return;
-
-      const data = await response.json();
-      const coverMap = new Map<string, string | null>();
-
-      for (const result of data.results || []) {
-        coverMap.set(result.title, result.coverUrl);
-      }
-
-      setReleases((prev) =>
-        prev.map((release) => ({
-          ...release,
-          coverUrl: coverMap.has(release.title)
-            ? coverMap.get(release.title)
-            : release.coverUrl,
-        }))
-      );
-    } catch (err) {
-      console.error("Failed to fetch cover art:", err);
-    }
-  }, []);
 
   useEffect(() => {
     async function fetchMember() {
@@ -92,13 +52,7 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
 
         if (releasesRes.ok) {
           const releasesData = await releasesRes.json();
-          const releasesList = releasesData.releases || [];
-          setReleases(releasesList);
-
-          // Fetch cover art for releases
-          if (releasesList.length > 0) {
-            fetchCoverArt(releasesList);
-          }
+          setReleases(releasesData.releases || []);
         }
       } catch (err) {
         setError("Failed to load member details");
@@ -180,7 +134,7 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
             <CardContent className="p-4">
               {commonsImageUrl ? (
                 <Image
-                  src={getProxiedImageUrl(commonsImageUrl) || commonsImageUrl}
+                  src={commonsImageUrl}
                   alt={member.name}
                   width={300}
                   height={300}
@@ -245,9 +199,9 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
                       key={`${release.id}-${release.title}-${release.year ?? "unknown"}`}
                       className="text-center"
                     >
-                      {release.coverUrl ? (
+                      {release.thumb ? (
                         <Image
-                          src={getProxiedImageUrl(release.coverUrl) || release.coverUrl}
+                          src={release.thumb}
                           alt={release.title}
                           width={100}
                           height={100}

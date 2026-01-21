@@ -7,7 +7,6 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Users, Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { getProxiedImageUrl } from "@/lib/gbv-utils";
 
 interface Member {
   id: number;
@@ -69,12 +68,10 @@ function MemberAvatar({
     );
   }
 
-  const proxiedUrl = getProxiedImageUrl(resolvedImageUrl);
-
   return (
     <div className="w-16 h-16 mb-3 mx-auto relative">
       <Image
-        src={proxiedUrl || resolvedImageUrl}
+        src={resolvedImageUrl}
         alt={`${name} photo`}
         fill
         className="rounded-full object-cover"
