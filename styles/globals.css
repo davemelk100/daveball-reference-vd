@@ -185,7 +185,11 @@
     background-color: #0b1224;
     background-image: radial-gradient(1200px 900px at 15% -10%, rgba(180, 160, 255, 0.5), transparent 60%),
       radial-gradient(1000px 700px at 85% 5%, rgba(120, 210, 255, 0.4), transparent 55%),
-      linear-gradient(135deg, rgba(9, 14, 28, 0.95), rgba(25, 36, 58, 0.95));
+      linear-gradient(135deg,
+        rgba(9, 14, 28, 0.95),
+        rgba(10, 34, 74, 0.95) 35%,
+        rgba(205, 24, 48, 0.85) 65%,
+        rgba(25, 36, 58, 0.95));
     background-attachment: fixed;
   }
 
@@ -343,6 +347,7 @@
   h1 {
     font-family: var(--font-league-gothic), sans-serif !important;
     font-weight: 600 !important;
+    letter-spacing: 1.5px !important;
   }
 
   @media (min-width: 768px) {
@@ -354,6 +359,7 @@
   h2,
   .font-league {
     font-family: var(--font-league-gothic), sans-serif !important;
+    letter-spacing: 1.25px !important;
   }
 }
 
