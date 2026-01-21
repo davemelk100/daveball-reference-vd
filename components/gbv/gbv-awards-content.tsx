@@ -41,41 +41,10 @@ const listAppearances = [
   "AllMusic's Essential Lo-Fi Albums",
 ];
 
-const recognition = [
-  {
-    title: "Indie Rock Pioneers",
-    description: "Credited with defining the lo-fi aesthetic in indie rock",
-  },
-  {
-    title: "Prolific Output",
-    description: "One of the most prolific bands in rock history with 30+ albums",
-  },
-  {
-    title: "Critical Darlings",
-    description: "Consistently praised by critics for songwriting excellence",
-  },
-  {
-    title: "Cult Following",
-    description: "Dedicated fanbase spanning four decades",
-  },
-];
-
 export function GbvAwardsContent() {
   return (
     <main className="container py-6">
       <h1 className="font-league text-4xl font-semibold mb-6">Awards & Recognition</h1>
-
-      {/* Recognition Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
-        {recognition.map((item) => (
-          <Card key={item.title}>
-            <CardContent className="p-4 text-center">
-              <h3 className="font-semibold mb-1">{item.title}</h3>
-              <p className="text-sm text-muted-foreground">{item.description}</p>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Critical Acclaim */}
@@ -126,10 +95,6 @@ export function GbvAwardsContent() {
         </Card>
       </div>
 
-      {/* Note */}
-      <Card className="mt-6">
-
-      </Card>
     </main>
   );
 }
