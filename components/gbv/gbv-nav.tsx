@@ -10,6 +10,7 @@ import {
   Calendar,
   Award,
   Star,
+  Video,
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -26,6 +27,7 @@ const navigation: NavItem[] = [
   { name: "Home", href: "/gbv", icon: Home },
   { name: "Discography", href: "/gbv/albums", icon: Disc3 },
   { name: "Members", href: "/gbv/members", icon: Users },
+  { name: "Videos", href: "/gbv/videos", icon: Video },
   { name: "Side Projects", href: "/gbv/side-projects", icon: Star },
   { name: "Timeline", href: "/gbv/timeline", icon: Calendar },
   { name: "Awards", href: "/gbv/awards", icon: Award },
