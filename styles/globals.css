@@ -426,3 +426,25 @@
     padding-right: 3rem;
   }
 }
+
+/* Vinyl record spin animation */
+@keyframes vinyl-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-vinyl-spin-33 {
+  animation: vinyl-spin 1.8s linear infinite;
+}
+
+.animate-vinyl-spin-45 {
+  animation: vinyl-spin 1.33s linear infinite;
+}
+
+.animate-vinyl-spin-78 {
+  animation: vinyl-spin 0.77s linear infinite;
+}
