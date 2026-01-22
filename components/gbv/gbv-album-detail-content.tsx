@@ -58,18 +58,18 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
 
   if (isLoading) {
     return (
-      <main className="container py-6">
+      <div className="container py-6">
         <div className="flex flex-col items-center justify-center py-16 gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           <p className="text-muted-foreground text-sm">Loading album...</p>
         </div>
-      </main>
+      </div>
     );
   }
 
   if (error || !album) {
     return (
-      <main className="container py-6">
+      <div className="container py-6">
         <Link href="/gbv/albums">
           <Button variant="ghost" className="mb-4">
             <ArrowLeft className="h-4 w-4 mr-2" /> Back to Albums
@@ -80,7 +80,7 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
             {error || "Album not found"}
           </CardContent>
         </Card>
-      </main>
+      </div>
     );
   }
 
@@ -91,7 +91,7 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
     album.images?.[0]?.uri;
 
   return (
-    <main className="container py-6">
+    <div className="container py-6">
       <Link href="/gbv/albums">
         <Button variant="ghost" className="mb-4">
           <ArrowLeft className="h-4 w-4 mr-2" /> Back to Albums
@@ -198,6 +198,6 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
           </Card>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

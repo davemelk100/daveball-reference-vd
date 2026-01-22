@@ -126,17 +126,17 @@ export function GbvAlbumsContent() {
 
   if (isLoading) {
     return (
-      <main className="container py-6">
+      <div className="container py-6">
         <div className="flex flex-col items-center justify-center py-16 gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           <p className="text-muted-foreground text-sm">Loading albums...</p>
         </div>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="container py-6">
+    <div className="container py-6">
       <div className="flex flex-col gap-4 mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -248,6 +248,6 @@ export function GbvAlbumsContent() {
           {search && <> matching &quot;{search}&quot;</>}
         </div>
       )}
-    </main>
+    </div>
   );
 }

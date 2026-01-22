@@ -5,7 +5,7 @@ import { pollardSideProjects } from "../../lib/gbv-side-projects";
 
 export function GbvSideProjectsContent() {
   return (
-    <main className="container py-6">
+    <div className="container py-6">
       <div className="mb-6">
         <h1 className="font-league text-2xl font-semibold">
           Robert Pollard Side Projects
@@ -49,6 +49,6 @@ export function GbvSideProjectsContent() {
           </Card>
         ))}
       </div>
-    </main>
+    </div>
   );
 }

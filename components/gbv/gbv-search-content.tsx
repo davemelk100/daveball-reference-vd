@@ -102,31 +102,31 @@ export function GbvSearchContent() {
 
   if (!query) {
     return (
-      <main className="container py-6">
+      <div className="container py-6">
         <Card>
           <CardContent className="p-6 text-center text-muted-foreground">
             Enter a search term to find GBV albums or members.
           </CardContent>
         </Card>
-      </main>
+      </div>
     );
   }
 
   if (isLoading) {
     return (
-      <main className="container py-6">
+      <div className="container py-6">
         <div className="flex flex-col items-center justify-center py-16 gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           <p className="text-muted-foreground text-sm">Searching GBV data...</p>
         </div>
-      </main>
+      </div>
     );
   }
 
   const hasResults = filteredAlbums.length > 0 || filteredMembers.length > 0;
 
   return (
-    <main className="container py-6">
+    <div className="container py-6">
       <div className="mb-6">
         <h1 className="font-league text-4xl font-semibold">Search Results</h1>
         <p className="text-muted-foreground text-sm">“{query}”</p>
@@ -209,6 +209,6 @@ export function GbvSearchContent() {
           </CardContent>
         </Card>
       )}
-    </main>
+    </div>
   );
 }

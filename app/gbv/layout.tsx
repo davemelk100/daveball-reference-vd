@@ -62,6 +62,12 @@ export default function GbvLayout({
 }>) {
   return (
       <div className="gbv-shell min-h-screen">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-white focus:text-black focus:rounded-md focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          Skip to content
+        </a>
         <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -84,7 +90,9 @@ export default function GbvLayout({
       <div className="sm:ml-20 flex flex-col flex-1">
         <GbvHeader />
         <Suspense fallback={<PageLoader />}>
-          <div className="pb-16 sm:pb-0 flex-1">{children}</div>
+          <main id="main-content" className="pb-16 sm:pb-0 flex-1" tabIndex={-1}>
+            {children}
+          </main>
         </Suspense>
         <GbvFooter />
       </div>
