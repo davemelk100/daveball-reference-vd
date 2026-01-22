@@ -276,7 +276,7 @@ export function GbvDashboardContent() {
     { name: "Travis Harrison", active: true },
   ];
   const membersToShow =
-    activeMembers.length > 0 ? activeMembers.slice(0, 6) : fallbackMembers;
+    activeMembers.length > 0 ? activeMembers.slice(0, 5) : fallbackMembers.slice(0, 5);
 
   const fallbackAlbums: Album[] = [
     { title: "Bee Thousand", year: 1994 },
@@ -336,10 +336,10 @@ export function GbvDashboardContent() {
             View all →
           </Link>
         </div>
-        <div className="grid gap-4 grid-cols-3 sm:grid-cols-6">
+        <div className="flex flex-wrap justify-center gap-4">
           {membersToShow.map((member, index) => {
             const card = (
-              <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
+              <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full w-[calc(33.333%-1rem)] sm:w-[calc(16.666%-1rem)]">
                 <CardContent className="p-3 text-center">
                   <MemberAvatar
                     name={member.name}
