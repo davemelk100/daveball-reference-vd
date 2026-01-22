@@ -44,7 +44,7 @@ const listAppearances = [
 export function GbvAwardsContent() {
   return (
     <main className="container py-6">
-      <h1 className="font-league text-3xl font-semibold mb-6">
+      <h1 className="font-league text-2xl font-semibold mb-6">
         Awards & Recognition
       </h1>
 

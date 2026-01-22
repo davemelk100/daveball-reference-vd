@@ -392,7 +392,7 @@ export function GbvChatContent() {
               priority
               loading="eager"
             />
-            <h1 className="text-3xl font-bold mb-2">Chat GBV</h1>
+            <h1 className="text-2xl font-bold mb-2">Chat GBV</h1>
 
             {randomPrompt && (
               <p className="text-center text-muted-foreground mb-4 text-lg">

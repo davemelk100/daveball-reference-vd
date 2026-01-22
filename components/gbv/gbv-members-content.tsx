@@ -186,7 +186,7 @@ export function GbvMembersContent() {
   return (
     <main className="container py-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-        <h1 className="font-league text-3xl font-semibold">
+        <h1 className="font-league text-2xl font-semibold">
           Band Members{" "}
           <span className="text-xs align-baseline">
             ({filteredMembers.length})

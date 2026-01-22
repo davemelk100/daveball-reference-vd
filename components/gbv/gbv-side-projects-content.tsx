@@ -7,7 +7,7 @@ export function GbvSideProjectsContent() {
   return (
     <main className="container py-6">
       <div className="mb-6">
-        <h1 className="font-league text-3xl font-semibold">
+        <h1 className="font-league text-2xl font-semibold">
           Robert Pollard Side Projects
         </h1>
         <p className="text-sm text-muted-foreground">

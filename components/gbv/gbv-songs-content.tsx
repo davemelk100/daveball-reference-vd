@@ -6,7 +6,7 @@ import { Music } from "lucide-react";
 export function GbvSongsContent() {
   return (
     <main className="container py-6">
-      <h1 className="font-league text-3xl font-semibold mb-6">Songs</h1>
+      <h1 className="font-league text-2xl font-semibold mb-6">Songs</h1>
 
       <Card>
         <CardContent className="p-12 text-center">
