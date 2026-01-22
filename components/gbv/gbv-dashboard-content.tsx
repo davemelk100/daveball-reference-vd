@@ -9,7 +9,8 @@ import { GbvTriviaPanel } from "@/components/gbv/gbv-trivia-card";
 import { GbvRecordOfDayCard } from "@/components/gbv/gbv-record-of-day-card";
 import { getLocalMemberImage } from "@/lib/gbv-member-images";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
-import { getProxiedImageUrl } from "@/lib/gbv-utils";
+import { getProxiedImageUrl, getReleaseType } from "@/lib/gbv-utils";
+import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
 import {
   pollardSideProjects,
   type SideProject,
@@ -34,6 +35,8 @@ interface Album {
   title: string;
   year?: number;
   thumb?: string;
+  format?: string | string[];
+  releaseType?: string;
 }
 
 const MEMBER_IMAGE_FALLBACKS: Record<string, string> = {
@@ -124,13 +127,13 @@ function MemberAvatar({
 
   if (!resolvedImageUrl || hasError) {
     return (
-      <div className="w-16 h-16 bg-muted rounded-md mb-3 flex items-center justify-center">
+      <div className="w-16 h-16 bg-muted rounded-md mb-3 mx-auto flex items-center justify-center">
         <Image
           src="/chat-gbv-box.svg"
           alt="GBV rune"
           width={32}
           height={32}
-          className="h-8 w-8"
+          className="h-8 w-8 gbv-nav-icon"
           loading="eager"
         />
       </div>
@@ -138,7 +141,7 @@ function MemberAvatar({
   }
 
   return (
-    <div className="w-16 h-16 mb-3 relative">
+    <div className="w-16 h-16 mb-3 mx-auto relative">
       <Image
         src={resolvedImageUrl}
         alt={`${name} photo`}
@@ -331,17 +334,17 @@ export function GbvDashboardContent() {
             View all →
           </Link>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {membersToShow.map((member, index) => {
             const card = (
-              <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
-                <CardContent className="p-3">
+              <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
+                <CardContent className="p-3 text-center">
                   <MemberAvatar
                     name={member.name}
                     imageUrl={member.imageUrl}
                     memberId={member.id}
                   />
-                  <h3 className="font-semibold">{member.name}</h3>
+                  <h3 className="font-semibold text-sm">{member.name}</h3>
                 </CardContent>
               </Card>
             );
@@ -376,39 +379,42 @@ export function GbvDashboardContent() {
             View all →
           </Link>
         </div>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
           {albumsToShow.map((album, index) => {
             const albumImage = getAlbumImage(album);
             const card = (
-              <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
-                <CardContent className="p-4">
-                  <div className="w-20 h-20 mb-3 relative">
-                    {albumImage ? (
+              <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
+                <CardContent className="p-3">
+                  {albumImage ? (
+                    <GbvRemoteImage
+                      src={albumImage}
+                      alt={album.title}
+                      width={200}
+                      height={200}
+                      className="w-full aspect-square rounded-lg object-cover mb-2"
+                      loading={index < 5 ? "eager" : "lazy"}
+                      cacheKey={album.id ? `gbv-album-thumb:${album.id}` : undefined}
+                      preferProxy
+                    />
+                  ) : (
+                    <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
                       <Image
-                        src={albumImage}
-                        alt={`${album.title} cover`}
-                        fill
-                        sizes="80px"
-                        className="rounded-md object-cover"
-                        unoptimized
+                        src="/chat-gbv-box.svg"
+                        alt="GBV rune"
+                        width={48}
+                        height={48}
+                        className="h-12 w-12 gbv-nav-icon"
+                        loading="eager"
                       />
-                    ) : (
-                      <div className="w-full h-full bg-muted rounded-md flex items-center justify-center">
-                        <Image
-                          src="/chat-gbv-box.svg"
-                          alt="GBV rune"
-                          width={32}
-                          height={32}
-                          className="h-8 w-8"
-                          loading="eager"
-                        />
-                      </div>
-                    )}
+                    </div>
+                  )}
+                  <h3 className="font-semibold text-sm truncate">{album.title}</h3>
+                  <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    <span>{album.year ?? "—"}</span>
+                    <span className="border border-border rounded px-1.5 py-0.5 text-[10px] uppercase tracking-wide">
+                      {getReleaseType(album.format, album.releaseType)}
+                    </span>
                   </div>
-                  <h3 className="font-semibold">{album.title}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    {album.year ?? "—"}
-                  </p>
                 </CardContent>
               </Card>
             );
