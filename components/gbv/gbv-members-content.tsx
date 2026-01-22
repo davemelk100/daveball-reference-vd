@@ -102,26 +102,26 @@ function MemberAvatar({
 
   if (!resolvedImageUrl || hasError) {
     return (
-      <div className="w-16 h-16 rounded-md mb-3 mx-auto flex items-center justify-center">
+      <div className="w-full aspect-square rounded-lg mb-2 mx-auto flex items-center justify-center bg-muted">
         <Image
           src="/chat-gbv-box.svg"
           alt="GBV rune"
-          width={32}
-          height={32}
-          className="h-8 w-8 gbv-nav-icon"
+          width={48}
+          height={48}
+          className="h-12 w-12 gbv-nav-icon"
         />
       </div>
     );
   }
 
   return (
-    <div className="w-16 h-16 mb-3 mx-auto relative">
+    <div className="w-full aspect-square mb-2 mx-auto relative">
       <Image
         src={resolvedImageUrl}
         alt={`${name} photo`}
         fill
-        sizes="64px"
-        className="rounded-md object-cover"
+        sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16vw"
+        className="rounded-lg object-cover"
         onError={() => setHasError(true)}
         unoptimized
       />
