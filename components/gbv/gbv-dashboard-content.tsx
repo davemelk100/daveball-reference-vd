@@ -9,6 +9,8 @@ import Image from "next/image";
 import { GbvTriviaPanel } from "@/components/gbv/gbv-trivia-card";
 import { GbvRecordOfDayCard } from "@/components/gbv/gbv-record-of-day-card";
 import { getLocalMemberImage } from "@/lib/gbv-member-images";
+import { getLocalAlbumImage } from "@/lib/gbv-album-images";
+import { getProxiedImageUrl } from "@/lib/gbv-utils";
 import {
   pollardSideProjects,
   type SideProject,
@@ -26,6 +28,13 @@ interface ArtistData {
   name: string;
   profile: string;
   members?: Member[];
+}
+
+interface Album {
+  id?: number;
+  title: string;
+  year?: number;
+  thumb?: string;
 }
 
 const MEMBER_IMAGE_FALLBACKS: Record<string, string> = {
@@ -146,6 +155,7 @@ function MemberAvatar({
 
 export function GbvDashboardContent() {
   const [artist, setArtist] = useState<ArtistData | null>(null);
+  const [albums, setAlbums] = useState<Album[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -215,6 +225,45 @@ export function GbvDashboardContent() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const cacheKey = "gbv-albums-cache";
+    const cacheTtlMs = 24 * 60 * 60 * 1000;
+
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached) {
+        const parsed = JSON.parse(cached) as { timestamp: number; albums: Album[] };
+        if (parsed?.albums?.length && Date.now() - parsed.timestamp < cacheTtlMs) {
+          setAlbums(parsed.albums);
+        }
+      }
+    } catch {
+      // ignore cache errors
+    }
+
+    async function fetchAlbums() {
+      try {
+        const res = await fetch("/api/gbv/discogs?type=albums");
+        if (!res.ok) throw new Error("Failed to fetch albums");
+        const data = await res.json();
+        const nextAlbums = data.albums || [];
+        setAlbums(nextAlbums);
+        try {
+          localStorage.setItem(
+            cacheKey,
+            JSON.stringify({ timestamp: Date.now(), albums: nextAlbums })
+          );
+        } catch {
+          // ignore cache errors
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    fetchAlbums();
+  }, []);
+
   const activeMembers = artist?.members?.filter((m) => m.active) || [];
   const fallbackMembers: Member[] = [
     { name: "Robert Pollard", active: true },
@@ -225,6 +274,24 @@ export function GbvDashboardContent() {
   ];
   const membersToShow =
     activeMembers.length > 0 ? activeMembers.slice(0, 5) : fallbackMembers;
+
+  const fallbackAlbums: Album[] = [
+    { title: "Bee Thousand", year: 1994 },
+    { title: "Alien Lanes", year: 1995 },
+    { title: "Under the Bushes Under the Stars", year: 1996 },
+    { title: "Mag Earwhig!", year: 1997 },
+    { title: "Propeller", year: 1992 },
+  ];
+  const albumsToShow =
+    albums.length > 0 ? albums.slice(0, 5) : fallbackAlbums;
+
+  const getAlbumImage = (album: Album): string | null => {
+    if (album.id) {
+      const local = getLocalAlbumImage(album.id);
+      if (local) return local;
+    }
+    return getProxiedImageUrl(album.thumb || null);
+  };
 
   if (isLoading) {
     return (
@@ -293,6 +360,73 @@ export function GbvDashboardContent() {
 
             return (
               <div key={`${member.name}-${index}`} className="cursor-default">
+                {card}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Discography */}
+      <div className="mb-8">
+        <div className="flex items-center gap-4 mb-4">
+          <h2 className="font-league text-xl font-semibold">
+            Discography
+          </h2>
+          <Link
+            href="/gbv/albums"
+            className="uppercase text-sm text-muted-foreground hover:text-foreground"
+          >
+            View all →
+          </Link>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+          {albumsToShow.map((album, index) => {
+            const albumImage = getAlbumImage(album);
+            const card = (
+              <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
+                <CardContent className="p-4">
+                  <div className="w-20 h-20 mb-3 relative">
+                    {albumImage ? (
+                      <Image
+                        src={albumImage}
+                        alt={`${album.title} cover`}
+                        fill
+                        sizes="80px"
+                        className="rounded-md object-cover"
+                        unoptimized
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-muted rounded-md flex items-center justify-center">
+                        <Image
+                          src="/chat-gbv-box.svg"
+                          alt="GBV rune"
+                          width={32}
+                          height={32}
+                          className="h-8 w-8"
+                          loading="eager"
+                        />
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="font-semibold">{album.title}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {album.year ?? "—"}
+                  </p>
+                </CardContent>
+              </Card>
+            );
+
+            if (album.id) {
+              return (
+                <Link key={album.id} href={`/gbv/albums/${album.id}`}>
+                  {card}
+                </Link>
+              );
+            }
+
+            return (
+              <div key={`${album.title}-${index}`} className="cursor-default">
                 {card}
               </div>
             );
