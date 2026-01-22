@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -295,17 +294,17 @@ export function GbvDashboardContent() {
 
   if (isLoading) {
     return (
-      <main className="container py-2">
+      <div className="container py-2">
         <div className="flex flex-col items-center justify-center py-16 gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           <p className="text-muted-foreground text-sm">Loading GBV data...</p>
         </div>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="container py-2">
+    <div className="container py-2">
       {/* Daily Trivia + Record of the Day */}
       <div className="mb-8 grid gap-4 md:grid-cols-2">
         <GbvTriviaPanel />
@@ -336,16 +335,13 @@ export function GbvDashboardContent() {
           {membersToShow.map((member, index) => {
             const card = (
               <Card className="hover:bg-muted/50 transition-colors cursor-pointer">
-                <CardContent className="p-4">
+                <CardContent className="p-3">
                   <MemberAvatar
                     name={member.name}
                     imageUrl={member.imageUrl}
                     memberId={member.id}
                   />
                   <h3 className="font-semibold">{member.name}</h3>
-                  <Badge variant="outline" className="mt-1">
-                    Active
-                  </Badge>
                 </CardContent>
               </Card>
             );
@@ -469,6 +465,6 @@ export function GbvDashboardContent() {
           ))}
         </div>
       </div>
-    </main>
+    </div>
   );
 }

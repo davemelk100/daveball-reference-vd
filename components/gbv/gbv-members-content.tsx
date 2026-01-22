@@ -2,9 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { getLocalMemberImage } from "@/lib/gbv-member-images";
@@ -174,17 +173,17 @@ export function GbvMembersContent() {
 
   if (isLoading) {
     return (
-      <main className="container py-6">
+      <div className="container py-6">
         <div className="flex flex-col items-center justify-center py-16 gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           <p className="text-muted-foreground text-sm">Loading members...</p>
         </div>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="container py-6">
+    <div className="container py-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
         <h1 className="font-league text-2xl font-semibold">
           Band Members{" "}
@@ -223,19 +222,13 @@ export function GbvMembersContent() {
         {filteredMembers.map((member) => (
           <Link key={member.id} href={`/gbv/members/${member.id}`}>
             <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
-              <CardContent className="p-4 text-center">
+              <CardContent className="p-3 text-center">
                 <MemberAvatar
                   name={member.name}
                   imageUrl={member.imageUrl}
                   memberId={member.id}
                 />
                 <h3 className="font-semibold text-sm">{member.name}</h3>
-                <Badge
-                  variant={member.active ? "default" : "secondary"}
-                  className="mt-2"
-                >
-                  {member.active ? "Active" : "Past"}
-                </Badge>
               </CardContent>
             </Card>
           </Link>
@@ -247,6 +240,6 @@ export function GbvMembersContent() {
           No members found
         </div>
       )}
-    </main>
+    </div>
   );
 }
