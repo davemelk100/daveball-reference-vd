@@ -332,7 +332,7 @@ export function GbvDashboardContent() {
             View all →
           </Link>
         </div>
-        <div className="grid gap-4 grid-cols-3 sm:grid-cols-5 max-w-4xl mx-auto">
+        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {membersToShow.map((member, index) => {
             const card = (
               <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
@@ -377,7 +377,7 @@ export function GbvDashboardContent() {
             View all →
           </Link>
         </div>
-        <div className="grid gap-4 grid-cols-3 sm:grid-cols-6">
+        <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
           {albumsToShow.map((album, index) => {
             const albumImage = getAlbumImage(album);
             const card = (
