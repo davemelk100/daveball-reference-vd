@@ -401,7 +401,7 @@ export function GbvChatContent() {
           <form
             id="chat-form"
             onSubmit={handleSubmit}
-            className="flex gap-2 w-full max-w-2xl"
+            className="flex w-full max-w-2xl"
           >
             <input
               ref={inputRef}
@@ -415,29 +415,6 @@ export function GbvChatContent() {
               disabled={isLoading}
               autoComplete="off"
             />
-            <Button
-              type="submit"
-              disabled={isLoading || !input.trim()}
-              className="h-12 px-4 gbv-submit-button"
-            >
-              {isLoading ? (
-                <Image
-                  src="/gbv-rune.svg"
-                  alt=""
-                  width={20}
-                  height={20}
-                  className="h-5 w-5 animate-spin gbv-rune-white"
-                />
-              ) : (
-                <Image
-                  src="/gbv-rune.svg"
-                  alt=""
-                  width={32}
-                  height={32}
-                  className="h-8 w-8 gbv-nav-icon"
-                />
-              )}
-            </Button>
           </form>
         </div>
       </div>
@@ -569,7 +546,7 @@ export function GbvChatContent() {
       {/* Input area - fixed at bottom */}
       <div className="shrink-0 pt-4 pb-4">
         <div className="mx-auto px-4 sm:px-[calc(1rem+25px)] max-w-4xl">
-          <form id="chat-form" onSubmit={handleSubmit} className="flex gap-2">
+          <form id="chat-form" onSubmit={handleSubmit} className="flex">
             <input
               ref={inputRef}
               id="chat-input"
@@ -582,29 +559,6 @@ export function GbvChatContent() {
               disabled={isLoading}
               autoComplete="off"
             />
-            <Button
-              type="submit"
-              disabled={isLoading || !input.trim()}
-              className="h-12 px-4 gbv-submit-button"
-            >
-              {isLoading ? (
-                <Image
-                  src="/gbv-rune.svg"
-                  alt=""
-                  width={20}
-                  height={20}
-                  className="h-5 w-5 animate-spin gbv-rune-white"
-                />
-              ) : (
-                <Image
-                  src="/gbv-rune.svg"
-                  alt=""
-                  width={32}
-                  height={32}
-                  className="h-8 w-8 gbv-nav-icon"
-                />
-              )}
-            </Button>
           </form>
         </div>
       </div>

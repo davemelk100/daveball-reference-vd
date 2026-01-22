@@ -1,4 +1,3 @@
-import { gbvTriviaQuestions } from "@/lib/gbv-trivia-data";
 import { pollardSideProjects } from "@/lib/gbv-side-projects";
 
 export interface GbvSourceDoc {
@@ -26,17 +25,7 @@ const sideProjectDocs: GbvSourceDoc[] = pollardSideProjects.map((project) => {
   };
 });
 
-const triviaDocs: GbvSourceDoc[] = gbvTriviaQuestions.map((question) => {
-  const answer = question.options[question.correctAnswer] ?? "";
-  return {
-    id: `trivia-${question.id}`,
-    title: question.question,
-    text: `Q: ${question.question} A: ${answer}. ${question.explanation}`,
-    sourceLabel: "GBV trivia bank",
-  };
-});
-
-const sourceDocs: GbvSourceDoc[] = [...sideProjectDocs, ...triviaDocs];
+const sourceDocs: GbvSourceDoc[] = [...sideProjectDocs];
 
 export function getGbvSourceDocs(): GbvSourceDoc[] {
   return sourceDocs;
