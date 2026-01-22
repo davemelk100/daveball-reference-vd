@@ -167,7 +167,12 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle>Tracklist ({album.tracklist?.length || 0} tracks)</CardTitle>
+              <CardTitle>
+                Tracklist{" "}
+                <span className="text-[10px] align-baseline">
+                  ({album.tracklist?.length || 0} tracks)
+                </span>
+              </CardTitle>
             </CardHeader>
             <CardContent>
               {album.tracklist && album.tracklist.length > 0 ? (

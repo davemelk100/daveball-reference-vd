@@ -147,7 +147,9 @@ export function GbvAlbumsContent() {
                 : releaseFilter === "singles"
                   ? "Singles"
                   : "All"}{" "}
-              ({filteredAlbums.length})
+              <span className="text-[10px] align-baseline">
+                ({filteredAlbums.length})
+              </span>
             </p>
           </div>
           <Tabs
@@ -232,7 +234,10 @@ export function GbvAlbumsContent() {
             variant="outline"
             className="text-black"
           >
-            Load More ({filteredAlbums.length - displayCount} remaining)
+            Load More{" "}
+            <span className="text-[10px] align-baseline">
+              ({filteredAlbums.length - displayCount} remaining)
+            </span>
           </Button>
         </div>
       )}
