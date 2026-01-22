@@ -59,7 +59,10 @@ export function GbvHeader() {
             alt="GBV"
             width={140}
             height={140}
-            className="w-full h-auto p-0 lg:w-[173px] lg:h-[173px] lg:p-0"
+            className={cn(
+              "w-full h-auto p-0 lg:w-[173px] lg:h-[173px] lg:p-0",
+              pathname === "/gbv/ask" && "hidden sm:block"
+            )}
             priority
             fetchPriority="high"
           />
