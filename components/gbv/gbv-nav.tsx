@@ -105,17 +105,17 @@ export function GbvFooterNav() {
                 <Image
                   src={item.image}
                   alt={item.name}
-                  width={item.name === "Chat GBV" ? 20 : 18}
-                  height={item.name === "Chat GBV" ? 20 : 18}
+                  width={item.name === "Chat GBV" ? 24 : 20}
+                  height={item.name === "Chat GBV" ? 24 : 20}
                   className={cn(
-                    item.name === "Chat GBV" ? "h-5 w-5" : "h-4 w-4",
+                    item.name === "Chat GBV" ? "h-6 w-6" : "h-5 w-5",
                     item.name === "Chat GBV" ? "gbv-nav-icon" : ""
                   )}
                 />
               ) : (
-                Icon && <Icon className="h-4 w-4 text-black" />
+                Icon && <Icon className="h-5 w-5 text-black" />
               )}
-              <span className="text-[10px] font-medium text-black">{item.name}</span>
+              <span className="text-xs font-medium text-black">{item.name}</span>
             </Link>
           );
         })}
