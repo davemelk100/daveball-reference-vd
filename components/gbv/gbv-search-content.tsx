@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
@@ -10,6 +10,9 @@ import { getProxiedImageUrl, getReleaseType } from "@/lib/gbv-utils";
 import { getLocalMemberImage } from "@/lib/gbv-member-images";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
 import { Loader2 } from "lucide-react";
+import { getMusicSiteFromPathname } from "@/lib/music-site";
+import { amrepArtists } from "@/lib/amrep-artists-data";
+import { amrepReleases } from "@/lib/amrep-releases-data";
 
 interface Album {
   id: number;
@@ -32,10 +35,14 @@ function MemberAvatar({
   name,
   imageUrl,
   memberId,
+  fallbackIconSrc,
+  skipRemoteLookup,
 }: {
   name: string;
   imageUrl?: string | null;
   memberId?: number;
+  fallbackIconSrc: string;
+  skipRemoteLookup?: boolean;
 }) {
   const [hasError, setHasError] = useState(false);
   const [resolvedImageUrl, setResolvedImageUrl] = useState<string | null>(null);
@@ -54,6 +61,7 @@ function MemberAvatar({
       return;
     }
 
+    if (skipRemoteLookup) return;
     if (lookupAttempted) return;
 
     const cacheKey = `gbv-member-image:${name.toLowerCase()}`;
@@ -91,17 +99,24 @@ function MemberAvatar({
     }
 
     fetchCommons();
-  }, [hasError, localImageUrl, lookupAttempted, name, normalizedImageUrl]);
+  }, [
+    hasError,
+    localImageUrl,
+    lookupAttempted,
+    name,
+    normalizedImageUrl,
+    skipRemoteLookup,
+  ]);
 
   if (!resolvedImageUrl || hasError) {
     return (
-      <div className="w-full aspect-square rounded-lg mb-2 mx-auto flex items-center justify-center bg-muted">
+      <div className="w-full aspect-square rounded-lg mb-2 mx-auto flex items-center justify-center">
         <Image
-          src="/chat-gbv-box.svg"
-          alt="GBV rune"
-          width={48}
-          height={48}
-          className="h-12 w-12 gbv-nav-icon"
+          src={fallbackIconSrc}
+          alt="Artist placeholder"
+          width={24}
+          height={24}
+          className="w-1/2 h-1/2 gbv-nav-icon object-contain"
         />
       </div>
     );
@@ -123,6 +138,9 @@ function MemberAvatar({
 }
 
 export function GbvSearchContent() {
+  const pathname = usePathname();
+  const site = getMusicSiteFromPathname(pathname);
+  const isAmrep = site.id === "amrep";
   const searchParams = useSearchParams();
   const query = (searchParams.get("q") || "").trim();
   const [albums, setAlbums] = useState<Album[]>([]);
@@ -133,6 +151,60 @@ export function GbvSearchContent() {
     let isActive = true;
     const fetchData = async () => {
       if (!query) {
+        setIsLoading(false);
+        return;
+      }
+
+      if (isAmrep) {
+        if (!isActive) return;
+        try {
+          const res = await fetch(
+            "/api/amrep/discogs?type=releases&per_page=100",
+          );
+          if (res.ok) {
+            const data = await res.json();
+            const releases = Array.isArray(data?.releases) ? data.releases : [];
+            setAlbums(
+              releases.map((release: any) => ({
+                id: release.id,
+                title: `${release.artist} — ${release.title}`,
+                year: release.year,
+                thumb: release.thumb || "",
+                format: release.format,
+              })),
+            );
+          } else {
+            setAlbums(
+              amrepReleases.map((release) => ({
+                id: release.id,
+                title: `${release.artist} — ${release.title}`,
+                year: release.year,
+                thumb: "",
+                format: release.format,
+              })),
+            );
+          }
+        } catch (err) {
+          console.error(err);
+          setAlbums(
+            amrepReleases.map((release) => ({
+              id: release.id,
+              title: `${release.artist} — ${release.title}`,
+              year: release.year,
+              thumb: "",
+              format: release.format,
+            })),
+          );
+        }
+
+        setMembers(
+          amrepArtists.map((artist) => ({
+            id: artist.id,
+            name: artist.name,
+            active: artist.active,
+            imageUrl: null,
+          })),
+        );
         setIsLoading(false);
         return;
       }
@@ -170,7 +242,7 @@ export function GbvSearchContent() {
     return () => {
       isActive = false;
     };
-  }, [query]);
+  }, [isAmrep, query]);
 
   const filteredAlbums = useMemo(() => {
     if (!query) return [];
@@ -187,6 +259,7 @@ export function GbvSearchContent() {
   }, [members, query]);
 
   const getAlbumImage = (album: Album): string | null => {
+    if (isAmrep) return album.thumb ? getProxiedImageUrl(album.thumb) : null;
     const local = getLocalAlbumImage(album.id);
     if (local) return local;
     const raw = album.coverUrl || album.thumb || null;
@@ -198,7 +271,9 @@ export function GbvSearchContent() {
       <div className="container py-6">
         <Card>
           <CardContent className="p-6 text-center text-muted-foreground">
-            Enter a search term to find GBV albums or members.
+            Enter a search term to find{" "}
+            {site.navLabels.discography.toLowerCase()} or{" "}
+            {site.navLabels.members.toLowerCase()}.
           </CardContent>
         </Card>
       </div>
@@ -210,7 +285,9 @@ export function GbvSearchContent() {
       <div className="container py-6">
         <div className="flex flex-col items-center justify-center py-16 gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-          <p className="text-muted-foreground text-sm">Searching GBV data...</p>
+          <p className="text-muted-foreground text-sm">
+            Searching {site.shortName} data...
+          </p>
         </div>
       </div>
     );
@@ -236,18 +313,23 @@ export function GbvSearchContent() {
       {filteredMembers.length > 0 && (
         <div className="mb-8">
           <h2 className="font-league mb-4">
-            Members{" "}
+            {site.navLabels.members}{" "}
             <span className="align-baseline">({filteredMembers.length})</span>
           </h2>
           <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {filteredMembers.map((member) => (
-              <Link key={member.id} href={`/gbv/members/${member.id}`}>
+              <Link
+                key={member.id}
+                href={`${site.basePath}/members/${member.id}`}
+              >
                 <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
                   <CardContent className="p-3 text-center">
                     <MemberAvatar
                       name={member.name}
                       imageUrl={member.imageUrl}
                       memberId={member.id}
+                      fallbackIconSrc={site.placeholderIconSrc}
+                      skipRemoteLookup={isAmrep}
                     />
                     <h3 className="font-semibold text-sm">{member.name}</h3>
                   </CardContent>
@@ -261,12 +343,12 @@ export function GbvSearchContent() {
       {filteredAlbums.length > 0 && (
         <div className="mb-8">
           <h2 className="font-league mb-4">
-            Albums{" "}
+            {site.navLabels.discography}{" "}
             <span className="align-baseline">({filteredAlbums.length})</span>
           </h2>
           <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {filteredAlbums.map((album) => (
-              <Link key={album.id} href={`/gbv/albums/${album.id}`}>
+              <Link key={album.id} href={`${site.basePath}/albums/${album.id}`}>
                 <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
                   <CardContent className="p-3">
                     {getAlbumImage(album) ? (
@@ -282,11 +364,11 @@ export function GbvSearchContent() {
                     ) : (
                       <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
                         <Image
-                          src="/chat-gbv-box.svg"
-                          alt="GBV rune"
-                          width={48}
-                          height={48}
-                          className="h-12 w-12 gbv-nav-icon"
+                          src={site.placeholderIconSrc}
+                          alt={`${site.shortName} logo`}
+                          width={24}
+                          height={24}
+                          className="w-1/2 h-1/2 gbv-nav-icon object-contain"
                         />
                       </div>
                     )}

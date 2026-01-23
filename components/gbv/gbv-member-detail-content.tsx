@@ -9,6 +9,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
 import { getLocalMemberImage } from "@/lib/gbv-member-images";
+import { usePathname } from "next/navigation";
+import { getMusicSiteFromPathname } from "@/lib/music-site";
+import { getAmrepArtistById } from "@/lib/amrep-artists-data";
 
 interface Release {
   id: number;
@@ -36,10 +39,60 @@ interface ArtistDetail {
 }
 
 export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
+  const pathname = usePathname();
+  const site = getMusicSiteFromPathname(pathname);
+  const isAmrep = site.id === "amrep";
   const [member, setMember] = useState<ArtistDetail | null>(null);
   const [releases, setReleases] = useState<Release[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  if (isAmrep) {
+    const artist = getAmrepArtistById(Number(memberId));
+    return (
+      <div className="container py-6">
+        <Link href={`${site.basePath}/members`}>
+          <Button variant="ghost" className="mb-4">
+            <ArrowLeft className="h-4 w-4 mr-2" /> Back to {site.navLabels.members}
+          </Button>
+        </Link>
+        <Card>
+          <CardContent className="p-6">
+            <div className="grid gap-6 lg:grid-cols-3">
+              <div className="lg:col-span-1">
+                <div className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center">
+                  <Image
+                    src={site.placeholderIconSrc}
+                    alt={`${site.shortName} logo`}
+                    width={48}
+                    height={48}
+                    className="w-1/2 h-1/2 gbv-nav-icon object-contain"
+                  />
+                </div>
+              </div>
+              <div className="lg:col-span-2">
+                <h1 className="font-league mb-2">
+                  {artist?.name || "Artist"}
+                </h1>
+                <p className="text-sm text-muted-foreground mb-4">
+                  {artist?.description ||
+                    "Artist featured on the Amphetamine Reptile Records roster."}
+                </p>
+                <a
+                  href="https://www.shoxop.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm text-primary hover:underline"
+                >
+                  Browse the AmRep catalog <ExternalLink className="h-3 w-3 ml-1" />
+                </a>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
   const [commonsImageUrl, setCommonsImageUrl] = useState<string | null>(null);
   const localMemberImage = getLocalMemberImage(Number(memberId));
 
@@ -120,9 +173,9 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
   if (error || !member) {
     return (
       <div className="container py-6">
-        <Link href="/gbv/members">
+        <Link href={`${site.basePath}/members`}>
           <Button variant="ghost" className="mb-4">
-            <ArrowLeft className="h-4 w-4 mr-2" /> Back to Members
+            <ArrowLeft className="h-4 w-4 mr-2" /> Back to {site.navLabels.members}
           </Button>
         </Link>
         <Card>
@@ -136,9 +189,9 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
 
   return (
     <div className="container py-6">
-      <Link href="/gbv/members">
+      <Link href={`${site.basePath}/members`}>
         <Button variant="ghost" className="mb-4">
-          <ArrowLeft className="h-4 w-4 mr-2" /> Back to Members
+          <ArrowLeft className="h-4 w-4 mr-2" /> Back to {site.navLabels.members}
         </Button>
       </Link>
 
@@ -171,9 +224,9 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
                   <Image
                     src="/chat-gbv-box.svg"
                     alt="GBV rune"
-                    width={96}
-                    height={96}
-                    className="h-24 w-24 gbv-nav-icon"
+                    width={48}
+                    height={48}
+                    className="w-1/2 h-1/2 gbv-nav-icon object-contain"
                   />
                 </div>
               )}

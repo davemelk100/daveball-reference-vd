@@ -5,12 +5,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { GbvTriviaPanel } from "@/components/gbv/gbv-trivia-card";
 import { GbvRecordOfDayCard } from "@/components/gbv/gbv-record-of-day-card";
 import { getLocalMemberImage } from "@/lib/gbv-member-images";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
 import { getProxiedImageUrl, getReleaseType } from "@/lib/gbv-utils";
 import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
+import { getMusicSiteFromPathname } from "@/lib/music-site";
+import { amrepArtists } from "@/lib/amrep-artists-data";
+import { amrepReleases } from "@/lib/amrep-releases-data";
 
 interface Member {
   id?: number;
@@ -44,10 +48,16 @@ function MemberAvatar({
   name,
   imageUrl,
   memberId,
+  fallbackIconSrc,
+  cacheKeyPrefix,
+  skipRemoteLookup,
 }: {
   name: string;
   imageUrl?: string | null;
   memberId?: number;
+  fallbackIconSrc: string;
+  cacheKeyPrefix: string;
+  skipRemoteLookup?: boolean;
 }) {
   const [hasError, setHasError] = useState(false);
   const [resolvedImageUrl, setResolvedImageUrl] = useState<string | null>(null);
@@ -75,9 +85,11 @@ function MemberAvatar({
       return;
     }
 
+    if (skipRemoteLookup) return;
+
     if (lookupAttempted) return;
 
-    const cacheKey = `gbv-member-image:${name.toLowerCase()}`;
+    const cacheKey = `${cacheKeyPrefix}-member-image:${name.toLowerCase()}`;
     try {
       const cached = localStorage.getItem(cacheKey);
       if (cached) {
@@ -125,11 +137,11 @@ function MemberAvatar({
     return (
       <div className="w-full aspect-square bg-muted rounded-lg mb-2 mx-auto flex items-center justify-center">
         <Image
-          src="/chat-gbv-box.svg"
-          alt="GBV rune"
-          width={48}
-          height={48}
-          className="h-12 w-12 gbv-nav-icon"
+          src={fallbackIconSrc}
+          alt="Artist placeholder"
+          width={24}
+          height={24}
+          className="w-1/2 h-1/2 gbv-nav-icon object-contain"
           loading="eager"
         />
       </div>
@@ -152,12 +164,32 @@ function MemberAvatar({
 }
 
 export function GbvDashboardContent() {
+  const pathname = usePathname();
+  const site = getMusicSiteFromPathname(pathname);
+  const isAmrep = site.id === "amrep";
   const [artist, setArtist] = useState<ArtistData | null>(null);
   const [albums, setAlbums] = useState<Album[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (isAmrep) {
+      setArtist({
+        id: 0,
+        name: site.name,
+        profile:
+          "Independent label founded in 1986 by Tom Hazelmyer, specializing in noise rock and underground releases.",
+        members: amrepArtists.map((artist) => ({
+          id: artist.id,
+          name: artist.name,
+          active: artist.active,
+          imageUrl: null,
+        })),
+      });
+      setIsLoading(false);
+      return;
+    }
+
     const cacheKey = "gbv-dashboard-artist";
     const cacheTtlMs = 24 * 60 * 60 * 1000;
     let hasCached = false;
@@ -221,9 +253,46 @@ export function GbvDashboardContent() {
     }
 
     fetchData();
-  }, []);
+  }, [isAmrep, site.name]);
 
   useEffect(() => {
+    if (isAmrep) {
+      const fetchAmrepReleases = async () => {
+        try {
+          const res = await fetch("/api/amrep/discogs?type=releases&per_page=100");
+          if (!res.ok) throw new Error("Failed to fetch releases");
+          const data = await res.json();
+          const releases = Array.isArray(data?.releases) ? data.releases : [];
+          if (releases.length > 0) {
+            setAlbums(
+              releases.map((release: any) => ({
+                id: release.id,
+                title: `${release.artist} — ${release.title}`,
+                year: release.year,
+                format: release.format,
+                thumb: release.thumb,
+              }))
+            );
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+
+        setAlbums(
+          amrepReleases.map((release) => ({
+            id: release.id,
+            title: `${release.artist} — ${release.title}`,
+            year: release.year,
+            format: release.format,
+          }))
+        );
+      };
+
+      fetchAmrepReleases();
+      return;
+    }
+
     const cacheKey = "gbv-albums-cache";
     const cacheTtlMs = 24 * 60 * 60 * 1000;
 
@@ -260,32 +329,48 @@ export function GbvDashboardContent() {
     }
 
     fetchAlbums();
-  }, []);
+  }, [isAmrep]);
 
   const activeMembers = artist?.members?.filter((m) => m.active) || [];
-  const fallbackMembers: Member[] = [
-    { name: "Robert Pollard", active: true },
-    { name: "Doug Gillard", active: true },
-    { name: "Kevin March", active: true },
-    { name: "Mark Shue", active: true },
-    { name: "Bobby Bare Jr.", active: true },
-    { name: "Travis Harrison", active: true },
-  ];
+  const fallbackMembers: Member[] = isAmrep
+    ? amrepArtists.slice(0, 6).map((artist) => ({
+        id: artist.id,
+        name: artist.name,
+        active: artist.active,
+      }))
+    : [
+        { name: "Robert Pollard", active: true },
+        { name: "Doug Gillard", active: true },
+        { name: "Kevin March", active: true },
+        { name: "Mark Shue", active: true },
+        { name: "Bobby Bare Jr.", active: true },
+        { name: "Travis Harrison", active: true },
+      ];
+  const memberLimit = isAmrep ? 6 : 5;
   const membersToShow =
-    activeMembers.length > 0 ? activeMembers.slice(0, 5) : fallbackMembers.slice(0, 5);
+    activeMembers.length > 0
+      ? activeMembers.slice(0, memberLimit)
+      : fallbackMembers.slice(0, memberLimit);
 
-  const fallbackAlbums: Album[] = [
-    { title: "Bee Thousand", year: 1994 },
-    { title: "Alien Lanes", year: 1995 },
-    { title: "Under the Bushes Under the Stars", year: 1996 },
-    { title: "Mag Earwhig!", year: 1997 },
-    { title: "Propeller", year: 1992 },
-    { title: "Isolation Drills", year: 2001 },
-  ];
+  const fallbackAlbums: Album[] = isAmrep
+    ? amrepReleases.slice(0, 6).map((release) => ({
+        title: `${release.artist} — ${release.title}`,
+        year: release.year,
+        format: release.format,
+      }))
+    : [
+        { title: "Bee Thousand", year: 1994 },
+        { title: "Alien Lanes", year: 1995 },
+        { title: "Under the Bushes Under the Stars", year: 1996 },
+        { title: "Mag Earwhig!", year: 1997 },
+        { title: "Propeller", year: 1992 },
+        { title: "Isolation Drills", year: 2001 },
+      ];
   const albumsToShow =
     albums.length > 0 ? albums.slice(0, 6) : fallbackAlbums;
 
   const getAlbumImage = (album: Album): string | null => {
+    if (isAmrep) return album.thumb ? getProxiedImageUrl(album.thumb) : null;
     if (album.id) {
       const local = getLocalAlbumImage(album.id);
       if (local) return local;
@@ -298,7 +383,9 @@ export function GbvDashboardContent() {
       <div className="container py-2">
         <div className="flex flex-col items-center justify-center py-16 gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-          <p className="text-muted-foreground text-sm">Loading GBV data...</p>
+          <p className="text-muted-foreground text-sm">
+            Loading {site.shortName} data...
+          </p>
         </div>
       </div>
     );
@@ -323,10 +410,10 @@ export function GbvDashboardContent() {
       <div className="mb-8">
         <div className="flex items-center gap-4 mb-4">
           <h2 className="font-league">
-            Current Members
+            {isAmrep ? "Featured Artists" : "Current Members"}
           </h2>
           <Link
-            href="/gbv/members"
+            href={`${site.basePath}/members`}
             className="uppercase text-sm text-muted-foreground hover:text-foreground"
           >
             View all →
@@ -341,6 +428,9 @@ export function GbvDashboardContent() {
                     name={member.name}
                     imageUrl={member.imageUrl}
                     memberId={member.id}
+                    fallbackIconSrc={site.placeholderIconSrc}
+                    cacheKeyPrefix={site.id}
+                    skipRemoteLookup={false}
                   />
                   <h3 className="font-semibold text-sm">{member.name}</h3>
                 </CardContent>
@@ -349,7 +439,7 @@ export function GbvDashboardContent() {
 
             if (member.id) {
               return (
-                <Link key={member.id} href={`/gbv/members/${member.id}`}>
+                <Link key={member.id} href={`${site.basePath}/members/${member.id}`}>
                   {card}
                 </Link>
               );
@@ -368,10 +458,10 @@ export function GbvDashboardContent() {
       <div className="mb-8">
         <div className="flex items-center gap-4 mb-4">
           <h2 className="font-league">
-            Discography
+            {site.navLabels.discography}
           </h2>
           <Link
-            href="/gbv/albums"
+            href={`${site.basePath}/albums`}
             className="uppercase text-sm text-muted-foreground hover:text-foreground"
           >
             View all →
@@ -396,14 +486,14 @@ export function GbvDashboardContent() {
                     />
                   ) : (
                     <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
-                      <Image
-                        src="/chat-gbv-box.svg"
-                        alt="GBV rune"
-                        width={48}
-                        height={48}
-                        className="h-12 w-12 gbv-nav-icon"
-                        loading="eager"
-                      />
+                        <Image
+                          src={site.placeholderIconSrc}
+                          alt={`${site.shortName} logo`}
+                          width={24}
+                          height={24}
+                          className="w-1/2 h-1/2 gbv-nav-icon object-contain"
+                          loading="eager"
+                        />
                     </div>
                   )}
                   <h3 className="font-semibold text-sm truncate">{album.title}</h3>
@@ -419,14 +509,20 @@ export function GbvDashboardContent() {
 
             if (album.id) {
               return (
-                <Link key={album.id} href={`/gbv/albums/${album.id}`}>
+                <Link
+                  key={`${album.id}-${index}`}
+                  href={`${site.basePath}/albums/${album.id}`}
+                >
                   {card}
                 </Link>
               );
             }
 
             return (
-              <div key={`${album.title}-${index}`} className="cursor-default">
+              <div
+                key={`${album.title}-${album.year ?? "unknown"}-${index}`}
+                className="cursor-default"
+              >
                 {card}
               </div>
             );

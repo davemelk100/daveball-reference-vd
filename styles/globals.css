@@ -325,6 +325,110 @@
     border-bottom: 1px solid currentColor;
     text-decoration: none;
   }
+
+  .amrep-shell {
+    background-color: #d7dbe0;
+    background-image: radial-gradient(1200px 900px at 15% -10%, rgba(255, 255, 255, 0.75), transparent 60%),
+      radial-gradient(1000px 700px at 85% 5%, rgba(200, 210, 220, 0.55), transparent 55%),
+      linear-gradient(135deg, rgba(240, 243, 247, 0.95), rgba(200, 206, 214, 0.95) 45%, rgba(235, 238, 242, 0.95));
+    background-attachment: fixed;
+    color: #111827;
+  }
+
+  .amrep-shell [data-slot="card"] {
+    background:
+      radial-gradient(140% 120% at 15% 0%, rgba(255, 255, 255, 0.9), transparent 60%),
+      radial-gradient(120% 100% at 85% 10%, rgba(220, 228, 236, 0.55), transparent 55%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(220, 226, 234, 0.65));
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    box-shadow:
+      0 18px 40px rgba(15, 23, 42, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    color: #0f172a;
+  }
+
+  .amrep-shell [data-slot="card"] * {
+    color: inherit;
+  }
+
+  .amrep-shell .text-muted-foreground {
+    color: #4b5563;
+  }
+
+  .amrep-shell .text-foreground {
+    color: #111827;
+  }
+
+  .amrep-shell .text-white {
+    color: #111827;
+  }
+
+  .amrep-shell [data-slot="badge"] {
+    color: #111827;
+    background-color: rgba(15, 23, 42, 0.06);
+    border-color: rgba(15, 23, 42, 0.2);
+  }
+
+  .amrep-shell .text-primary,
+  .amrep-shell .text-secondary-foreground,
+  .amrep-shell .text-accent-foreground,
+  .amrep-shell .text-destructive {
+    color: #111827;
+  }
+
+  .amrep-shell .gbv-nav-icon {
+    filter: none;
+  }
+
+  .amrep-shell .gbv-rune-white {
+    filter: none;
+  }
+
+  .amrep-shell nav a,
+  .amrep-shell nav a span,
+  .amrep-shell nav svg {
+    color: #111827;
+  }
+
+  .amrep-shell .gbv-submit-button {
+    background-color: #111827;
+    color: #f8fafc;
+  }
+
+  .amrep-shell .gbv-submit-button:hover {
+    background-color: #1f2937;
+  }
+
+  .amrep-shell .gbv-search-button {
+    background-color: transparent;
+    color: #111827;
+  }
+
+  .amrep-shell .gbv-search-icon {
+    color: #111827;
+  }
+
+  .amrep-shell input,
+  .amrep-shell textarea,
+  .amrep-shell select,
+  .amrep-shell [data-slot="input"] {
+    color: #111827;
+    border-color: rgba(15, 23, 42, 0.2);
+  }
+
+  .amrep-shell input::placeholder,
+  .amrep-shell textarea::placeholder,
+  .amrep-shell [data-slot="input"]::placeholder {
+    color: #6b7280;
+  }
+
+  .amrep-shell .prose a {
+    color: #1f2937;
+    border-bottom: 1px solid currentColor;
+    text-decoration: none;
+  }
 }
 
 @layer base {

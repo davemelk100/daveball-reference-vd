@@ -14,27 +14,30 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getMusicSiteFromPathname } from "@/lib/music-site";
 
 interface NavItem {
   name: string;
   href: string;
   icon?: LucideIcon;
   image?: string;
+  mobileHidden?: boolean;
 }
-
-const navigation: NavItem[] = [
-  { name: "Chat GBV", href: "/gbv/ask", image: "/chat-gbv-box.svg" },
-  { name: "Home", href: "/gbv", icon: Home },
-  { name: "Discography", href: "/gbv/albums", icon: Disc3 },
-  { name: "Members", href: "/gbv/members", icon: Users },
-  { name: "Videos", href: "/gbv/videos", icon: Video },
-  { name: "Side Projects", href: "/gbv/side-projects", icon: Star },
-  { name: "Timeline", href: "/gbv/timeline", icon: Calendar },
-  { name: "Awards", href: "/gbv/awards", icon: Award },
-];
 
 export function GbvLeftNav() {
   const pathname = usePathname();
+  const site = getMusicSiteFromPathname(pathname);
+  const isAmrep = site.id === "amrep";
+  const navigation: NavItem[] = [
+    { name: site.chatLabel, href: `${site.basePath}/ask`, image: site.chatIconSrc },
+    { name: "Home", href: site.basePath, icon: Home },
+    { name: site.navLabels.discography, href: `${site.basePath}/albums`, icon: Disc3 },
+    { name: site.navLabels.members, href: `${site.basePath}/members`, icon: Users },
+    { name: "Videos", href: `${site.basePath}/videos`, icon: Video },
+    { name: site.navLabels.sideProjects, href: `${site.basePath}/side-projects`, icon: Star, mobileHidden: true },
+    { name: "Timeline", href: `${site.basePath}/timeline`, icon: Calendar, mobileHidden: true },
+    { name: "Awards", href: `${site.basePath}/awards`, icon: Award, mobileHidden: true },
+  ];
 
   return (
     <nav className="fixed top-0 left-0 bottom-0 z-40 w-20 pt-4 hidden sm:flex flex-col">
@@ -42,34 +45,40 @@ export function GbvLeftNav() {
         {navigation.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
+          const isChat = item.href === `${site.basePath}/ask`;
           return (
             <Link
               key={item.name}
               href={item.href}
               className={cn(
-                "flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-md transition-colors w-full text-white",
+                "group flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-md transition-all duration-200 w-full text-white",
                 isActive
-                  ? "bg-white/10"
-                  : "hover:bg-white/10"
+                  ? isAmrep
+                    ? "bg-black/10 ring-1 ring-black/30 shadow-[0_0_0_1px_rgba(0,0,0,0.15),_inset_0_0_0_1px_rgba(0,0,0,0.08)]"
+                    : "bg-white/10 ring-1 ring-white/25"
+                  : "hover:bg-white/10 hover:-translate-y-0.5 hover:shadow-[0_6px_14px_rgba(0,0,0,0.18)]"
               )}
             >
               {item.image ? (
                 <Image
                   src={item.image}
                   alt={item.name}
-                  width={item.name === "Chat GBV" ? 40 : 20}
-                  height={item.name === "Chat GBV" ? 40 : 20}
+                  width={isChat ? 40 : 20}
+                  height={isChat ? 40 : 20}
                   className={cn(
-                    item.name === "Chat GBV" ? "h-10 w-10" : "h-5 w-5",
-                    "brightness-0 invert"
+                    isChat ? "h-10 w-10" : "h-5 w-5",
+                    "object-contain transition-transform duration-200 group-hover:scale-110",
+                    !isAmrep ? "brightness-0 invert" : ""
                   )}
-                  priority={item.name === "Chat GBV"}
-                  loading={item.name === "Chat GBV" ? "eager" : "lazy"}
+                  priority={isChat}
+                  loading={isChat ? "eager" : "lazy"}
                 />
               ) : (
-                Icon && <Icon className="h-5 w-5 text-white" />
+                Icon && (
+                  <Icon className="h-5 w-5 text-white transition-transform duration-200 group-hover:scale-110" />
+                )
               )}
-              <span className="text-xs font-medium text-center leading-tight text-white">
+              <span className="text-xs font-medium text-center leading-tight text-white transition-colors duration-200 group-hover:text-white/90">
                 {item.name}
               </span>
             </Link>
@@ -82,10 +91,22 @@ export function GbvLeftNav() {
 
 export function GbvFooterNav() {
   const pathname = usePathname();
+  const site = getMusicSiteFromPathname(pathname);
+  const isAmrep = site.id === "amrep";
+  const navigation: NavItem[] = [
+    { name: site.chatLabel, href: `${site.basePath}/ask`, image: site.chatIconSrc },
+    { name: "Home", href: site.basePath, icon: Home },
+    { name: site.navLabels.discography, href: `${site.basePath}/albums`, icon: Disc3 },
+    { name: site.navLabels.members, href: `${site.basePath}/members`, icon: Users },
+    { name: "Videos", href: `${site.basePath}/videos`, icon: Video },
+    { name: site.navLabels.sideProjects, href: `${site.basePath}/side-projects`, icon: Star, mobileHidden: true },
+    { name: "Timeline", href: `${site.basePath}/timeline`, icon: Calendar, mobileHidden: true },
+    { name: "Awards", href: `${site.basePath}/awards`, icon: Award, mobileHidden: true },
+  ];
 
   // Only show essential nav items on mobile footer
   const mobileNavigation = navigation
-    .filter((item) => !["Home", "Timeline", "Awards", "Side Projects"].includes(item.name))
+    .filter((item) => !item.mobileHidden)
     .slice(0, 5);
 
   return (
@@ -94,24 +115,31 @@ export function GbvFooterNav() {
         {mobileNavigation.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
+          const isChat = item.href === `${site.basePath}/ask`;
           return (
             <Link
               key={item.name}
               href={item.href}
               className={cn(
                 "flex flex-col items-center justify-center gap-0.5 px-1.5 py-1 rounded-md transition-colors min-w-[44px] text-black",
-                isActive ? "bg-black/5" : "hover:bg-black/5"
+                isActive
+                  ? isAmrep
+                    ? "bg-black/10 ring-1 ring-black/30 shadow-[0_0_0_1px_rgba(0,0,0,0.15),_inset_0_0_0_1px_rgba(0,0,0,0.08)]"
+                    : "bg-black/5 ring-1 ring-black/20"
+                  : "hover:bg-black/5"
               )}
             >
               {item.image ? (
                 <Image
                   src={item.image}
                   alt={item.name}
-                  width={item.name === "Chat GBV" ? 24 : 20}
-                  height={item.name === "Chat GBV" ? 24 : 20}
+                  width={isChat ? 24 : 20}
+                  height={isChat ? 24 : 20}
                   className={cn(
-                    item.name === "Chat GBV" ? "h-6 w-6" : "h-5 w-5",
-                    item.name === "Chat GBV" ? "gbv-nav-icon" : ""
+                    isChat ? "h-6 w-6" : "h-5 w-5",
+                    "object-contain",
+                    isChat ? "gbv-nav-icon" : "",
+                    !isAmrep ? "brightness-0 invert" : ""
                   )}
                 />
               ) : (

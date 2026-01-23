@@ -27,6 +27,9 @@ const nextConfig = {
       {
         pathname: "/gbv-albums/**",
       },
+      {
+        pathname: "/noise-bird.png",
+      },
     ],
     remotePatterns: [
       {

@@ -9,6 +9,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
+import { usePathname } from "next/navigation";
+import { getMusicSiteFromPathname } from "@/lib/music-site";
+import { getAmrepReleaseById } from "@/lib/amrep-releases-data";
 
 interface Track {
   position: string;
@@ -30,9 +33,63 @@ interface AlbumDetail {
 }
 
 export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
+  const pathname = usePathname();
+  const site = getMusicSiteFromPathname(pathname);
+  const isAmrep = site.id === "amrep";
   const [album, setAlbum] = useState<AlbumDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  if (isAmrep) {
+    const release = getAmrepReleaseById(Number(albumId));
+    return (
+      <div className="container py-6">
+        <Link href={`${site.basePath}/albums`}>
+          <Button variant="ghost" className="mb-4">
+            <ArrowLeft className="h-4 w-4 mr-2" /> Back to {site.navLabels.discography}
+          </Button>
+        </Link>
+        <Card>
+          <CardContent className="p-6">
+            <div className="grid gap-6 lg:grid-cols-3">
+              <div className="lg:col-span-1">
+                <div className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center">
+                  <Image
+                    src={site.placeholderIconSrc}
+                    alt={`${site.shortName} logo`}
+                    width={48}
+                    height={48}
+                    className="w-1/2 h-1/2 gbv-nav-icon object-contain"
+                  />
+                </div>
+              </div>
+              <div className="lg:col-span-2">
+                <h1 className="font-league mb-2">
+                  {release ? `${release.artist} — ${release.title}` : "Release"}
+                </h1>
+                <p className="text-lg text-muted-foreground mb-4">
+                  {release?.year ?? "—"} • {release?.format ?? "Release"}
+                </p>
+                {release?.highlight && (
+                  <p className="text-sm text-muted-foreground mb-4">
+                    {release.highlight}
+                  </p>
+                )}
+                <a
+                  href="https://www.shoxop.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center text-sm text-primary hover:underline"
+                >
+                  Browse the AmRep catalog <ExternalLink className="h-3 w-3 ml-1" />
+                </a>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   useEffect(() => {
     async function fetchAlbum() {
@@ -66,9 +123,9 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
   if (error || !album) {
     return (
       <div className="container py-6">
-        <Link href="/gbv/albums">
+        <Link href={`${site.basePath}/albums`}>
           <Button variant="ghost" className="mb-4">
-            <ArrowLeft className="h-4 w-4 mr-2" /> Back to Albums
+            <ArrowLeft className="h-4 w-4 mr-2" /> Back to {site.navLabels.discography}
           </Button>
         </Link>
         <Card>
@@ -88,9 +145,9 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
 
   return (
     <div className="container py-6">
-      <Link href="/gbv/albums">
+      <Link href={`${site.basePath}/albums`}>
         <Button variant="ghost" className="mb-4">
-          <ArrowLeft className="h-4 w-4 mr-2" /> Back to Albums
+          <ArrowLeft className="h-4 w-4 mr-2" /> Back to {site.navLabels.discography}
         </Button>
       </Link>
 
@@ -115,9 +172,9 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
                   <Image
                     src="/chat-gbv-box.svg"
                     alt="GBV rune"
-                    width={96}
-                    height={96}
-                    className="h-24 w-24 gbv-nav-icon"
+                    width={48}
+                    height={48}
+                    className="w-1/2 h-1/2 gbv-nav-icon object-contain"
                   />
                 </div>
               )}

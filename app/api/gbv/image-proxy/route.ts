@@ -9,6 +9,24 @@ const ALLOWED_DOMAINS = [
   "coverartarchive.org",
   "upload.wikimedia.org",
   "commons.wikimedia.org",
+  "static.wikia.nocookie.net",
+  "hpr1.com",
+  "www.fungusboy.net",
+  "magnetmagazine.com",
+  "subpop-img.s3.amazonaws.com",
+  "blogger.googleusercontent.com",
+  "images.squarespace-cdn.com",
+  "chaoscontrol.com",
+  "sun-13.com",
+  "i.scdn.co",
+  "m.media-amazon.com",
+  "beautifulnoise.wordpress.com",
+  "www.theurinals.com",
+  "i0.wp.com",
+  "townsquare.media",
+  "lollipopmagazine.com",
+  "www.rokkosadventures.at",
+  "lastfm.freetls.fastly.net",
 ];
 
 function isAllowedDomain(url: string): boolean {
@@ -37,9 +55,13 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    const origin = new URL(url).origin;
     const response = await fetch(url, {
       headers: {
         "User-Agent": "MajorLeagueNumbers/1.0",
+        "Accept": "image/*,*/*;q=0.8",
+        "Referer": `${origin}/`,
+        "Origin": origin,
       },
     });
 

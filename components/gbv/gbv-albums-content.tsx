@@ -4,7 +4,13 @@ import { useState, useEffect, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, Search } from "lucide-react";
 import Link from "next/link";
@@ -12,6 +18,9 @@ import Image from "next/image";
 import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
 import { getReleaseType, getProxiedImageUrl } from "@/lib/gbv-utils";
+import { usePathname } from "next/navigation";
+import { getMusicSiteFromPathname } from "@/lib/music-site";
+import { amrepReleases } from "@/lib/amrep-releases-data";
 
 const ITEMS_PER_PAGE = 30;
 
@@ -26,20 +35,71 @@ interface Album {
 }
 
 export function GbvAlbumsContent() {
+  const pathname = usePathname();
+  const site = getMusicSiteFromPathname(pathname);
+  const isAmrep = site.id === "amrep";
   const [albums, setAlbums] = useState<Album[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [sortBy, setSortBy] = useState<"year-asc" | "year-desc" | "title">("year-asc");
-  const [releaseFilter, setReleaseFilter] = useState<"all" | "albums" | "singles">("albums");
+  const [sortBy, setSortBy] = useState<"year-asc" | "year-desc" | "title">(
+    "year-asc",
+  );
+  const [releaseFilter, setReleaseFilter] = useState<
+    "all" | "albums" | "singles"
+  >("albums");
   const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
 
   useEffect(() => {
+    if (isAmrep) {
+      const fetchAmrep = async () => {
+        try {
+          const res = await fetch(
+            "/api/amrep/discogs?type=releases&per_page=100",
+          );
+          if (!res.ok) throw new Error("Failed to fetch releases");
+          const data = await res.json();
+          const releases = Array.isArray(data?.releases) ? data.releases : [];
+          if (releases.length > 0) {
+            setAlbums(
+              releases.map((release: any) => ({
+                id: release.id,
+                title: `${release.artist} — ${release.title}`,
+                year: release.year,
+                thumb: release.thumb || "",
+                format: release.format,
+              })),
+            );
+            setIsLoading(false);
+            return;
+          }
+        } catch (err) {
+          console.error(err);
+        }
+
+        const mapped = amrepReleases.map((release) => ({
+          id: release.id,
+          title: `${release.artist} — ${release.title}`,
+          year: release.year,
+          thumb: "",
+          format: release.format,
+        }));
+        setAlbums(mapped);
+        setIsLoading(false);
+      };
+
+      fetchAmrep();
+      return;
+    }
+
     async function fetchAlbums() {
       const cacheKey = "gbv-albums-cache";
       try {
         const cached = localStorage.getItem(cacheKey);
         if (cached) {
-          const parsed = JSON.parse(cached) as { timestamp: number; albums: Album[] };
+          const parsed = JSON.parse(cached) as {
+            timestamp: number;
+            albums: Album[];
+          };
           if (parsed?.albums?.length) {
             setAlbums(parsed.albums);
             setIsLoading(false);
@@ -58,7 +118,7 @@ export function GbvAlbumsContent() {
         try {
           localStorage.setItem(
             cacheKey,
-            JSON.stringify({ timestamp: Date.now(), albums: nextAlbums })
+            JSON.stringify({ timestamp: Date.now(), albums: nextAlbums }),
           );
         } catch {
           // ignore cache errors
@@ -70,7 +130,7 @@ export function GbvAlbumsContent() {
       }
     }
     fetchAlbums();
-  }, []);
+  }, [isAmrep]);
 
   // Reset display count when filters change
   useEffect(() => {
@@ -85,18 +145,18 @@ export function GbvAlbumsContent() {
     if (search) {
       const searchLower = search.toLowerCase();
       result = result.filter((album) =>
-        album.title.toLowerCase().includes(searchLower)
+        album.title.toLowerCase().includes(searchLower),
       );
     }
 
     // Filter by release type
     if (releaseFilter === "albums") {
       result = result.filter(
-        (album) => getReleaseType(album.format, album.releaseType) === "Album"
+        (album) => getReleaseType(album.format, album.releaseType) === "Album",
       );
     } else if (releaseFilter === "singles") {
       result = result.filter(
-        (album) => getReleaseType(album.format, album.releaseType) === "Single"
+        (album) => getReleaseType(album.format, album.releaseType) === "Single",
       );
     }
 
@@ -117,6 +177,7 @@ export function GbvAlbumsContent() {
   const hasMore = displayCount < filteredAlbums.length;
 
   const getAlbumImage = (album: Album): string | null => {
+    if (isAmrep) return album.thumb ? getProxiedImageUrl(album.thumb) : null;
     return getLocalAlbumImage(album.id) || getProxiedImageUrl(album.thumb);
   };
 
@@ -129,7 +190,9 @@ export function GbvAlbumsContent() {
       <div className="container py-6">
         <div className="flex flex-col items-center justify-center py-16 gap-4">
           <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-          <p className="text-muted-foreground text-sm">Loading albums...</p>
+          <p className="text-muted-foreground text-sm">
+            Loading {isAmrep ? "releases" : "albums"}...
+          </p>
         </div>
       </div>
     );
@@ -140,16 +203,16 @@ export function GbvAlbumsContent() {
       <div className="flex flex-col gap-4 mb-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="font-league">Discography</h1>
+            <h1 className="font-league">{site.navLabels.discography}</h1>
             <p className="text-sm text-muted-foreground">
-              {releaseFilter === "albums"
-                ? "Albums"
-                : releaseFilter === "singles"
-                  ? "Singles"
-                  : "All"}{" "}
-              <span className="align-baseline">
-                ({filteredAlbums.length})
-              </span>
+              {isAmrep
+                ? "Releases"
+                : releaseFilter === "albums"
+                  ? "Albums"
+                  : releaseFilter === "singles"
+                    ? "Singles"
+                    : "All"}{" "}
+              <span className="align-baseline">({filteredAlbums.length})</span>
             </p>
           </div>
           <Tabs
@@ -158,15 +221,25 @@ export function GbvAlbumsContent() {
             className="sm:ml-auto"
           >
             <TabsList className="text-black">
-              <TabsTrigger value="all" className="text-black">All</TabsTrigger>
-              <TabsTrigger value="albums" className="text-black">Albums</TabsTrigger>
-              <TabsTrigger value="singles" className="text-black">Singles</TabsTrigger>
+              <TabsTrigger value="all" className="text-black">
+                All
+              </TabsTrigger>
+              <TabsTrigger value="albums" className="text-black">
+                Albums
+              </TabsTrigger>
+              <TabsTrigger value="singles" className="text-black">
+                Singles
+              </TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
         <div className="flex gap-4 w-full">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/80" />
+            <Search
+              className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${
+                isAmrep ? "text-black" : "text-white/80"
+              }`}
+            />
             <Input
               placeholder="Search titles..."
               value={search}
@@ -174,14 +247,23 @@ export function GbvAlbumsContent() {
               className="pl-9 w-full text-white gbv-input-white"
             />
           </div>
-          <Select value={sortBy} onValueChange={(v) => setSortBy(v as typeof sortBy)}>
+          <Select
+            value={sortBy}
+            onValueChange={(v) => setSortBy(v as typeof sortBy)}
+          >
             <SelectTrigger className="w-44 text-white">
               <SelectValue className="text-white" />
             </SelectTrigger>
             <SelectContent className="text-black">
-              <SelectItem value="year-asc" className="text-black">Year (oldest)</SelectItem>
-              <SelectItem value="year-desc" className="text-black">Year (newest)</SelectItem>
-              <SelectItem value="title" className="text-black">Title A-Z</SelectItem>
+              <SelectItem value="year-asc" className="text-black">
+                Year (oldest)
+              </SelectItem>
+              <SelectItem value="year-desc" className="text-black">
+                Year (newest)
+              </SelectItem>
+              <SelectItem value="title" className="text-black">
+                Title A-Z
+              </SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -189,7 +271,10 @@ export function GbvAlbumsContent() {
 
       <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {visibleAlbums.map((album, index) => (
-          <Link key={album.id} href={`/gbv/albums/${album.id}`}>
+          <Link
+            key={`${album.id ?? "release"}-${album.year ?? "unknown"}-${index}`}
+            href={`${site.basePath}/albums/${album.id}`}
+          >
             <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
               <CardContent className="p-3">
                 {getAlbumImage(album) ? (
@@ -206,15 +291,17 @@ export function GbvAlbumsContent() {
                 ) : (
                   <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
                     <Image
-                      src="/chat-gbv-box.svg"
-                      alt="GBV rune"
-                      width={48}
-                      height={48}
-                      className="h-12 w-12 gbv-nav-icon"
+                      src={site.placeholderIconSrc}
+                      alt={`${site.shortName} logo`}
+                      width={24}
+                      height={24}
+                      className="w-1/2 h-1/2 gbv-nav-icon object-contain"
                     />
                   </div>
                 )}
-                <h3 className="font-semibold text-sm truncate">{album.title}</h3>
+                <h3 className="font-semibold text-sm truncate">
+                  {album.title}
+                </h3>
                 <div className="flex items-center justify-between text-xs text-muted-foreground">
                   <span>{album.year}</span>
                   <span className="border border-border rounded px-1.5 py-0.5 text-[10px] uppercase tracking-wide">
@@ -244,7 +331,13 @@ export function GbvAlbumsContent() {
 
       {visibleAlbums.length === 0 && !isLoading && (
         <div className="text-center py-12 text-muted-foreground">
-          No {releaseFilter === "albums" ? "albums" : releaseFilter === "singles" ? "singles" : "releases"} found
+          No{" "}
+          {releaseFilter === "albums"
+            ? "albums"
+            : releaseFilter === "singles"
+              ? "singles"
+              : "releases"}{" "}
+          found
           {search && <> matching &quot;{search}&quot;</>}
         </div>
       )}

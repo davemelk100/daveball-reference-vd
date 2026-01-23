@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
@@ -19,6 +19,12 @@ import {
   type GbvTriviaQuestion,
 } from "@/lib/gbv-trivia-data";
 import {
+  getDailyAmrepTriviaQuestions,
+  getAmrepNextTriviaTime,
+  getAmrepTodayStorageKey,
+  type AmrepTriviaQuestion,
+} from "@/lib/amrep-trivia-data";
+import {
   HelpCircle,
   CheckCircle2,
   XCircle,
@@ -27,6 +33,7 @@ import {
   Share2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getMusicSiteFromPathname } from "@/lib/music-site";
 
 interface AnsweredQuestion {
   questionId: number;
@@ -35,8 +42,13 @@ interface AnsweredQuestion {
 }
 
 function GbvTriviaCardContent() {
+  const pathname = usePathname();
+  const site = getMusicSiteFromPathname(pathname);
+  const isAmrep = site.id === "amrep";
   const [quizDate, setQuizDate] = useState<Date | null>(null);
-  const [dailyQuestions, setDailyQuestions] = useState<GbvTriviaQuestion[]>([]);
+  const [dailyQuestions, setDailyQuestions] = useState<
+    Array<GbvTriviaQuestion | AmrepTriviaQuestion>
+  >([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answeredQuestions, setAnsweredQuestions] = useState<
     AnsweredQuestion[]
@@ -61,14 +73,22 @@ function GbvTriviaCardContent() {
     const now = new Date();
     setQuizDate(now);
 
-    const questions = getDailyGbvTriviaQuestions(now);
+    const questions = isAmrep
+      ? getDailyAmrepTriviaQuestions(now)
+      : getDailyGbvTriviaQuestions(now);
     setDailyQuestions(questions);
 
     const yesterday = new Date(now);
     yesterday.setDate(yesterday.getDate() - 1);
-    setYesterdayQuestions(getDailyGbvTriviaQuestions(yesterday));
+    setYesterdayQuestions(
+      isAmrep
+        ? getDailyAmrepTriviaQuestions(yesterday)
+        : getDailyGbvTriviaQuestions(yesterday),
+    );
 
-    const storageKey = getGbvTodayStorageKey(now);
+    const storageKey = isAmrep
+      ? getAmrepTodayStorageKey(now)
+      : getGbvTodayStorageKey(now);
     const stored = localStorage.getItem(storageKey);
     if (stored) {
       const parsed = JSON.parse(stored) as AnsweredQuestion[];
@@ -78,20 +98,20 @@ function GbvTriviaCardContent() {
         setIsComplete(true);
       } else {
         const firstUnanswered = questions.findIndex(
-          (q) => !parsed.some((a) => a.questionId === q.id)
+          (q) => !parsed.some((a) => a.questionId === q.id),
         );
         if (firstUnanswered !== -1) {
           setCurrentIndex(firstUnanswered);
         }
       }
     }
-  }, []);
+  }, [isAmrep]);
 
   const currentQuestion = showYesterday
     ? yesterdayQuestions[currentIndex]
     : dailyQuestions[currentIndex];
   const currentAnswered = answeredQuestions.find(
-    (a) => a.questionId === currentQuestion?.id
+    (a) => a.questionId === currentQuestion?.id,
   );
   const totalAnswered = answeredQuestions.length;
   const totalCorrect = answeredQuestions.filter((a) => a.isCorrect).length;
@@ -113,7 +133,9 @@ function GbvTriviaCardContent() {
       setIsComplete(true);
     }
 
-    const storageKey = getGbvTodayStorageKey(quizDate!);
+    const storageKey = isAmrep
+      ? getAmrepTodayStorageKey(quizDate!)
+      : getGbvTodayStorageKey(quizDate!);
     localStorage.setItem(storageKey, JSON.stringify(updated));
   };
 
@@ -135,12 +157,12 @@ function GbvTriviaCardContent() {
       month: "numeric",
       day: "numeric",
     });
-    const text = `I got ${score}/5 on today's (${date}) Guided By Data trivia!\n\nPlay here: https://majorleaguenumbers.com/gbv?trivia=open`;
+    const text = `I got ${score}/5 on today's (${date}) ${site.name} trivia!\n\nPlay here: https://majorleaguenumbers.com${site.basePath}?trivia=open`;
 
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "Guided By Data Trivia",
+          title: `${site.name} Trivia`,
           text: text,
         });
       } catch (err: any) {
@@ -169,7 +191,7 @@ function GbvTriviaCardContent() {
             "gap-2 font-semibold text-black",
             totalAnswered > 0
               ? "border-primary/30 bg-primary/10 hover:bg-primary/20"
-              : "bg-primary hover:bg-primary/90"
+              : "bg-primary hover:bg-primary/90",
           )}
         >
           <HelpCircle className="h-4 w-4" />
@@ -211,9 +233,7 @@ function GbvTriviaCardContent() {
           </div>
 
           <div className="space-y-2">
-            <div className="text-xs">
-              Question {currentIndex + 1} of 5
-            </div>
+            <div className="text-xs">Question {currentIndex + 1} of 5</div>
             <div className="font-semibold">{currentQuestion.question}</div>
           </div>
 
@@ -235,7 +255,7 @@ function GbvTriviaCardContent() {
                         : isSelected
                           ? "border-red-400 bg-red-500/10"
                           : "border-transparent bg-muted/40"
-                      : "border-transparent bg-muted/40 hover:bg-muted/60"
+                      : "border-transparent bg-muted/40 hover:bg-muted/60",
                   )}
                   disabled={!!currentAnswered || showYesterday}
                 >
@@ -289,8 +309,15 @@ function GbvTriviaCardContent() {
               {Math.max(
                 0,
                 Math.floor(
-                  (getGbvNextTriviaTime().getTime() - Date.now()) / 1000 / 60 / 60
-                )
+                  ((isAmrep
+                    ? getAmrepNextTriviaTime()
+                    : getGbvNextTriviaTime()
+                  ).getTime() -
+                    Date.now()) /
+                    1000 /
+                    60 /
+                    60,
+                ),
               )}
               h
             </span>
@@ -315,10 +342,10 @@ function GbvTriviaCardContent() {
         <div className="border-t px-4 py-2 text-xs">
           {questionsToLink.length > 0 ? (
             <a
-              href={`/gbv/ask?trivia=open`}
+              href={`${site.basePath}/ask?trivia=open`}
               className="underline underline-offset-4"
             >
-              Open Chat GBV trivia
+              Open {site.shortName} trivia
             </a>
           ) : null}
         </div>
@@ -328,21 +355,24 @@ function GbvTriviaCardContent() {
 }
 
 function GbvTriviaPanelContent() {
+  const pathname = usePathname();
+  const site = getMusicSiteFromPathname(pathname);
+
   return (
     <Card className="w-full h-full min-h-[120px]">
       <CardContent className="p-4 flex gap-4 items-stretch">
         <div className="flex flex-col gap-2 w-1/2">
-          <h2>Daily GBV Trivia</h2>
+          <h2>Daily {site.shortName} Trivia</h2>
           <div>
             <GbvTriviaCardContent />
           </div>
-          <p className="text-sm">Test your Guided By Voices knowledge.</p>
+          <p className="text-sm">Test your {site.shortName} knowledge.</p>
         </div>
         <div className="w-1/2 relative flex items-center justify-center">
           <div className="relative h-[75%] w-full sm:h-full">
             <Image
-              src="/chat-gbv-box.svg"
-              alt="GBV rune"
+              src={site.chatIconSrc}
+              alt={`${site.shortName} logo`}
               fill
               sizes="(min-width: 768px) 25vw, 50vw"
               className="gbv-rune-white object-contain"

@@ -11,9 +11,10 @@ import { PageLoader } from "@/components/page-loader";
 export function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const isGbvRoute = pathname?.startsWith("/gbv");
+  const isAmrepRoute = pathname?.startsWith("/amrep");
 
-  // For GBV routes, render children directly (GBV has its own layout)
-  if (isGbvRoute) {
+  // For GBV/AmRep routes, render children directly (they have their own layout)
+  if (isGbvRoute || isAmrepRoute) {
     return <>{children}</>;
   }
 

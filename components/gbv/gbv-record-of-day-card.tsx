@@ -3,27 +3,101 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { getDailyGbvRecord, type GbvRecordOfDay } from "@/lib/gbv-records-data";
+import { getDailyAmrepRecord, type AmrepRecordOfDay } from "@/lib/amrep-records-data";
 import Image from "next/image";
 import Link from "next/link";
 import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
+import { usePathname } from "next/navigation";
+import { getMusicSiteFromPathname } from "@/lib/music-site";
+import { amrepReleases } from "@/lib/amrep-releases-data";
 
 export function GbvRecordOfDayCard() {
-  const [record, setRecord] = useState<GbvRecordOfDay | null>(null);
+  const pathname = usePathname();
+  const site = getMusicSiteFromPathname(pathname);
+  const isAmrep = site.id === "amrep";
+  const [record, setRecord] = useState<GbvRecordOfDay | AmrepRecordOfDay | null>(null);
   const [coverUrl, setCoverUrl] = useState<string | null>(null);
   const [albumId, setAlbumId] = useState<number | null>(null);
+  const cacheKeyPrefix = isAmrep ? "amrep" : "gbv";
   const cacheKey = record
-    ? `gbv-record-cover:${record.title}:${record.year}`
-    : "gbv-record-cover";
+    ? `${cacheKeyPrefix}-record-cover:${record.title}:${record.year}`
+    : `${cacheKeyPrefix}-record-cover`;
 
   useEffect(() => {
-    const daily = getDailyGbvRecord();
+    const daily = isAmrep ? getDailyAmrepRecord() : getDailyGbvRecord();
     setRecord(daily);
+
+    if (isAmrep) {
+      const cacheKey = `${cacheKeyPrefix}-record-cover:${daily.title}:${daily.year}`;
+      try {
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          const parsed = JSON.parse(cached) as { url?: string };
+          if (parsed?.url) {
+            setCoverUrl(parsed.url);
+          }
+        }
+      } catch {
+        // ignore cache errors
+      }
+
+      const match = amrepReleases.find(
+        (release) =>
+          release.title.toLowerCase() === daily.title.toLowerCase() &&
+          release.year === daily.year
+      );
+      if (match?.id) setAlbumId(match.id);
+
+      async function fetchAmrepCover() {
+        try {
+          const titleMatch = (release: { title?: string }) =>
+            (release.title || "").toLowerCase() === daily.title.toLowerCase();
+          const perPage = 100;
+          const maxPages = 3;
+
+          for (let page = 1; page <= maxPages; page += 1) {
+            const res = await fetch(
+              `/api/amrep/discogs?type=releases&per_page=${perPage}&page=${page}`
+            );
+            if (!res.ok) return;
+            const data = await res.json();
+            const releases = Array.isArray(data?.releases) ? data.releases : [];
+            const exact = releases.find(
+              (release: { title?: string; year?: number }) =>
+                titleMatch(release) && release.year === daily.year
+            );
+            const fallback = releases.find(titleMatch);
+            const resolved = exact || fallback;
+            if (resolved?.thumb) {
+              setCoverUrl(resolved.thumb);
+              if (resolved?.id) {
+                setAlbumId(resolved.id);
+              }
+              try {
+                localStorage.setItem(
+                  cacheKey,
+                  JSON.stringify({ url: resolved.thumb })
+                );
+              } catch {
+                // ignore cache errors
+              }
+              break;
+            }
+          }
+        } catch {
+          // ignore cover lookup errors
+        }
+      }
+
+      fetchAmrepCover();
+      return;
+    }
 
     const normalizeImageUrl = (url: string | null | undefined) =>
       url ? url.replace(/^http:/, "https:") : null;
-    const cacheKey = `gbv-record-cover:${daily.title}:${daily.year}`;
-    const albumsCacheKey = "gbv-albums-cache";
+    const cacheKey = `${cacheKeyPrefix}-record-cover:${daily.title}:${daily.year}`;
+    const albumsCacheKey = `${cacheKeyPrefix}-albums-cache`;
 
     try {
       const cached = localStorage.getItem(cacheKey);
@@ -104,7 +178,11 @@ export function GbvRecordOfDayCard() {
 
   if (!record) return null;
 
-  const albumHref = albumId ? `/gbv/albums/${albumId}` : null;
+  const albumHref = albumId ? `${site.basePath}/albums/${albumId}` : null;
+  const displayTitle =
+    record && "artist" in record && record.artist
+      ? `${record.artist} — ${record.title}`
+      : record?.title;
 
   return (
     <Card className="w-full h-full min-h-[120px]">
@@ -113,10 +191,10 @@ export function GbvRecordOfDayCard() {
           <h2>Record of the Day</h2>
           {albumHref ? (
             <Link href={albumHref} className="text-base font-semibold hover:underline">
-              {record.title}
+              {displayTitle}
             </Link>
           ) : (
-            <div className="text-base font-semibold">{record.title}</div>
+            <div className="text-base font-semibold">{displayTitle}</div>
           )}
           <div className="text-xs text-muted-foreground">{record.year}</div>
           <p className="text-sm text-muted-foreground">{record.highlight}</p>
@@ -149,21 +227,21 @@ export function GbvRecordOfDayCard() {
                 className="w-full h-full bg-muted rounded-md flex items-center justify-center"
               >
                 <Image
-                  src="/chat-gbv-box.svg"
-                  alt="GBV rune"
-                  width={64}
-                  height={64}
-                  className="h-16 w-16 gbv-nav-icon"
+                  src={site.placeholderIconSrc}
+                  alt={`${site.shortName} logo`}
+                  width={32}
+                  height={32}
+                  className="w-1/2 h-1/2 gbv-nav-icon object-contain"
                 />
               </Link>
             ) : (
               <div className="w-full h-full bg-muted rounded-md flex items-center justify-center">
                 <Image
-                  src="/chat-gbv-box.svg"
-                  alt="GBV rune"
-                  width={64}
-                  height={64}
-                  className="h-16 w-16 gbv-nav-icon"
+                  src={site.placeholderIconSrc}
+                  alt={`${site.shortName} logo`}
+                  width={32}
+                  height={32}
+                  className="w-1/2 h-1/2 gbv-nav-icon object-contain"
                 />
               </div>
             )

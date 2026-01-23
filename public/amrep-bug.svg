@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="AmRep">
+  <circle cx="60" cy="60" r="56" fill="#0b1224"/>
+  <circle cx="60" cy="60" r="46" fill="#1d2744"/>
+  <text x="60" y="68" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" fill="#ffffff" letter-spacing="2">
+    AM
+  </text>
+</svg>

@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Search, Disc3, Users } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { getMusicSiteFromPathname } from "@/lib/music-site";
+import { amrepArtists } from "@/lib/amrep-artists-data";
+import { amrepReleases } from "@/lib/amrep-releases-data";
 
 interface Album {
   id: number;
@@ -30,13 +33,17 @@ let cachedAlbums: Album[] | null = null;
 let cachedMembers: Member[] | null = null;
 
 export function GbvSearch({
-  placeholder = "Search albums, songs, members...",
+  placeholder,
   inputClassName = "",
 }: {
   placeholder?: string;
   inputClassName?: string;
 } = {}) {
+  const pathname = usePathname();
+  const site = getMusicSiteFromPathname(pathname);
+  const isAmrep = site.id === "amrep";
   const [query, setQuery] = useState("");
+  const effectivePlaceholder = placeholder || site.searchPlaceholder;
   const [isOpen, setIsOpen] = useState(false);
   const [albums, setAlbums] = useState<Album[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
@@ -50,6 +57,49 @@ export function GbvSearch({
   // Fetch data on first focus/interaction
   useEffect(() => {
     const fetchData = async () => {
+      if (isAmrep) {
+        try {
+          const res = await fetch("/api/amrep/discogs?type=releases&per_page=100");
+          if (res.ok) {
+            const data = await res.json();
+            const releases = Array.isArray(data?.releases) ? data.releases : [];
+            setAlbums(
+              releases.map((release: any) => ({
+                id: release.id,
+                title: `${release.artist} — ${release.title}`,
+                year: release.year,
+              }))
+            );
+          } else {
+            setAlbums(
+              amrepReleases.map((release) => ({
+                id: release.id,
+                title: `${release.artist} — ${release.title}`,
+                year: release.year,
+              }))
+            );
+          }
+        } catch (err) {
+          console.error(err);
+          setAlbums(
+            amrepReleases.map((release) => ({
+              id: release.id,
+              title: `${release.artist} — ${release.title}`,
+              year: release.year,
+            }))
+          );
+        }
+
+        setMembers(
+          amrepArtists.map((artist) => ({
+            id: artist.id,
+            name: artist.name,
+            active: artist.active,
+          }))
+        );
+        return;
+      }
+
       if (cachedAlbums && cachedMembers) {
         setAlbums(cachedAlbums);
         setMembers(cachedMembers);
@@ -82,7 +132,7 @@ export function GbvSearch({
     };
 
     fetchData();
-  }, []);
+  }, [isAmrep]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -121,7 +171,7 @@ export function GbvSearch({
       opts.push({
         type: "member",
         id: `member-${member.id}`,
-        href: `/gbv/members/${member.id}`,
+        href: `${site.basePath}/members/${member.id}`,
         label: member.name,
       });
     });
@@ -130,7 +180,7 @@ export function GbvSearch({
       opts.push({
         type: "album",
         id: `album-${album.id}`,
-        href: `/gbv/albums/${album.id}`,
+        href: `${site.basePath}/albums/${album.id}`,
         label: album.title,
         sublabel: String(album.year),
       });
@@ -140,7 +190,7 @@ export function GbvSearch({
       opts.push({
         type: "see-all",
         id: "see-all",
-        href: `/gbv/search?q=${encodeURIComponent(query.trim())}`,
+        href: `${site.basePath}/search?q=${encodeURIComponent(query.trim())}`,
         label: `See all results for "${query}"`,
       });
     }
@@ -160,7 +210,7 @@ export function GbvSearch({
     if (query.trim()) {
       setIsOpen(false);
       setActiveIndex(-1);
-      router.push(`/gbv/search?q=${encodeURIComponent(query.trim())}`);
+      router.push(`${site.basePath}/search?q=${encodeURIComponent(query.trim())}`);
     }
   };
 
@@ -218,7 +268,7 @@ export function GbvSearch({
         <Input
           ref={inputRef}
           type="search"
-          placeholder={placeholder}
+          placeholder={effectivePlaceholder}
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -237,9 +287,11 @@ export function GbvSearch({
         <button
           type="submit"
           aria-label="Search"
-          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-white/80 hover:text-white !text-white"
+          className={`absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 ${
+            isAmrep ? "text-black hover:text-black" : "text-white/80 hover:text-white"
+          }`}
         >
-          <Search className="h-4 w-4 !text-white" />
+          <Search className={`h-4 w-4 ${isAmrep ? "text-black" : "!text-white"}`} />
         </button>
       </form>
 
@@ -273,7 +325,7 @@ export function GbvSearch({
                         aria-selected={isActive}
                         onClick={() => {
                           handleResultClick();
-                          router.push(`/gbv/members/${member.id}`);
+                          router.push(`${site.basePath}/members/${member.id}`);
                         }}
                         onMouseEnter={() => setActiveIndex(optionIndex)}
                         className={`flex items-center gap-2 px-3 py-2 text-sm text-gray-900 cursor-pointer ${
@@ -303,7 +355,7 @@ export function GbvSearch({
                         aria-selected={isActive}
                         onClick={() => {
                           handleResultClick();
-                          router.push(`/gbv/albums/${album.id}`);
+                          router.push(`${site.basePath}/albums/${album.id}`);
                         }}
                         onMouseEnter={() => setActiveIndex(optionIndex)}
                         className={`flex items-center gap-2 px-3 py-2 text-sm text-gray-900 cursor-pointer ${
@@ -325,7 +377,7 @@ export function GbvSearch({
                   aria-selected={activeIndex === options.length - 1}
                   onClick={() => {
                     handleResultClick();
-                    router.push(`/gbv/search?q=${encodeURIComponent(query.trim())}`);
+                    router.push(`${site.basePath}/search?q=${encodeURIComponent(query.trim())}`);
                   }}
                   onMouseEnter={() => setActiveIndex(options.length - 1)}
                   className={`flex items-center gap-2 px-3 py-2 text-sm text-primary border-t border-gray-100 cursor-pointer ${
