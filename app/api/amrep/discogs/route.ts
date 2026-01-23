@@ -52,9 +52,29 @@ async function normalizeThumb(url?: string | null) {
   return cached || `/api/gbv/image-proxy?url=${encodeURIComponent(httpsUrl)}`;
 }
 
+function dedupeReleases(releases: any[]) {
+  const seen = new Set<string>();
+  const unique: any[] = [];
+
+  for (const release of releases) {
+    const mainRelease = Number(release.mainRelease || release.main_release || 0);
+    const titleKey = `${release.artist || ""}::${release.title || ""}::${release.year || ""}`.toLowerCase();
+    const key = mainRelease ? `main:${mainRelease}` : `title:${titleKey}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    unique.push({
+      ...release,
+      mainRelease: mainRelease || undefined,
+    });
+  }
+
+  return unique;
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const type = searchParams.get("type") || "releases";
+  const id = searchParams.get("id");
   const page = searchParams.get("page") || "1";
   const perPage = searchParams.get("per_page") || "100";
 
@@ -83,12 +103,48 @@ export async function GET(request: Request) {
           year: release.year,
           artist: release.artist,
           format: release.format,
+          mainRelease: release.main_release,
           thumb: await normalizeThumb(release.thumb),
         }))
       );
+      const deduped = dedupeReleases(releases);
 
-      releasesCache.set(cacheKey, { releases, timestamp: Date.now() });
-      return NextResponse.json({ releases });
+      releasesCache.set(cacheKey, { releases: deduped, timestamp: Date.now() });
+      return NextResponse.json({ releases: deduped });
+    }
+
+    if (type === "release") {
+      if (!id) {
+        return NextResponse.json({ error: "Missing id parameter" }, { status: 400 });
+      }
+
+      const data = await fetchFromDiscogs(`/releases/${id}`);
+      const release = {
+        id: data.id,
+        title: data.title,
+        year: data.year,
+        thumb: await normalizeThumb(data.thumb),
+        format: Array.isArray(data.formats)
+          ? data.formats.map((format: { name?: string }) => format.name).filter(Boolean)
+          : undefined,
+        labels: Array.isArray(data.labels)
+          ? data.labels.map((label: { name?: string }) => ({ name: label.name }))
+          : undefined,
+        artists: Array.isArray(data.artists)
+          ? data.artists.map((artist: { name?: string }) => ({ name: artist.name }))
+          : undefined,
+        genres: Array.isArray(data.genres) ? data.genres : undefined,
+        styles: Array.isArray(data.styles) ? data.styles : undefined,
+        tracklist: Array.isArray(data.tracklist)
+          ? data.tracklist.map((track: any) => ({
+              position: track.position,
+              title: track.title,
+              duration: track.duration,
+            }))
+          : undefined,
+      };
+
+      return NextResponse.json({ release });
     }
 
     return NextResponse.json({ error: "Invalid type parameter" }, { status: 400 });

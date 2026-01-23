@@ -9,6 +9,21 @@ const ALLOWED_DOMAINS = [
   "coverartarchive.org",
   "upload.wikimedia.org",
   "commons.wikimedia.org",
+  "static.wikia.nocookie.net",
+  "hpr1.com",
+  "www.fungusboy.net",
+  "magnetmagazine.com",
+  "subpop-img.s3.amazonaws.com",
+  "blogger.googleusercontent.com",
+  "images.squarespace-cdn.com",
+  "chaoscontrol.com",
+  "sun-13.com",
+  "i.scdn.co",
+  "m.media-amazon.com",
+  "beautifulnoise.wordpress.com",
+  "www.theurinals.com",
+  "i0.wp.com",
+  "townsquare.media",
 ];
 
 function isAllowedDomain(url: string): boolean {

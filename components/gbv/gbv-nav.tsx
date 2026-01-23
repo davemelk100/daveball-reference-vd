@@ -51,12 +51,12 @@ export function GbvLeftNav() {
               key={item.name}
               href={item.href}
               className={cn(
-                "flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-md transition-colors w-full text-white",
+                "group flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-md transition-all duration-200 w-full text-white",
                 isActive
                   ? isAmrep
                     ? "bg-black/10 ring-1 ring-black/30 shadow-[0_0_0_1px_rgba(0,0,0,0.15),_inset_0_0_0_1px_rgba(0,0,0,0.08)]"
                     : "bg-white/10 ring-1 ring-white/25"
-                  : "hover:bg-white/10"
+                  : "hover:bg-white/10 hover:-translate-y-0.5 hover:shadow-[0_6px_14px_rgba(0,0,0,0.18)]"
               )}
             >
               {item.image ? (
@@ -67,16 +67,18 @@ export function GbvLeftNav() {
                   height={isChat ? 40 : 20}
                   className={cn(
                     isChat ? "h-10 w-10" : "h-5 w-5",
-                    "object-contain",
+                    "object-contain transition-transform duration-200 group-hover:scale-110",
                     !isAmrep ? "brightness-0 invert" : ""
                   )}
                   priority={isChat}
                   loading={isChat ? "eager" : "lazy"}
                 />
               ) : (
-                Icon && <Icon className="h-5 w-5 text-white" />
+                Icon && (
+                  <Icon className="h-5 w-5 text-white transition-transform duration-200 group-hover:scale-110" />
+                )
               )}
-              <span className="text-xs font-medium text-center leading-tight text-white">
+              <span className="text-xs font-medium text-center leading-tight text-white transition-colors duration-200 group-hover:text-white/90">
                 {item.name}
               </span>
             </Link>

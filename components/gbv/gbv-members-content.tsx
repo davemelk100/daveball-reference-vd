@@ -21,6 +21,10 @@ interface Member {
 const MEMBER_IMAGE_FALLBACKS: Record<string, string> = {
   "mark shue":
     "/api/gbv/image-proxy?url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FSpecial%3AFilePath%2FMark%2520Shue%2520GARP%2520music%2520festival%25202016.jpg",
+  cows:
+    "/api/gbv/image-proxy?url=https%3A%2F%2Fstatic.wikia.nocookie.net%2Fpeel%2Fimages%2F0%2F02%2FCows.jpg%2Frevision%2Flatest%3Fcb%3D20230612102727",
+  hammerhead:
+    "/api/gbv/image-proxy?url=https%3A%2F%2Fhpr1.com%2Fimages%2Fuploads%2Farticle_images%2F277%2Fhammerhead__social.png",
 };
 
 const MEMBER_IMAGE_SKIP: Record<string, true> = {

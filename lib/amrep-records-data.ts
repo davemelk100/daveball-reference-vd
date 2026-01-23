@@ -3,6 +3,7 @@ export interface AmrepRecordOfDay {
   artist: string;
   year: number;
   highlight: string;
+  coverUrl?: string;
 }
 
 export const amrepRecordsOfTheDay: AmrepRecordOfDay[] = [
@@ -23,6 +24,8 @@ export const amrepRecordsOfTheDay: AmrepRecordOfDay[] = [
     artist: "Various Artists",
     year: 1997,
     highlight: "Compilation capturing the label’s noise rock ecosystem.",
+    coverUrl:
+      "/api/gbv/image-proxy?url=https%3A%2F%2Fm.media-amazon.com%2Fimages%2FI%2F71SDTWoyKJL._UF1000%2C1000_QL80_.jpg",
   },
   {
     title: "Days of Nothing",
