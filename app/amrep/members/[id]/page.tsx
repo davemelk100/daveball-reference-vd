@@ -1,14 +1,21 @@
 import type { Metadata } from "next";
 import { GbvMemberDetailContent } from "@/components/amrep/amrep-member-detail-content";
 
-export const metadata: Metadata = {
-  title: "Artist",
-};
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
 
-export default function AmrepMemberDetailPage({
+export async function generateMetadata({
   params,
-}: {
-  params: { id: string };
-}) {
-  return <GbvMemberDetailContent memberId={params.id} />;
+}: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  return {
+    title: `Artist ${id}`,
+    description: "Amphetamine Reptile Records artist details.",
+  };
+}
+
+export default async function AmrepMemberDetailPage({ params }: PageProps) {
+  const { id } = await params;
+  return <GbvMemberDetailContent memberId={id} />;
 }

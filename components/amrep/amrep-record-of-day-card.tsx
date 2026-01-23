@@ -212,7 +212,7 @@ export function GbvRecordOfDayCard() {
                 <GbvRemoteImage
                   src={coverUrl}
                   alt={`${record.title} cover`}
-                  className="rounded-md object-cover w-full h-full"
+                  className="rounded-md object-contain w-full h-full"
                   loading="eager"
                   preferProxy={false}
                 />
@@ -221,7 +221,7 @@ export function GbvRecordOfDayCard() {
               <GbvRemoteImage
                 src={coverUrl}
                 alt={`${record.title} cover`}
-                className="rounded-md object-cover w-full h-full"
+                className="rounded-md object-contain w-full h-full"
                 loading="eager"
                 preferProxy={false}
               />
@@ -232,22 +232,18 @@ export function GbvRecordOfDayCard() {
                 href={albumHref}
                 className="w-full h-full bg-muted rounded-md flex items-center justify-center"
               >
-                <Image
+                <img
                   src={site.placeholderIconSrc}
                   alt={`${site.shortName} logo`}
-                  width={64}
-                  height={64}
-                  className="h-16 w-16 gbv-nav-icon"
+                  className="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
                 />
               </Link>
             ) : (
               <div className="w-full h-full bg-muted rounded-md flex items-center justify-center">
-                <Image
+                <img
                   src={site.placeholderIconSrc}
                   alt={`${site.shortName} logo`}
-                  width={64}
-                  height={64}
-                  className="h-16 w-16 gbv-nav-icon"
+                  className="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
                 />
               </div>
             )

@@ -293,9 +293,9 @@ export function GbvAlbumsContent() {
                     <Image
                       src={site.placeholderIconSrc}
                       alt={`${site.shortName} logo`}
-                      width={48}
-                      height={48}
-                      className="h-12 w-12 gbv-nav-icon object-contain"
+                      width={24}
+                      height={24}
+                      className="w-1/2 h-1/2 gbv-nav-icon object-contain"
                     />
                   </div>
                 )}

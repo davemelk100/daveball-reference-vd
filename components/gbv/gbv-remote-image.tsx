@@ -43,6 +43,7 @@ export function GbvRemoteImage({
   const normalized = normalizeUrl(src);
   const [currentSrc, setCurrentSrc] = useState<string | null>(normalized);
   const [sourceState, setSourceState] = useState<SourceState>("direct");
+  const effectiveFit = sourceState === "fallback" ? "contain" : fit;
 
   useEffect(() => {
     let initialSrc = normalized;
@@ -50,9 +51,11 @@ export function GbvRemoteImage({
       try {
         const cached = localStorage.getItem(cacheKey);
         if (cached) {
-          setCurrentSrc(cached);
-          setSourceState("direct");
-          return;
+          if (cached !== fallbackSrc) {
+            setCurrentSrc(cached);
+            setSourceState("direct");
+            return;
+          }
         }
       } catch {
         // ignore cache errors
@@ -100,7 +103,7 @@ export function GbvRemoteImage({
       referrerPolicy="no-referrer"
       onError={handleError}
       onLoad={() => {
-        if (!cacheKey) return;
+        if (!cacheKey || sourceState === "fallback") return;
         try {
           localStorage.setItem(cacheKey, currentSrc);
         } catch {
@@ -109,7 +112,7 @@ export function GbvRemoteImage({
       }}
       className={cn(
         "block",
-        fit === "cover" ? "object-cover" : "object-contain",
+        effectiveFit === "cover" ? "object-cover" : "object-contain",
         className
       )}
     />

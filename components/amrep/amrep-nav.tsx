@@ -54,7 +54,7 @@ export function GbvLeftNav() {
                 "group flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-md transition-all duration-200 w-full text-white",
                 isActive
                   ? isAmrep
-                    ? "bg-black/10 ring-1 ring-black/30 shadow-[0_0_0_1px_rgba(0,0,0,0.15),_inset_0_0_0_1px_rgba(0,0,0,0.08)]"
+                    ? "bg-white/10 -translate-y-0.5 shadow-[0_6px_14px_rgba(0,0,0,0.18)]"
                     : "bg-white/10 ring-1 ring-white/25"
                   : "hover:bg-white/10 hover:-translate-y-0.5 hover:shadow-[0_6px_14px_rgba(0,0,0,0.18)]"
               )}

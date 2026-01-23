@@ -24,6 +24,9 @@ const ALLOWED_DOMAINS = [
   "www.theurinals.com",
   "i0.wp.com",
   "townsquare.media",
+  "lollipopmagazine.com",
+  "www.rokkosadventures.at",
+  "lastfm.freetls.fastly.net",
 ];
 
 function isAllowedDomain(url: string): boolean {
@@ -52,9 +55,13 @@ export async function GET(request: NextRequest) {
   }
 
   try {
+    const origin = new URL(url).origin;
     const response = await fetch(url, {
       headers: {
         "User-Agent": "MajorLeagueNumbers/1.0",
+        "Accept": "image/*,*/*;q=0.8",
+        "Referer": `${origin}/`,
+        "Origin": origin,
       },
     });
 

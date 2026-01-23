@@ -13,6 +13,7 @@ import { usePathname } from "next/navigation";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
 import { getAmrepArtistById } from "@/lib/amrep-artists-data";
 import { amrepReleases } from "@/lib/amrep-releases-data";
+import { AMREP_MEMBER_IMAGE_FALLBACKS } from "@/lib/amrep-member-images";
 
 interface Release {
   id: number;
@@ -46,6 +47,7 @@ const normalizeArtistName = (name: string) =>
     .replace(/\s+/g, " ")
     .trim();
 
+
 export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
   const pathname = usePathname();
   const site = getMusicSiteFromPathname(pathname);
@@ -56,6 +58,10 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
   const [error, setError] = useState<string | null>(null);
   const [commonsImageUrl, setCommonsImageUrl] = useState<string | null>(null);
   const localMemberImage = getLocalMemberImage(Number(memberId));
+  const amrepFallbackImage =
+    isAmrep && member?.name
+      ? AMREP_MEMBER_IMAGE_FALLBACKS[member.name.toLowerCase()] || null
+      : null;
 
   useEffect(() => {
     let isActive = true;
@@ -259,8 +265,18 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
                   alt={member.name}
                   width={300}
                   height={300}
-                  className="w-full aspect-square rounded-lg object-cover mb-4"
+                  className="w-full aspect-square rounded-lg object-contain mb-4"
                   priority
+                />
+              ) : amrepFallbackImage ? (
+                <GbvRemoteImage
+                  src={amrepFallbackImage}
+                  alt={member.name}
+                  width={300}
+                  height={300}
+                  className="w-full aspect-square rounded-lg object-contain mb-4"
+                  cacheKey={`amrep-member-fallback:${memberId}`}
+                  preferProxy
                 />
               ) : commonsImageUrl ? (
                 <GbvRemoteImage
@@ -268,18 +284,16 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
                   alt={member.name}
                   width={300}
                   height={300}
-                  className="w-full aspect-square rounded-lg object-cover mb-4"
+                  className="w-full aspect-square rounded-lg object-contain mb-4"
                   cacheKey={`gbv-member-photo:${memberId}`}
                   preferProxy
                 />
               ) : (
                 <div className="w-full aspect-square bg-muted rounded-lg mb-4 flex items-center justify-center">
-                  <Image
-                    src="/chat-gbv-box.svg"
-                    alt="GBV rune"
-                    width={96}
-                    height={96}
-                    className="h-24 w-24 gbv-nav-icon"
+                  <img
+                    src={site.placeholderIconSrc}
+                    alt={`${site.shortName} logo`}
+                    className="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
                   />
                 </div>
               )}

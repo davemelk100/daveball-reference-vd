@@ -99,17 +99,22 @@ function MemberAvatar({
     }
 
     fetchCommons();
-  }, [hasError, localImageUrl, lookupAttempted, name, normalizedImageUrl, skipRemoteLookup]);
+  }, [
+    hasError,
+    localImageUrl,
+    lookupAttempted,
+    name,
+    normalizedImageUrl,
+    skipRemoteLookup,
+  ]);
 
   if (!resolvedImageUrl || hasError) {
     return (
-      <div className="w-full aspect-square rounded-lg mb-2 mx-auto flex items-center justify-center bg-muted">
-        <Image
+      <div className="w-full aspect-square rounded-lg mb-2 mx-auto flex items-center justify-center">
+        <img
           src={fallbackIconSrc}
           alt="Artist placeholder"
-          width={48}
-          height={48}
-          className="h-12 w-12 gbv-nav-icon"
+          className="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
         />
       </div>
     );
@@ -122,7 +127,7 @@ function MemberAvatar({
         alt={`${name} photo`}
         fill
         sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 16vw"
-        className="rounded-lg object-cover"
+        className="rounded-lg object-contain"
         onError={() => setHasError(true)}
         unoptimized
       />
@@ -151,7 +156,9 @@ export function GbvSearchContent() {
       if (isAmrep) {
         if (!isActive) return;
         try {
-          const res = await fetch("/api/amrep/discogs?type=releases&per_page=100");
+          const res = await fetch(
+            "/api/amrep/discogs?type=releases&per_page=100",
+          );
           if (res.ok) {
             const data = await res.json();
             const releases = Array.isArray(data?.releases) ? data.releases : [];
@@ -162,7 +169,7 @@ export function GbvSearchContent() {
                 year: release.year,
                 thumb: release.thumb || "",
                 format: release.format,
-              }))
+              })),
             );
           } else {
             setAlbums(
@@ -172,7 +179,7 @@ export function GbvSearchContent() {
                 year: release.year,
                 thumb: "",
                 format: release.format,
-              }))
+              })),
             );
           }
         } catch {
@@ -183,7 +190,7 @@ export function GbvSearchContent() {
               year: release.year,
               thumb: "",
               format: release.format,
-            }))
+            })),
           );
         }
 
@@ -193,7 +200,7 @@ export function GbvSearchContent() {
             name: artist.name,
             active: artist.active,
             imageUrl: null,
-          }))
+          })),
         );
         setIsLoading(false);
         return;
@@ -240,7 +247,9 @@ export function GbvSearchContent() {
   const filteredMembers = useMemo(() => {
     if (!query) return [];
     const lower = query.toLowerCase();
-    return members.filter((member) => member.name.toLowerCase().includes(lower));
+    return members.filter((member) =>
+      member.name.toLowerCase().includes(lower),
+    );
   }, [members, query]);
 
   const filteredAlbums = useMemo(() => {
@@ -277,19 +286,21 @@ export function GbvSearchContent() {
 
   return (
     <div className="container py-6">
-      <h1 className="font-league mb-6">
-        Results for "{query}"
-      </h1>
+      <h1 className="font-league mb-6">Results for "{query}"</h1>
 
       <div className="grid gap-8 lg:grid-cols-2">
         <div>
           <h2 className="font-league mb-4">
-            {site.navLabels.members} <span className="align-baseline">({filteredMembers.length})</span>
+            {site.navLabels.members}{" "}
+            <span className="align-baseline">({filteredMembers.length})</span>
           </h2>
           {filteredMembers.length > 0 ? (
             <div className="grid gap-4 grid-cols-2 sm:grid-cols-3">
               {filteredMembers.map((member) => (
-                <Link key={member.id} href={`${site.basePath}/members/${member.id}`}>
+                <Link
+                  key={member.id}
+                  href={`${site.basePath}/members/${member.id}`}
+                >
                   <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
                     <CardContent className="p-3 text-center">
                       <MemberAvatar
@@ -312,12 +323,16 @@ export function GbvSearchContent() {
 
         <div>
           <h2 className="font-league mb-4">
-            {site.navLabels.discography} <span className="align-baseline">({filteredAlbums.length})</span>
+            {site.navLabels.discography}{" "}
+            <span className="align-baseline">({filteredAlbums.length})</span>
           </h2>
           {filteredAlbums.length > 0 ? (
             <div className="grid gap-4 grid-cols-2 sm:grid-cols-3">
               {filteredAlbums.map((album) => (
-                <Link key={album.id} href={`${site.basePath}/albums/${album.id}`}>
+                <Link
+                  key={album.id}
+                  href={`${site.basePath}/albums/${album.id}`}
+                >
                   <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
                     <CardContent className="p-3">
                       {getAlbumImage(album) ? (
@@ -326,22 +341,22 @@ export function GbvSearchContent() {
                           alt={album.title}
                           width={200}
                           height={200}
-                          className="w-full aspect-square rounded-lg object-cover mb-2"
+                          className="w-full aspect-square rounded-lg object-contain mb-2"
                           cacheKey={`gbv-album-thumb:${album.id}`}
                           preferProxy
                         />
                       ) : (
                         <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
-                          <Image
+                          <img
                             src={site.placeholderIconSrc}
                             alt={`${site.shortName} logo`}
-                            width={48}
-                            height={48}
-                            className="h-12 w-12 gbv-nav-icon"
+                            className="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
                           />
                         </div>
                       )}
-                      <h3 className="font-semibold text-sm truncate">{album.title}</h3>
+                      <h3 className="font-semibold text-sm truncate">
+                        {album.title}
+                      </h3>
                       <div className="flex items-center justify-between text-xs text-muted-foreground">
                         <span>{album.year}</span>
                         <span className="border border-border rounded px-1.5 py-0.5 text-[10px] uppercase tracking-wide">

@@ -50,6 +50,22 @@ export function GbvFooter() {
             ))}
           </div>
         </div>
+        <div className="mt-2 text-[10px] text-white text-center md:text-[12px]">
+          <div className="flex flex-wrap items-center gap-1.5 justify-center md:gap-2">
+            <span>Image credits:</span>
+            {site.imageSources.map((source) => (
+              <a
+                key={source.label}
+                href={source.url}
+                target="_blank"
+                rel="noreferrer"
+                className="transition-colors hover:underline hover:decoration-current"
+              >
+                {source.label}
+              </a>
+            ))}
+          </div>
+        </div>
         {isAmrep && (
           <div className="mt-2 text-[10px] text-white text-center md:text-[12px]">
             All Content, Rights, Copyrights, etc. are the property of Tom

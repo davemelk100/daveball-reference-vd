@@ -99,17 +99,24 @@ function MemberAvatar({
     }
 
     fetchCommons();
-  }, [hasError, localImageUrl, lookupAttempted, name, normalizedImageUrl, skipRemoteLookup]);
+  }, [
+    hasError,
+    localImageUrl,
+    lookupAttempted,
+    name,
+    normalizedImageUrl,
+    skipRemoteLookup,
+  ]);
 
   if (!resolvedImageUrl || hasError) {
     return (
-      <div className="w-full aspect-square rounded-lg mb-2 mx-auto flex items-center justify-center bg-muted">
+      <div className="w-full aspect-square rounded-lg mb-2 mx-auto flex items-center justify-center">
         <Image
           src={fallbackIconSrc}
           alt="Artist placeholder"
-          width={48}
-          height={48}
-          className="h-12 w-12 gbv-nav-icon"
+          width={24}
+          height={24}
+          className="w-1/2 h-1/2 gbv-nav-icon object-contain"
         />
       </div>
     );
@@ -151,7 +158,9 @@ export function GbvSearchContent() {
       if (isAmrep) {
         if (!isActive) return;
         try {
-          const res = await fetch("/api/amrep/discogs?type=releases&per_page=100");
+          const res = await fetch(
+            "/api/amrep/discogs?type=releases&per_page=100",
+          );
           if (res.ok) {
             const data = await res.json();
             const releases = Array.isArray(data?.releases) ? data.releases : [];
@@ -162,7 +171,7 @@ export function GbvSearchContent() {
                 year: release.year,
                 thumb: release.thumb || "",
                 format: release.format,
-              }))
+              })),
             );
           } else {
             setAlbums(
@@ -172,7 +181,7 @@ export function GbvSearchContent() {
                 year: release.year,
                 thumb: "",
                 format: release.format,
-              }))
+              })),
             );
           }
         } catch (err) {
@@ -184,7 +193,7 @@ export function GbvSearchContent() {
               year: release.year,
               thumb: "",
               format: release.format,
-            }))
+            })),
           );
         }
 
@@ -194,7 +203,7 @@ export function GbvSearchContent() {
             name: artist.name,
             active: artist.active,
             imageUrl: null,
-          }))
+          })),
         );
         setIsLoading(false);
         return;
@@ -262,7 +271,8 @@ export function GbvSearchContent() {
       <div className="container py-6">
         <Card>
           <CardContent className="p-6 text-center text-muted-foreground">
-            Enter a search term to find {site.navLabels.discography.toLowerCase()} or{" "}
+            Enter a search term to find{" "}
+            {site.navLabels.discography.toLowerCase()} or{" "}
             {site.navLabels.members.toLowerCase()}.
           </CardContent>
         </Card>
@@ -308,7 +318,10 @@ export function GbvSearchContent() {
           </h2>
           <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {filteredMembers.map((member) => (
-              <Link key={member.id} href={`${site.basePath}/members/${member.id}`}>
+              <Link
+                key={member.id}
+                href={`${site.basePath}/members/${member.id}`}
+              >
                 <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
                   <CardContent className="p-3 text-center">
                     <MemberAvatar
@@ -353,9 +366,9 @@ export function GbvSearchContent() {
                         <Image
                           src={site.placeholderIconSrc}
                           alt={`${site.shortName} logo`}
-                          width={48}
-                          height={48}
-                          className="h-12 w-12 gbv-nav-icon"
+                          width={24}
+                          height={24}
+                          className="w-1/2 h-1/2 gbv-nav-icon object-contain"
                         />
                       </div>
                     )}

@@ -21,8 +21,7 @@ interface Member {
 const MEMBER_IMAGE_FALLBACKS: Record<string, string> = {
   "mark shue":
     "/api/gbv/image-proxy?url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FSpecial%3AFilePath%2FMark%2520Shue%2520GARP%2520music%2520festival%25202016.jpg",
-  cows:
-    "/api/gbv/image-proxy?url=https%3A%2F%2Fstatic.wikia.nocookie.net%2Fpeel%2Fimages%2F0%2F02%2FCows.jpg%2Frevision%2Flatest%3Fcb%3D20230612102727",
+  cows: "/api/gbv/image-proxy?url=https%3A%2F%2Fstatic.wikia.nocookie.net%2Fpeel%2Fimages%2F0%2F02%2FCows.jpg%2Frevision%2Flatest%3Fcb%3D20230612102727",
   hammerhead:
     "/api/gbv/image-proxy?url=https%3A%2F%2Fhpr1.com%2Fimages%2Fuploads%2Farticle_images%2F277%2Fhammerhead__social.png",
 };
@@ -122,13 +121,13 @@ function MemberAvatar({
 
   if (!resolvedImageUrl || hasError) {
     return (
-      <div className="w-full aspect-square rounded-lg mb-2 mx-auto flex items-center justify-center bg-muted">
+      <div className="w-full aspect-square rounded-lg mb-2 mx-auto flex items-center justify-center">
         <Image
           src={fallbackIconSrc}
           alt="Artist placeholder"
-          width={48}
-          height={48}
-          className="h-12 w-12 gbv-nav-icon"
+          width={24}
+          height={24}
+          className="w-1/2 h-1/2 gbv-nav-icon object-contain"
         />
       </div>
     );
@@ -165,7 +164,7 @@ export function GbvMembersContent() {
           name: artist.name,
           active: artist.active,
           imageUrl: null,
-        }))
+        })),
       );
       setIsLoading(false);
       return;

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-type SourceState = "direct" | "proxy" | "fallback";
+type SourceState = "direct" | "fallback";
 
 type GbvRemoteImageProps = {
   src?: string | null;
@@ -24,10 +24,6 @@ function normalizeUrl(url?: string | null): string | null {
   return url.replace(/^http:/, "https:");
 }
 
-function getProxyUrl(url: string): string {
-  return `/api/gbv/image-proxy?url=${encodeURIComponent(url)}`;
-}
-
 export function GbvRemoteImage({
   src,
   alt,
@@ -35,14 +31,15 @@ export function GbvRemoteImage({
   width,
   height,
   loading = "lazy",
-  fallbackSrc = "/chat-gbv-box.svg",
-  fit = "cover",
+  fallbackSrc = "/noise-bird.png",
+  fit = "contain",
   cacheKey,
-  preferProxy = false,
+  preferProxy: _preferProxy = false,
 }: GbvRemoteImageProps) {
   const normalized = normalizeUrl(src);
   const [currentSrc, setCurrentSrc] = useState<string | null>(normalized);
   const [sourceState, setSourceState] = useState<SourceState>("direct");
+  const effectiveFit = "contain";
 
   useEffect(() => {
     let initialSrc = normalized;
@@ -50,24 +47,23 @@ export function GbvRemoteImage({
       try {
         const cached = localStorage.getItem(cacheKey);
         if (cached) {
-          setCurrentSrc(cached);
-          setSourceState("direct");
-          return;
+          const isInvalidCached =
+            cached === fallbackSrc || cached.endsWith("/chat-gbv-box.svg");
+          if (!isInvalidCached) {
+            setCurrentSrc(cached);
+            setSourceState("direct");
+            return;
+          }
         }
       } catch {
         // ignore cache errors
       }
     }
 
-    if (preferProxy && normalized && !normalized.startsWith("/")) {
-      initialSrc = getProxyUrl(normalized);
-      setSourceState("proxy");
-    } else {
-      setSourceState("direct");
-    }
+    setSourceState("direct");
 
     setCurrentSrc(initialSrc);
-  }, [cacheKey, normalized, preferProxy]);
+  }, [cacheKey, normalized]);
 
   const handleError = () => {
     if (!normalized) {
@@ -77,12 +73,6 @@ export function GbvRemoteImage({
     }
 
     if (sourceState === "direct") {
-      setCurrentSrc(getProxyUrl(normalized));
-      setSourceState("proxy");
-      return;
-    }
-
-    if (sourceState === "proxy") {
       setCurrentSrc(fallbackSrc);
       setSourceState("fallback");
     }
@@ -100,18 +90,14 @@ export function GbvRemoteImage({
       referrerPolicy="no-referrer"
       onError={handleError}
       onLoad={() => {
-        if (!cacheKey) return;
+        if (!cacheKey || sourceState === "fallback") return;
         try {
           localStorage.setItem(cacheKey, currentSrc);
         } catch {
           // ignore cache errors
         }
       }}
-      className={cn(
-        "block",
-        fit === "cover" ? "object-cover" : "object-contain",
-        className
-      )}
+      className={cn("block", "object-contain", className)}
     />
   );
 }

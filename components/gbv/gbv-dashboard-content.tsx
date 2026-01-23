@@ -139,9 +139,9 @@ function MemberAvatar({
         <Image
           src={fallbackIconSrc}
           alt="Artist placeholder"
-          width={48}
-          height={48}
-          className="h-12 w-12 gbv-nav-icon"
+          width={24}
+          height={24}
+          className="w-1/2 h-1/2 gbv-nav-icon object-contain"
           loading="eager"
         />
       </div>
@@ -486,14 +486,14 @@ export function GbvDashboardContent() {
                     />
                   ) : (
                     <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
-                      <Image
-                        src={site.placeholderIconSrc}
-                        alt={`${site.shortName} logo`}
-                        width={48}
-                        height={48}
-                        className="h-12 w-12 gbv-nav-icon"
-                        loading="eager"
-                      />
+                        <Image
+                          src={site.placeholderIconSrc}
+                          alt={`${site.shortName} logo`}
+                          width={24}
+                          height={24}
+                          className="w-1/2 h-1/2 gbv-nav-icon object-contain"
+                          loading="eager"
+                        />
                     </div>
                   )}
                   <h3 className="font-semibold text-sm truncate">{album.title}</h3>

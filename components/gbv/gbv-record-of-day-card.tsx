@@ -229,9 +229,9 @@ export function GbvRecordOfDayCard() {
                 <Image
                   src={site.placeholderIconSrc}
                   alt={`${site.shortName} logo`}
-                  width={64}
-                  height={64}
-                  className="h-16 w-16 gbv-nav-icon"
+                  width={32}
+                  height={32}
+                  className="w-1/2 h-1/2 gbv-nav-icon object-contain"
                 />
               </Link>
             ) : (
@@ -239,9 +239,9 @@ export function GbvRecordOfDayCard() {
                 <Image
                   src={site.placeholderIconSrc}
                   alt={`${site.shortName} logo`}
-                  width={64}
-                  height={64}
-                  className="h-16 w-16 gbv-nav-icon"
+                  width={32}
+                  height={32}
+                  className="w-1/2 h-1/2 gbv-nav-icon object-contain"
                 />
               </div>
             )

@@ -64,9 +64,9 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
                   <Image
                     src={site.placeholderIconSrc}
                     alt={`${site.shortName} logo`}
-                    width={96}
-                    height={96}
-                    className="h-24 w-24"
+                    width={48}
+                    height={48}
+                    className="w-1/2 h-1/2 gbv-nav-icon object-contain"
                   />
                 </div>
               </div>
@@ -224,9 +224,9 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
                   <Image
                     src="/chat-gbv-box.svg"
                     alt="GBV rune"
-                    width={96}
-                    height={96}
-                    className="h-24 w-24 gbv-nav-icon"
+                    width={48}
+                    height={48}
+                    className="w-1/2 h-1/2 gbv-nav-icon object-contain"
                   />
                 </div>
               )}

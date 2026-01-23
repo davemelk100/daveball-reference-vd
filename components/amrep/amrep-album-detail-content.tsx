@@ -177,18 +177,16 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
                   alt={album.title}
                   width={300}
                   height={300}
-                  className="w-full aspect-square rounded-lg object-cover mb-4"
+                  className="w-full aspect-square rounded-lg object-contain mb-4"
                   cacheKey={`gbv-album-thumb:${album.id}`}
                   preferProxy
                 />
               ) : (
                 <div className="w-full aspect-square bg-muted rounded-lg mb-4 flex items-center justify-center">
-                  <Image
+                  <img
                     src={site.placeholderIconSrc}
                     alt={`${site.shortName} logo`}
-                    width={96}
-                    height={96}
-                    className="h-24 w-24 gbv-nav-icon"
+                    className="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
                   />
                 </div>
               )}
