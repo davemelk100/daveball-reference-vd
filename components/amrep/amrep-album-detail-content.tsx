@@ -1,126 +1,36 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Loader2, ExternalLink, ArrowLeft } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
+import { Loader2, ExternalLink } from "lucide-react";
 import { GbvRemoteImage } from "@/components/amrep/amrep-remote-image";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
-import { usePathname } from "next/navigation";
-import { getMusicSiteFromPathname } from "@/lib/music-site";
-import { getAmrepReleaseById } from "@/lib/amrep-releases-data";
 import { getProxiedImageUrl, getReleaseType } from "@/lib/gbv-utils";
-
-interface Album {
-  id: number;
-  title: string;
-  year: number;
-  thumb?: string | null;
-  mainRelease?: number;
-  format?: string | string[];
-  labels?: Array<{ name: string }>;
-  artists?: Array<{ name: string }>;
-  releaseType?: string;
-}
-
-interface Track {
-  position: string;
-  title: string;
-  duration: string;
-}
-
-interface AlbumDetail {
-  id: number;
-  title: string;
-  year: number;
-  thumb?: string | null;
-  mainRelease?: number;
-  format?: string | string[];
-  labels?: Array<{ name: string }>;
-  artists?: Array<{ name: string }>;
-  styles?: string[];
-  genres?: string[];
-  tracklist?: Track[];
-  releaseType?: string;
-}
+import {
+  useSiteAlbumDetail,
+  type AmrepAlbumDetail,
+} from "@/components/music-site/use-site-album-detail";
+import { AlbumDetailLayout } from "@/components/music-site/album-detail-layout";
+import { AlbumDetailTracklist } from "@/components/music-site/album-detail-tracklist";
+import { AlbumDetailLeft } from "@/components/music-site/album-detail-left";
 
 export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
-  const pathname = usePathname();
-  const site = getMusicSiteFromPathname(pathname);
-  const isAmrep = site.id === "amrep";
-  const [album, setAlbum] = useState<AlbumDetail | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { site, isAmrep, album, isLoading, error } = useSiteAlbumDetail(albumId);
+  const detail = album as AmrepAlbumDetail | null;
 
-  useEffect(() => {
-    let isActive = true;
+  const albumImage = useMemo(() => {
+    if (!detail) return null;
+    return isAmrep && detail.thumb
+      ? getProxiedImageUrl(detail.thumb)
+      : getLocalAlbumImage(detail.id) || getProxiedImageUrl(detail.thumb);
+  }, [detail?.id, detail?.thumb, isAmrep]);
 
-    async function fetchAlbum() {
-      setIsLoading(true);
-      setError(null);
-
-      if (isAmrep) {
-        try {
-          const res = await fetch(`/api/amrep/discogs?type=release&id=${albumId}`);
-          if (res.ok) {
-            const data = await res.json();
-            if (isActive) {
-              setAlbum(data.release);
-              setIsLoading(false);
-            }
-            return;
-          }
-        } catch {
-          // fall back to local data
-        }
-
-        const release = getAmrepReleaseById(Number(albumId));
-        if (isActive) {
-          if (release) {
-            setAlbum({
-              id: release.id,
-              title: `${release.artist} — ${release.title}`,
-              year: release.year,
-              thumb: "",
-              format: release.format,
-              artists: release.artist ? [{ name: release.artist }] : undefined,
-            });
-          } else {
-            setError("Release not found");
-            setAlbum(null);
-          }
-          setIsLoading(false);
-        }
-        return;
-      }
-
-      try {
-        const res = await fetch(`/api/gbv/discogs?type=master&id=${albumId}`);
-        if (!res.ok) throw new Error("Failed to fetch album");
-        const data = await res.json();
-        if (isActive) {
-          setAlbum(data);
-        }
-      } catch (err) {
-        if (isActive) {
-          setError("Failed to load album details");
-        }
-        console.error(err);
-      } finally {
-        if (isActive) {
-          setIsLoading(false);
-        }
-      }
-    }
-
-    fetchAlbum();
-    return () => {
-      isActive = false;
-    };
-  }, [albumId, isAmrep]);
+  const displayTitle = useMemo(() => {
+    if (!detail) return "";
+    return isAmrep && detail.artists && detail.artists.length > 0
+      ? `${detail.artists.map((artist) => artist.name).join(", ")} — ${detail.title}`
+      : detail.title;
+  }, [detail?.artists, detail?.title, isAmrep]);
 
   if (isLoading) {
     return (
@@ -135,135 +45,108 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
 
   if (error || !album) {
     return (
-      <div className="container py-6">
-        <Link href={`${site.basePath}/albums`}>
-          <Button variant="ghost" className="mb-4">
-            <ArrowLeft className="h-4 w-4 mr-2" /> Back to {site.navLabels.discography}
-          </Button>
-        </Link>
-        <Card>
-          <CardContent className="p-6 text-center text-muted-foreground">
+      <AlbumDetailLayout
+        site={site}
+        backHref={`${site.basePath}/albums`}
+        backLabel={site.navLabels.discography}
+        leftContent={
+          <div className="w-full aspect-square bg-muted rounded-lg mb-4 flex items-center justify-center">
+            <img
+              src={site.placeholderIconSrc}
+              alt={`${site.shortName} logo`}
+              className="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
+            />
+          </div>
+        }
+        rightTitle="Tracklist"
+        rightContent={
+          <p className="text-sm text-muted-foreground">
             {error || "Album not found"}
-          </CardContent>
-        </Card>
-      </div>
+          </p>
+        }
+      />
     );
   }
 
-  const albumImage = isAmrep
-    ? getProxiedImageUrl(album.thumb)
-    : getLocalAlbumImage(album.id) || getProxiedImageUrl(album.thumb);
-  const displayTitle =
-    isAmrep && album.artists && album.artists.length > 0
-      ? `${album.artists.map((artist) => artist.name).join(", ")} — ${album.title}`
-      : album.title;
+  if (!detail) {
+    return null;
+  }
+
+  const leftContent = (
+    <AlbumDetailLeft
+      image={
+        albumImage ? (
+          <GbvRemoteImage
+            src={albumImage}
+            alt={detail.title}
+            width={300}
+            height={300}
+            className="w-full aspect-square rounded-lg object-contain"
+            cacheKey={`gbv-album-thumb:${detail.id}`}
+            preferProxy
+          />
+        ) : (
+          <div className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center">
+            <img
+              src={site.placeholderIconSrc}
+              alt={`${site.shortName} logo`}
+              className="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
+            />
+          </div>
+        )
+      }
+      title={displayTitle}
+      badges={[
+        ...(detail.year ? [{ label: String(detail.year), variant: "outline" as const }] : []),
+        {
+          label: getReleaseType(detail.format, detail.releaseType),
+          variant: "outline" as const,
+        },
+        ...(detail.styles?.map((style) => ({
+          label: style,
+          variant: "secondary" as const,
+        })) ?? []),
+      ]}
+      meta={[
+        ...(detail.labels && detail.labels.length > 0
+          ? [
+              {
+                label: "Label",
+                value: detail.labels.map((label) => label.name).join(", "),
+              },
+            ]
+          : []),
+        ...(detail.artists && detail.artists.length > 0
+          ? [
+              {
+                label: "Artist",
+                value: detail.artists.map((artist) => artist.name).join(", "),
+              },
+            ]
+          : []),
+      ]}
+      linkHref={!isAmrep ? `https://www.discogs.com/release/${detail.id}` : null}
+      linkLabel={!isAmrep ? "View on Discogs" : null}
+      linkClassName="inline-flex items-center text-sm text-primary hover:underline mt-2"
+    />
+  );
+
+  const rightContent = (
+    <AlbumDetailTracklist
+      tracks={detail.tracklist}
+      variant="amrep"
+      emptyLabel="Tracklist not available."
+    />
+  );
 
   return (
-    <div className="container py-6">
-      <Link href={`${site.basePath}/albums`}>
-        <Button variant="ghost" className="mb-4">
-          <ArrowLeft className="h-4 w-4 mr-2" /> Back to {site.navLabels.discography}
-        </Button>
-      </Link>
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Album Cover */}
-        <div className="lg:col-span-1">
-          <Card>
-            <CardContent className="p-4">
-              {albumImage ? (
-                <GbvRemoteImage
-                  src={albumImage}
-                  alt={album.title}
-                  width={300}
-                  height={300}
-                  className="w-full aspect-square rounded-lg object-contain mb-4"
-                  cacheKey={`gbv-album-thumb:${album.id}`}
-                  preferProxy
-                />
-              ) : (
-                <div className="w-full aspect-square bg-muted rounded-lg mb-4 flex items-center justify-center">
-                  <img
-                    src={site.placeholderIconSrc}
-                    alt={`${site.shortName} logo`}
-                    className="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
-                  />
-                </div>
-              )}
-              <h1 className="font-league mb-2">
-                {displayTitle}
-              </h1>
-              <div className="flex flex-wrap gap-2 mb-4">
-                {album.year && (
-                  <Badge variant="outline">{album.year}</Badge>
-                )}
-                <Badge variant="outline">
-                  {getReleaseType(album.format, album.releaseType)}
-                </Badge>
-                {album.styles?.map((style) => (
-                  <Badge key={style} variant="secondary">
-                    {style}
-                  </Badge>
-                ))}
-              </div>
-              {album.labels && album.labels.length > 0 && (
-                <div className="text-sm text-muted-foreground mb-2">
-                  <span className="font-semibold">Label:</span>{" "}
-                  {album.labels.map((label) => label.name).join(", ")}
-                </div>
-              )}
-              {album.artists && album.artists.length > 0 && (
-                <div className="text-sm text-muted-foreground mb-2">
-                  <span className="font-semibold">Artist:</span>{" "}
-                  {album.artists.map((artist) => artist.name).join(", ")}
-                </div>
-              )}
-              {!isAmrep && (
-                <a
-                  href={`https://www.discogs.com/release/${album.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm text-primary hover:underline mt-2"
-                >
-                  View on Discogs <ExternalLink className="h-3 w-3 ml-1" />
-                </a>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Tracklist */}
-        <div className="lg:col-span-2">
-          <Card>
-            <CardContent className="p-4">
-              <h2 className="font-league mb-4">Tracklist</h2>
-              {album.tracklist && album.tracklist.length > 0 ? (
-                <div className="space-y-2">
-                  {album.tracklist.map((track, idx) => (
-                    <div
-                      key={`${track.title}-${idx}`}
-                      className="flex items-center justify-between border-b border-border pb-2 last:border-0"
-                    >
-                      <div>
-                        <span className="text-sm font-medium">
-                          {track.position || idx + 1}. {track.title}
-                        </span>
-                      </div>
-                      <span className="text-xs text-muted-foreground">
-                        {track.duration || "—"}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm text-muted-foreground">
-                  Tracklist not available.
-                </p>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
+    <AlbumDetailLayout
+      site={site}
+      backHref={`${site.basePath}/albums`}
+      backLabel={site.navLabels.discography}
+      leftContent={leftContent}
+      rightTitle="Tracklist"
+      rightContent={rightContent}
+    />
   );
 }

@@ -1,17 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Loader2, ExternalLink, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Loader2, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
 import { getLocalMemberImage } from "@/lib/gbv-member-images";
 import { usePathname } from "next/navigation";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
 import { getAmrepArtistById } from "@/lib/amrep-artists-data";
+import { useMemberImage } from "@/components/music-site/use-member-image";
+import { MemberDetailLayout } from "@/components/music-site/member-detail-layout";
+import { MemberDetailLeft } from "@/components/music-site/member-detail-left";
+import { MemberDetailRight } from "@/components/music-site/member-detail-right";
 
 interface Release {
   id: number;
@@ -50,51 +50,54 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
   if (isAmrep) {
     const artist = getAmrepArtistById(Number(memberId));
     return (
-      <div className="container py-6">
-        <Link href={`${site.basePath}/members`}>
-          <Button variant="ghost" className="mb-4">
-            <ArrowLeft className="h-4 w-4 mr-2" /> Back to {site.navLabels.members}
-          </Button>
-        </Link>
-        <Card>
-          <CardContent className="p-6">
-            <div className="grid gap-6 lg:grid-cols-3">
-              <div className="lg:col-span-1">
-                <div className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center">
-                  <Image
-                    src={site.placeholderIconSrc}
-                    alt={`${site.shortName} logo`}
-                    width={48}
-                    height={48}
-                    className="w-1/2 h-1/2 gbv-nav-icon object-contain"
-                  />
-                </div>
-              </div>
-              <div className="lg:col-span-2">
-                <h1 className="font-league mb-2">
-                  {artist?.name || "Artist"}
-                </h1>
-                <p className="text-sm text-muted-foreground mb-4">
-                  {artist?.description ||
-                    "Artist featured on the Amphetamine Reptile Records roster."}
-                </p>
-                <a
-                  href="https://www.shoxop.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm text-primary hover:underline"
-                >
-                  Browse the AmRep catalog <ExternalLink className="h-3 w-3 ml-1" />
-                </a>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <MemberDetailLayout
+        site={site}
+        backHref={`${site.basePath}/members`}
+        backLabel={site.navLabels.members}
+        leftContent={
+          <div className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center">
+            <Image
+              src={site.placeholderIconSrc}
+              alt={`${site.shortName} logo`}
+              width={48}
+              height={48}
+              className="w-1/2 h-1/2 gbv-nav-icon object-contain"
+            />
+          </div>
+        }
+        rightTitle="About"
+        rightContent={
+          <div>
+            <h1 className="font-league mb-2">
+              {artist?.name || "Artist"}
+            </h1>
+            <p className="text-sm text-muted-foreground mb-4">
+              {artist?.description ||
+                "Artist featured on the Amphetamine Reptile Records roster."}
+            </p>
+            <a
+              href="https://www.shoxop.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center text-sm text-primary hover:underline"
+            >
+              Browse the AmRep catalog <ExternalLink className="h-3 w-3 ml-1" />
+            </a>
+          </div>
+        }
+      />
     );
   }
-  const [commonsImageUrl, setCommonsImageUrl] = useState<string | null>(null);
   const localMemberImage = getLocalMemberImage(Number(memberId));
+  const { resolvedImageUrl } = useMemberImage({
+    siteId: site.id,
+    memberName: member?.name,
+    memberId,
+    localImageUrl: localMemberImage,
+    discogsImageUrl: null,
+    fallbackImageUrl: null,
+    skipRemoteLookup: false,
+  });
 
   useEffect(() => {
     async function fetchMember() {
@@ -132,33 +135,6 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
     fetchMember();
   }, [memberId]);
 
-  useEffect(() => {
-    if (!member?.name) return;
-    let isActive = true;
-
-    const fetchCommonsImage = async () => {
-      try {
-        const res = await fetch(
-          `/api/gbv/commons-image?name=${encodeURIComponent(member.name)}`,
-        );
-        if (!res.ok) return;
-        const data = await res.json();
-        if (isActive) {
-          setCommonsImageUrl(data.imageUrl || null);
-        }
-      } catch {
-        if (isActive) {
-          setCommonsImageUrl(null);
-        }
-      }
-    };
-
-    fetchCommonsImage();
-    return () => {
-      isActive = false;
-    };
-  }, [member?.name]);
-
   if (isLoading) {
     return (
       <div className="container py-6">
@@ -172,141 +148,113 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
 
   if (error || !member) {
     return (
-      <div className="container py-6">
-        <Link href={`${site.basePath}/members`}>
-          <Button variant="ghost" className="mb-4">
-            <ArrowLeft className="h-4 w-4 mr-2" /> Back to {site.navLabels.members}
-          </Button>
-        </Link>
-        <Card>
-          <CardContent className="p-6 text-center text-muted-foreground">
+      <MemberDetailLayout
+        site={site}
+        backHref={`${site.basePath}/members`}
+        backLabel={site.navLabels.members}
+        leftContent={
+          <div className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center">
+            <Image
+              src="/chat-gbv-box.svg"
+              alt="GBV rune"
+              width={48}
+              height={48}
+              className="w-1/2 h-1/2 gbv-nav-icon object-contain"
+            />
+          </div>
+        }
+        rightTitle="Discography"
+        rightContent={
+          <p className="text-sm text-muted-foreground">
             {error || "Member not found"}
-          </CardContent>
-        </Card>
-      </div>
+          </p>
+        }
+      />
     );
   }
 
+  const externalLinks =
+    member.urls?.slice(0, 3).map((url) => ({
+      href: url,
+      label: new URL(url).hostname.replace("www.", ""),
+    })) ?? [];
+
+  const leftContent = (
+    <MemberDetailLeft
+      image={
+        resolvedImageUrl ? (
+          <GbvRemoteImage
+            src={resolvedImageUrl}
+            alt={member.name}
+            width={300}
+            height={300}
+            className="w-full aspect-square rounded-lg object-cover"
+            cacheKey={`gbv-member-photo:${memberId}`}
+            preferProxy
+          />
+        ) : (
+          <div className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center">
+            <Image
+              src="/chat-gbv-box.svg"
+              alt="GBV rune"
+              width={48}
+              height={48}
+              className="w-1/2 h-1/2 gbv-nav-icon object-contain"
+            />
+          </div>
+        )
+      }
+      name={member.name}
+      realName={member.realname}
+      profile={member.profile}
+      profileClassName="line-clamp-6"
+      links={externalLinks}
+    />
+  );
+
+  const rightContent =
+    member.groups && member.groups.length > 0 ? (
+      <MemberDetailRight
+        items={member.groups}
+        emptyLabel="No discography found"
+        containerClassName="grid gap-3 sm:grid-cols-2"
+        renderItem={(group) => (
+          <div
+            key={group.id ?? group.name}
+            className="flex items-center justify-between rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white hover:bg-white/20"
+          >
+            <span className="font-semibold">{group.name}</span>
+            <span className="text-xs text-white/70">
+              {group.active === false ? "Inactive" : "Active"}
+            </span>
+          </div>
+        )}
+      />
+    ) : (
+      <MemberDetailRight
+        items={releases}
+        emptyLabel="No discography found"
+        containerClassName="grid gap-3 sm:grid-cols-2"
+        renderItem={(release) => (
+          <div
+            key={`${release.id}-${release.title}-${release.year ?? "unknown"}`}
+            className="flex items-center justify-between rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white"
+          >
+            <span className="font-semibold">{release.title}</span>
+            <span className="text-xs text-white/70">{release.year ?? "—"}</span>
+          </div>
+        )}
+      />
+    );
+
   return (
-    <div className="container py-6">
-      <Link href={`${site.basePath}/members`}>
-        <Button variant="ghost" className="mb-4">
-          <ArrowLeft className="h-4 w-4 mr-2" /> Back to {site.navLabels.members}
-        </Button>
-      </Link>
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Member Info */}
-        <div className="lg:col-span-1">
-          <Card>
-            <CardContent className="p-4">
-              {localMemberImage ? (
-                <Image
-                  src={localMemberImage}
-                  alt={member.name}
-                  width={300}
-                  height={300}
-                  className="w-full aspect-square rounded-lg object-cover mb-4"
-                  priority
-                />
-              ) : commonsImageUrl ? (
-                <GbvRemoteImage
-                  src={commonsImageUrl}
-                  alt={member.name}
-                  width={300}
-                  height={300}
-                  className="w-full aspect-square rounded-lg object-cover mb-4"
-                  cacheKey={`gbv-member-photo:${memberId}`}
-                  preferProxy
-                />
-              ) : (
-                <div className="w-full aspect-square bg-muted rounded-lg mb-4 flex items-center justify-center">
-                  <Image
-                    src="/chat-gbv-box.svg"
-                    alt="GBV rune"
-                    width={48}
-                    height={48}
-                    className="w-1/2 h-1/2 gbv-nav-icon object-contain"
-                  />
-                </div>
-              )}
-              <h1 className="font-league mb-2">
-                {member.name}
-              </h1>
-              {member.realname && member.realname !== member.name && (
-                <p className="text-sm text-muted-foreground mb-4">
-                  Real name: {member.realname}
-                </p>
-              )}
-
-              {member.profile && (
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-6">
-                  {member.profile}
-                </p>
-              )}
-
-              {member.urls && member.urls.length > 0 && (
-                <div className="space-y-2">
-                  {member.urls.slice(0, 3).map((url, i) => (
-                    <a
-                      key={i}
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center text-sm text-primary hover:underline"
-                    >
-                      <ExternalLink className="h-3 w-3 mr-1" />
-                      {new URL(url).hostname.replace("www.", "")}
-                    </a>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Discography */}
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Discography</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {member.groups && member.groups.length > 0 ? (
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {member.groups.map((group) => (
-                    <div
-                      key={group.id ?? group.name}
-                      className="flex items-center justify-between rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white hover:bg-white/20"
-                    >
-                      <span className="font-semibold">{group.name}</span>
-                      <span className="text-xs text-white/70">
-                        {group.active === false ? "Inactive" : "Active"}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ) : releases.length > 0 ? (
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {releases.map((release) => (
-                    <div
-                      key={`${release.id}-${release.title}-${release.year ?? "unknown"}`}
-                      className="flex items-center justify-between rounded-lg border border-white/20 bg-white/10 px-4 py-3 text-sm text-white"
-                    >
-                      <span className="font-semibold">{release.title}</span>
-                      <span className="text-xs text-white/70">
-                        {release.year ?? "—"}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-muted-foreground">No discography found</p>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
+    <MemberDetailLayout
+      site={site}
+      backHref={`${site.basePath}/members`}
+      backLabel={site.navLabels.members}
+      leftContent={leftContent}
+      rightTitle="Discography"
+      rightContent={rightContent}
+    />
   );
 }

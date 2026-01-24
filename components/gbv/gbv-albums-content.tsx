@@ -1,45 +1,19 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loader2, Search } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
+import { Loader2 } from "lucide-react";
 import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
 import { getReleaseType, getProxiedImageUrl } from "@/lib/gbv-utils";
-import { usePathname } from "next/navigation";
-import { getMusicSiteFromPathname } from "@/lib/music-site";
-import { amrepReleases } from "@/lib/amrep-releases-data";
+import { useSiteAlbumsData } from "@/components/music-site/use-site-albums-data";
+import { AlbumGrid } from "@/components/music-site/album-grid";
+import { AlbumsControls } from "@/components/music-site/albums-controls";
 
 const ITEMS_PER_PAGE = 30;
 
-interface Album {
-  id: number;
-  title: string;
-  year: number;
-  thumb: string;
-  mainRelease?: number;
-  format?: string | string[];
-  releaseType?: string;
-}
-
 export function GbvAlbumsContent() {
-  const pathname = usePathname();
-  const site = getMusicSiteFromPathname(pathname);
-  const isAmrep = site.id === "amrep";
-  const [albums, setAlbums] = useState<Album[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { site, isAmrep, albums, isLoading } = useSiteAlbumsData();
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<"year-asc" | "year-desc" | "title">(
     "year-asc",
@@ -48,89 +22,6 @@ export function GbvAlbumsContent() {
     "all" | "albums" | "singles"
   >("albums");
   const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
-
-  useEffect(() => {
-    if (isAmrep) {
-      const fetchAmrep = async () => {
-        try {
-          const res = await fetch(
-            "/api/amrep/discogs?type=releases&per_page=100",
-          );
-          if (!res.ok) throw new Error("Failed to fetch releases");
-          const data = await res.json();
-          const releases = Array.isArray(data?.releases) ? data.releases : [];
-          if (releases.length > 0) {
-            setAlbums(
-              releases.map((release: any) => ({
-                id: release.id,
-                title: `${release.artist} — ${release.title}`,
-                year: release.year,
-                thumb: release.thumb || "",
-                format: release.format,
-              })),
-            );
-            setIsLoading(false);
-            return;
-          }
-        } catch (err) {
-          console.error(err);
-        }
-
-        const mapped = amrepReleases.map((release) => ({
-          id: release.id,
-          title: `${release.artist} — ${release.title}`,
-          year: release.year,
-          thumb: "",
-          format: release.format,
-        }));
-        setAlbums(mapped);
-        setIsLoading(false);
-      };
-
-      fetchAmrep();
-      return;
-    }
-
-    async function fetchAlbums() {
-      const cacheKey = "gbv-albums-cache";
-      try {
-        const cached = localStorage.getItem(cacheKey);
-        if (cached) {
-          const parsed = JSON.parse(cached) as {
-            timestamp: number;
-            albums: Album[];
-          };
-          if (parsed?.albums?.length) {
-            setAlbums(parsed.albums);
-            setIsLoading(false);
-          }
-        }
-      } catch {
-        // ignore cache errors
-      }
-
-      try {
-        const res = await fetch("/api/gbv/discogs?type=albums");
-        if (!res.ok) throw new Error("Failed to fetch");
-        const data = await res.json();
-        const nextAlbums = data.albums || [];
-        setAlbums(nextAlbums);
-        try {
-          localStorage.setItem(
-            cacheKey,
-            JSON.stringify({ timestamp: Date.now(), albums: nextAlbums }),
-          );
-        } catch {
-          // ignore cache errors
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchAlbums();
-  }, [isAmrep]);
 
   // Reset display count when filters change
   useEffect(() => {
@@ -176,7 +67,7 @@ export function GbvAlbumsContent() {
   const visibleAlbums = filteredAlbums.slice(0, displayCount);
   const hasMore = displayCount < filteredAlbums.length;
 
-  const getAlbumImage = (album: Album): string | null => {
+  const getAlbumImage = (album: typeof albums[number]): string | null => {
     if (isAmrep) return album.thumb ? getProxiedImageUrl(album.thumb) : null;
     return getLocalAlbumImage(album.id) || getProxiedImageUrl(album.thumb);
   };
@@ -200,119 +91,28 @@ export function GbvAlbumsContent() {
 
   return (
     <div className="container py-6">
-      <div className="flex flex-col gap-4 mb-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="font-league">{site.navLabels.discography}</h1>
-            <p className="text-sm text-muted-foreground">
-              {isAmrep
-                ? "Releases"
-                : releaseFilter === "albums"
-                  ? "Albums"
-                  : releaseFilter === "singles"
-                    ? "Singles"
-                    : "All"}{" "}
-              <span className="align-baseline">({filteredAlbums.length})</span>
-            </p>
-          </div>
-          <Tabs
-            value={releaseFilter}
-            onValueChange={(v) => setReleaseFilter(v as typeof releaseFilter)}
-            className="sm:ml-auto"
-          >
-            <TabsList className="text-black">
-              <TabsTrigger value="all" className="text-black">
-                All
-              </TabsTrigger>
-              <TabsTrigger value="albums" className="text-black">
-                Albums
-              </TabsTrigger>
-              <TabsTrigger value="singles" className="text-black">
-                Singles
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
-        <div className="flex gap-4 w-full">
-          <div className="relative flex-1">
-            <Search
-              className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${
-                isAmrep ? "text-black" : "text-white/80"
-              }`}
-            />
-            <Input
-              placeholder="Search titles..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-9 w-full text-white gbv-input-white"
-            />
-          </div>
-          <Select
-            value={sortBy}
-            onValueChange={(v) => setSortBy(v as typeof sortBy)}
-          >
-            <SelectTrigger className="w-44 text-white">
-              <SelectValue className="text-white" />
-            </SelectTrigger>
-            <SelectContent className="text-black">
-              <SelectItem value="year-asc" className="text-black">
-                Year (oldest)
-              </SelectItem>
-              <SelectItem value="year-desc" className="text-black">
-                Year (newest)
-              </SelectItem>
-              <SelectItem value="title" className="text-black">
-                Title A-Z
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
+      <AlbumsControls
+        site={site}
+        isAmrep={isAmrep}
+        totalCount={filteredAlbums.length}
+        releaseFilter={releaseFilter}
+        onReleaseFilterChange={setReleaseFilter}
+        sortBy={sortBy}
+        onSortByChange={setSortBy}
+        search={search}
+        onSearchChange={setSearch}
+      />
 
-      <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-        {visibleAlbums.map((album, index) => (
-          <Link
-            key={`${album.id ?? "release"}-${album.year ?? "unknown"}-${index}`}
-            href={`${site.basePath}/albums/${album.id}`}
-          >
-            <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
-              <CardContent className="p-3">
-                {getAlbumImage(album) ? (
-                  <GbvRemoteImage
-                    src={getAlbumImage(album)}
-                    alt={album.title}
-                    width={200}
-                    height={200}
-                    className="w-full aspect-square rounded-lg object-cover mb-2"
-                    loading={index < 6 ? "eager" : "lazy"}
-                    cacheKey={`gbv-album-thumb:${album.id}`}
-                    preferProxy
-                  />
-                ) : (
-                  <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
-                    <Image
-                      src={site.placeholderIconSrc}
-                      alt={`${site.shortName} logo`}
-                      width={24}
-                      height={24}
-                      className="w-1/2 h-1/2 gbv-nav-icon object-contain"
-                    />
-                  </div>
-                )}
-                <h3 className="font-semibold text-sm truncate">
-                  {album.title}
-                </h3>
-                <div className="flex items-center justify-between text-xs text-muted-foreground">
-                  <span>{album.year}</span>
-                  <span className="border border-border rounded px-1.5 py-0.5 text-[10px] uppercase tracking-wide">
-                    {getReleaseType(album.format, album.releaseType)}
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        ))}
-      </div>
+      <AlbumGrid
+        albums={visibleAlbums}
+        site={site}
+        getAlbumImage={getAlbumImage}
+        getReleaseTypeLabel={(album) => getReleaseType(album.format, album.releaseType)}
+        RemoteImage={GbvRemoteImage}
+        linkBasePath={`${site.basePath}/albums`}
+        cacheKeyPrefix="gbv-album-thumb"
+        imageFit={isAmrep ? "contain" : "cover"}
+      />
 
       {hasMore && (
         <div className="flex justify-center mt-8">

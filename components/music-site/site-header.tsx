@@ -12,17 +12,9 @@
  } from "@/components/ui/popover";
  import { Search } from "lucide-react";
  import { getMusicSiteFromPathname } from "@/lib/music-site";
+ import { SiteSearch } from "@/components/music-site/site-search";
 
- type SearchComponentProps = {
-   placeholder?: string;
-   inputClassName?: string;
- };
-
- type SiteHeaderProps = {
-   SearchComponent: (props: SearchComponentProps) => JSX.Element;
- };
-
- export function SiteHeader({ SearchComponent }: SiteHeaderProps) {
+ export function SiteHeader() {
    const pathname = usePathname();
    const site = getMusicSiteFromPathname(pathname);
    const askPath = `${site.basePath}/ask`;
@@ -51,7 +43,7 @@
              sideOffset={8}
              collisionPadding={16}
            >
-             <SearchComponent
+             <SiteSearch
                placeholder={site.searchPlaceholder}
                inputClassName="text-black placeholder:text-gray-400 bg-white"
              />
@@ -100,7 +92,7 @@
              </Link>
            )}
            <div className="w-72">
-             <SearchComponent />
+             <SiteSearch />
            </div>
          </div>
        </div>

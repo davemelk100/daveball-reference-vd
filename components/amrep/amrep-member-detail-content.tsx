@@ -1,11 +1,8 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Loader2, ExternalLink, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Loader2, ExternalLink } from "lucide-react";
 import { GbvRemoteImage } from "@/components/amrep/amrep-remote-image";
 import { getLocalMemberImage } from "@/lib/gbv-member-images";
 import { usePathname } from "next/navigation";
@@ -16,6 +13,10 @@ import {
   AMREP_MEMBER_IMAGE_FALLBACKS,
   AMREP_MEMBER_IMAGE_SKIP,
 } from "@/lib/amrep-member-images";
+import { useMemberImage } from "@/components/music-site/use-member-image";
+import { MemberDetailLayout } from "@/components/music-site/member-detail-layout";
+import { MemberDetailLeft } from "@/components/music-site/member-detail-left";
+import { MemberDetailRight } from "@/components/music-site/member-detail-right";
 
 interface Release {
   id: number;
@@ -58,8 +59,6 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
   const [releases, setReleases] = useState<Release[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [resolvedImageUrl, setResolvedImageUrl] = useState<string | null>(null);
-  const [lookupAttempted, setLookupAttempted] = useState(false);
   const localMemberImage = getLocalMemberImage(Number(memberId));
   const amrepFallbackImage =
     isAmrep && member?.name
@@ -204,83 +203,15 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
     };
   }, [memberId, isAmrep]);
 
-  useEffect(() => {
-    setResolvedImageUrl(null);
-    setLookupAttempted(false);
-  }, [memberId]);
-
-  useEffect(() => {
-    if (!member?.name) return;
-
-    if (localMemberImage) {
-      setResolvedImageUrl(localMemberImage);
-      return;
-    }
-
-    if (memberImageFromDiscogs) {
-      setResolvedImageUrl(memberImageFromDiscogs);
-      return;
-    }
-
-    if (amrepFallbackImage && !lookupAttempted) {
-      setResolvedImageUrl(amrepFallbackImage);
-      setLookupAttempted(true);
-      return;
-    }
-
-    if (skipRemoteLookup || lookupAttempted) return;
-
-    const cacheKey = `${site.id}-member-image:${member.name.toLowerCase()}`;
-    try {
-      const cached = localStorage.getItem(cacheKey);
-      if (cached) {
-        setResolvedImageUrl(cached);
-        setLookupAttempted(true);
-        return;
-      }
-    } catch {
-      // ignore cache errors
-    }
-
-    let isActive = true;
-
-    const fetchCommonsImage = async () => {
-      try {
-        const res = await fetch(
-          `/api/gbv/commons-image?name=${encodeURIComponent(member.name)}`,
-        );
-        if (!res.ok) return;
-        const data = await res.json();
-        if (isActive && typeof data?.imageUrl === "string") {
-          setResolvedImageUrl(data.imageUrl);
-          try {
-            localStorage.setItem(cacheKey, data.imageUrl);
-          } catch {
-            // ignore cache errors
-          }
-        }
-      } catch {
-        // ignore lookup errors
-      } finally {
-        if (isActive) {
-          setLookupAttempted(true);
-        }
-      }
-    };
-
-    fetchCommonsImage();
-    return () => {
-      isActive = false;
-    };
-  }, [
-    amrepFallbackImage,
-    localMemberImage,
-    lookupAttempted,
-    member?.name,
-    memberImageFromDiscogs,
-    site.id,
+  const { resolvedImageUrl } = useMemberImage({
+    siteId: site.id,
+    memberName: member?.name,
+    memberId,
+    localImageUrl: localMemberImage,
+    discogsImageUrl: memberImageFromDiscogs,
+    fallbackImageUrl: amrepFallbackImage,
     skipRemoteLookup,
-  ]);
+  });
 
   if (isLoading) {
     return (
@@ -295,127 +226,108 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
 
   if (error || !member) {
     return (
-      <div className="container py-6">
-        <Link href={`${site.basePath}/members`}>
-          <Button variant="ghost" className="mb-4">
-            <ArrowLeft className="h-4 w-4 mr-2" /> Back to {site.navLabels.members}
-          </Button>
-        </Link>
-        <Card>
-          <CardContent className="p-6 text-center text-muted-foreground">
+      <MemberDetailLayout
+        site={site}
+        backHref={`${site.basePath}/members`}
+        backLabel={site.navLabels.members}
+        leftContent={
+          <div className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center">
+            <img
+              src={site.placeholderIconSrc}
+              alt={`${site.shortName} logo`}
+              className="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
+            />
+          </div>
+        }
+        rightTitle="Releases"
+        rightContent={
+          <p className="text-sm text-muted-foreground">
             {error || "Member not found"}
-          </CardContent>
-        </Card>
-      </div>
+          </p>
+        }
+      />
     );
   }
 
+  const externalLinks =
+    !isAmrep && member.urls
+      ? member.urls.slice(0, 3).map((url) => ({
+          href: url,
+          label: "External link",
+        }))
+      : [];
+
+  const leftContent = (
+    <MemberDetailLeft
+      image={
+        resolvedImageUrl ? (
+          <GbvRemoteImage
+            src={resolvedImageUrl}
+            alt={member.name}
+            width={300}
+            height={300}
+            className="w-full aspect-square rounded-lg object-contain"
+            fallbackSrc={site.placeholderIconSrc}
+            cacheKey={`${site.id}-member-image:${member.name.toLowerCase()}`}
+            preferProxy
+          />
+        ) : (
+          <div className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center">
+            <img
+              src={site.placeholderIconSrc}
+              alt={`${site.shortName} logo`}
+              className="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
+            />
+          </div>
+        )
+      }
+      name={member.name}
+      realName={member.realname}
+      profile={member.profile}
+      links={externalLinks}
+    >
+      {isAmrep && (
+        <a
+          href="https://www.shoxop.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center text-sm text-primary hover:underline mb-4"
+        >
+          Browse the AmRep catalog <ExternalLink className="h-3 w-3 ml-1" />
+        </a>
+      )}
+    </MemberDetailLeft>
+  );
+
+  const rightContent = (
+    <MemberDetailRight
+      items={releases.slice(0, 20)}
+      emptyLabel="No releases found."
+      emptyClassName="text-sm"
+      containerClassName="grid gap-2"
+      renderItem={(release) => (
+        <div
+          key={release.id}
+          className="flex items-center justify-between border-b border-border pb-2 last:border-0"
+        >
+          <div>
+            <p className="font-semibold text-sm">{release.title}</p>
+            <p className="text-xs text-muted-foreground">{release.role}</p>
+          </div>
+          <Badge variant="outline">{release.year}</Badge>
+        </div>
+      )}
+    />
+  );
+
   return (
-    <div className="container py-6">
-      <Link href={`${site.basePath}/members`}>
-        <Button variant="ghost" className="mb-4">
-          <ArrowLeft className="h-4 w-4 mr-2" /> Back to {site.navLabels.members}
-        </Button>
-      </Link>
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Member Info */}
-        <div className="lg:col-span-1">
-          <Card>
-            <CardContent className="p-4">
-              {resolvedImageUrl ? (
-                <GbvRemoteImage
-                  src={resolvedImageUrl}
-                  alt={member.name}
-                  width={300}
-                  height={300}
-                  className="w-full aspect-square rounded-lg object-contain mb-4"
-                  fallbackSrc={site.placeholderIconSrc}
-                  cacheKey={`${site.id}-member-image:${member.name.toLowerCase()}`}
-                  preferProxy
-                />
-              ) : (
-                <div className="w-full aspect-square bg-muted rounded-lg mb-4 flex items-center justify-center">
-                  <img
-                    src={site.placeholderIconSrc}
-                    alt={`${site.shortName} logo`}
-                    className="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
-                  />
-                </div>
-              )}
-              <h1 className="font-league mb-2">
-                {member.name}
-              </h1>
-              {member.realname && member.realname !== member.name && (
-                <p className="text-sm text-muted-foreground mb-4">
-                  Real name: {member.realname}
-                </p>
-              )}
-              {member.profile && (
-                <p className="text-sm text-muted-foreground mb-4">
-                  {member.profile}
-                </p>
-              )}
-              {isAmrep && (
-                <a
-                  href="https://www.shoxop.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm text-primary hover:underline mb-4"
-                >
-                  Browse the AmRep catalog <ExternalLink className="h-3 w-3 ml-1" />
-                </a>
-              )}
-              {!isAmrep && member.urls && member.urls.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {member.urls.slice(0, 3).map((url, idx) => (
-                    <a
-                      key={idx}
-                      href={url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center text-xs text-primary hover:underline"
-                    >
-                      External link <ExternalLink className="h-3 w-3 ml-1" />
-                    </a>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Releases */}
-        <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>Releases</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {releases.length > 0 ? (
-                <div className="grid gap-2">
-                  {releases.slice(0, 20).map((release) => (
-                    <div
-                      key={release.id}
-                      className="flex items-center justify-between border-b border-border pb-2 last:border-0"
-                    >
-                      <div>
-                        <p className="font-semibold text-sm">{release.title}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {release.role}
-                        </p>
-                      </div>
-                      <Badge variant="outline">{release.year}</Badge>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm text-muted-foreground">No releases found.</p>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
+    <MemberDetailLayout
+      site={site}
+      backHref={`${site.basePath}/members`}
+      backLabel={site.navLabels.members}
+      leftContent={leftContent}
+      rightTitle="Releases"
+      rightContent={rightContent}
+    />
   );
 }
