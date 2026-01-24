@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GbvSpinContent } from "@/components/amrep/amrep-spin-content";
+import { AmrepSpinContent } from "@/components/amrep/amrep-spin-content";
 
 export const metadata: Metadata = {
   title: "Spin",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function AmrepSpinPage() {
-  return <GbvSpinContent />;
+  return <AmrepSpinContent />;
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GbvAlbumsContent } from "@/components/amrep/amrep-albums-content";
+import { AmrepAlbumsContent } from "@/components/amrep/amrep-albums-content";
 
 export const metadata: Metadata = {
   title: "Releases",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function AmrepAlbumsPage() {
-  return <GbvAlbumsContent />;
+  return <AmrepAlbumsContent />;
 }

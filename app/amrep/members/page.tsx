@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { GbvMembersContent } from "@/components/amrep/amrep-members-content";
+import { AmrepMembersContent } from "@/components/amrep/amrep-members-content";
 
 export const metadata: Metadata = {
   title: "Artists",
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function AmrepMembersPage() {
-  return <GbvMembersContent />;
+  return <AmrepMembersContent />;
 }
