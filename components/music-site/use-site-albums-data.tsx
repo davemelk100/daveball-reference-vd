@@ -8,7 +8,7 @@
  export interface SiteAlbum {
    id: number;
    title: string;
-   year: number;
+  year?: number | null;
    thumb: string;
    mainRelease?: number;
    format?: string | string[];
@@ -46,7 +46,7 @@
            if (releases.length > 0 && isActive) {
              const mapped = releases.map((release: any) => ({
                id: release.id,
-               title: `${release.artist} — ${release.title}`,
+              title: release.artist ? `${release.artist} — ${release.title}` : release.title,
                year: release.year,
                thumb: release.thumb || "",
                mainRelease: release.mainRelease ?? release.main_release,
@@ -63,7 +63,7 @@
          if (isActive) {
            const mapped = amrepReleases.map((release) => ({
              id: release.id,
-             title: `${release.artist} — ${release.title}`,
+            title: release.artist ? `${release.artist} — ${release.title}` : release.title,
              year: release.year,
              thumb: "",
              format: release.format,

@@ -9,7 +9,7 @@
  export interface SiteSearchAlbum {
    id: number;
    title: string;
-   year: number;
+  year?: number | null;
    thumb: string;
    coverUrl?: string | null;
    format?: string | string[];
@@ -53,7 +53,7 @@
                setAlbums(
                  releases.map((release: any) => ({
                    id: release.id,
-                   title: `${release.artist} — ${release.title}`,
+                  title: release.artist ? `${release.artist} — ${release.title}` : release.title,
                    year: release.year,
                    thumb: release.thumb || "",
                    format: release.format,
@@ -64,7 +64,7 @@
              setAlbums(
                amrepReleases.map((release) => ({
                  id: release.id,
-                 title: `${release.artist} — ${release.title}`,
+                title: release.artist ? `${release.artist} — ${release.title}` : release.title,
                  year: release.year,
                  thumb: "",
                  format: release.format,
@@ -76,7 +76,7 @@
              setAlbums(
                amrepReleases.map((release) => ({
                  id: release.id,
-                 title: `${release.artist} — ${release.title}`,
+                title: release.artist ? `${release.artist} — ${release.title}` : release.title,
                  year: release.year,
                  thumb: "",
                  format: release.format,

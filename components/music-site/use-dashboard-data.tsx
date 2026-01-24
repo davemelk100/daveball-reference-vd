@@ -54,7 +54,9 @@ const dedupeReleases = (items: DashboardAlbum[]) => {
   const seen = new Set<string>();
   return items.filter((item) => {
     const titleKey = `${item.title || ""}::${item.year || ""}`.toLowerCase();
-    const key = item.mainRelease ? `main:${item.mainRelease}` : `title:${titleKey}`;
+    const key = item.mainRelease
+      ? `main:${item.mainRelease}`
+      : `title:${titleKey}`;
     if (seen.has(key)) return false;
     seen.add(key);
     return true;
@@ -120,7 +122,10 @@ export function useDashboardData() {
         }
 
         const artistData = await artistRes.json();
-        if (Array.isArray(artistData?.members) && artistData.members.length <= 1) {
+        if (
+          Array.isArray(artistData?.members) &&
+          artistData.members.length <= 1
+        ) {
           const fallbackRes = await fetch("/api/gbv/discogs?type=artist");
           if (fallbackRes.ok) {
             const fallbackData = await fallbackRes.json();
@@ -157,7 +162,9 @@ export function useDashboardData() {
     if (isAmrep) {
       const fetchAmrepReleases = async () => {
         try {
-          const res = await fetch("/api/amrep/discogs?type=releases&per_page=100");
+          const res = await fetch(
+            "/api/amrep/discogs?type=releases&per_page=100",
+          );
           if (!res.ok) throw new Error("Failed to fetch releases");
           const data = await res.json();
           const releases = Array.isArray(data?.releases) ? data.releases : [];
@@ -203,7 +210,10 @@ export function useDashboardData() {
           timestamp: number;
           albums: DashboardAlbum[];
         };
-        if (parsed?.albums?.length && Date.now() - parsed.timestamp < cacheTtlMs) {
+        if (
+          parsed?.albums?.length &&
+          Date.now() - parsed.timestamp < cacheTtlMs
+        ) {
           setAlbums(parsed.albums);
         }
       }
@@ -234,7 +244,8 @@ export function useDashboardData() {
     fetchAlbums();
   }, [isAmrep]);
 
-  const activeMembers = artist?.members?.filter((member) => member.active) || [];
+  const activeMembers =
+    artist?.members?.filter((member) => member.active) || [];
   const fallbackMembers: DashboardMember[] = isAmrep
     ? amrepArtists.slice(0, 6).map((artistEntry) => ({
         id: artistEntry.id,

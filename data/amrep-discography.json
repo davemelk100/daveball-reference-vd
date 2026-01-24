@@ -1,0 +1,2630 @@
+[
+  {
+    "id": 1,
+    "catalogNo": "001",
+    "artist": "Cows",
+    "title": "Peacetika",
+    "year": 1991,
+    "format": "CS",
+    "section": "US"
+  },
+  {
+    "id": 2,
+    "catalogNo": "002",
+    "artist": "Halo of Flies",
+    "title": "Music for Insect Minds",
+    "year": 1991,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 3,
+    "catalogNo": "003",
+    "artist": "Helios Creed",
+    "title": "Lactating Purple",
+    "year": 1991,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 4,
+    "catalogNo": "004",
+    "artist": "Tar",
+    "title": "Jackson",
+    "year": 1991,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 5,
+    "catalogNo": "005",
+    "artist": "Cosmic Psychos",
+    "title": "Blokes You Can Trust",
+    "year": 1991,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 6,
+    "catalogNo": "006",
+    "artist": "God Bullies",
+    "title": "War on Everybody",
+    "year": 1991,
+    "format": "CD, CS",
+    "section": "US"
+  },
+  {
+    "id": 7,
+    "catalogNo": "007",
+    "artist": "Cows",
+    "title": "Cunning Stunts",
+    "year": 1991,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 8,
+    "catalogNo": "008",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volumes 4-7",
+    "year": 1990,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 9,
+    "catalogNo": "009",
+    "artist": "Vertigo",
+    "title": "Ventriloquist",
+    "year": 1992,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 10,
+    "catalogNo": "010",
+    "artist": "Helios Creed",
+    "title": "Kiss to the Brain",
+    "year": 1992,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 11,
+    "catalogNo": "011",
+    "artist": "Cosmic Psychos",
+    "title": "Down on the Farm & Cosmic Psychos",
+    "year": 1992,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 12,
+    "catalogNo": "012",
+    "artist": "Hammerhead",
+    "title": "Ethereal Killer",
+    "year": 1992,
+    "format": "CD, CS",
+    "section": "US"
+  },
+  {
+    "id": 13,
+    "catalogNo": "013",
+    "artist": "X",
+    "title": "Noise Archives Volume 1: X - \"Aspirations\"",
+    "year": 1992,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 14,
+    "catalogNo": "014",
+    "artist": "Janitor Joe",
+    "title": "Big Metal Birds",
+    "year": 1993,
+    "format": "CD, CS",
+    "section": "US"
+  },
+  {
+    "id": 15,
+    "catalogNo": "015",
+    "artist": "Cows",
+    "title": "Sexy Pee Story",
+    "year": 1993,
+    "format": "CD, CS",
+    "section": "US"
+  },
+  {
+    "id": 16,
+    "catalogNo": "016",
+    "artist": "Helmet",
+    "title": "Born Annoying 7\" - 1989",
+    "year": 1993,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 17,
+    "catalogNo": "017",
+    "artist": "Boss Hog",
+    "title": "Girl +",
+    "year": 1993,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 18,
+    "catalogNo": "018",
+    "artist": "Surgery",
+    "title": "Trim, 9th Ward High Roller",
+    "year": 1993,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 19,
+    "catalogNo": "019",
+    "artist": "Cosmic Psychos",
+    "title": "Palomino Pizza",
+    "year": 1993,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 20,
+    "catalogNo": "020",
+    "artist": "Chokebore",
+    "title": "Motionless",
+    "year": 1993,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 21,
+    "catalogNo": "021",
+    "artist": "Vertigo",
+    "title": "Nail Hole",
+    "year": 1993,
+    "format": "CD, CS",
+    "section": "US"
+  },
+  {
+    "id": 22,
+    "catalogNo": "022",
+    "artist": "Today Is the Day",
+    "title": "Supernova",
+    "year": 1993,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 23,
+    "catalogNo": "023",
+    "artist": "Guzzard",
+    "title": "Get a Witness",
+    "year": 1993,
+    "format": "CD, CS",
+    "section": "US"
+  },
+  {
+    "id": 24,
+    "catalogNo": "024",
+    "artist": "Hammerhead",
+    "title": "Evil Twin",
+    "year": 1993,
+    "format": "CD, CS",
+    "section": "US"
+  },
+  {
+    "id": 25,
+    "catalogNo": "025",
+    "artist": "Today Is the Day - Guzzard - Chokebore",
+    "title": "Clusterfuck '94",
+    "year": 1994,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 26,
+    "catalogNo": "026",
+    "artist": "Hammerhead",
+    "title": "Into the Vortex",
+    "year": 1994,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 27,
+    "catalogNo": "027",
+    "artist": "Janitor Joe",
+    "title": "Lucky",
+    "year": 1994,
+    "format": "CD, CS",
+    "section": "US"
+  },
+  {
+    "id": 28,
+    "catalogNo": "028",
+    "artist": "Cows",
+    "title": "Orphan's Tragedy",
+    "year": 1994,
+    "format": "CD, CS",
+    "section": "US"
+  },
+  {
+    "id": 29,
+    "catalogNo": "029",
+    "artist": "S.W.A.T.",
+    "title": "Deep Inside a Cop's Mind",
+    "year": 1994,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 30,
+    "catalogNo": "030",
+    "artist": "The Crows",
+    "title": "The Crows",
+    "year": 1994,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 31,
+    "catalogNo": "031",
+    "artist": "Melvins",
+    "title": "Prick",
+    "year": 1994,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 32,
+    "catalogNo": "032",
+    "artist": "Helios Creed",
+    "title": "Planet X",
+    "year": 1994,
+    "format": "CD, CS",
+    "section": "US"
+  },
+  {
+    "id": 33,
+    "catalogNo": "033",
+    "artist": "Today Is the Day",
+    "title": "Willpower",
+    "year": 1994,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 34,
+    "catalogNo": "034",
+    "artist": "Chokebore",
+    "title": "Anything Near Water",
+    "year": 1995,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 35,
+    "catalogNo": "035",
+    "artist": "Love 666",
+    "title": "American Revolution",
+    "year": 1995,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 36,
+    "catalogNo": "036",
+    "artist": "Helmet",
+    "title": "Born Annoying",
+    "year": 1995,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 37,
+    "catalogNo": "037",
+    "artist": "Guzzard",
+    "title": "Quick, Fast, In a Hurry",
+    "year": 1995,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 38,
+    "catalogNo": "038",
+    "artist": "Cosmic Psychos",
+    "title": "Self Totalled",
+    "year": 1995,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 39,
+    "catalogNo": "039",
+    "artist": "Unsane",
+    "title": "Scattered, Smothered & Covered",
+    "year": 1995,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 40,
+    "catalogNo": "040",
+    "artist": "Supernova",
+    "title": "Ages 3 and Up",
+    "year": 1995,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 41,
+    "catalogNo": "041",
+    "artist": "Gaunt",
+    "title": "Yeah, Me Too",
+    "year": 1995,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 42,
+    "catalogNo": "042",
+    "artist": "Hammerhead",
+    "title": "Duh, The Big City",
+    "year": 1996,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 43,
+    "catalogNo": "043",
+    "artist": "Various artists",
+    "title": "Screwed: Original Motion Picture Soundtrack",
+    "year": 1996,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 44,
+    "catalogNo": "044",
+    "artist": "",
+    "title": "Operation: Break Even",
+    "year": null,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 45,
+    "catalogNo": "045",
+    "artist": "Urinals",
+    "title": "Negative Capability...Check It Out!",
+    "year": 1996,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 46,
+    "catalogNo": "046",
+    "artist": "Today Is the Day",
+    "title": "Today Is the Day",
+    "year": 1996,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 47,
+    "catalogNo": "047",
+    "artist": "Cows",
+    "title": "Old Gold 1989–1991",
+    "year": 1996,
+    "format": "CD, CS",
+    "section": "US"
+  },
+  {
+    "id": 48,
+    "catalogNo": "048",
+    "artist": "Love 666",
+    "title": "Please Kill Yourself So I Can Rock",
+    "year": 1996,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 49,
+    "catalogNo": "049",
+    "artist": "lowercase",
+    "title": "All Destructive Urges... Seem So Perfect",
+    "year": 1996,
+    "format": "CD, CS",
+    "section": "US"
+  },
+  {
+    "id": 50,
+    "catalogNo": "050",
+    "artist": "Cows",
+    "title": "Whorn",
+    "year": 1996,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 51,
+    "catalogNo": "051",
+    "artist": "Lollipop",
+    "title": "Dog Piss on Dog",
+    "year": 1996,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 52,
+    "catalogNo": "052",
+    "artist": "Guzzard",
+    "title": "The Alienation Index Survey",
+    "year": 1996,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 53,
+    "catalogNo": "053",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volumes 8-11",
+    "year": 1997,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 54,
+    "catalogNo": "054",
+    "artist": "Chokebore",
+    "title": "A Taste for Bitters",
+    "year": 1996,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 55,
+    "catalogNo": "055",
+    "artist": "The Thrown Ups",
+    "title": "Seven Years Golden",
+    "year": 1997,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 56,
+    "catalogNo": "056",
+    "artist": "feedtime",
+    "title": "Billy",
+    "year": 1996,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 57,
+    "catalogNo": "057",
+    "artist": "Gnomes of Zurich",
+    "title": "33rd Degree Burns",
+    "year": 1996,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 58,
+    "catalogNo": "058",
+    "artist": "Servotron",
+    "title": "No Room for Humans",
+    "year": 1996,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 59,
+    "catalogNo": "059",
+    "artist": "lowercase",
+    "title": "Kill the Lights",
+    "year": 1997,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 60,
+    "catalogNo": "060",
+    "artist": "Calvin Krime",
+    "title": "Dress for the Future",
+    "year": 1997,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 61,
+    "catalogNo": "061",
+    "artist": "Mog Stunt Team",
+    "title": "King of the Retards",
+    "year": 1997,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 62,
+    "catalogNo": "062",
+    "artist": "Servotron",
+    "title": "Spare Parts",
+    "year": 1997,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 63,
+    "catalogNo": "063",
+    "artist": "Melvins",
+    "title": "Singles 1-12",
+    "year": 1997,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 64,
+    "catalogNo": "064",
+    "artist": "",
+    "title": "Honky",
+    "year": null,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 65,
+    "catalogNo": "065",
+    "artist": "Cosmic Psychos",
+    "title": "Oh What a Lovely Pie",
+    "year": 1997,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 66,
+    "catalogNo": "066",
+    "artist": "Cows",
+    "title": "Sorry in Pig Minor",
+    "year": 1998,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 67,
+    "catalogNo": "067",
+    "artist": "Freedom Fighters",
+    "title": "My Scientist Friends",
+    "year": 1997,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 68,
+    "catalogNo": "068",
+    "artist": "Lollipop",
+    "title": "Sucked In, Blown Out",
+    "year": 1997,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 69,
+    "catalogNo": "069",
+    "artist": "Nashville Pussy",
+    "title": "Let Them Eat Pussy",
+    "year": 1997,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 70,
+    "catalogNo": "070",
+    "artist": "Supernova",
+    "title": "Rox",
+    "year": 1998,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 71,
+    "catalogNo": "071",
+    "artist": "Calvin Krime",
+    "title": "You're Feeling So Attractive",
+    "year": 1998,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 72,
+    "catalogNo": "072",
+    "artist": "Melvins",
+    "title": "Alive at the Fucker Club",
+    "year": 1998,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 73,
+    "catalogNo": "073",
+    "artist": "The Heroine Sheiks",
+    "title": "Journey to the End of the Knife",
+    "year": 2008,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 74,
+    "catalogNo": "074",
+    "artist": "Melvins",
+    "title": "Melvins vs. Minneapolis",
+    "year": 2008,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 75,
+    "catalogNo": "075",
+    "artist": "Halo of Flies",
+    "title": "Gay Witch Abortion Sessions",
+    "year": 2009,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 76,
+    "catalogNo": "076",
+    "artist": "White Drugs",
+    "title": "Gold Magic",
+    "year": 2010,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 77,
+    "catalogNo": "077",
+    "artist": "Melvins",
+    "title": "Hurray for Me Fuk You",
+    "year": 2010,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 78,
+    "catalogNo": "078",
+    "artist": "",
+    "title": "The Bride Screamed Murder",
+    "year": 2011,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 79,
+    "catalogNo": "079",
+    "artist": "Hammerhead",
+    "title": "Anarcho Retardist Terror Exhibit",
+    "year": 2011,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 80,
+    "catalogNo": "082",
+    "artist": "Seawhores",
+    "title": "The Hunt Is On",
+    "year": 2011,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 81,
+    "catalogNo": "083",
+    "artist": "Melvins",
+    "title": "Endless Residency",
+    "year": 2011,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 82,
+    "catalogNo": "087",
+    "artist": "",
+    "title": "1983",
+    "year": 2012,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 83,
+    "catalogNo": "088",
+    "artist": "",
+    "title": "The Bulls & the Bees",
+    "year": null,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 84,
+    "catalogNo": "089",
+    "artist": "Melvins Lite",
+    "title": "Freak Puke",
+    "year": 2012,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 85,
+    "catalogNo": "090",
+    "artist": "Melvins & Redd Kross",
+    "title": "New Years Eve Ball Room Blitz",
+    "year": 2012,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 86,
+    "catalogNo": "091",
+    "artist": "Hepa-Titus",
+    "title": "Follow Me",
+    "year": 2013,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 87,
+    "catalogNo": "092",
+    "artist": "Various artists",
+    "title": "Bash 13",
+    "year": 2013,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 88,
+    "catalogNo": "093",
+    "artist": "Gay Witch Abortion With Haze XXL",
+    "title": "Snakes Behind the Eyes",
+    "year": 2013,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 89,
+    "catalogNo": "094",
+    "artist": "King Buzzo",
+    "title": "This Machine Kills Artists",
+    "year": 2014,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 90,
+    "catalogNo": "095",
+    "artist": "No Anchor - Haze XXL",
+    "title": "No Anchor With Haze XXL",
+    "year": 2014,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 91,
+    "catalogNo": "096",
+    "artist": "King Buzzo",
+    "title": "This Machine Kills Artists - Volume 3",
+    "year": 2014,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 92,
+    "catalogNo": "097",
+    "artist": "Various artists",
+    "title": "AmRep Motors (1995 Models)",
+    "year": 1995,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 93,
+    "catalogNo": "098",
+    "artist": "Hepa-Titus",
+    "title": "Gettin' It On",
+    "year": 2014,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 94,
+    "catalogNo": "099",
+    "artist": "Cows",
+    "title": "Stunning Cunts",
+    "year": 2014,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 95,
+    "catalogNo": "100",
+    "artist": "Melvins",
+    "title": "Bride of Frankenstein",
+    "year": 2014,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 96,
+    "catalogNo": "101",
+    "artist": "Cows",
+    "title": "Stunning Cunts, Vol. 2",
+    "year": 2015,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 97,
+    "catalogNo": "102",
+    "artist": "Melvins/Le Butcherettes",
+    "title": "Chaos as Usual",
+    "year": 2015,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 98,
+    "catalogNo": "103",
+    "artist": "Gay Witch Abortion with Haze XXL",
+    "title": "Beer Hippy",
+    "year": 2015,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 99,
+    "catalogNo": "104",
+    "artist": "Melvins",
+    "title": "Beer Hippy",
+    "year": 2015,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 100,
+    "catalogNo": "105",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volumes 4-7",
+    "year": 2016,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 101,
+    "catalogNo": "106",
+    "artist": "Melvins",
+    "title": "War Pussy",
+    "year": 2016,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 102,
+    "catalogNo": "107",
+    "artist": "Boss Hog",
+    "title": "Drinkin', Lechin' & Lyin'",
+    "year": 2016,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 103,
+    "catalogNo": "108",
+    "artist": "Various artists",
+    "title": "Psychopticotic Vol. One",
+    "year": 2016,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 104,
+    "catalogNo": "109",
+    "artist": "Hepa-Titus",
+    "title": "FM Warm Weather",
+    "year": 2016,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 105,
+    "catalogNo": "110",
+    "artist": "Melvins · Off! · Redd Kross",
+    "title": "High Desert Overdose",
+    "year": 2016,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 106,
+    "catalogNo": "111",
+    "artist": "Teenage Jesus and the Jerks",
+    "title": "Teenage Jesus and the Jerks",
+    "year": 2016,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 107,
+    "catalogNo": "112",
+    "artist": "Crystal Fairy",
+    "title": "Crystal Fairy",
+    "year": 2017,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 108,
+    "catalogNo": "113",
+    "artist": "Cows",
+    "title": "Taint Pluribus Taint Unum",
+    "year": 2017,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 109,
+    "catalogNo": "114",
+    "artist": "Cherubs",
+    "title": "Heroin Man",
+    "year": 2017,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 110,
+    "catalogNo": "115",
+    "artist": "Lydia Lunch",
+    "title": "Queen of Siam",
+    "year": 2017,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 111,
+    "catalogNo": "116",
+    "artist": "Various artists",
+    "title": "Bash 17",
+    "year": 2017,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 112,
+    "catalogNo": "117",
+    "artist": "Melvins",
+    "title": "Steven McDonald",
+    "year": 2017,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 113,
+    "catalogNo": "118",
+    "artist": "feedtime",
+    "title": "Billy",
+    "year": 2017,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 114,
+    "catalogNo": "119",
+    "artist": "Melvins",
+    "title": "Gluey Porch Treatments",
+    "year": 2017,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 115,
+    "catalogNo": "120",
+    "artist": "Cows",
+    "title": "Effete and Impudent Snobs",
+    "year": 2018,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 116,
+    "catalogNo": "121",
+    "artist": "Hammerhead",
+    "title": "Into the Vortex",
+    "year": 2018,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 117,
+    "catalogNo": "122",
+    "artist": "Melvins",
+    "title": "Pinkus Abortion Technician",
+    "year": 2018,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 118,
+    "catalogNo": "123",
+    "artist": "",
+    "title": "A Walk with Love & Death",
+    "year": null,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 119,
+    "catalogNo": "124",
+    "artist": "",
+    "title": "Sabbath",
+    "year": null,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 120,
+    "catalogNo": "125",
+    "artist": "God Bullies",
+    "title": "Mama Womb Womb",
+    "year": 2018,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 121,
+    "catalogNo": "126",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Fourteen",
+    "year": 2018,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 122,
+    "catalogNo": "127",
+    "artist": "Melvins/Flipper",
+    "title": "Hot Fish",
+    "year": 2019,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 123,
+    "catalogNo": "128",
+    "artist": "Melvins/ShitKid",
+    "title": "Bangers",
+    "year": 2019,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 124,
+    "catalogNo": "129",
+    "artist": "Melvins/Redd Kross",
+    "title": "Escape From LA",
+    "year": 2019,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 125,
+    "catalogNo": "130",
+    "artist": "White Drugs",
+    "title": "Harlem",
+    "year": 2019,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 126,
+    "catalogNo": "131",
+    "artist": "mr.phylzzz",
+    "title": "Penitent Curtis",
+    "year": 2019,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 127,
+    "catalogNo": "132",
+    "artist": "Seawhores",
+    "title": "The Last Temptation of Supper",
+    "year": 2020,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 128,
+    "catalogNo": "133",
+    "artist": "King Buzzo",
+    "title": "Six Pack",
+    "year": 2020,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 129,
+    "catalogNo": "134",
+    "artist": "Melvins",
+    "title": "Electroretard",
+    "year": 2020,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 130,
+    "catalogNo": "135",
+    "artist": "Melvins/Mudhoney",
+    "title": "White Lazy Boy",
+    "year": 2020,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 131,
+    "catalogNo": "2",
+    "artist": "Halo of Flies",
+    "title": "Rubber Room",
+    "year": 1986,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 132,
+    "catalogNo": "3",
+    "artist": "",
+    "title": "Snapping Black Roscoe Bottles",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 133,
+    "catalogNo": "4",
+    "artist": "",
+    "title": "Circling the Pile That Sits By Your Minds Eye Insect Karma Is Based on It",
+    "year": 1987,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 134,
+    "catalogNo": "5",
+    "artist": "The Thrown Ups",
+    "title": "Felch",
+    "year": 1987,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 135,
+    "catalogNo": "6",
+    "artist": "Halo of Flies",
+    "title": "Richies Dog",
+    "year": 1987,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 136,
+    "catalogNo": "7",
+    "artist": "The Thrown Ups",
+    "title": "Smiling Panties",
+    "year": 1987,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 137,
+    "catalogNo": "8",
+    "artist": "The U-Men",
+    "title": "Freezebomb",
+    "year": 1988,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 138,
+    "catalogNo": "9",
+    "artist": "Halo of Flies",
+    "title": "Four From the Bottom",
+    "year": 1988,
+    "format": "CS",
+    "section": "Singles"
+  },
+  {
+    "id": 139,
+    "catalogNo": "10",
+    "artist": "The Thrown Ups",
+    "title": "Eat My Dump",
+    "year": 1988,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 140,
+    "catalogNo": "11",
+    "artist": "God Bullies",
+    "title": "Fear and Pain",
+    "year": 1988,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 141,
+    "catalogNo": "12",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volume One",
+    "year": 1988,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 142,
+    "catalogNo": "13",
+    "artist": "Halo of Flies",
+    "title": "No Time",
+    "year": 1988,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 143,
+    "catalogNo": "14",
+    "artist": "Lonely Moans",
+    "title": "Rockinerd",
+    "year": 1988,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 144,
+    "catalogNo": "15",
+    "artist": "Pogo the Clown",
+    "title": "Lederhosen",
+    "year": 1988,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 145,
+    "catalogNo": "16",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volume Two",
+    "year": 1989,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 146,
+    "catalogNo": "17",
+    "artist": "Surgery",
+    "title": "\"Not Going Down\"/\"Blow Her Face\"",
+    "year": 1989,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 147,
+    "catalogNo": "18",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volume Three",
+    "year": 1989,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 148,
+    "catalogNo": "19",
+    "artist": "Halo of Flies",
+    "title": "Death of a Fly",
+    "year": 1989,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 149,
+    "catalogNo": "20",
+    "artist": "Bush Pig",
+    "title": "Bush Pig",
+    "year": 1989,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 150,
+    "catalogNo": "21",
+    "artist": "Vertigo",
+    "title": "\"Bad Syd\"/\"Going to Pieces\"",
+    "year": 1989,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 151,
+    "catalogNo": "22",
+    "artist": "Helmet",
+    "title": "Born Annoying",
+    "year": 1989,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 152,
+    "catalogNo": "23",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volume Four",
+    "year": 1990,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 153,
+    "catalogNo": "24",
+    "artist": "Killdozer Featuring Tom Hazelmyer",
+    "title": "\"Short Eyes\"/\"Her Mother's Sorrow\"",
+    "year": 1990,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 154,
+    "catalogNo": "25",
+    "artist": "Tar",
+    "title": "\"Flow Plow\"/\"Hand\"",
+    "year": 1990,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 155,
+    "catalogNo": "26",
+    "artist": "The Thrown Ups",
+    "title": "Melancholy Girlhole Box",
+    "year": 1990,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 156,
+    "catalogNo": "27",
+    "artist": "Surgery",
+    "title": "\"Feedback\"/\"Fried\"",
+    "year": 1990,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 157,
+    "catalogNo": "28",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volume Five",
+    "year": 1990,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 158,
+    "catalogNo": "29",
+    "artist": "Casus Belli",
+    "title": "\"Punishment\"",
+    "year": 1990,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 159,
+    "catalogNo": "30",
+    "artist": "Cows",
+    "title": "\"Slap Back\"",
+    "year": 1990,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 160,
+    "catalogNo": "31",
+    "artist": "God Bullies",
+    "title": "\"Join Satan's Army\"",
+    "year": 1990,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 161,
+    "catalogNo": "32",
+    "artist": "Gear Jammer",
+    "title": "\"Two Tons of Chrome\"",
+    "year": 1991,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 162,
+    "catalogNo": "33",
+    "artist": "Helios Creed",
+    "title": "\"The Warming\"",
+    "year": 1991,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 163,
+    "catalogNo": "34",
+    "artist": "Various artists",
+    "title": "Ugly American Overkill Tour E.P.",
+    "year": 1991,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 164,
+    "catalogNo": "35",
+    "artist": "Halo of Flies",
+    "title": "Big Mod Hate Trip",
+    "year": 1991,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 165,
+    "catalogNo": "36",
+    "artist": "Mudhoney Versus Halo of Flies",
+    "title": "Mod Showdown!",
+    "year": 1991,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 166,
+    "catalogNo": "37",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volume Six",
+    "year": 1991,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 167,
+    "catalogNo": "38",
+    "artist": "Vertigo",
+    "title": "\"Rub\"",
+    "year": 1991,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 168,
+    "catalogNo": "39",
+    "artist": "Boss Hog",
+    "title": "Action Box",
+    "year": 1991,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 169,
+    "catalogNo": "40",
+    "artist": "The Crows",
+    "title": "\"Crow Bar\"/\"Low Brow\"",
+    "year": 1991,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 170,
+    "catalogNo": "41",
+    "artist": "Helmet",
+    "title": "\"Unsung\"",
+    "year": 1991,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 171,
+    "catalogNo": "42",
+    "artist": "Hammerhead",
+    "title": "\"U.V.\"/\"Peep\"",
+    "year": 1991,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 172,
+    "catalogNo": "43",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volume Seven",
+    "year": 1991,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 173,
+    "catalogNo": "44",
+    "artist": "Melvins",
+    "title": "\"Night Goat\"",
+    "year": 1992,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 174,
+    "catalogNo": "45",
+    "artist": "Surgery",
+    "title": "\"Little Debbie\"",
+    "year": 1992,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 175,
+    "catalogNo": "46",
+    "artist": "Hammerhead",
+    "title": "\"Load King\"",
+    "year": 1992,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 176,
+    "catalogNo": "47",
+    "artist": "Helmet",
+    "title": "\"In the Meantime\"",
+    "year": 1992,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 177,
+    "catalogNo": "48",
+    "artist": "The Powers That Be",
+    "title": "\"Crude Sound\"/\"The Morning After\"",
+    "year": 1992,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 178,
+    "catalogNo": "49",
+    "artist": "Mama Tick",
+    "title": "\"Hatefest\"/\"Breathe Out\"",
+    "year": 1992,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 179,
+    "catalogNo": "50",
+    "artist": "Cows",
+    "title": "\"Plowed\"",
+    "year": 1992,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 180,
+    "catalogNo": "51",
+    "artist": "Janitor Joe",
+    "title": "\"Bullethead\"/\"KCL\"",
+    "year": 1992,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 181,
+    "catalogNo": "52",
+    "artist": "Casus Belli",
+    "title": "\"Return to Zero\"/\"Bug Fights\"",
+    "year": 1993,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 182,
+    "catalogNo": "53",
+    "artist": "Vertigo",
+    "title": "\"Driver #43\"",
+    "year": 1993,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 183,
+    "catalogNo": "54",
+    "artist": "Chokebore",
+    "title": "\"Nobody\"/\"Throats To Hit\"",
+    "year": 1993,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 184,
+    "catalogNo": "55",
+    "artist": "Helmet",
+    "title": "\"Primitive\"",
+    "year": 1993,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 185,
+    "catalogNo": "56",
+    "artist": "Today Is the Day",
+    "title": "\"I Bent Scared\"/\"Come on Down and Get Saved\"",
+    "year": 1993,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 186,
+    "catalogNo": "57",
+    "artist": "Hedonists",
+    "title": "\"Womb\"/\"Deepest Secret Fear\"",
+    "year": 1993,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 187,
+    "catalogNo": "58",
+    "artist": "Guzzard",
+    "title": "\"Glued\"",
+    "year": 1993,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 188,
+    "catalogNo": "59",
+    "artist": "Whopping Big Naughty",
+    "title": "\"Your Not Coming\"",
+    "year": 1993,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 189,
+    "catalogNo": "60",
+    "artist": "Various artists",
+    "title": "Clusterfuck",
+    "year": 1993,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 190,
+    "catalogNo": "61",
+    "artist": "Hammerhead",
+    "title": "\"Evil Twin\"",
+    "year": 1993,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 191,
+    "catalogNo": "62",
+    "artist": "Janitor Joe",
+    "title": "\"Stinker\"",
+    "year": 1993,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 192,
+    "catalogNo": "63",
+    "artist": "Gear Jammer",
+    "title": "\"Horsepower 2000\"",
+    "year": 1994,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 193,
+    "catalogNo": "64",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volume Eight",
+    "year": 1994,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 194,
+    "catalogNo": "65",
+    "artist": "Cows",
+    "title": "\"Cow Island\"",
+    "year": 1994,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 195,
+    "catalogNo": "66",
+    "artist": "S.W.A.T.",
+    "title": "The Soundtrack to the New Police State",
+    "year": 1994,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 196,
+    "catalogNo": "67",
+    "artist": "Love 666",
+    "title": "\"XTC\"",
+    "year": 1994,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 197,
+    "catalogNo": "68",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volume Nine",
+    "year": 1994,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 198,
+    "catalogNo": "69",
+    "artist": "Party Diktator",
+    "title": "\"Stand Behind Me\"/\"Quiet Line (Single Version)\"",
+    "year": 1994,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 199,
+    "catalogNo": "70",
+    "artist": "Hammerhead",
+    "title": "\"Duh, The Big City\"",
+    "year": 1994,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 200,
+    "catalogNo": "71",
+    "artist": "Chokebore",
+    "title": "\"Thin As Clouds\"/\"Pink Deluxe\"",
+    "year": 1995,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 201,
+    "catalogNo": "72",
+    "artist": "Halo of Kitten/Hammerhead",
+    "title": "Porn 1",
+    "year": 1995,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 202,
+    "catalogNo": "73",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volume Ten",
+    "year": 1995,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 203,
+    "catalogNo": "74",
+    "artist": "Melvins/Guv'ner",
+    "title": "Porn 2",
+    "year": 1995,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 204,
+    "catalogNo": "75",
+    "artist": "Silver Salute",
+    "title": "\"Happy Eyes\"",
+    "year": 1995,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 205,
+    "catalogNo": "76",
+    "artist": "Mudhoney/Strapping Fieldhands",
+    "title": "Porn 2",
+    "year": 1995,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 206,
+    "catalogNo": "77",
+    "artist": "Lollipop",
+    "title": "Half Dead",
+    "year": 1995,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 207,
+    "catalogNo": "78",
+    "artist": "lowercase",
+    "title": "\"Cadence\"",
+    "year": 1995,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 208,
+    "catalogNo": "79",
+    "artist": "Boss Hog/Cows",
+    "title": "Porn 4",
+    "year": 1995,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 209,
+    "catalogNo": "80",
+    "artist": "Gnomes of Zurich",
+    "title": "\"Dispenser\"",
+    "year": 1996,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 210,
+    "catalogNo": "81",
+    "artist": "Silver Salute",
+    "title": "\"No Clue\"/\"What's New?\"",
+    "year": 1996,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 211,
+    "catalogNo": "82",
+    "artist": "Melvins",
+    "title": "\"Lexicon Devil\"/\"Pigtro\"",
+    "year": 1997,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 212,
+    "catalogNo": "83",
+    "artist": "",
+    "title": "\"In the Rain\"/\"Spread Eagle Beagle\"",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 213,
+    "catalogNo": "84",
+    "artist": "",
+    "title": "\"Leech\"/\"Queen\"",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 214,
+    "catalogNo": "85",
+    "artist": "",
+    "title": "\"Way of the World\"/\"Theme\"",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 215,
+    "catalogNo": "86",
+    "artist": "",
+    "title": "\"It's Shoved\"/\"Forgotten Principles\"",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 216,
+    "catalogNo": "87",
+    "artist": "",
+    "title": "\"GGIIBBYY\"/\"Theresa Screams\"",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 217,
+    "catalogNo": "88",
+    "artist": "",
+    "title": "\"Poison\"/\"Double Troubled\"",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 218,
+    "catalogNo": "89",
+    "artist": "",
+    "title": "\"Specimen\"/\"All at Once\"",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 219,
+    "catalogNo": "90",
+    "artist": "",
+    "title": "\"Jacksonville\"/\"Dallas\"",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 220,
+    "catalogNo": "91",
+    "artist": "",
+    "title": "\"The Bloat\"/\"Fast Forward\"",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 221,
+    "catalogNo": "92",
+    "artist": "",
+    "title": "\"Nasty Dogs Funky Kings\"/\"HDYF\"",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 222,
+    "catalogNo": "93",
+    "artist": "Servotron",
+    "title": "There Is No Santa Claus!",
+    "year": 1996,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 223,
+    "catalogNo": "94",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volume Eleven",
+    "year": 1997,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 224,
+    "catalogNo": "95",
+    "artist": "Melvins/Brutal Truth",
+    "title": "\"How-++-Harry Lauders Walking Stick Tree\"/\"Zodiac\"",
+    "year": 1997,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 225,
+    "catalogNo": "96",
+    "artist": "TAD",
+    "title": "\"Obscene Hand\"",
+    "year": 1997,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 226,
+    "catalogNo": "97",
+    "artist": "Thee Headcoats/Lollipop",
+    "title": "\"I Wanna Get Fucked\"/\"Go to Hell\"",
+    "year": 1998,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 227,
+    "catalogNo": "98",
+    "artist": "The Heroine Sheiks",
+    "title": "\"(We Are The)\"",
+    "year": 1999,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 228,
+    "catalogNo": "99",
+    "artist": "Lifter Puller",
+    "title": "\"4Dix\"",
+    "year": 2001,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 229,
+    "catalogNo": "100",
+    "artist": "Melvins",
+    "title": "\"Spit It Out\"",
+    "year": 2000,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 230,
+    "catalogNo": "101",
+    "artist": "",
+    "title": "\"Shit Sandwich\"",
+    "year": 2001,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 231,
+    "catalogNo": "102",
+    "artist": "Billy Childish",
+    "title": "\"Evidence Against Myself\"/\"I Am the Strange Hero of Hunger\"",
+    "year": 2002,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 232,
+    "catalogNo": "103",
+    "artist": "Melvins",
+    "title": "\"Message Saved\"/\"Thank You!\"",
+    "year": 2004,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 233,
+    "catalogNo": "104",
+    "artist": "",
+    "title": "\"Pigskin\"/\"Starve Already\"",
+    "year": 2006,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 234,
+    "catalogNo": "105",
+    "artist": "Haze XXL",
+    "title": "Dalek: A Purge of Dissidents V.1",
+    "year": 2006,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 235,
+    "catalogNo": "106",
+    "artist": "",
+    "title": "Dalek: A Purge of Dissidents V.2",
+    "year": 2007,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 236,
+    "catalogNo": "107",
+    "artist": "Halo of Flies",
+    "title": "\"F.T.W.\"",
+    "year": 2007,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 237,
+    "catalogNo": "108",
+    "artist": "Haze XXL",
+    "title": "Dalek: A Purge of Dissidents V.3",
+    "year": 2007,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 238,
+    "catalogNo": "109",
+    "artist": "Melvins",
+    "title": "Smash the State",
+    "year": 2007,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 239,
+    "catalogNo": "110",
+    "artist": "Melvins/Halo of Flies",
+    "title": "Split Tour",
+    "year": 2007,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 240,
+    "catalogNo": "111",
+    "artist": "Wild Billy Childish & The Musicians of the British Empire/Halo of Flies",
+    "title": "\"Taking Orders From the U.S.A.\"/\"The Monster You Made\"",
+    "year": 2007,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 241,
+    "catalogNo": "112",
+    "artist": "Lydia Lunch with Halo of Flies",
+    "title": "\"When I'm Loaded\"/\"Crawl 'N Cry\"",
+    "year": 2008,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 242,
+    "catalogNo": "113",
+    "artist": "Halo of Flies",
+    "title": "\"A New Kind of Hate\"",
+    "year": 2008,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 243,
+    "catalogNo": "114",
+    "artist": "Melvins",
+    "title": "\"Star Spangled Banner\"/\"Detroit Rock City\"",
+    "year": 2008,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 244,
+    "catalogNo": "115",
+    "artist": "Grant Hart",
+    "title": "\"You're the Reflection\"",
+    "year": 2010,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 245,
+    "catalogNo": "116",
+    "artist": "Halo of Flies on White Drugs",
+    "title": "35 Power",
+    "year": 2010,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 246,
+    "catalogNo": "117",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volume Twelve",
+    "year": 2010,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 247,
+    "catalogNo": "118",
+    "artist": "King Barry & The Sinister Soulsters/Haze XXL With Jon Spencer",
+    "title": "Fuzz Buzz Kill Summit",
+    "year": 2010,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 248,
+    "catalogNo": "119",
+    "artist": "Hepa-Titus, Halo of Flies",
+    "title": "\"I Am the Jaw\"/\"Die You Fuk\"",
+    "year": 2010,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 249,
+    "catalogNo": "120",
+    "artist": "The Book of Right On/The Drub",
+    "title": "Grumpy's March Residency",
+    "year": 2011,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 250,
+    "catalogNo": "121",
+    "artist": "Jon Spencer Blues Explosion/Melvins",
+    "title": "\"Black Betty\"",
+    "year": 2011,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 251,
+    "catalogNo": "122",
+    "artist": "The Blind Shake",
+    "title": "Grumpys May Residency",
+    "year": 2011,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 252,
+    "catalogNo": "123",
+    "artist": "Melvins/U-Men",
+    "title": "Sugar Daddy Live Split Series",
+    "year": 2012,
+    "format": "12\"",
+    "section": "Singles"
+  },
+  {
+    "id": 253,
+    "catalogNo": "124",
+    "artist": "Melvins/Cows",
+    "title": "Sugar Daddy Live Split Series",
+    "year": 2012,
+    "format": "12\"",
+    "section": "Singles"
+  },
+  {
+    "id": 254,
+    "catalogNo": "125",
+    "artist": "Unsane/Melvins",
+    "title": "Amphetamine Reptile Records Cage Match",
+    "year": 2012,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 255,
+    "catalogNo": "126",
+    "artist": "Melvins/Killdozer",
+    "title": "Sugar Daddy Live Split Series",
+    "year": 2012,
+    "format": "12\"",
+    "section": "Singles"
+  },
+  {
+    "id": 256,
+    "catalogNo": "127",
+    "artist": "Melvins/Off!",
+    "title": "Sugar Daddy Live Split Series",
+    "year": 2012,
+    "format": "12\"",
+    "section": "Singles"
+  },
+  {
+    "id": 257,
+    "catalogNo": "128",
+    "artist": "Melvins/Hammerhead",
+    "title": "Amphetamine Reptile Records Cage Match",
+    "year": 2012,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 258,
+    "catalogNo": "129",
+    "artist": "Melvins/Seawhores",
+    "title": "Melvins/Seawhores",
+    "year": 2012,
+    "format": "12\"",
+    "section": "Singles"
+  },
+  {
+    "id": 259,
+    "catalogNo": "129",
+    "artist": "Melvins/Butthole Surfers",
+    "title": "Sugar Daddy Live Split Series",
+    "year": 2012,
+    "format": "12\"",
+    "section": "Singles"
+  },
+  {
+    "id": 260,
+    "catalogNo": "130",
+    "artist": "Melvins/Negative Approach/Die Kreuzen/Necros",
+    "title": "Sugar Daddy Live Split Series",
+    "year": 2012,
+    "format": "12\"",
+    "section": "Singles"
+  },
+  {
+    "id": 261,
+    "catalogNo": "132",
+    "artist": "Melvins/Mudhoney",
+    "title": "Sugar Daddy Live Split Series",
+    "year": 2013,
+    "format": "12\"",
+    "section": "Singles"
+  },
+  {
+    "id": 262,
+    "catalogNo": "133",
+    "artist": "Melvins/Fucked Up",
+    "title": "Sugar Daddy Live Split Series",
+    "year": 2013,
+    "format": "12\"",
+    "section": "Singles"
+  },
+  {
+    "id": 263,
+    "catalogNo": "134",
+    "artist": "Melvins/Napalm Death",
+    "title": "Sugar Daddy Live Split Series",
+    "year": 2013,
+    "format": "12\"",
+    "section": "Singles"
+  },
+  {
+    "id": 264,
+    "catalogNo": "135",
+    "artist": "Melvins",
+    "title": "A Tribute To The Scientists",
+    "year": 2013,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 265,
+    "catalogNo": "136",
+    "artist": "",
+    "title": "A Tribute to David Bowie",
+    "year": 2014,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 266,
+    "catalogNo": "137",
+    "artist": "",
+    "title": "A Tribute to The Jam",
+    "year": 2015,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 267,
+    "catalogNo": "138",
+    "artist": "",
+    "title": "A Tribute to The Kinks",
+    "year": 2013,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 268,
+    "catalogNo": "138",
+    "artist": "",
+    "title": "Xmas Singles Bundle",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 269,
+    "catalogNo": "139",
+    "artist": "",
+    "title": "\"A Tribute to Pop-O-Pies\"/\"Tales of Terror\"",
+    "year": 2014,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 270,
+    "catalogNo": "140",
+    "artist": "",
+    "title": "A Tribute to Queen",
+    "year": 2013,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 271,
+    "catalogNo": "141",
+    "artist": "",
+    "title": "A Tribute to Roxy Music",
+    "year": 2015,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 272,
+    "catalogNo": "142",
+    "artist": "",
+    "title": "A Tribute to Throbbing Gristle",
+    "year": 2013,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 273,
+    "catalogNo": "143",
+    "artist": "",
+    "title": "A Tribute to Venom",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 274,
+    "catalogNo": "144",
+    "artist": "",
+    "title": "Gaylord",
+    "year": null,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 275,
+    "catalogNo": "145",
+    "artist": "Hepa-Titus",
+    "title": "Don't Half a Cow",
+    "year": 2013,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 276,
+    "catalogNo": "146",
+    "artist": "Die Nerven",
+    "title": "Nichts Neues",
+    "year": 2013,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 277,
+    "catalogNo": "147",
+    "artist": "Melvins/Helmet",
+    "title": "2013 Invasion",
+    "year": 2013,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 278,
+    "catalogNo": "148",
+    "artist": "Melvins",
+    "title": "I Told You I Was Crazy",
+    "year": 2013,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 279,
+    "catalogNo": "149",
+    "artist": "Melvins/Fantomas",
+    "title": "Sugar Daddy Live Split Series",
+    "year": 2013,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 280,
+    "catalogNo": "150",
+    "artist": "Melvins/King Buzzo",
+    "title": "Sugar Daddy Live Split Series",
+    "year": 2014,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 281,
+    "catalogNo": "151",
+    "artist": "Melvins/Melvins 1983",
+    "title": "Sugar Daddy Live Split Series",
+    "year": 2014,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 282,
+    "catalogNo": "152",
+    "artist": "Hepa-Titus/Melvins",
+    "title": "How Chow Now Dead Cow?",
+    "year": 2014,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 283,
+    "catalogNo": "152",
+    "artist": "Dale Crover",
+    "title": "\"United Fruit\"/\"Dead or Alive\"",
+    "year": 2014,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 284,
+    "catalogNo": "154",
+    "artist": "Various artists",
+    "title": "Dope-Guns-'N-Fucking in the Streets Volume Thirteen",
+    "year": 2014,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 285,
+    "catalogNo": "155",
+    "artist": "Melvins/Karp",
+    "title": "A Tribute to The Kinks",
+    "year": 2015,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 286,
+    "catalogNo": "157",
+    "artist": "Helmet",
+    "title": "Stuck",
+    "year": 2015,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 287,
+    "catalogNo": "158",
+    "artist": "Hepa-Titus",
+    "title": "Touched by God",
+    "year": 2015,
+    "format": "7\", CD",
+    "section": "Singles"
+  },
+  {
+    "id": 288,
+    "catalogNo": "159",
+    "artist": "The Hand",
+    "title": "You Weren't There Vol. 1 - Live at Grumpy's",
+    "year": 2016,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 289,
+    "catalogNo": "160",
+    "artist": "Crystal Fairy",
+    "title": "\"Necklace of Divorce\"/\"Drugs on the Bus\"",
+    "year": 2016,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 290,
+    "catalogNo": "161",
+    "artist": "Melvins",
+    "title": "\"Euthanasia\"/\"Ambition\"",
+    "year": 2016,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 291,
+    "catalogNo": "162",
+    "artist": "Cherubs/Gay Witch Abortion With Haze XXL",
+    "title": "Ink Obscene Archaic Gutter Memes",
+    "year": 2016,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 292,
+    "catalogNo": "163",
+    "artist": "Unsane",
+    "title": "\"Fix It\"/\"Wrung\"",
+    "year": 2017,
+    "format": "7\"",
+    "section": "Singles"
+  }
+]

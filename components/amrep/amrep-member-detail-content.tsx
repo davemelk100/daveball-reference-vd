@@ -21,7 +21,7 @@ import { MemberDetailRight } from "@/components/music-site/member-detail-right";
 interface Release {
   id: number;
   title: string;
-  year: number;
+  year?: number | null;
   thumb: string;
   type: string;
   role: string;
@@ -121,7 +121,7 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
               setReleases(
                 matches.map((release: any) => ({
                   id: release.id,
-                  title: `${release.artist} — ${release.title}`,
+                  title: release.artist ? `${release.artist} — ${release.title}` : release.title,
                   year: release.year,
                   thumb: release.thumb || "",
                   type: "release",
@@ -141,11 +141,11 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
             )
             .map((release) => ({
               id: release.id,
-              title: `${release.artist} — ${release.title}`,
+              title: release.artist ? `${release.artist} — ${release.title}` : release.title,
               year: release.year,
               thumb: "",
               type: "release",
-              role: release.format,
+              role: release.format || "Release",
             }));
           if (isActive) {
             setReleases(fallback);
@@ -314,7 +314,7 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
             <p className="font-semibold text-sm">{release.title}</p>
             <p className="text-xs text-muted-foreground">{release.role}</p>
           </div>
-          <Badge variant="outline">{release.year}</Badge>
+          <Badge variant="outline">{release.year ?? "—"}</Badge>
         </div>
       )}
     />

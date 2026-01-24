@@ -21,7 +21,7 @@
  export interface AmrepAlbumDetail {
    id: number;
    title: string;
-   year: number;
+  year?: number | null;
    thumb?: string | null;
    mainRelease?: number;
    format?: string | string[];
@@ -68,7 +68,7 @@
            if (release) {
              setAlbum({
                id: release.id,
-               title: `${release.artist} — ${release.title}`,
+              title: release.artist ? `${release.artist} — ${release.title}` : release.title,
                year: release.year,
                thumb: "",
                format: release.format,

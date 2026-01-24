@@ -11,7 +11,7 @@
  interface Album {
    id: number;
    title: string;
-   year: number;
+  year?: number | null;
  }
 
  interface Member {
@@ -73,7 +73,7 @@
              const releases = Array.isArray(data?.releases) ? data.releases : [];
              const mappedAlbums = releases.map((release: any) => ({
                id: release.id,
-               title: `${release.artist} — ${release.title}`,
+              title: release.artist ? `${release.artist} — ${release.title}` : release.title,
                year: release.year,
              }));
              const mappedMembers = amrepArtists.map((artist) => ({
@@ -92,7 +92,7 @@
 
          const mappedAlbums = amrepReleases.map((release) => ({
            id: release.id,
-           title: `${release.artist} — ${release.title}`,
+          title: release.artist ? `${release.artist} — ${release.title}` : release.title,
            year: release.year,
          }));
          const mappedMembers = amrepArtists.map((artist) => ({
@@ -186,7 +186,7 @@
          id: `album-${album.id}`,
          href: `${site.basePath}/albums/${album.id}`,
          label: album.title,
-         sublabel: String(album.year),
+          sublabel: album.year ? String(album.year) : "—",
        });
      });
 
@@ -366,7 +366,7 @@
                        >
                          <Disc3 className="h-4 w-4 text-gray-400" />
                          <span className="flex-1 truncate">{album.title}</span>
-                         <span className="text-xs text-gray-400">{album.year}</span>
+                        <span className="text-xs text-gray-400">{album.year ?? "—"}</span>
                        </div>
                      );
                    })}
