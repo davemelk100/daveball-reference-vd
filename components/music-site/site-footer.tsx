@@ -15,19 +15,19 @@
            <nav className="flex items-center gap-2 text-[10px] text-white md:hidden justify-center">
              <Link
                href={`${site.basePath}/albums`}
-               className="transition-colors hover:underline hover:decoration-current"
+               className="px-2 py-1 rounded-md transition-all duration-200 hover:bg-white/10 hover:-translate-y-0.5 hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
              >
                {site.navLabels.discography}
              </Link>
              <Link
                href={`${site.basePath}/ask`}
-               className="transition-colors hover:underline hover:decoration-current"
+               className="px-2 py-1 rounded-md transition-all duration-200 hover:bg-white/10 hover:-translate-y-0.5 hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
              >
                {site.chatLabel}
              </Link>
              <Link
                href={`${site.basePath}/members`}
-               className="transition-colors hover:underline hover:decoration-current"
+               className="px-2 py-1 rounded-md transition-all duration-200 hover:bg-white/10 hover:-translate-y-0.5 hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
              >
                {site.navLabels.members}
              </Link>
@@ -42,7 +42,7 @@
                  href={source.url}
                  target="_blank"
                  rel="noreferrer"
-                 className="transition-colors hover:underline hover:decoration-current"
+                 className="px-2 py-1 rounded-md transition-all duration-200 hover:bg-white/10 hover:-translate-y-0.5 hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
                >
                  {source.label}
                </a>
@@ -58,7 +58,7 @@
                  href={source.url}
                  target="_blank"
                  rel="noreferrer"
-                 className="transition-colors hover:underline hover:decoration-current"
+                 className="px-2 py-1 rounded-md transition-all duration-200 hover:bg-white/10 hover:-translate-y-0.5 hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
                >
                  {source.label}
                </a>

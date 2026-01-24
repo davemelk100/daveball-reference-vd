@@ -502,6 +502,13 @@
     letter-spacing: inherit;
     text-transform: uppercase;
   }
+
+  @media (max-width: 639px) {
+    h1,
+    h2 {
+      font-size: 32px;
+    }
+  }
 }
 
 /* Add custom container with equal horizontal padding */

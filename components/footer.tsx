@@ -35,7 +35,7 @@ export function Footer() {
                 href={source.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline hover:text-foreground transition-colors"
+                className="px-2 py-1 rounded-md transition-all duration-200 hover:bg-primary/10 hover:text-foreground hover:-translate-y-0.5 hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
               >
                 {source.label}
               </a>
@@ -51,7 +51,7 @@ export function Footer() {
                 href={source.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline hover:text-foreground transition-colors"
+                className="px-2 py-1 rounded-md transition-all duration-200 hover:bg-primary/10 hover:text-foreground hover:-translate-y-0.5 hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
               >
                 {source.label}
               </a>
@@ -64,7 +64,7 @@ export function Footer() {
             href="https://github.com/jldbc/pybaseball"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline hover:text-foreground transition-colors"
+            className="px-1.5 py-0.5 rounded-md transition-all duration-200 hover:bg-primary/10 hover:text-foreground hover:-translate-y-0.5 hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
           >
             pybaseball
           </a>{" "}
@@ -74,7 +74,7 @@ export function Footer() {
             href="https://davemelk.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline hover:text-foreground transition-colors"
+            className="px-1.5 py-0.5 rounded-md transition-all duration-200 hover:bg-primary/10 hover:text-foreground hover:-translate-y-0.5 hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
           >
             Melkonian Industries
           </a>

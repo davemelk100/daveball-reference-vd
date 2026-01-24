@@ -50,7 +50,7 @@ export function GbvDashboardContent() {
         <TriviaPanel />
         <RecordOfDayCard
           RemoteImage={GbvRemoteImage}
-          imageFit="cover"
+          imageFit="contain"
           placeholderVariant="next-image"
           placeholderClassName="w-1/2 h-1/2 gbv-nav-icon object-contain"
           placeholderSize={32}

@@ -76,19 +76,6 @@ export function PlayerSpotlight() {
         <h2 className="font-league mr-4 text-primary">Daily Random Player</h2>
       </div>
       <div className="flex gap-3 sm:gap-6 items-center">
-        <Link
-          href={`/players/${player.id}`}
-          className="shrink-0 group relative overflow-hidden rounded-xl"
-        >
-          <Image
-            src={getPlayerHeadshotUrl(player.id, "large")}
-            alt={player.name}
-            width={275}
-            height={275}
-            className="rounded-xl transition-transform group-hover:scale-105 w-[70px] sm:w-[275px] h-auto"
-            priority
-          />
-        </Link>
         <div className="space-y-2 sm:space-y-3 flex-1 min-w-0">
           <div>
             <Link
@@ -222,6 +209,19 @@ export function PlayerSpotlight() {
             </div>
           )}
         </div>
+        <Link
+          href={`/players/${player.id}`}
+          className="shrink-0 group relative overflow-hidden rounded-xl"
+        >
+          <Image
+            src={getPlayerHeadshotUrl(player.id, "large")}
+            alt={player.name}
+            width={275}
+            height={275}
+            className="rounded-xl transition-transform group-hover:scale-105 w-[70px] sm:w-[200px] md:w-[250px] lg:w-[300px] h-auto"
+            priority
+          />
+        </Link>
       </div>
     </div>
   );

@@ -28,9 +28,9 @@ export const AMREP_MEMBER_IMAGE_FALLBACKS: Record<string, string> = {
   "bailter space":
     "/api/gbv/image-proxy?url=https%3A%2F%2Fsun-13.com%2Fwp-content%2Fuploads%2F2023%2F04%2Fbailterspace201812403.jpg",
   brainiac:
-    "/api/gbv/image-proxy?url=https%3A%2F%2Fbigtakeover.com%2Fimages%2F26152.jpg",
+    "/api/gbv/image-proxy?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fen%2F2%2F2a%2FBrainiac_-_Hissing_Prigs_in_Static_Couture.jpg",
   "boss hog":
-    "/api/gbv/image-proxy?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0336%2F8929%2Ffiles%2FBH2016_Final__AngelZayas_large.jpg",
+    "/api/gbv/image-proxy?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fen%2F1%2F18%2FBoss_Hog_-_Boss_Hog.jpg",
   "strapping fieldhands":
     "/api/gbv/image-proxy?url=https%3A%2F%2Ff4.bcbits.com%2Fimg%2F0024692884_10.jpg",
   supernova:
@@ -72,8 +72,6 @@ export const AMREP_MEMBER_IMAGE_SKIP: Record<string, true> = {
   "halo of flies / h•o•f": true,
   melvins: true,
   "bailter space": true,
-  brainiac: true,
-  "boss hog": true,
   "strapping fieldhands": true,
   supernova: true,
   surgery: true,

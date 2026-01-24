@@ -24,7 +24,7 @@ type RecordOfDayCardProps = {
 
 export function RecordOfDayCard({
   RemoteImage,
-  imageFit = "cover",
+  imageFit = "contain",
   placeholderVariant = "next-image",
   placeholderClassName = "w-1/2 h-1/2 gbv-nav-icon object-contain",
   placeholderSize = 32,
@@ -60,9 +60,12 @@ export function RecordOfDayCard({
       <CardContent className="p-4 flex flex-col gap-3">
         <h2>Record of the Day</h2>
         <div className="flex gap-4 items-stretch">
-          <div className="flex flex-col gap-1 w-1/2">
+          <div className="flex flex-col gap-2 w-1/2 justify-center">
             {albumHref ? (
-              <Link href={albumHref} className="text-base font-semibold hover:underline">
+              <Link
+                href={albumHref}
+                className="text-base font-semibold hover:underline"
+              >
                 {displayTitle}
               </Link>
             ) : (
@@ -71,7 +74,7 @@ export function RecordOfDayCard({
             <div className="text-xs text-muted-foreground">{record.year}</div>
             <p className="text-sm text-muted-foreground">{record.highlight}</p>
           </div>
-          <div className="w-1/2 relative">
+          <div className="w-1/2 relative md:h-[140px] lg:h-[180px]">
             {coverUrl ? (
               albumHref ? (
                 <Link href={albumHref} className="absolute inset-0">
