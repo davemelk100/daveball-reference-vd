@@ -101,9 +101,9 @@ export const AMREP_SITE: MusicSiteConfig = {
   chatLabel: "ChatREP",
   headerTitle: "Noise By The Numbers",
   headerTextClass: "text-black",
-  logoSrc: "/amrep-logo-black.svg",
+  logoSrc: "/amrep-logo-foreground.svg",
   chatIconSrc: "/noise-bird.svg",
-  placeholderIconSrc: "/noise-bird.svg",
+  placeholderIconSrc: "/noise-placeholder.svg",
   shellClass: "amrep-shell",
   navLabels: {
     discography: "Releases",

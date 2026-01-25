@@ -19,7 +19,9 @@ export function Footer() {
       <div className="container py-6">
         <div className="relative flex flex-col items-center gap-4 mb-4">
           <p className="text-xs text-muted-foreground max-w-2xl text-center">
-          All rights, including content and copyrights, are reserved by Tom Hazelmyer and AmRep Records. This website is an independent, unofficial fan site.
+            All rights, including content and copyrights, are reserved by Tom
+            Hazelmyer and AmRep Records. This website is an independent,
+            unofficial fan site.
           </p>
         </div>
         <div className="text-center text-xs text-muted-foreground/80">
