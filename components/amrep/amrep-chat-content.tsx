@@ -472,7 +472,7 @@ export function GbvChatContent() {
               alt={site.chatLabel}
               width={128}
               height={128}
-              className="h-32 w-32 mb-4 gbv-rune-white object-contain"
+              className="h-32 w-auto mb-4 gbv-rune-white object-contain"
               priority
               loading="eager"
             />

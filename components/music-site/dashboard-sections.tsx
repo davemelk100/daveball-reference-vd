@@ -83,7 +83,7 @@ export function DashboardSectionHeader({
       <h2 className="font-league">{title}</h2>
       <Link
         href={href}
-        className="uppercase text-sm text-muted-foreground hover:text-foreground"
+        className="uppercase text-sm text-muted-foreground hover:text-foreground font-bold"
       >
         {linkLabel}
       </Link>
@@ -186,7 +186,9 @@ export function DashboardDiscographyGrid<T extends DashboardAlbum>({
                   height={200}
                   className={imageClassName}
                   loading={index < 5 ? "eager" : "lazy"}
-                  cacheKey={album.id ? `${cacheKeyPrefix}:${album.id}` : undefined}
+                  cacheKey={
+                    album.id ? `${cacheKeyPrefix}:${album.id}` : undefined
+                  }
                   preferProxy
                 />
               ) : (
