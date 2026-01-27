@@ -389,9 +389,9 @@
   {
     "id": 44,
     "catalogNo": "044",
-    "artist": "",
+    "artist": "Operation: Break Even",
     "title": "Operation: Break Even",
-    "year": null,
+    "year": 1996,
     "format": "CD",
     "section": "US"
   },
@@ -463,7 +463,7 @@
     "catalogNo": "052",
     "artist": "Guzzard",
     "title": "The Alienation Index Survey",
-    "year": 1996,
+    "year": null,
     "format": "CD",
     "section": "US"
   },
@@ -569,9 +569,9 @@
   {
     "id": 64,
     "catalogNo": "064",
-    "artist": "",
+    "artist": "Honky",
     "title": "Honky",
-    "year": null,
+    "year": 1997,
     "format": "CD, LP",
     "section": "US"
   },
@@ -695,7 +695,7 @@
   {
     "id": 78,
     "catalogNo": "078",
-    "artist": "",
+    "artist": "The Bride Screamed Murder",
     "title": "The Bride Screamed Murder",
     "year": 2011,
     "format": "LP",
@@ -731,7 +731,7 @@
   {
     "id": 82,
     "catalogNo": "087",
-    "artist": "",
+    "artist": "1983",
     "title": "1983",
     "year": 2012,
     "format": "CD, LP",
@@ -740,9 +740,9 @@
   {
     "id": 83,
     "catalogNo": "088",
-    "artist": "",
+    "artist": "The Bulls & the Bees",
     "title": "The Bulls & the Bees",
-    "year": null,
+    "year": 2012,
     "format": "LP",
     "section": "US"
   },
@@ -1055,18 +1055,18 @@
   {
     "id": 118,
     "catalogNo": "123",
-    "artist": "",
+    "artist": "A Walk with Love & Death",
     "title": "A Walk with Love & Death",
-    "year": null,
+    "year": 2018,
     "format": "LP",
     "section": "US"
   },
   {
     "id": 119,
     "catalogNo": "124",
-    "artist": "",
+    "artist": "Sabbath",
     "title": "Sabbath",
-    "year": null,
+    "year": 2018,
     "format": "CD, LP",
     "section": "US"
   },
@@ -1181,16 +1181,16 @@
   {
     "id": 132,
     "catalogNo": "3",
-    "artist": "",
+    "artist": "Snapping Black Roscoe Bottles",
     "title": "Snapping Black Roscoe Bottles",
-    "year": null,
+    "year": 1986,
     "format": "7\"",
     "section": "Singles"
   },
   {
     "id": 133,
     "catalogNo": "4",
-    "artist": "",
+    "artist": "Circling the Pile That Sits By Your Minds Eye Insect Karma Is Based on It",
     "title": "Circling the Pile That Sits By Your Minds Eye Insect Karma Is Based on It",
     "year": 1987,
     "format": "7\"",
@@ -1901,90 +1901,90 @@
   {
     "id": 212,
     "catalogNo": "83",
-    "artist": "",
+    "artist": "\"In the Rain\"/\"Spread Eagle Beagle\"",
     "title": "\"In the Rain\"/\"Spread Eagle Beagle\"",
-    "year": null,
+    "year": 1997,
     "format": "7\"",
     "section": "Singles"
   },
   {
     "id": 213,
     "catalogNo": "84",
-    "artist": "",
+    "artist": "\"Leech\"/\"Queen\"",
     "title": "\"Leech\"/\"Queen\"",
-    "year": null,
+    "year": 1997,
     "format": "7\"",
     "section": "Singles"
   },
   {
     "id": 214,
     "catalogNo": "85",
-    "artist": "",
+    "artist": "\"Way of the World\"/\"Theme\"",
     "title": "\"Way of the World\"/\"Theme\"",
-    "year": null,
+    "year": 1997,
     "format": "7\"",
     "section": "Singles"
   },
   {
     "id": 215,
     "catalogNo": "86",
-    "artist": "",
+    "artist": "\"It's Shoved\"/\"Forgotten Principles\"",
     "title": "\"It's Shoved\"/\"Forgotten Principles\"",
-    "year": null,
+    "year": 1997,
     "format": "7\"",
     "section": "Singles"
   },
   {
     "id": 216,
     "catalogNo": "87",
-    "artist": "",
+    "artist": "\"GGIIBBYY\"/\"Theresa Screams\"",
     "title": "\"GGIIBBYY\"/\"Theresa Screams\"",
-    "year": null,
+    "year": 1997,
     "format": "7\"",
     "section": "Singles"
   },
   {
     "id": 217,
     "catalogNo": "88",
-    "artist": "",
+    "artist": "\"Poison\"/\"Double Troubled\"",
     "title": "\"Poison\"/\"Double Troubled\"",
-    "year": null,
+    "year": 1997,
     "format": "7\"",
     "section": "Singles"
   },
   {
     "id": 218,
     "catalogNo": "89",
-    "artist": "",
+    "artist": "\"Specimen\"/\"All at Once\"",
     "title": "\"Specimen\"/\"All at Once\"",
-    "year": null,
+    "year": 1997,
     "format": "7\"",
     "section": "Singles"
   },
   {
     "id": 219,
     "catalogNo": "90",
-    "artist": "",
+    "artist": "\"Jacksonville\"/\"Dallas\"",
     "title": "\"Jacksonville\"/\"Dallas\"",
-    "year": null,
+    "year": 1997,
     "format": "7\"",
     "section": "Singles"
   },
   {
     "id": 220,
     "catalogNo": "91",
-    "artist": "",
+    "artist": "\"The Bloat\"/\"Fast Forward\"",
     "title": "\"The Bloat\"/\"Fast Forward\"",
-    "year": null,
+    "year": 1997,
     "format": "7\"",
     "section": "Singles"
   },
   {
     "id": 221,
     "catalogNo": "92",
-    "artist": "",
+    "artist": "\"Nasty Dogs Funky Kings\"/\"HDYF\"",
     "title": "\"Nasty Dogs Funky Kings\"/\"HDYF\"",
-    "year": null,
+    "year": 1997,
     "format": "7\"",
     "section": "Singles"
   },
@@ -2063,7 +2063,7 @@
   {
     "id": 230,
     "catalogNo": "101",
-    "artist": "",
+    "artist": "\"Shit Sandwich\"",
     "title": "\"Shit Sandwich\"",
     "year": 2001,
     "format": "7\"",
@@ -2090,7 +2090,7 @@
   {
     "id": 233,
     "catalogNo": "104",
-    "artist": "",
+    "artist": "\"Pigskin\"/\"Starve Already\"",
     "title": "\"Pigskin\"/\"Starve Already\"",
     "year": 2006,
     "format": "7\"",
@@ -2108,7 +2108,7 @@
   {
     "id": 235,
     "catalogNo": "106",
-    "artist": "",
+    "artist": "Dalek: A Purge of Dissidents V.2",
     "title": "Dalek: A Purge of Dissidents V.2",
     "year": 2007,
     "format": "7\"",
@@ -2378,7 +2378,7 @@
   {
     "id": 265,
     "catalogNo": "136",
-    "artist": "",
+    "artist": "A Tribute to David Bowie",
     "title": "A Tribute to David Bowie",
     "year": 2014,
     "format": "7\"",
@@ -2387,7 +2387,7 @@
   {
     "id": 266,
     "catalogNo": "137",
-    "artist": "",
+    "artist": "A Tribute to The Jam",
     "title": "A Tribute to The Jam",
     "year": 2015,
     "format": "7\"",
@@ -2396,7 +2396,7 @@
   {
     "id": 267,
     "catalogNo": "138",
-    "artist": "",
+    "artist": "A Tribute to The Kinks",
     "title": "A Tribute to The Kinks",
     "year": 2013,
     "format": "7\"",
@@ -2405,16 +2405,16 @@
   {
     "id": 268,
     "catalogNo": "138",
-    "artist": "",
+    "artist": "Xmas Singles Bundle",
     "title": "Xmas Singles Bundle",
-    "year": null,
+    "year": 2013,
     "format": "7\"",
     "section": "Singles"
   },
   {
     "id": 269,
     "catalogNo": "139",
-    "artist": "",
+    "artist": "\"A Tribute to Pop-O-Pies\"/\"Tales of Terror\"",
     "title": "\"A Tribute to Pop-O-Pies\"/\"Tales of Terror\"",
     "year": 2014,
     "format": "7\"",
@@ -2423,7 +2423,7 @@
   {
     "id": 270,
     "catalogNo": "140",
-    "artist": "",
+    "artist": "A Tribute to Queen",
     "title": "A Tribute to Queen",
     "year": 2013,
     "format": "7\"",
@@ -2432,7 +2432,7 @@
   {
     "id": 271,
     "catalogNo": "141",
-    "artist": "",
+    "artist": "A Tribute to Roxy Music",
     "title": "A Tribute to Roxy Music",
     "year": 2015,
     "format": "7\"",
@@ -2441,7 +2441,7 @@
   {
     "id": 272,
     "catalogNo": "142",
-    "artist": "",
+    "artist": "A Tribute to Throbbing Gristle",
     "title": "A Tribute to Throbbing Gristle",
     "year": 2013,
     "format": "7\"",
@@ -2450,18 +2450,18 @@
   {
     "id": 273,
     "catalogNo": "143",
-    "artist": "",
+    "artist": "A Tribute to Venom",
     "title": "A Tribute to Venom",
-    "year": null,
+    "year": 2013,
     "format": "7\"",
     "section": "Singles"
   },
   {
     "id": 274,
     "catalogNo": "144",
-    "artist": "",
+    "artist": "Gaylord",
     "title": "Gaylord",
-    "year": null,
+    "year": 2013,
     "format": "7\"",
     "section": "Singles"
   },
