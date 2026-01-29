@@ -33,6 +33,8 @@ type ArtistData = {
   members?: DashboardMember[];
 };
 
+const GBV_ARTIST_ID = 83529;
+
 const GBV_FALLBACK_MEMBERS: DashboardMember[] = [
   { name: "Robert Pollard", active: true },
   { name: "Doug Gillard", active: true },
@@ -119,7 +121,16 @@ export function useDashboardData() {
         );
 
         if (!artistRes.ok) {
-          throw new Error("Failed to fetch data");
+          // Use fallback data if API fails
+          if (!hasCached) {
+            setArtist({
+              id: GBV_ARTIST_ID,
+              name: "Guided by Voices",
+              profile: "American indie rock band formed in Dayton, Ohio in 1983.",
+              members: GBV_FALLBACK_MEMBERS.map((m, i) => ({ id: i, ...m })),
+            });
+          }
+          return;
         }
 
         const artistData = await artistRes.json();
@@ -145,8 +156,14 @@ export function useDashboardData() {
           // ignore cache errors
         }
       } catch (err) {
+        // Use fallback data on error
         if (!hasCached) {
-          setError("Failed to load data from Discogs");
+          setArtist({
+            id: GBV_ARTIST_ID,
+            name: "Guided by Voices",
+            profile: "American indie rock band formed in Dayton, Ohio in 1983.",
+            members: GBV_FALLBACK_MEMBERS.map((m, i) => ({ id: i, ...m })),
+          });
         }
         console.error(err);
       } finally {

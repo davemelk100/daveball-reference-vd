@@ -1,62 +1,73 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { StandingsTable } from "@/components/standings-table"
-import { SeasonSelector } from "@/components/season-selector"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Loader2, AlertCircle } from "lucide-react"
+import { useState, useEffect } from "react";
+import { StandingsTable } from "@/components/standings-table";
+import { SeasonSelector } from "@/components/season-selector";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Loader2, AlertCircle } from "lucide-react";
 
 interface StandingsPageContentProps {
-  initialStandings: any[]
-  initialSeason: number
+  initialStandings: any[];
+  initialSeason: number;
 }
 
-export function StandingsPageContent({ initialStandings, initialSeason }: StandingsPageContentProps) {
-  const [season, setSeason] = useState(initialSeason)
-  const [standings, setStandings] = useState<any[]>(initialStandings)
-  const [isLoading, setIsLoading] = useState(false)
-  const [selectedLeague, setSelectedLeague] = useState<"al" | "nl" | "all">("al")
+export function StandingsPageContent({
+  initialStandings,
+  initialSeason,
+}: StandingsPageContentProps) {
+  const [season, setSeason] = useState(initialSeason);
+  const [standings, setStandings] = useState<any[]>(initialStandings);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedLeague, setSelectedLeague] = useState<"al" | "nl" | "all">(
+    "al",
+  );
 
   useEffect(() => {
     if (season === initialSeason) {
-      setStandings(initialStandings)
-      return
+      setStandings(initialStandings);
+      return;
     }
 
     const fetchStandings = async () => {
-      setIsLoading(true)
+      setIsLoading(true);
       try {
-        const response = await fetch(`/api/standings?season=${season}`)
-        const data = await response.json()
-        setStandings(data.standings)
+        const response = await fetch(`/api/standings?season=${season}`);
+        const data = await response.json();
+        setStandings(data.standings);
       } catch (error) {
-        console.error("Error fetching standings:", error)
+        console.error("Error fetching standings:", error);
       } finally {
-        setIsLoading(false)
+        setIsLoading(false);
       }
-    }
+    };
 
-    fetchStandings()
-  }, [season, initialSeason, initialStandings])
+    fetchStandings();
+  }, [season, initialSeason, initialStandings]);
 
   // Filter by league
-  const alDivisions = standings.filter((d: any) => d.league?.id === 103)
-  const nlDivisions = standings.filter((d: any) => d.league?.id === 104)
+  const alDivisions = standings.filter((d: any) => d.league?.id === 103);
+  const nlDivisions = standings.filter((d: any) => d.league?.id === 104);
 
   // Sort divisions by name (East, Central, West)
   const sortDivisions = (divisions: typeof standings) => {
     return [...divisions].sort((a, b) => {
-      const order = ["East", "Central", "West"]
-      const getDivName = (d: any) => d.division?.name || ""
-      const aIdx = order.findIndex((o) => getDivName(a).includes(o))
-      const bIdx = order.findIndex((o) => getDivName(b).includes(o))
-      return aIdx - bIdx
-    })
-  }
+      const order = ["East", "Central", "West"];
+      const getDivName = (d: any) => d.division?.name || "";
+      const aIdx = order.findIndex((o) => getDivName(a).includes(o));
+      const bIdx = order.findIndex((o) => getDivName(b).includes(o));
+      return aIdx - bIdx;
+    });
+  };
 
-  const sortedAL = sortDivisions(alDivisions)
-  const sortedNL = sortDivisions(nlDivisions)
-  const hasData = sortedAL.length > 0 || sortedNL.length > 0
+  const sortedAL = sortDivisions(alDivisions);
+  const sortedNL = sortDivisions(nlDivisions);
+  const hasData = sortedAL.length > 0 || sortedNL.length > 0;
 
   return (
     <main className="container py-2">
@@ -69,9 +80,14 @@ export function StandingsPageContent({ initialStandings, initialSeason }: Standi
             className="w-auto py-0 hover:bg-transparent"
           />
           {!isLoading && standings && standings.length > 0 && hasData && (
-            <Select value={selectedLeague} onValueChange={(val) => setSelectedLeague(val as "al" | "nl" | "all")}>
+            <Select
+              value={selectedLeague}
+              onValueChange={(val) =>
+                setSelectedLeague(val as "al" | "nl" | "all")
+              }
+            >
               <SelectTrigger className="w-auto border-0 shadow-none p-0 h-auto bg-transparent hover:bg-transparent focus:ring-0 focus-visible:ring-0">
-                <span className="font-league text-[40px] leading-none font-bold border-b-2 border-foreground">
+                <span className="font-league text-[40px] leading-none border-b-2 border-foreground">
                   <SelectValue />
                 </span>
               </SelectTrigger>
@@ -98,7 +114,10 @@ export function StandingsPageContent({ initialStandings, initialSeason }: Standi
       ) : !hasData ? (
         <div className="space-y-6">
           {standings.map((division: any, idx: number) => (
-            <StandingsTable key={division.division?.id || idx} division={division} />
+            <StandingsTable
+              key={division.division?.id || idx}
+              division={division}
+            />
           ))}
         </div>
       ) : (
@@ -106,9 +125,16 @@ export function StandingsPageContent({ initialStandings, initialSeason }: Standi
           {selectedLeague === "al" && (
             <div className="space-y-6">
               {sortedAL.length === 0 ? (
-                <p className="text-muted-foreground py-8 text-center">No American League standings available</p>
+                <p className="text-muted-foreground py-8 text-center">
+                  No American League standings available
+                </p>
               ) : (
-                sortedAL.map((division, idx) => <StandingsTable key={division.division?.id || idx} division={division} />)
+                sortedAL.map((division, idx) => (
+                  <StandingsTable
+                    key={division.division?.id || idx}
+                    division={division}
+                  />
+                ))
               )}
             </div>
           )}
@@ -116,9 +142,16 @@ export function StandingsPageContent({ initialStandings, initialSeason }: Standi
           {selectedLeague === "nl" && (
             <div className="space-y-6">
               {sortedNL.length === 0 ? (
-                <p className="text-muted-foreground py-8 text-center">No National League standings available</p>
+                <p className="text-muted-foreground py-8 text-center">
+                  No National League standings available
+                </p>
               ) : (
-                sortedNL.map((division, idx) => <StandingsTable key={division.division?.id || idx} division={division} />)
+                sortedNL.map((division, idx) => (
+                  <StandingsTable
+                    key={division.division?.id || idx}
+                    division={division}
+                  />
+                ))
               )}
             </div>
           )}
@@ -128,13 +161,19 @@ export function StandingsPageContent({ initialStandings, initialSeason }: Standi
               <div className="space-y-6">
                 <h2 className="font-league mr-4">American League</h2>
                 {sortedAL.map((division, idx) => (
-                  <StandingsTable key={division.division?.id || idx} division={division} />
+                  <StandingsTable
+                    key={division.division?.id || idx}
+                    division={division}
+                  />
                 ))}
               </div>
               <div className="space-y-6">
                 <h2 className="font-league mr-4">National League</h2>
                 {sortedNL.map((division, idx) => (
-                  <StandingsTable key={division.division?.id || idx} division={division} />
+                  <StandingsTable
+                    key={division.division?.id || idx}
+                    division={division}
+                  />
                 ))}
               </div>
             </div>
@@ -142,5 +181,5 @@ export function StandingsPageContent({ initialStandings, initialSeason }: Standi
         </>
       )}
     </main>
-  )
+  );
 }

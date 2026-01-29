@@ -41,7 +41,7 @@ export function SeasonSelector({
   const maxYear = getMaxYear();
   const seasons = Array.from(
     { length: maxYear - startYear + 1 },
-    (_, i) => maxYear - i
+    (_, i) => maxYear - i,
   );
 
   if (!season) return null;
@@ -54,7 +54,7 @@ export function SeasonSelector({
       <div
         className={cn(
           "w-full py-3 cursor-pointer hover:bg-muted/5 transition-colors",
-          className
+          className,
         )}
       >
         <div className="p-0 flex justify-start">
@@ -66,7 +66,7 @@ export function SeasonSelector({
               <span className="sr-only font-league text-2xl md:text-3xl font-semibold text-[#4e6095]">
                 Season
               </span>
-              <span className="font-league text-[40px] leading-none font-bold border-b-2 border-foreground">
+              <span className="font-league text-[40px] leading-none border-b-2 border-foreground">
                 <SelectValue placeholder="Season" />
               </span>
               {isLoading && (

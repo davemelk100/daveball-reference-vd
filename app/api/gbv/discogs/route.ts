@@ -244,6 +244,28 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Invalid type parameter" }, { status: 400 });
   } catch (error) {
     console.error("Discogs API error:", error);
+
+    // Return fallback data instead of error for artist type
+    if (type === "artist") {
+      return NextResponse.json({
+        id: GBV_ARTIST_ID,
+        name: "Guided by Voices",
+        profile: "American indie rock band formed in Dayton, Ohio in 1983.",
+        members: [
+          { id: 1, name: "Robert Pollard", active: true },
+          { id: 2, name: "Doug Gillard", active: true },
+          { id: 3, name: "Kevin March", active: true },
+          { id: 4, name: "Mark Shue", active: true },
+          { id: 5, name: "Bobby Bare Jr.", active: true },
+        ],
+      });
+    }
+
+    // Return empty albums for albums type
+    if (type === "albums") {
+      return NextResponse.json({ albums: [], fallback: true });
+    }
+
     return NextResponse.json(
       { error: "Failed to fetch data from Discogs" },
       { status: 500 }

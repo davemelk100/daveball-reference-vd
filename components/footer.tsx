@@ -1,4 +1,11 @@
-import { ThemeToggle } from "@/components/theme-toggle";
+"use client";
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { ChevronUp } from "lucide-react";
 
 export function Footer() {
   const sources = [
@@ -14,69 +21,57 @@ export function Footer() {
     { label: "FanGraphs", url: "https://www.fangraphs.com/" },
   ];
 
+  const allSources = [
+    { category: "Data", items: sources },
+    { category: "Images", items: imageSources },
+  ];
+
   return (
-    <footer className="border-t border-border bg-muted/30 mt-auto">
-      <div className="container py-6">
-        <div className="relative flex flex-col items-center gap-4 mb-4">
-          <p className="text-xs text-muted-foreground max-w-2xl text-center">
-            All rights, including content and copyrights, are reserved by Tom
-            Hazelmyer and AmRep Records. This website is an independent,
-            unofficial fan site.
-          </p>
+    <footer className="border-t border-border bg-muted/30 mt-auto pb-20 sm:pb-0">
+      <div className="container py-3">
+        <div className="flex items-center justify-between text-xs text-muted-foreground/80">
+          {/* Left: Copyright */}
+          <span>
+            &copy; {new Date().getFullYear()}{" "}
+            <a
+              href="https://davemelk.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
+            >
+              Melkonian Industries
+            </a>
+          </span>
+
+          {/* Right: Sources */}
+          <Popover>
+            <PopoverTrigger className="flex items-center gap-1 px-2 py-1 rounded-md hover:bg-primary/10 hover:text-foreground transition-colors">
+              Sources <ChevronUp className="h-3 w-3" />
+            </PopoverTrigger>
+            <PopoverContent className="w-64 p-3" side="top" align="end">
+              {allSources.map((group) => (
+                <div key={group.category} className="mb-3 last:mb-0">
+                  <p className="text-xs font-semibold text-muted-foreground mb-1">
+                    {group.category}
+                  </p>
+                  <div className="flex flex-col gap-1">
+                    {group.items.map((source) => (
+                      <a
+                        key={source.label}
+                        href={source.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs px-2 py-1 rounded hover:bg-primary/10 transition-colors"
+                      >
+                        {source.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </PopoverContent>
+          </Popover>
         </div>
-        <div className="text-center text-xs text-muted-foreground/80">
-          <div className="flex flex-wrap items-center gap-1.5 justify-center md:gap-2">
-            <span>Sources:</span>
-            {sources.map((source) => (
-              <a
-                key={source.label}
-                href={source.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-2 py-1 rounded-md transition-all duration-200 hover:bg-primary/10 hover:text-foreground hover:-translate-y-0.5 hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
-              >
-                {source.label}
-              </a>
-            ))}
-          </div>
-        </div>
-        <div className="mt-2 text-center text-xs text-muted-foreground/80">
-          <div className="flex flex-wrap items-center gap-1.5 justify-center md:gap-2">
-            <span>Image credits:</span>
-            {imageSources.map((source) => (
-              <a
-                key={source.label}
-                href={source.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-2 py-1 rounded-md transition-all duration-200 hover:bg-primary/10 hover:text-foreground hover:-translate-y-0.5 hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
-              >
-                {source.label}
-              </a>
-            ))}
-          </div>
-        </div>
-        <p className="text-center text-xs text-muted-foreground/60">
-          Powered by{" "}
-          <a
-            href="https://github.com/jldbc/pybaseball"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-1.5 py-0.5 rounded-md transition-all duration-200 hover:bg-primary/10 hover:text-foreground hover:-translate-y-0.5 hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
-          >
-            pybaseball
-          </a>{" "}
-          &middot; &copy; {new Date().getFullYear()} Major League Numbers
-          &middot; Manufactured and Produced by{" "}
-          <a
-            href="https://davemelk.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-1.5 py-0.5 rounded-md transition-all duration-200 hover:bg-primary/10 hover:text-foreground hover:-translate-y-0.5 hover:shadow-[0_4px_10px_rgba(0,0,0,0.15)]"
-          >
-            Melkonian Industries
-          </a>
-        </p>
       </div>
     </footer>
   );

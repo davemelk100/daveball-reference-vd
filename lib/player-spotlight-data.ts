@@ -318,26 +318,38 @@ function curatedToSpotlight(curated: CuratedPlayer): SpotlightPlayer {
 }
 
 // Check if a player has a real photo (not the generic silhouette)
-async function hasValidPhoto(playerId: number): Promise<boolean> {
+// For older players (pre-2000), we accept placeholders since real photos don't exist
+async function hasValidPhoto(playerId: number, acceptPlaceholder: boolean = false): Promise<boolean> {
   try {
-    // Fetch without the default fallback - will 404 if no real photo exists
     const imageUrl = `https://img.mlbstatic.com/mlb-photos/image/upload/w_213,q_auto:best/v1/people/${playerId}/headshot/67/current`;
     const response = await fetch(imageUrl, { method: 'HEAD' });
-    return response.ok;
+    if (!response.ok) return false;
+
+    // Accept any image for older players
+    if (acceptPlaceholder) return true;
+
+    // For modern players, check content-length to filter placeholders
+    // Real player photos are larger (~10KB+), placeholders are smaller (~2-5KB)
+    const contentLength = response.headers.get('content-length');
+    if (contentLength) {
+      const size = parseInt(contentLength, 10);
+      return size > 8000;
+    }
+    return false;
   } catch {
     return false;
   }
 }
 
 // Check multiple players for photos in parallel and return first valid one
-async function findPlayerWithPhoto(players: any[]): Promise<any | null> {
+async function findPlayerWithPhoto(players: any[], acceptPlaceholder: boolean = false): Promise<any | null> {
   const batchSize = 10;
 
   for (let i = 0; i < players.length; i += batchSize) {
     const batch = players.slice(i, i + batchSize);
     const results = await Promise.all(
       batch.map(async (player) => {
-        const hasPhoto = await hasValidPhoto(player.id);
+        const hasPhoto = await hasValidPhoto(player.id, acceptPlaceholder);
         return hasPhoto ? player : null;
       })
     );
@@ -352,9 +364,9 @@ async function findPlayerWithPhoto(players: any[]): Promise<any | null> {
 
 export async function getDailyPlayer(): Promise<SpotlightPlayer> {
   try {
-    // Select a truly random season (2000-present for better photo availability)
+    // Select a truly random season (1970-present for variety across eras)
     const currentYear = new Date().getFullYear();
-    const minYear = 2000;
+    const minYear = 1970;
     const yearRange = currentYear - minYear + 1;
     const randomSeason = minYear + Math.floor(Math.random() * yearRange);
 
@@ -364,21 +376,24 @@ export async function getDailyPlayer(): Promise<SpotlightPlayer> {
     const allPlayers = data.players || [];
 
     if (allPlayers.length === 0) {
-      // Fallback to curated list if API fails or no players found
-      const index = Math.floor(Math.random() * spotlightPlayers.length);
-      return curatedToSpotlight(spotlightPlayers[index]);
+      // Fallback to curated list - accept placeholders for legends
+      const shuffledCurated = [...spotlightPlayers].sort(() => Math.random() - 0.5);
+      return curatedToSpotlight(shuffledCurated[0]);
     }
 
     // Shuffle the players array for truly random selection
     const shuffled = [...allPlayers].sort(() => Math.random() - 0.5);
 
+    // Accept placeholder images for older seasons (pre-2000) since real photos don't exist
+    const acceptPlaceholder = randomSeason < 2000;
+
     // Find a player with a valid photo (checks in parallel batches)
-    const player = await findPlayerWithPhoto(shuffled.slice(0, 30));
+    const player = await findPlayerWithPhoto(shuffled.slice(0, 30), acceptPlaceholder);
 
     if (!player) {
-      // Fallback to curated list if no player with photo found
-      const index = Math.floor(Math.random() * spotlightPlayers.length);
-      return curatedToSpotlight(spotlightPlayers[index]);
+      // Fallback to curated list - accept placeholders for legends
+      const shuffledCurated = [...spotlightPlayers].sort(() => Math.random() - 0.5);
+      return curatedToSpotlight(shuffledCurated[0]);
     }
 
     // Fetch full player data with stats
@@ -478,9 +493,8 @@ export async function getDailyPlayer(): Promise<SpotlightPlayer> {
       highlights: curatedPlayer?.highlights,
     };
   } catch {
-    // Fallback to curated list if fetch fails
-    const index = Math.floor(Math.random() * spotlightPlayers.length);
-    return curatedToSpotlight(spotlightPlayers[index]);
+    // Fallback to curated list if fetch fails - use legends who definitely have photos
+    return curatedToSpotlight(spotlightPlayers[0]); // Babe Ruth
   }
 }
 
