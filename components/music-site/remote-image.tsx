@@ -53,11 +53,19 @@ export function RemoteImage({
       try {
         const cached = localStorage.getItem(cacheKey);
         if (cached && !invalidCacheSet.has(cached)) {
+          // If a new src was provided that differs from the cached value,
+          // the cache is stale — clear it and use the new src instead
           const cachedUrl = getProxiedImageUrl(cached) ?? cached;
-          if (!invalidCacheSet.has(cachedUrl)) {
+          const normalizedProxy = normalized ? (getProxiedImageUrl(normalized) ?? normalized) : null;
+          if (
+            !invalidCacheSet.has(cachedUrl) &&
+            (!normalized || cachedUrl === normalized || cachedUrl === normalizedProxy)
+          ) {
             setCurrentSrc(cachedUrl);
             setSourceState("direct");
             return;
+          } else {
+            localStorage.removeItem(cacheKey);
           }
         }
       } catch {

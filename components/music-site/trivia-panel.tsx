@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
+import { Card } from "@/components/ui/card";
 
 interface AnsweredQuestion {
   questionId: number;
@@ -168,7 +169,7 @@ function TriviaPanelContent() {
   const badgeBg = isAmrep ? "bg-black/10" : "bg-white/20";
 
   return (
-    <div className={`w-full h-full ${isAmrep ? "bg-white/20" : "bg-black/20"} rounded-lg border ${border} p-4 space-y-4`}>
+    <Card className={`w-full h-full ${isAmrep ? "bg-white/20" : ""} rounded-lg border ${border} p-4 space-y-4`}>
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -309,7 +310,7 @@ function TriviaPanelContent() {
           <div className="w-[72px]" />
         )}
       </div>
-    </div>
+    </Card>
   );
 }
 

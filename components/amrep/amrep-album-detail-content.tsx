@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, ExternalLink } from "lucide-react";
 import { AmrepRemoteImage } from "@/components/amrep/amrep-remote-image";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
+import { getAmrepAlbumImage } from "@/lib/amrep-album-images";
 import { getProxiedImageUrl, getReleaseType } from "@/lib/gbv-utils";
 import {
   useSiteAlbumDetail,
@@ -20,9 +21,8 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
 
   const albumImage = useMemo(() => {
     if (!detail) return null;
-    return isAmrep && detail.thumb
-      ? getProxiedImageUrl(detail.thumb)
-      : getLocalAlbumImage(detail.id) || getProxiedImageUrl(detail.thumb);
+    if (isAmrep) return getAmrepAlbumImage(detail.id);
+    return getLocalAlbumImage(detail.id) || getProxiedImageUrl(detail.thumb);
   }, [detail?.id, detail?.thumb, isAmrep]);
 
   const displayTitle = useMemo(() => {
