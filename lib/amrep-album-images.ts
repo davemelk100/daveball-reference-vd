@@ -33,6 +33,19 @@ const amrepAlbumImages: Record<number, string> = {
   74: "https://upload.wikimedia.org/wikipedia/en/7/75/Melvins_vs._Minneapolis.jpg",
   78: "https://upload.wikimedia.org/wikipedia/en/6/65/Melvins2010.jpg",
   83: "https://upload.wikimedia.org/wikipedia/en/0/0c/Melvins_-_The_Bulls_%26_The_Bees_front_cover.jpg",
+  84: "https://upload.wikimedia.org/wikipedia/en/7/75/Freak_Puke-cdcover-.jpg",
+  102: "https://upload.wikimedia.org/wikipedia/en/2/25/Drinkin%27%2C_Lechin%27_%26_Lyin%27.jpg",
+  106: "https://upload.wikimedia.org/wikipedia/en/d/d6/Teenage_Jesus_and_the_Jerks_-_Teenage_Jesus_and_the_Jerks.jpg",
+  107: "https://upload.wikimedia.org/wikipedia/en/7/7f/Crystal_fairy_-_album_cover.jpg",
+  108: "https://upload.wikimedia.org/wikipedia/en/f/ff/Cows_Taint_Pluribus_Taint_Unum.JPG",
+  109: "https://upload.wikimedia.org/wikipedia/en/4/4d/Cherubs_-_Heroin_Man.jpg",
+  110: "https://upload.wikimedia.org/wikipedia/en/8/86/Lydia_Lunch_-_Queen_of_Siam.jpeg",
+  114: "https://upload.wikimedia.org/wikipedia/en/d/d6/Gluey_orig.jpg",
+  115: "https://upload.wikimedia.org/wikipedia/en/3/3f/The_Cows_Effete_and_Impudent_Snobs.jpg",
+  117: "https://upload.wikimedia.org/wikipedia/en/5/5c/Pinkus_Abortion_Technician_%282018%29_cover.jpg",
+  118: "https://upload.wikimedia.org/wikipedia/en/a/a5/A_Walk_with_Love_%26_Death.jpg",
+  120: "https://upload.wikimedia.org/wikipedia/en/7/74/God_Bullies_-_Mama_Womb_Womb.jpeg",
+  129: "https://upload.wikimedia.org/wikipedia/en/b/b8/Melvins-electroretard.jpg",
 };
 
 /**
