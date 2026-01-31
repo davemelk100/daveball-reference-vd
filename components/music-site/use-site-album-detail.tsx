@@ -68,7 +68,7 @@
            if (release) {
              setAlbum({
                id: release.id,
-              title: release.artist ? `${release.artist} — ${release.title}` : release.title,
+              title: release.title,
                year: release.year,
                thumb: "",
                format: release.format,

@@ -112,7 +112,7 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
               },
             ]
           : []),
-        ...(detail.artists && detail.artists.length > 0
+        ...(!isAmrep && detail.artists && detail.artists.length > 0
           ? [
               {
                 label: "Artist",
