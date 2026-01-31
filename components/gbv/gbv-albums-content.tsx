@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
-import { Button } from "@/components/ui/button";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { Loader2 } from "lucide-react";
 import { GbvRemoteImage } from "@/components/gbv/gbv-remote-image";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
@@ -72,9 +71,27 @@ export function GbvAlbumsContent() {
     return getLocalAlbumImage(album.id) || getProxiedImageUrl(album.thumb);
   };
 
-  const handleLoadMore = () => {
-    setDisplayCount((prev) => prev + ITEMS_PER_PAGE);
-  };
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  const sentinelRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+        observerRef.current = null;
+      }
+      if (!node) return;
+      observerRef.current = new IntersectionObserver(
+        (entries) => {
+          if (entries[0].isIntersecting) {
+            setDisplayCount((prev) => prev + ITEMS_PER_PAGE);
+          }
+        },
+        { rootMargin: "200px" },
+      );
+      observerRef.current.observe(node);
+    },
+    [],
+  );
 
   if (isLoading) {
     return (
@@ -114,20 +131,7 @@ export function GbvAlbumsContent() {
         imageFit={isAmrep ? "contain" : "cover"}
       />
 
-      {hasMore && (
-        <div className="flex justify-center mt-8">
-          <Button
-            onClick={handleLoadMore}
-            variant="outline"
-            className="text-black"
-          >
-            Load More{" "}
-            <span className="align-baseline">
-              ({filteredAlbums.length - displayCount} remaining)
-            </span>
-          </Button>
-        </div>
-      )}
+      {hasMore && <div ref={sentinelRef} className="h-1" />}
 
       {visibleAlbums.length === 0 && !isLoading && (
         <div className="text-center py-12 text-muted-foreground">

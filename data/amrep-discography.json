@@ -729,15 +729,6 @@
     "section": "US"
   },
   {
-    "id": 82,
-    "catalogNo": "087",
-    "artist": "1983",
-    "title": "1983",
-    "year": 2012,
-    "format": "CD, LP",
-    "section": "US"
-  },
-  {
     "id": 83,
     "catalogNo": "088",
     "artist": "The Bulls & the Bees",
@@ -868,15 +859,6 @@
     "catalogNo": "102",
     "artist": "Melvins/Le Butcherettes",
     "title": "Chaos as Usual",
-    "year": 2015,
-    "format": "CD, LP",
-    "section": "US"
-  },
-  {
-    "id": 98,
-    "catalogNo": "103",
-    "artist": "Gay Witch Abortion with Haze XXL",
-    "title": "Beer Hippy",
     "year": 2015,
     "format": "CD, LP",
     "section": "US"
@@ -1059,15 +1041,6 @@
     "title": "A Walk with Love & Death",
     "year": 2018,
     "format": "LP",
-    "section": "US"
-  },
-  {
-    "id": 119,
-    "catalogNo": "124",
-    "artist": "Sabbath",
-    "title": "Sabbath",
-    "year": 2018,
-    "format": "CD, LP",
     "section": "US"
   },
   {

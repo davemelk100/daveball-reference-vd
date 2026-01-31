@@ -20,7 +20,7 @@ export function AmrepRemoteImage({
       fallbackSrc={fallbackSrc}
       fit={fit}
       className={cn("rounded-lg", className)}
-      invalidCacheValues={["/chat-gbv-box.svg"]}
+      invalidCacheValues={["/chat-gbv-box.svg", "/noise-bird.svg"]}
     />
   );
 }
