@@ -66,7 +66,7 @@ export function SiteFooter() {
           )}
           </div>
           <span className={site.id === "amrep" ? "text-black/50" : "text-white/40"}>
-            No generative AI is used to produce any audio, video, or visual content on this site.
+            No generative AI is allowed to produce, stream, alter, or replicate any audio, video, or graphics.
           </span>
         </div>
       </div>
