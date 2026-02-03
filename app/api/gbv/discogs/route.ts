@@ -268,6 +268,13 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: "Missing id parameter" }, { status: 400 });
       }
       const data = await fetchFromDiscogs(`/masters/${id}`);
+      if (data.title) data.title = data.title.replace(/\s*\(\d+\)$/, "");
+      if (Array.isArray(data.artists)) {
+        data.artists = data.artists.map((a: any) => ({
+          ...a,
+          name: (a.name || "").replace(/\s*\(\d+\)$/, ""),
+        }));
+      }
       return NextResponse.json(data);
     }
 

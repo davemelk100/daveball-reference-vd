@@ -26,7 +26,7 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="z-50 w-full bg-transparent py-1">
+    <header className="z-50 w-full bg-transparent py-6 mb-4">
       <div className="container flex items-center gap-3">
         <Link
           href={site.basePath}
@@ -46,7 +46,7 @@ export function SiteHeader() {
           />
           <h1
             className={cn(
-              "font-league uppercase tracking-wide",
+              "font-league uppercase tracking-wide hidden sm:block",
               site.headerTextClass,
             )}
           >
@@ -121,7 +121,7 @@ export function SiteHeader() {
       </div>
 
       {pathname !== askPath && (
-        <div className="container mt-2 lg:hidden">
+        <div className="container mt-6 lg:hidden">
           <Link
             href={askPath}
             className="flex items-center justify-center gap-2 px-5 h-12 text-sm font-medium rounded-lg transition-all active:translate-y-[1px] text-black bg-white border-t border-t-[#f6f6f6] border-l border-l-[#eeeeee] border-r border-r-[#c6c6c6] border-b-2 border-b-[#b5b5b5] shadow-[0_2px_4px_rgba(0,0,0,0.1),_inset_0_1px_0_rgba(255,255,255,0.4)]"

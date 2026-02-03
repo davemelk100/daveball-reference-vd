@@ -22,7 +22,7 @@ export function Header() {
   }, []);
 
   return (
-    <header className="z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-3">
+    <header className="z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-6 mb-4">
       <div className="container flex items-center gap-3">
         <Link href="/" className="flex items-center gap-3 flex-shrink-0">
           <Image
@@ -32,7 +32,7 @@ export function Header() {
             height={100}
             className="h-12 w-auto sm:h-16 lg:h-20"
           />
-          <h1 className="uppercase flex-shrink-0 text-[#f4232b]">
+          <h1 className="uppercase flex-shrink-0 text-[#f4232b] hidden sm:block">
             Major League Numbers
           </h1>
         </Link>
@@ -93,7 +93,7 @@ export function Header() {
 
       {/* Mobile ChatMLB row */}
       {pathname !== "/ask" && (
-        <div className="container mt-2 lg:hidden">
+        <div className="container mt-6 lg:hidden">
           <Link
             href="/ask"
             className="flex items-center justify-center gap-2 px-5 h-12 text-sm font-medium rounded-lg transition-all active:translate-y-[1px] bg-[linear-gradient(180deg,_#d8e0e8_0%,_#b8c4d0_100%)] border-t border-t-[#e8eef4] border-l border-l-[#dce4ec] border-r border-r-[#a8b4c0] border-b-2 border-b-[#98a4b0] shadow-[0_2px_4px_rgba(0,0,0,0.1),_inset_0_1px_0_rgba(255,255,255,0.4)]"

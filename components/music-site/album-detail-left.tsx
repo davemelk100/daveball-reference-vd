@@ -45,8 +45,8 @@ export function AlbumDetailLeft({
 }: AlbumDetailLeftProps) {
   return (
     <>
+      <h1 className="font-league capitalize text-[36px] leading-tight mb-2">{title}</h1>
       <div className="mb-4">{image}</div>
-      <h1 className="font-league mb-2">{title}</h1>
       {subtitle && <p className="text-lg text-muted-foreground mb-4">{subtitle}</p>}
       {badges && badges.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-4">

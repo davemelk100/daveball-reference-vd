@@ -5,12 +5,15 @@ export const runtime = "nodejs";
 
 const DISCOGS_BASE_URL = "https://api.discogs.com";
 const USER_AGENT = "AmphetamineReptile/1.0";
-const LABEL_NAME = "Amphetamine Reptile Records";
+const AMREP_LABEL_ID = 5126;
 
-let labelIdCache: { id: number; timestamp: number } | null = null;
-const LABEL_ID_TTL = 24 * 60 * 60 * 1000;
 const releasesCache = new Map<string, { releases: any[]; timestamp: number }>();
 const RELEASES_TTL = 24 * 60 * 60 * 1000;
+
+// Lookup cache: normalised "artist::title" → Discogs release ID
+let labelReleaseLookup: Map<string, number> | null = null;
+let labelReleaseLookupTimestamp = 0;
+const LOOKUP_TTL = 24 * 60 * 60 * 1000;
 
 async function fetchFromDiscogs(endpoint: string) {
   const token = process.env.DISCOGS_USER_TOKEN || process.env.DISCOGS_TOKEN;
@@ -29,27 +32,62 @@ async function fetchFromDiscogs(endpoint: string) {
   return response.json();
 }
 
-async function getLabelId(): Promise<number> {
-  if (labelIdCache && Date.now() - labelIdCache.timestamp < LABEL_ID_TTL) {
-    return labelIdCache.id;
-  }
-
-  const data = await fetchFromDiscogs(
-    `/database/search?q=${encodeURIComponent(LABEL_NAME)}&type=label&per_page=1`
-  );
-  const id = Number(data?.results?.[0]?.id);
-  if (!id) {
-    throw new Error("Label not found on Discogs");
-  }
-  labelIdCache = { id, timestamp: Date.now() };
-  return id;
-}
-
 async function normalizeThumb(url?: string | null) {
   if (!url) return null;
   const httpsUrl = url.replace(/^http:/, "https:");
   const cached = await cacheRemoteImage(httpsUrl, "discogs-amrep");
   return cached || `/api/gbv/image-proxy?url=${encodeURIComponent(httpsUrl)}`;
+}
+
+function normalizeKey(artist: string, title: string): string {
+  return `${artist}::${title}`
+    .toLowerCase()
+    .replace(/\s*\(\d+\)\s*/g, "") // strip Discogs disambiguators like "(2)"
+    .replace(/[^a-z0-9:]/g, "");
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+async function getLabelReleaseLookup(): Promise<Map<string, number>> {
+  if (
+    labelReleaseLookup &&
+    Date.now() - labelReleaseLookupTimestamp < LOOKUP_TTL
+  ) {
+    return labelReleaseLookup;
+  }
+
+  const lookup = new Map<string, number>();
+  let currentPage = 1;
+  let totalPages = 1;
+  const maxPages = 25; // ~2500 releases at 100/page
+
+  do {
+    try {
+      const data = await fetchFromDiscogs(
+        `/labels/${AMREP_LABEL_ID}/releases?page=${currentPage}&per_page=100&sort=year&sort_order=asc`
+      );
+      for (const r of data?.releases || []) {
+        const key = normalizeKey(r.artist || "", r.title || "");
+        if (key && !lookup.has(key)) {
+          lookup.set(key, r.id);
+        }
+      }
+      totalPages = data?.pagination?.pages || 1;
+    } catch {
+      // Stop paginating on error but keep what we have so far
+      break;
+    }
+    currentPage++;
+    if (currentPage <= totalPages) await sleep(300);
+  } while (currentPage <= totalPages && currentPage <= maxPages);
+
+  if (lookup.size > 0) {
+    labelReleaseLookup = lookup;
+    labelReleaseLookupTimestamp = Date.now();
+  }
+  return lookup;
 }
 
 function dedupeReleases(releases: any[]) {
@@ -71,10 +109,14 @@ function dedupeReleases(releases: any[]) {
   return unique;
 }
 
+function stripDiscogsDisambiguator(name: string): string {
+  return name.replace(/\s*\(\d+\)$/, "");
+}
+
 function buildReleaseResponse(data: any, thumb: string | null) {
   return {
     id: data.id,
-    title: data.title,
+    title: stripDiscogsDisambiguator(data.title || ""),
     year: data.year,
     thumb,
     format: Array.isArray(data.formats)
@@ -84,7 +126,7 @@ function buildReleaseResponse(data: any, thumb: string | null) {
       ? data.labels.map((label: { name?: string }) => ({ name: label.name }))
       : undefined,
     artists: Array.isArray(data.artists)
-      ? data.artists.map((artist: { name?: string }) => ({ name: artist.name }))
+      ? data.artists.map((artist: { name?: string }) => ({ name: stripDiscogsDisambiguator(artist.name || "") }))
       : undefined,
     genres: Array.isArray(data.genres) ? data.genres : undefined,
     styles: Array.isArray(data.styles) ? data.styles : undefined,
@@ -106,10 +148,8 @@ export async function GET(request: Request) {
   const perPage = searchParams.get("per_page") || "100";
 
   try {
-    const labelId = await getLabelId();
-
     if (type === "label") {
-      const data = await fetchFromDiscogs(`/labels/${labelId}`);
+      const data = await fetchFromDiscogs(`/labels/${AMREP_LABEL_ID}`);
       return NextResponse.json(data);
     }
 
@@ -121,14 +161,14 @@ export async function GET(request: Request) {
       }
 
       const data = await fetchFromDiscogs(
-        `/labels/${labelId}/releases?page=${page}&per_page=${perPage}`
+        `/labels/${AMREP_LABEL_ID}/releases?page=${page}&per_page=${perPage}`
       );
       const releases = await Promise.all(
         (data?.releases || []).map(async (release: any) => ({
           id: release.id,
-          title: release.title,
+          title: stripDiscogsDisambiguator(release.title || ""),
           year: release.year,
-          artist: release.artist,
+          artist: stripDiscogsDisambiguator(release.artist || ""),
           format: release.format,
           mainRelease: release.main_release,
           thumb: await normalizeThumb(release.thumb),
@@ -151,25 +191,22 @@ export async function GET(request: Request) {
       return NextResponse.json({ release });
     }
 
-    if (type === "search-release") {
-      const catno = searchParams.get("catno");
-      if (!catno) {
-        return NextResponse.json({ error: "Missing catno parameter" }, { status: 400 });
-      }
-
+    if (type === "resolve") {
       const artist = searchParams.get("artist") || "";
       const title = searchParams.get("title") || "";
-      const query = [artist, title].filter(Boolean).join(" ");
-      const searchUrl = `/database/search?catno=${encodeURIComponent(catno)}&label=${encodeURIComponent(LABEL_NAME)}${query ? `&q=${encodeURIComponent(query)}` : ""}&type=release&per_page=5`;
-
-      const searchData = await fetchFromDiscogs(searchUrl);
-      const results = searchData?.results;
-      if (!Array.isArray(results) || results.length === 0) {
+      if (!artist && !title) {
         return NextResponse.json({ release: null });
       }
 
-      const releaseId = results[0].id;
-      const data = await fetchFromDiscogs(`/releases/${releaseId}`);
+      const lookup = await getLabelReleaseLookup();
+      const key = normalizeKey(artist, title);
+      const discogsId = lookup.get(key);
+
+      if (!discogsId) {
+        return NextResponse.json({ release: null });
+      }
+
+      const data = await fetchFromDiscogs(`/releases/${discogsId}`);
       const release = buildReleaseResponse(data, await normalizeThumb(data.thumb));
 
       return NextResponse.json({ release });

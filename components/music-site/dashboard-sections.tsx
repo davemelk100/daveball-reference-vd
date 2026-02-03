@@ -194,7 +194,7 @@ export function DashboardDiscographyGrid<T extends DashboardAlbum>({
               ) : (
                 renderPlaceholder()
               )}
-              <h3 className="font-semibold text-sm truncate">{album.title}</h3>
+              <h3 className="font-semibold text-base truncate">{album.title}</h3>
               <div className="flex items-center justify-between text-xs text-muted-foreground">
                 <span>{album.year ?? "—"}</span>
                 <span className="border border-border rounded px-1.5 py-0.5 text-[10px] uppercase tracking-wide">

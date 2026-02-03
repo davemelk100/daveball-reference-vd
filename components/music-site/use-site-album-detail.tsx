@@ -61,12 +61,11 @@
              }
            : null;
 
-         // Search Discogs by catalog number to get tracklist
-         if (release?.catalogNo) {
+         // Resolve Discogs release by artist+title to get tracklist
+         if (release?.artist || release?.title) {
            try {
              const params = new URLSearchParams({
-               type: "search-release",
-               catno: release.catalogNo,
+               type: "resolve",
                ...(release.artist ? { artist: release.artist } : {}),
                ...(release.title ? { title: release.title } : {}),
              });
