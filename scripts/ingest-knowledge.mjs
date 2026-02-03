@@ -13,36 +13,84 @@ const OUTPUT_DIR = path.join(process.cwd(), "data");
 
 const CUSTOM_URLS = {
   gbv: [
-    { url: "https://www.pastemagazine.com/music/guided-by-voices/guided-by-voices-40th-anniversary-interview", label: "Paste Magazine — I Love You, I Must Confess: 40 Years of Guided By Voices" },
-    { url: "https://magnetmagazine.com/2025/12/19/best-of-2025-a-conversation-with-robert-pollard-guided-by-voices/", label: "Magnet Magazine — Best Of 2025: A Conversation With Robert Pollard" },
-    { url: "https://atwoodmagazine.com/dgbv-doug-gillard-interview-guided-by-voices-2022/", label: "Atwood Magazine — Interview: Catching Up with Doug Gillard" },
-    { url: "https://magnetmagazine.com/2017/04/10/exclusive-cover-story-excerpt-guided-by-voices-interviewed-by-mike-watt/", label: "Magnet Magazine — Guided By Voices Interviewed By Mike Watt" },
-    { url: "https://www.popmatters.com/guided-by-voices-robert-pollard-26", label: "PopMatters — A Conversation with Robert Pollard" },
-    { url: "https://tapeop.com/interviews/6/guided-voices", label: "Tape Op — Guided By Voices: a chat with Robert Pollard" },
-    { url: "https://www.thetapesarchive.com/robert-pollard/", label: "The Tapes Archive — Robert Pollard 1995 Interview" },
-    { url: "https://www.fearandloathingfanzine.com/guided-by-voices.html", label: "Fear & Loathing Fanzine — Guided By Voices" },
-    { url: "https://blog.discmakers.com/2018/06/the-glorious-inspirational-mess-that-is-guided-by-voices/", label: "Disc Makers Blog — The glorious, inspirational mess that is Guided By Voices" },
-    { url: "https://www.popmatters.com/guided-by-voices-bee-thousand-atr30", label: "PopMatters — Bee Here Now: Guided By Voices and 1994's Bee Thousand" },
-    { url: "https://www.gbvdb.com/album.asp?albumid=2191", label: "GBVDB — Guided By Voices: A Brief History" },
-    { url: "https://www.tellallyourfriendspr.com/artists/guided-by-voices", label: "Tell-All-Your-Friends PR — Guided By Voices biography & influence summary" },
-    { url: "https://grammy.com/news/guided-by-voices-robert-pollard-album-guide-current-lineup-songbook", label: "Grammy.com — Guided By Voices album guide and legacy" },
-    { url: "https://uproxx.com/indie/a-beginners-guide-to-guided-by-voices/", label: "Uproxx — A Beginner's Guide To Guided By Voices" },
-    { url: "https://faroutmagazine.co.uk/defining-point-history-of-guided-by-voices/", label: "Far Out Magazine — The defining point in the history of Guided by Voices" },
-    { url: "https://www.lonelyghostrecords.com/media/community-reviews/a-guided-guide-to-guided-by-voice-part-1", label: "Lonely Ghost Records — A Guided Guide to Guided By Voices (Part 1)" },
-    { url: "https://strangecurrenciesmusic.com/the-gbv-project-week-35-august-by-cake/", label: "Trevor Zaple — The GBV Project — Week 35: August by Cake" },
+    {
+      url: "https://www.pastemagazine.com/music/guided-by-voices/guided-by-voices-40th-anniversary-interview",
+      label:
+        "Paste Magazine — I Love You, I Must Confess: 40 Years of Guided By Voices",
+    },
+    {
+      url: "https://magnetmagazine.com/2025/12/19/best-of-2025-a-conversation-with-robert-pollard-guided-by-voices/",
+      label:
+        "Magnet Magazine — Best Of 2025: A Conversation With Robert Pollard",
+    },
+    {
+      url: "https://atwoodmagazine.com/dgbv-doug-gillard-interview-guided-by-voices-2022/",
+      label: "Atwood Magazine — Interview: Catching Up with Doug Gillard",
+    },
+    {
+      url: "https://magnetmagazine.com/2017/04/10/exclusive-cover-story-excerpt-guided-by-voices-interviewed-by-mike-watt/",
+      label: "Magnet Magazine — Guided By Voices Interviewed By Mike Watt",
+    },
+    {
+      url: "https://www.popmatters.com/guided-by-voices-robert-pollard-26",
+      label: "PopMatters — A Conversation with Robert Pollard",
+    },
+    {
+      url: "https://tapeop.com/interviews/6/guided-voices",
+      label: "Tape Op — Guided By Voices: a chat with Robert Pollard",
+    },
+    {
+      url: "https://www.thetapesarchive.com/robert-pollard/",
+      label: "The Tapes Archive — Robert Pollard 1995 Interview",
+    },
+    {
+      url: "https://www.fearandloathingfanzine.com/guided-by-voices.html",
+      label: "Fear & Loathing Fanzine — Guided By Voices",
+    },
+    {
+      url: "https://blog.discmakers.com/2018/06/the-glorious-inspirational-mess-that-is-guided-by-voices/",
+      label:
+        "Disc Makers Blog — The glorious, inspirational mess that is Guided By Voices",
+    },
+    {
+      url: "https://www.popmatters.com/guided-by-voices-bee-thousand-atr30",
+      label:
+        "PopMatters — Bee Here Now: Guided By Voices and 1994's Bee Thousand",
+    },
+    {
+      url: "https://www.gbvdb.com/album.asp?albumid=2191",
+      label: "GBVDB — Guided By Voices: A Brief History",
+    },
+    {
+      url: "https://www.tellallyourfriendspr.com/artists/guided-by-voices",
+      label:
+        "Tell-All-Your-Friends PR — Guided By Voices biography & influence summary",
+    },
+    {
+      url: "https://grammy.com/news/guided-by-voices-robert-pollard-album-guide-current-lineup-songbook",
+      label: "Grammy.com — Guided By Voices album guide and legacy",
+    },
+    {
+      url: "https://uproxx.com/indie/a-beginners-guide-to-guided-by-voices/",
+      label: "Uproxx — A Beginner's Guide To Guided By Voices",
+    },
+    {
+      url: "https://faroutmagazine.co.uk/defining-point-history-of-guided-by-voices/",
+      label:
+        "Far Out Magazine — The defining point in the history of Guided by Voices",
+    },
+    {
+      url: "https://www.lonelyghostrecords.com/media/community-reviews/a-guided-guide-to-guided-by-voice-part-1",
+      label:
+        "Lonely Ghost Records — A Guided Guide to Guided By Voices (Part 1)",
+    },
+    {
+      url: "https://strangecurrenciesmusic.com/the-gbv-project-week-35-august-by-cake/",
+      label: "Trevor Zaple — The GBV Project — Week 35: August by Cake",
+    },
   ],
   amrep: [
-    { url: "https://www.nashvillescene.com/music/amphetamine-reptiles-tom-hazelmyer-the-cream-interview/article_b4242410-1ed3-5ff5-a4a0-f17a23aa7358.html", label: "Nashville Scene — Amphetamine Reptile's Tom Hazelmyer" },
-    { url: "https://thequietus.com/interviews/strange-world-of/amphetamine-reptile-records/", label: "The Quietus — The Strange World Of… Amphetamine Reptile Records" },
-    { url: "https://echoesanddust.com/2022/11/tom-hazelmyer-from-amphetamine-reptile-records/", label: "Echoes & Dust — Tom Hazelmyer from Amphetamine Reptile Records" },
-    { url: "https://www.thevinylguide.com/episodes/ep220-tom-hazelmyer-amphetamine-reptile-records", label: "The Vinyl Guide — Ep220: Tom Hazelmyer – Amphetamine Reptile Records" },
-    { url: "https://www.tpt.org/mn-original/profile/tom-hazelmyer/", label: "TPT / MN Original — Tom Hazelmyer Profile" },
-    { url: "https://www.markprindle.com/hazelmyer-i.htm", label: "Mark Prindle — Tom Hazelmyer Interview" },
-    { url: "https://veilofsound.com/2022/12/11/Interview_with_Tom_Hazelmyer.html", label: "Veil of Sound — Interview with Tom Hazelmyer" },
-    { url: "https://magnetmagazine.com/2009/03/25/lost-classics-amphetamine-reptile-records/", label: "MAGNET Magazine — Lost Classics: Amphetamine Reptile Records" },
-    { url: "https://www.markprindle.com/AmReparticle.htm", label: "Mark Prindle — AmRep Article" },
-    { url: "https://punyhuman.substack.com/p/dope-guns-and-fucking-in-the-streets", label: "Punyhuman (Substack) — Amphetamine Reptile Records: Dope, Guns…" },
-    { url: "https://en.wikipedia.org/wiki/Amphetamine_Reptile_Records", label: "Wikipedia — Amphetamine Reptile Records" },
+    // { url: "https://example.com/article", label: "Source name" },
   ],
   mlb: [
     // { url: "https://example.com/article", label: "Source name" },
@@ -108,7 +156,9 @@ async function fetchWikiSummary(title) {
   const url = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
   const res = await fetch(url, { headers: { "User-Agent": USER_AGENT } });
   if (!res.ok) {
-    console.warn(`Wikipedia summary fetch failed for "${title}": ${res.status}`);
+    console.warn(
+      `Wikipedia summary fetch failed for "${title}": ${res.status}`,
+    );
     return null;
   }
   return res.json();
@@ -185,7 +235,7 @@ async function ingestWikipediaArticle(title, sourceLabel) {
   if (parsed?.text?.["*"]) {
     const sectionTexts = extractSectionTexts(
       parsed.text["*"],
-      parsed.sections || []
+      parsed.sections || [],
     );
     for (const { heading, text } of sectionTexts) {
       if (text.length > 3000) {
@@ -251,24 +301,32 @@ async function fetchDiscogs(endpoint) {
 
 async function ingestDiscogsArtist(artistId, artistName, sourceLabel) {
   const docs = [];
-  const data = await fetchDiscogs(
-    `/artists/${artistId}/releases?page=1&per_page=100&sort=year&sort_order=asc`
-  );
-  if (!data?.releases) return docs;
+  let page = 1;
+  let totalPages = 1;
 
-  for (const release of data.releases) {
-    if (release.role !== "Main") continue;
-    const year = release.year || "unknown year";
-    const title = release.title || "Untitled";
-    const label = release.label || "";
-    docs.push({
-      id: `discogs-${artistId}-${release.id}`,
-      title: `${artistName} – ${title}`,
-      text: `${artistName} – ${title} (${year}). ${label ? `Label: ${label}.` : ""} Type: ${release.type || "release"}.`,
-      sourceLabel,
-      sourceUrl: `https://www.discogs.com${release.resource_url ? "" : ""}`,
-    });
-    await sleep(100); // light delay between processing
+  while (page <= totalPages) {
+    const data = await fetchDiscogs(
+      `/artists/${artistId}/releases?page=${page}&per_page=100&sort=year&sort_order=asc`,
+    );
+    if (!data?.releases) break;
+    if (data.pagination) totalPages = data.pagination.pages;
+
+    for (const release of data.releases) {
+      if (release.role !== "Main") continue;
+      const year = release.year || "unknown year";
+      const title = release.title || "Untitled";
+      const label = release.label || "";
+      docs.push({
+        id: `discogs-${artistId}-${release.id}`,
+        title: `${artistName} – ${title}`,
+        text: `${artistName} – ${title} (${year}). ${label ? `Label: ${label}.` : ""} Type: ${release.type || "release"}.`,
+        sourceLabel,
+        sourceUrl: `https://www.discogs.com${release.resource_url ? "" : ""}`,
+      });
+    }
+
+    page += 1;
+    if (page <= totalPages) await sleep(RELEASE_DELAY_MS);
   }
 
   return docs;
@@ -276,22 +334,31 @@ async function ingestDiscogsArtist(artistId, artistName, sourceLabel) {
 
 async function ingestDiscogsLabel(labelId, labelName, sourceLabel) {
   const docs = [];
-  const data = await fetchDiscogs(
-    `/labels/${labelId}/releases?page=1&per_page=100&sort=year&sort_order=asc`
-  );
-  if (!data?.releases) return docs;
+  let page = 1;
+  let totalPages = 1;
 
-  for (const release of data.releases) {
-    const year = release.year || "unknown year";
-    const title = release.title || "Untitled";
-    const artist = release.artist || "";
-    docs.push({
-      id: `discogs-label-${labelId}-${release.id}`,
-      title: `${artist ? `${artist} – ` : ""}${title}`,
-      text: `${artist ? `${artist} – ` : ""}${title} (${year}). Label: ${labelName}. Catalog: ${release.catno || "N/A"}.`,
-      sourceLabel,
-      sourceUrl: `https://www.discogs.com/release/${release.id}`,
-    });
+  while (page <= totalPages) {
+    const data = await fetchDiscogs(
+      `/labels/${labelId}/releases?page=${page}&per_page=100&sort=year&sort_order=asc`,
+    );
+    if (!data?.releases) break;
+    if (data.pagination) totalPages = data.pagination.pages;
+
+    for (const release of data.releases) {
+      const year = release.year || "unknown year";
+      const title = release.title || "Untitled";
+      const artist = release.artist || "";
+      docs.push({
+        id: `discogs-label-${labelId}-${release.id}`,
+        title: `${artist ? `${artist} – ` : ""}${title}`,
+        text: `${artist ? `${artist} – ` : ""}${title} (${year}). Label: ${labelName}. Catalog: ${release.catno || "N/A"}.`,
+        sourceLabel,
+        sourceUrl: `https://www.discogs.com/release/${release.id}`,
+      });
+    }
+
+    page += 1;
+    if (page <= totalPages) await sleep(RELEASE_DELAY_MS);
   }
 
   return docs;
@@ -318,7 +385,11 @@ async function ingestGbv() {
 
   // Discogs — GBV artist ID 83529
   console.log("  Discogs: Guided by Voices");
-  const discogsDocs = await ingestDiscogsArtist(83529, "Guided by Voices", "Discogs");
+  const discogsDocs = await ingestDiscogsArtist(
+    83529,
+    "Guided by Voices",
+    "Discogs",
+  );
   docs.push(...discogsDocs);
 
   // Custom URLs
@@ -351,7 +422,11 @@ async function ingestAmrep() {
 
   // Discogs — AmRep label ID 5126
   console.log("  Discogs: Amphetamine Reptile label");
-  const discogsDocs = await ingestDiscogsLabel(5126, "Amphetamine Reptile Records", "Discogs");
+  const discogsDocs = await ingestDiscogsLabel(
+    5126,
+    "Amphetamine Reptile Records",
+    "Discogs",
+  );
   docs.push(...discogsDocs);
 
   // Custom URLs
