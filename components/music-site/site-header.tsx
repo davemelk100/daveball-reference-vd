@@ -26,7 +26,7 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header className="z-50 w-full bg-transparent py-6 lg:pt-1 mb-4 lg:mb-1">
+    <header className="z-50 w-full bg-transparent py-3 lg:pt-1 mb-4 lg:mb-1">
       <div className="container flex items-center gap-3">
         <Link
           href={site.basePath}
