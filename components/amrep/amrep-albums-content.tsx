@@ -53,9 +53,9 @@ export function GbvAlbumsContent() {
 
     // Sort
     if (sortBy === "year-asc") {
-      result.sort((a, b) => a.year - b.year);
+      result.sort((a, b) => a.year - b.year || a.id - b.id);
     } else if (sortBy === "year-desc") {
-      result.sort((a, b) => b.year - a.year);
+      result.sort((a, b) => b.year - a.year || b.id - a.id);
     } else if (sortBy === "title") {
       result.sort((a, b) => a.title.localeCompare(b.title));
     }

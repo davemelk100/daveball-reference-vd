@@ -39,6 +39,7 @@
    const isAmrep = site.id === "amrep";
    const [album, setAlbum] = useState<GbvAlbumDetail | AmrepAlbumDetail | null>(null);
    const [isLoading, setIsLoading] = useState(true);
+   const [isTracklistLoading, setIsTracklistLoading] = useState(false);
    const [error, setError] = useState<string | null>(null);
 
    useEffect(() => {
@@ -61,8 +62,22 @@
              }
            : null;
 
-         // Resolve Discogs release by artist+title to get tracklist
+         // Show local data immediately
+         if (isActive) {
+           if (baseAlbum) {
+             setAlbum(baseAlbum);
+             setIsLoading(false);
+           } else {
+             setError("Release not found");
+             setAlbum(null);
+             setIsLoading(false);
+             return;
+           }
+         }
+
+         // Fetch tracklist from Discogs in the background
          if (release?.artist || release?.title) {
+           setIsTracklistLoading(true);
            try {
              const params = new URLSearchParams({
                type: "resolve",
@@ -73,24 +88,14 @@
              if (res.ok) {
                const data = await res.json();
                if (isActive && data.release) {
-                 setAlbum({ ...baseAlbum, ...data.release, id: release.id });
-                 setIsLoading(false);
-                 return;
+                 setAlbum((prev) => ({ ...prev, ...data.release, id: release.id }));
                }
              }
            } catch {
-             // fall back to local data
+             // tracklist unavailable, local data still shown
+           } finally {
+             if (isActive) setIsTracklistLoading(false);
            }
-         }
-
-         if (isActive) {
-           if (baseAlbum) {
-             setAlbum(baseAlbum);
-           } else {
-             setError("Release not found");
-             setAlbum(null);
-           }
-           setIsLoading(false);
          }
          return;
        }
@@ -120,5 +125,5 @@
      };
    }, [albumId, isAmrep]);
 
-   return { site, isAmrep, album, isLoading, error };
+   return { site, isAmrep, album, isLoading, isTracklistLoading, error };
  }

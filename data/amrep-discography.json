@@ -2608,5 +2608,29 @@
     "year": 1990,
     "format": "CD, CS, LP",
     "section": "US"
+  },
+  {
+    "id": 294,
+    "artist": "Lubricated Goat",
+    "title": "Plays the Devil's Music",
+    "year": 1989,
+    "format": "CD, CS, LP",
+    "section": "US"
+  },
+  {
+    "id": 295,
+    "artist": "Lubricated Goat",
+    "title": "Paddock of Love",
+    "year": 1989,
+    "format": "LP",
+    "section": "US"
+  },
+  {
+    "id": 296,
+    "artist": "Lubricated Goat",
+    "title": "Psychedelicatessen",
+    "year": 1990,
+    "format": "CD, CS, LP",
+    "section": "US"
   }
 ]

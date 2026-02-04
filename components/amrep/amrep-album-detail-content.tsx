@@ -16,7 +16,7 @@ import { AlbumDetailTracklist } from "@/components/music-site/album-detail-track
 import { AlbumDetailLeft } from "@/components/music-site/album-detail-left";
 
 export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
-  const { site, isAmrep, album, isLoading, error } = useSiteAlbumDetail(albumId);
+  const { site, isAmrep, album, isLoading, isTracklistLoading, error } = useSiteAlbumDetail(albumId);
   const detail = album as AmrepAlbumDetail | null;
 
   const albumImage = useMemo(() => {
@@ -127,7 +127,12 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
     />
   );
 
-  const rightContent = (
+  const rightContent = isTracklistLoading && !detail.tracklist ? (
+    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+      <Loader2 className="h-4 w-4 animate-spin" />
+      <span>Loading tracklist...</span>
+    </div>
+  ) : (
     <AlbumDetailTracklist
       tracks={detail.tracklist}
       variant="amrep"
