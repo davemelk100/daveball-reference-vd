@@ -212,6 +212,7 @@ const amrepAlbumImages: Record<number, string> = {
   290: "https://i.discogs.com/tySe_CwJD8U2I5KITy2zYg7dWnAisB31k-nVtK0AC0Q/rs:fit/g:sm/q:90/h:597/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg5NDEy/OTEtMTQ3MTg5OTM0/MS01NTEwLmpwZWc.jpeg",
   291: "https://i.discogs.com/bEr8h6peBbjokMp4187LWLAcIobyGJD7_dbqh6Ka1xE/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk1MDYx/MzItMTQ4MTc1MzI2/NC0zODY5LmpwZWc.jpeg",
   292: "https://i.discogs.com/oqwiH0Bpn7muFTfMWI-kVnLVYGCp88FOb8C1Gy7rPbc/rs:fit/g:sm/q:90/h:600/w:585/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNTMx/OTc5LTE0OTkzNTU5/OTEtNTIwOS5qcGVn.jpeg",
+  293: "https://upload.wikimedia.org/wikipedia/en/4/4a/Helmet_-_Strap_It_On.jpg",
 };
 
 /**

@@ -186,9 +186,9 @@ export const AMREP_SITE: MusicSiteConfig = {
       "label history",
     ],
     siteName: "Major League Numbers",
-    ogImage: "https://majorleaguenumbers.com/amrep-logo.svg",
+    ogImage: "https://majorleaguenumbers.com/noise-placeholder.png",
     ogImageAlt: "Amphetamine Reptile Records",
-    twitterImage: "https://majorleaguenumbers.com/amrep-logo.svg",
+    twitterImage: "https://majorleaguenumbers.com/noise-placeholder.png",
   },
 };
 
