@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send } from "lucide-react";
+import Image from "next/image";
 
 const SAMPLE_PROMPTS = [
   "Who has the most goals in NHL history?",
@@ -19,6 +20,13 @@ export function NHLAskContent() {
   return (
     <div className="container py-6 flex flex-col items-center justify-center min-h-[60vh]">
       <div className="w-full max-w-2xl text-center">
+        <Image
+          src="/nhl-logo.svg"
+          alt="NHL"
+          width={80}
+          height={80}
+          className="mx-auto mb-4"
+        />
         <h1 className="font-league mb-2">ChatNHL</h1>
         <p className="text-sm text-muted-foreground mb-8">
           Ask questions about NHL hockey, players, teams, and stats.
