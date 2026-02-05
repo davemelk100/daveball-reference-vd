@@ -72,11 +72,10 @@ export const amrepRecordsOfTheDay: AmrepRecordOfDay[] = [
     highlight: "Dark, driving noise rock from Minneapolis.",
   },
   {
-    title: "Meantime",
-    artist: "Helmet",
-    year: 1992,
-    highlight: "A genre-defining post-hardcore classic.",
-    coverUrl: "https://upload.wikimedia.org/wikipedia/en/a/a6/Helmet_-_Meantime.jpg",
+    title: "Prick",
+    artist: "Melvins",
+    year: 1994,
+    highlight: "The Melvins' AmRep full-length debut — heavy, sludgy, and unrelenting.",
   },
   {
     title: "Into the Vortex",
@@ -186,6 +185,89 @@ export const amrepRecordsOfTheDay: AmrepRecordOfDay[] = [
     artist: "God Bullies",
     year: 1988,
     highlight: "Early AmRep fury from the God Bullies.",
+  },
+  // Neurosis
+  {
+    title: "Through Silver in Blood",
+    artist: "Neurosis",
+    year: 1996,
+    highlight: "A landmark of heavy music — Neurosis at their most crushing and transcendent.",
+  },
+  {
+    title: "Souls at Zero",
+    artist: "Neurosis",
+    year: 1992,
+    highlight: "Neurosis's evolution from hardcore into something heavier and more expansive.",
+  },
+  {
+    title: "Enemy of the Sun",
+    artist: "Neurosis",
+    year: 1993,
+    highlight: "Dark, ritualistic post-metal before the genre had a name.",
+  },
+  // Shellac
+  {
+    title: "At Action Park",
+    artist: "Shellac",
+    year: 1994,
+    highlight: "Steve Albini's trio delivers angular, precise noise rock on their AmRep debut.",
+  },
+  {
+    title: "1000 Hurts",
+    artist: "Shellac",
+    year: 2000,
+    highlight: "Shellac's most celebrated album — tight, abrasive, and uncompromising.",
+  },
+  {
+    title: "Terraform",
+    artist: "Shellac",
+    year: 1998,
+    highlight: "Sparse, punishing post-punk from one of the most singular bands on AmRep.",
+  },
+  // Jesus Lizard
+  {
+    title: "Goat",
+    artist: "The Jesus Lizard",
+    year: 1991,
+    highlight: "A definitive noise rock album — David Yow and company at their most unhinged.",
+  },
+  {
+    title: "Liar",
+    artist: "The Jesus Lizard",
+    year: 1992,
+    highlight: "Relentless, swaggering noise rock from The Jesus Lizard's peak era.",
+  },
+  {
+    title: "Head",
+    artist: "The Jesus Lizard",
+    year: 1990,
+    highlight: "The Jesus Lizard's debut full-length — raw, ferocious, foundational.",
+  },
+  // Unsane
+  {
+    title: "Total Destruction",
+    artist: "Unsane",
+    year: 1993,
+    highlight: "NYC noise rock at its most savage — Unsane's relentless third album.",
+  },
+  // Melvins
+  {
+    title: "Bullhead",
+    artist: "Melvins",
+    year: 1991,
+    highlight: "Sludgy, monolithic Melvins — one of the heaviest records in the AmRep catalog.",
+  },
+  {
+    title: "Lysol",
+    artist: "Melvins",
+    year: 1992,
+    highlight: "A single continuous 31-minute dirge — the Melvins at their most extreme.",
+  },
+  {
+    title: "Stoner Witch",
+    artist: "Melvins",
+    year: 1994,
+    highlight: "The Melvins blend sludge, grunge, and pop hooks on this AmRep classic.",
   },
 ];
 
