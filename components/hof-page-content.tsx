@@ -94,7 +94,7 @@ export function HofPageContent({ hofMembers }: HofPageContentProps) {
                 {groupedByYear[year].map((member) => (
                   <Link
                     key={`${member.playerId}-${year}`}
-                    href={`/players/${member.playerId}`}
+                    href={`/mlb/players/${member.playerId}`}
                   >
                     <Card className="hover:bg-secondary/50 transition-colors cursor-pointer h-full">
                       <CardContent className="p-2 pl-4">

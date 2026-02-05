@@ -27,12 +27,8 @@ export const metadata: Metadata = {
     template: "%s | Major League Numbers",
   },
   description:
-    "Explore MLB player stats, team rosters, and league standings in real-time.",
-  generator: "v0.app",
+    "Sports stats and music encyclopedias — MLB, NHL, GBV, AmRep, and Revelation Records.",
   metadataBase: new URL("https://majorleaguenumbers.com"),
-  alternates: {
-    canonical: "/",
-  },
   icons: {
     icon: [
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
@@ -40,51 +36,9 @@ export const metadata: Metadata = {
     ],
     apple: "/apple-touch-icon.png",
   },
-  keywords: [
-    "MLB",
-    "baseball",
-    "statistics",
-    "player stats",
-    "team rosters",
-    "standings",
-    "Major League Baseball",
-    "baseball reference",
-  ],
-  authors: [{ name: "Major League Numbers" }],
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  openGraph: {
-    title: "Major League Numbers",
-    description:
-      "Explore MLB player stats, team rosters, and league standings in real-time.",
-    url: "https://majorleaguenumbers.com",
-    siteName: "Major League Numbers",
-    images: [
-      {
-        url: "https://majorleaguenumbers.com/og-img.png",
-        width: 1200,
-        height: 630,
-        alt: "Major League Numbers - MLB Statistics Dashboard",
-      },
-    ],
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Major League Numbers",
-    description:
-      "Explore MLB player stats, team rosters, and league standings in real-time.",
-    images: ["/og-img.png"],
   },
 };
 

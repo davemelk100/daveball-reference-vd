@@ -24,7 +24,7 @@ export function WebsiteJsonLd() {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: "https://majorleaguenumbers.com/players?search={search_term_string}",
+        urlTemplate: "https://majorleaguenumbers.com/mlb/players?search={search_term_string}",
       },
       "query-input": "required name=search_term_string",
     },
@@ -66,7 +66,7 @@ export function PlayerJsonLd({ player }: PlayerJsonLdProps) {
     "@context": "https://schema.org",
     "@type": "Person",
     name: player.fullName,
-    url: `https://majorleaguenumbers.com/players/${player.id}`,
+    url: `https://majorleaguenumbers.com/mlb/players/${player.id}`,
     jobTitle: player.primaryPosition?.name || "Baseball Player",
     affiliation: player.currentTeam?.name
       ? {
@@ -102,7 +102,7 @@ export function TeamJsonLd({ team }: TeamJsonLdProps) {
     "@context": "https://schema.org",
     "@type": "SportsTeam",
     name: team.name,
-    url: `https://majorleaguenumbers.com/teams/${team.id}`,
+    url: `https://majorleaguenumbers.com/mlb/teams/${team.id}`,
     sport: "Baseball",
     memberOf: {
       "@type": "SportsOrganization",

@@ -46,7 +46,7 @@ export function LeadersTable({ title, leaders, statLabel }: LeadersTableProps) {
               <TableRow key={leader.person.id}>
                 <TableCell className="text-center text-muted-foreground">{leader.rank}</TableCell>
                 <TableCell>
-                  <Link href={`/players/${leader.person.id}`} className="flex items-center gap-2 hover:text-primary transition-colors">
+                  <Link href={`/mlb/players/${leader.person.id}`} className="flex items-center gap-2 hover:text-primary transition-colors">
                     <Image
                       src={getPlayerHeadshotUrl(leader.person.id, "small") || "/placeholder.svg"}
                       alt={leader.person.fullName}

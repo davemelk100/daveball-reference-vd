@@ -12,7 +12,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
   const positionAbbreviation = player.primaryPosition?.abbreviation
 
   return (
-    <Link href={`/players/${player.id}`}>
+    <Link href={`/mlb/players/${player.id}`}>
       <Card className="hover:bg-secondary/50 transition-colors cursor-pointer h-full">
         <CardContent className="p-1.5 pl-3">
           <div className="flex items-center gap-3">

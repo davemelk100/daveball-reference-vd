@@ -36,7 +36,7 @@ export function AllStarPageContent({
 
   const handleSeasonChange = (season: number) => {
     startTransition(() => {
-      router.push(`/all-star?season=${season}`);
+      router.push(`/mlb/all-star?season=${season}`);
     });
   };
 
@@ -59,7 +59,7 @@ export function AllStarPageContent({
         players.map((player) => (
           <Link
             key={`${player.playerId}-${player.id}`}
-            href={`/players/${player.playerId}`}
+            href={`/mlb/players/${player.playerId}`}
           >
             <Card className="hover:bg-secondary/50 transition-colors cursor-pointer h-full">
               <CardContent className="p-2 pl-4">

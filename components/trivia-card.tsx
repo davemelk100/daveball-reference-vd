@@ -130,7 +130,7 @@ function TriviaCardContent() {
       month: "numeric",
       day: "numeric",
     });
-    const text = `I got ${score}/5 on today's (${date}) Major League Numbers trivia! ⚾\n\nPlay here: https://majorleaguenumbers.com?trivia=open`;
+    const text = `I got ${score}/5 on today's (${date}) Major League Numbers trivia! ⚾\n\nPlay here: https://majorleaguenumbers.com/mlb`;
 
     if (navigator.share) {
       try {
@@ -429,7 +429,7 @@ function TriviaPanelContent() {
       month: "numeric",
       day: "numeric",
     });
-    const text = `I got ${score}/5 on today's (${date}) Major League Numbers trivia! ⚾\n\nPlay here: https://majorleaguenumbers.com?trivia=open`;
+    const text = `I got ${score}/5 on today's (${date}) Major League Numbers trivia! ⚾\n\nPlay here: https://majorleaguenumbers.com/mlb`;
 
     if (navigator.share) {
       try {

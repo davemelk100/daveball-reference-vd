@@ -30,7 +30,7 @@ export function RosterTable({ players, title }: RosterTableProps) {
                 <TableCell className="font-mono text-muted-foreground">{player.primaryNumber || "-"}</TableCell>
                 <TableCell>
                   <Link
-                    href={`/players/${player.id}`}
+                    href={`/mlb/players/${player.id}`}
                     className="flex items-center gap-3 hover:text-primary transition-colors"
                   >
                     <Image

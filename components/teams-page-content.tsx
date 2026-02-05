@@ -131,7 +131,7 @@ export function TeamsPageContent({
                   .map((team) => (
                     <a
                       key={team.id}
-                      href={`/teams/${team.id}?season=${season}`}
+                      href={`/mlb/teams/${team.id}?season=${season}`}
                       className="block h-full"
                     >
                       <div className="flex flex-col items-center justify-center gap-2 p-4 rounded-lg border bg-card hover:bg-[#b7b7b7] transition-colors h-full min-h-[100px]">

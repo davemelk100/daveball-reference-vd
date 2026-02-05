@@ -16,7 +16,7 @@ export function AwardsCard({ title, winners, limit = 5 }: AwardsCardProps) {
 
   const WinnerRow = ({ winner }: { winner: AwardWinner }) => (
     <Link
-      href={`/players/${winner.playerId}`}
+      href={`/mlb/players/${winner.playerId}`}
       className="flex items-center gap-3 p-2 rounded-md hover:bg-muted/50 transition-colors"
     >
       <Image

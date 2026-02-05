@@ -14,19 +14,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
-      url: `${baseUrl}/players`,
+      url: `${baseUrl}/mlb`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/teams`,
+      url: `${baseUrl}/mlb/players`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/mlb/teams`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/standings`,
+      url: `${baseUrl}/mlb/standings`,
       lastModified: new Date(),
       changeFrequency: "daily",
       priority: 0.8,
@@ -38,7 +44,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const teams = await getTeams()
     teamPages = teams.map((team: { id: number }) => ({
-      url: `${baseUrl}/teams/${team.id}`,
+      url: `${baseUrl}/mlb/teams/${team.id}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.7,
@@ -66,7 +72,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
 
     playerPages = Array.from(playerIds).map((id) => ({
-      url: `${baseUrl}/players/${id}`,
+      url: `${baseUrl}/mlb/players/${id}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.6,

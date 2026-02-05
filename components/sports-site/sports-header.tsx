@@ -28,7 +28,7 @@ export function SportsHeader() {
   const isOnChatPage = pathname === site.chatPath;
 
   return (
-    <header className="z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-6 mb-4">
+    <header className="z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-6 mb-1">
       <div className="container flex items-center gap-3">
         <Link href={site.basePath || "/"} className="flex items-center gap-3 flex-shrink-0">
           <Image

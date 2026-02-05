@@ -124,7 +124,7 @@ export function HeaderSearch() {
             {results.map((result, idx) => {
               const isPlayer = result.type === "player"
               const key = isPlayer ? `p-${result.data.id}` : `t-${result.data.id}`
-              const href = isPlayer ? `/players/${result.data.id}` : `/teams/${result.data.id}`
+              const href = isPlayer ? `/mlb/players/${result.data.id}` : `/mlb/teams/${result.data.id}`
 
               return (
                 <Link

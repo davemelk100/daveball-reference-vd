@@ -7,6 +7,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ChevronUp } from "lucide-react";
+import Link from "next/link";
 import { getSportsSiteFromPathname } from "@/lib/sports-site";
 
 export function SportsFooter() {
@@ -47,6 +48,10 @@ export function SportsFooter() {
             </Popover>
           </div>
           <div className="flex items-center justify-center gap-2">
+            <Link href="/" className="hover:text-foreground transition-colors">
+              Main
+            </Link>
+            <span>&middot;</span>
             <span>
               &copy; {new Date().getFullYear()}{" "}
               <a

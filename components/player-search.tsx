@@ -87,7 +87,7 @@ export function PlayerSearch() {
                 {results.teams.map((team) => (
                   <Link
                     key={team.id}
-                    href={`/teams/${team.id}`}
+                    href={`/mlb/teams/${team.id}`}
                     className={cn(
                       "flex items-center gap-3 p-2 rounded-md hover:bg-secondary transition-colors",
                       "cursor-pointer"
@@ -120,7 +120,7 @@ export function PlayerSearch() {
                 {results.players.map((player) => (
                   <Link
                     key={player.id}
-                    href={`/players/${player.id}`}
+                    href={`/mlb/players/${player.id}`}
                     className={cn(
                       "flex items-center gap-3 p-2 rounded-md hover:bg-secondary transition-colors",
                       "cursor-pointer"

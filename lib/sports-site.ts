@@ -41,23 +41,23 @@ export interface SportsSiteConfig {
 
 const mlbSite: SportsSiteConfig = {
   id: "mlb",
-  basePath: "",
+  basePath: "/mlb",
   title: "Major League Numbers",
-  logoSrc: "/chat-mlb-2.svg",
-  logoAlt: "",
+  logoSrc: "https://www.mlbstatic.com/team-logos/league-on-dark/1.svg",
+  logoAlt: "MLB",
   titleColorClass: "text-[#f4232b]",
   chatLabel: "ChatMLB",
-  chatPath: "/ask",
+  chatPath: "/mlb/ask",
   chatIconSrc: "/chat-mlb-2.svg",
   searchLabel: "Search MLB",
   navItems: [
-    { name: "ChatMLB", href: "/ask", image: "/chat-mlb-2.svg" },
-    { name: "Home", href: "/", icon: Home },
-    { name: "Players", href: "/players", icon: Users },
-    { name: "Teams", href: "/teams", icon: Trophy },
-    { name: "Standings", href: "/standings", icon: BarChart3 },
-    { name: "All Stars", href: "/all-star", icon: Star },
-    { name: "HOF", href: "/hof", icon: Award },
+    { name: "ChatMLB", href: "/mlb/ask", image: "/chat-mlb-2.svg" },
+    { name: "Home", href: "/mlb", icon: Home },
+    { name: "Players", href: "/mlb/players", icon: Users },
+    { name: "Teams", href: "/mlb/teams", icon: Trophy },
+    { name: "Standings", href: "/mlb/standings", icon: BarChart3 },
+    { name: "All Stars", href: "/mlb/all-star", icon: Star },
+    { name: "HOF", href: "/mlb/hof", icon: Award },
   ],
   mobileHiddenNames: ["All Stars", "HOF", "Home"],
   dataSources: [
@@ -93,9 +93,10 @@ const nhlSite: SportsSiteConfig = {
   titleColorClass: "",
   chatLabel: "ChatNHL",
   chatPath: "/nhl/ask",
+  chatIconSrc: "/nhl-logo.svg",
   searchLabel: "Search NHL",
   navItems: [
-    { name: "ChatNHL", href: "/nhl/ask", icon: Home },
+    { name: "ChatNHL", href: "/nhl/ask", image: "/nhl-logo.svg" },
     { name: "Home", href: "/nhl", icon: Home },
     { name: "Players", href: "/nhl/players", icon: Users },
     { name: "Teams", href: "/nhl/teams", icon: Trophy },
@@ -135,9 +136,10 @@ export function getSportsSiteById(id: SportsSiteId): SportsSiteConfig {
 
 export function getSportsSiteFromPathname(pathname: string): SportsSiteConfig {
   if (pathname.startsWith("/nhl")) return nhlSite;
+  if (pathname.startsWith("/mlb")) return mlbSite;
   return mlbSite;
 }
 
 export function isSportsSiteRoute(pathname: string): boolean {
-  return pathname.startsWith("/nhl") || !pathname.startsWith("/gbv") && !pathname.startsWith("/amrep") && !pathname.startsWith("/rev");
+  return pathname.startsWith("/mlb") || pathname.startsWith("/nhl");
 }

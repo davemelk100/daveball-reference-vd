@@ -79,7 +79,7 @@ export function PlayerSpotlight() {
         <div className="space-y-2 sm:space-y-3 flex-1 min-w-0">
           <div>
             <Link
-              href={`/players/${player.id}`}
+              href={`/mlb/players/${player.id}`}
               className="text-base sm:text-2xl font-bold hover:underline decoration-primary decoration-2 underline-offset-4 block"
             >
               {player.name}
@@ -210,7 +210,7 @@ export function PlayerSpotlight() {
           )}
         </div>
         <Link
-          href={`/players/${player.id}`}
+          href={`/mlb/players/${player.id}`}
           className="shrink-0 group relative overflow-hidden rounded-xl"
         >
           <Image

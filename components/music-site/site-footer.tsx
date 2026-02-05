@@ -96,6 +96,11 @@ export function SiteFooter() {
               </div>
             )}
           </div>
+          <div className="flex items-center justify-center gap-2">
+            <Link href="/" className={`hover:underline ${site.id === "amrep" ? "text-black/70" : "text-white/70"}`}>
+              Main
+            </Link>
+          </div>
           <span className={site.id === "amrep" ? "text-black/50" : "text-white/40"}>
             No generative AI is allowed to produce, stream, alter, or replicate any audio, video, or graphics.
           </span>

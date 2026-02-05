@@ -4,24 +4,24 @@ import { UpdatesBanner } from "@/components/updates-banner";
 
 export const metadata: Metadata = {
   title: {
-    default: "NHL Numbers",
-    template: "%s | NHL Numbers",
+    default: "Major League Numbers",
+    template: "%s | Major League Numbers",
   },
   description:
-    "Explore NHL player stats, team rosters, and league standings.",
+    "Explore MLB player stats, team rosters, and league standings in real-time.",
   keywords: [
-    "NHL",
-    "hockey",
+    "MLB",
+    "baseball",
     "statistics",
     "player stats",
     "team rosters",
     "standings",
-    "National Hockey League",
-    "hockey reference",
+    "Major League Baseball",
+    "baseball reference",
   ],
 };
 
-export default function NHLLayout({ children }: { children: React.ReactNode }) {
+export default function MLBLayout({ children }: { children: React.ReactNode }) {
   return (
     <SportsSiteLayout banner={<UpdatesBanner />}>
       {children}
