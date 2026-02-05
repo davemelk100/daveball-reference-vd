@@ -568,6 +568,7 @@
     font-size: 1rem;
   }
 
+  h3,
   h4,
   h5,
   h6 {
@@ -576,12 +577,16 @@
   }
 
   h1,
-  h2,
-  h3 {
+  h2 {
     font-family: var(--font-league-gothic), sans-serif;
     font-size: 46px;
     text-transform: uppercase;
     font-weight: 500;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
   }
 
   h4 {
