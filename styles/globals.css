@@ -327,27 +327,26 @@
   }
 
   .revelation-shell {
-    background-color: #000000;
-    background-image: radial-gradient(1200px 900px at 15% -10%, rgba(213, 77, 77, 0.25), transparent 60%),
-      radial-gradient(1000px 700px at 85% 5%, rgba(243, 199, 6, 0.15), transparent 55%),
-      linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(27, 31, 35, 0.95));
+    background-color: #faf7f2;
+    background-image: radial-gradient(1200px 900px at 15% -10%, rgba(213, 77, 77, 0.1), transparent 60%),
+      radial-gradient(1000px 700px at 85% 5%, rgba(243, 199, 6, 0.08), transparent 55%),
+      linear-gradient(135deg, rgba(250, 247, 242, 0.95), rgba(240, 235, 226, 0.95));
     background-attachment: fixed;
-    color: #ffffff;
+    color: #1a1a1a;
   }
 
   .revelation-shell [data-slot="card"] {
     background:
-      radial-gradient(140% 120% at 15% 0%, rgba(255, 255, 255, 0.12), transparent 60%),
-      radial-gradient(120% 100% at 85% 10%, rgba(213, 77, 77, 0.1), transparent 55%),
-      linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-    border: 1px solid rgba(255, 255, 255, 0.12);
+      radial-gradient(140% 120% at 15% 0%, rgba(255, 255, 255, 0.9), transparent 60%),
+      radial-gradient(120% 100% at 85% 10%, rgba(213, 77, 77, 0.05), transparent 55%),
+      linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(250, 247, 242, 0.7));
+    border: 1px solid rgba(213, 77, 77, 0.12);
     box-shadow:
-      0 22px 50px rgba(0, 0, 0, 0.6),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15),
-      inset 0 -1px 12px rgba(213, 77, 77, 0.08);
-    backdrop-filter: blur(36px) saturate(200%);
-    -webkit-backdrop-filter: blur(36px) saturate(200%);
-    color: #ffffff;
+      0 18px 40px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    color: #1a1a1a;
   }
 
   .revelation-shell [data-slot="card"] * {
@@ -355,44 +354,44 @@
   }
 
   .revelation-shell .text-muted-foreground {
-    color: #aaaaaa;
+    color: #6b6b6b;
   }
 
   .revelation-shell .text-foreground {
-    color: #ffffff;
+    color: #1a1a1a;
   }
 
   .revelation-shell [data-slot="badge"] {
-    color: #ffffff;
-    background-color: rgba(213, 77, 77, 0.2);
-    border-color: rgba(213, 77, 77, 0.4);
+    color: #9b2c2c;
+    background-color: rgba(213, 77, 77, 0.1);
+    border-color: rgba(213, 77, 77, 0.3);
   }
 
   .revelation-shell .text-primary,
   .revelation-shell .text-secondary-foreground,
   .revelation-shell .text-accent-foreground,
   .revelation-shell .text-destructive {
-    color: #ffffff;
+    color: #1a1a1a;
   }
 
   .revelation-shell .gbv-nav-icon {
-    filter: brightness(0) invert(1);
+    filter: none;
   }
 
   .revelation-shell .gbv-rune-white {
-    filter: brightness(0) invert(1);
+    filter: none;
   }
 
   .revelation-shell [data-slot="select-trigger"][data-placeholder] {
-    color: #ffffff;
+    color: #1a1a1a;
   }
 
   .revelation-shell [data-slot="select-trigger"][data-placeholder] [data-slot="select-value"] {
-    color: #ffffff;
+    color: #1a1a1a;
   }
 
   .revelation-shell [data-slot="select-trigger"] svg {
-    color: #ffffff;
+    color: #1a1a1a;
     opacity: 1;
   }
 
@@ -407,7 +406,7 @@
 
   .revelation-shell .gbv-search-button {
     background-color: transparent;
-    color: #ffffff;
+    color: #1a1a1a;
   }
 
   .revelation-shell .gbv-search-button:hover {
@@ -423,20 +422,20 @@
   .revelation-shell textarea,
   .revelation-shell select,
   .revelation-shell [data-slot="input"] {
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(213, 77, 77, 0.2);
+    box-shadow: 0 0 0 1px rgba(213, 77, 77, 0.05);
+    color: #1a1a1a;
+    background-color: rgba(255, 255, 255, 0.7);
   }
 
   .revelation-shell input::placeholder,
   .revelation-shell textarea::placeholder,
   .revelation-shell [data-slot="input"]::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(0, 0, 0, 0.4);
   }
 
   .revelation-shell .prose a {
-    color: #ffd520;
+    color: #b8860b;
     border-bottom: 1px solid currentColor;
     text-decoration: none;
   }
@@ -444,7 +443,7 @@
   .revelation-shell nav a,
   .revelation-shell nav a span,
   .revelation-shell nav svg {
-    color: #ffffff;
+    color: #1a1a1a;
   }
 
   .amrep-shell {

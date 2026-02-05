@@ -3,6 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import { NHLTriviaPanel } from "@/components/nhl/nhl-trivia-panel";
+import { NHLPlayerSpotlight } from "@/components/nhl/nhl-player-spotlight";
 
 interface LeaderEntry {
   label: string;
@@ -37,6 +39,12 @@ interface NHLDashboardContentProps {
 export function NHLDashboardContent({ leaders, standings }: NHLDashboardContentProps) {
   return (
     <div className="container py-2">
+      {/* Daily Trivia + Player of the Day */}
+      <div className="grid gap-6 lg:grid-cols-2 mb-8">
+        <NHLTriviaPanel />
+        <NHLPlayerSpotlight />
+      </div>
+
       {/* Leaders */}
       <div className="mb-8">
         <div className="flex items-baseline justify-between mb-4">

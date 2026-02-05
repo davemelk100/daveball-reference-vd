@@ -16,6 +16,11 @@ import {
   type AmrepTriviaQuestion,
 } from "@/lib/amrep-trivia-data";
 import {
+  getDailyRevTriviaQuestions,
+  getRevTodayStorageKey,
+  type RevTriviaQuestion,
+} from "@/lib/rev-trivia-data";
+import {
   CheckCircle2,
   XCircle,
   ChevronLeft,
@@ -36,10 +41,11 @@ function TriviaPanelContent() {
   const pathname = usePathname();
   const site = getMusicSiteFromPathname(pathname);
   const isAmrep = site.id === "amrep";
+  const isRev = site.id === "rev";
 
   const [quizDate, setQuizDate] = useState<Date | null>(null);
   const [dailyQuestions, setDailyQuestions] = useState<
-    Array<GbvTriviaQuestion | AmrepTriviaQuestion>
+    Array<GbvTriviaQuestion | AmrepTriviaQuestion | RevTriviaQuestion>
   >([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answeredQuestions, setAnsweredQuestions] = useState<
@@ -48,29 +54,35 @@ function TriviaPanelContent() {
   const [isComplete, setIsComplete] = useState(false);
   const [showYesterday, setShowYesterday] = useState(false);
   const [yesterdayQuestions, setYesterdayQuestions] = useState<
-    Array<GbvTriviaQuestion | AmrepTriviaQuestion>
+    Array<GbvTriviaQuestion | AmrepTriviaQuestion | RevTriviaQuestion>
   >([]);
 
   useEffect(() => {
     const now = new Date();
     setQuizDate(now);
 
-    const questions = isAmrep
-      ? getDailyAmrepTriviaQuestions(now)
-      : getDailyGbvTriviaQuestions(now);
+    const questions = isRev
+      ? getDailyRevTriviaQuestions(now)
+      : isAmrep
+        ? getDailyAmrepTriviaQuestions(now)
+        : getDailyGbvTriviaQuestions(now);
     setDailyQuestions(questions);
 
     const yesterday = new Date(now);
     yesterday.setDate(yesterday.getDate() - 1);
     setYesterdayQuestions(
-      isAmrep
-        ? getDailyAmrepTriviaQuestions(yesterday)
-        : getDailyGbvTriviaQuestions(yesterday)
+      isRev
+        ? getDailyRevTriviaQuestions(yesterday)
+        : isAmrep
+          ? getDailyAmrepTriviaQuestions(yesterday)
+          : getDailyGbvTriviaQuestions(yesterday)
     );
 
-    const storageKey = isAmrep
-      ? getAmrepTodayStorageKey(now)
-      : getGbvTodayStorageKey(now);
+    const storageKey = isRev
+      ? getRevTodayStorageKey(now)
+      : isAmrep
+        ? getAmrepTodayStorageKey(now)
+        : getGbvTodayStorageKey(now);
     const stored = localStorage.getItem(storageKey);
     if (stored) {
       const parsed = JSON.parse(stored) as AnsweredQuestion[];
@@ -87,7 +99,7 @@ function TriviaPanelContent() {
         }
       }
     }
-  }, [isAmrep]);
+  }, [isAmrep, isRev]);
 
   const currentQuestion = showYesterday
     ? yesterdayQuestions[currentIndex]
@@ -114,9 +126,11 @@ function TriviaPanelContent() {
       setIsComplete(true);
     }
 
-    const storageKey = isAmrep
-      ? getAmrepTodayStorageKey(quizDate!)
-      : getGbvTodayStorageKey(quizDate!);
+    const storageKey = isRev
+      ? getRevTodayStorageKey(quizDate!)
+      : isAmrep
+        ? getAmrepTodayStorageKey(quizDate!)
+        : getGbvTodayStorageKey(quizDate!);
     localStorage.setItem(storageKey, JSON.stringify(updated));
   };
 
@@ -161,15 +175,16 @@ function TriviaPanelContent() {
 
   if (!currentQuestion) return null;
 
-  const txt = isAmrep ? "text-black" : "text-white";
-  const txtMuted = isAmrep ? "text-black/70" : "text-white/70";
-  const border = isAmrep ? "border-black/20" : "border-white/20";
-  const bgMuted = isAmrep ? "bg-black/5" : "bg-white/10";
-  const hoverBg = isAmrep ? "hover:bg-black/10 hover:text-black" : "hover:bg-white/10 hover:text-white";
-  const badgeBg = isAmrep ? "bg-black/10" : "bg-white/20";
+  const isLight = isAmrep || isRev;
+  const txt = isLight ? "text-black" : "text-white";
+  const txtMuted = isLight ? "text-black/70" : "text-white/70";
+  const border = isLight ? "border-black/20" : "border-white/20";
+  const bgMuted = isLight ? "bg-black/5" : "bg-white/10";
+  const hoverBg = isLight ? "hover:bg-black/10 hover:text-black" : "hover:bg-white/10 hover:text-white";
+  const badgeBg = isLight ? "bg-black/10" : "bg-white/20";
 
   return (
-    <Card className={`w-full h-full ${isAmrep ? "bg-white/20" : ""} rounded-lg border ${border} p-4 space-y-4`}>
+    <Card className={`w-full h-full ${isLight ? "bg-white/20" : ""} rounded-lg border ${border} p-4 space-y-4`}>
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -200,7 +215,7 @@ function TriviaPanelContent() {
         <Button
           variant="link"
           size="sm"
-          className={`text-[10px] uppercase tracking-wider p-0 h-auto justify-start ${txtMuted} ${isAmrep ? "hover:text-black" : "hover:text-white"}`}
+          className={`text-[10px] uppercase tracking-wider p-0 h-auto justify-start ${txtMuted} ${isLight ? "hover:text-black" : "hover:text-white"}`}
           onClick={() => {
             setShowYesterday(!showYesterday);
             setCurrentIndex(0);
@@ -257,12 +272,12 @@ function TriviaPanelContent() {
         <div className={`p-2 rounded-lg text-sm ${bgMuted}`}>
           {!showYesterday &&
             (currentAnswered?.isCorrect ? (
-              <p className={`font-medium text-sm ${isAmrep ? "text-green-700" : "text-green-400"}`}>Correct!</p>
+              <p className={`font-medium text-sm ${isLight ? "text-green-700" : "text-green-400"}`}>Correct!</p>
             ) : (
-              <p className={`font-medium text-sm ${isAmrep ? "text-red-700" : "text-red-400"}`}>Not quite!</p>
+              <p className={`font-medium text-sm ${isLight ? "text-red-700" : "text-red-400"}`}>Not quite!</p>
             ))}
           {showYesterday && (
-            <p className={`font-medium text-sm ${isAmrep ? "text-green-700" : "text-green-400"}`}>Correct Answer:</p>
+            <p className={`font-medium text-sm ${isLight ? "text-green-700" : "text-green-400"}`}>Correct Answer:</p>
           )}
           <p className={`mt-1 text-sm ${txtMuted}`}>
             {currentQuestion.explanation}

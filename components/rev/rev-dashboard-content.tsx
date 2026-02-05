@@ -4,6 +4,10 @@ import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { usePathname } from "next/navigation";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
+import { TriviaPanel } from "@/components/music-site/trivia-panel";
+import { RecordOfDayCard } from "@/components/music-site/record-of-day-card";
+import { RevRemoteImage } from "@/components/rev/rev-remote-image";
+import { DashboardDailyRow } from "@/components/music-site/dashboard-sections";
 
 const DUMMY_BANDS = [
   { name: "Band Name", id: 1 },
@@ -29,6 +33,18 @@ export function RevDashboardContent() {
 
   return (
     <div className="container py-2">
+      {/* Daily Trivia + Record of the Day */}
+      <DashboardDailyRow>
+        <TriviaPanel />
+        <RecordOfDayCard
+          RemoteImage={RevRemoteImage}
+          imageFit="contain"
+          placeholderVariant="next-image"
+          placeholderClassName="w-1/2 h-1/2 object-contain"
+          placeholderSize={32}
+        />
+      </DashboardDailyRow>
+
       {/* Bands */}
       <div className="mb-8">
         <div className="flex items-baseline justify-between mb-4">

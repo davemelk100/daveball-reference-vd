@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { getDailyGbvRecord, type GbvRecordOfDay } from "@/lib/gbv-records-data";
 import { getDailyAmrepRecord, type AmrepRecordOfDay } from "@/lib/amrep-records-data";
+import { getDailyRevRecord, type RevRecordOfDay } from "@/lib/rev-records-data";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
 import { getAmrepAlbumImage } from "@/lib/amrep-album-images";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
@@ -13,15 +14,21 @@ export function useRecordOfDay() {
   const pathname = usePathname();
   const site = getMusicSiteFromPathname(pathname);
   const isAmrep = site.id === "amrep";
-  const [record, setRecord] = useState<GbvRecordOfDay | AmrepRecordOfDay | null>(null);
+  const isRev = site.id === "rev";
+  const [record, setRecord] = useState<GbvRecordOfDay | AmrepRecordOfDay | RevRecordOfDay | null>(null);
   const [coverUrl, setCoverUrl] = useState<string | null>(null);
   const [albumId, setAlbumId] = useState<number | null>(null);
 
   useEffect(() => {
-    const daily = isAmrep ? getDailyAmrepRecord() : getDailyGbvRecord();
+    const daily = isRev ? getDailyRevRecord() : isAmrep ? getDailyAmrepRecord() : getDailyGbvRecord();
     setRecord(daily);
 
-    const cacheKeyPrefix = isAmrep ? "amrep" : "gbv";
+    const cacheKeyPrefix = isRev ? "rev" : isAmrep ? "amrep" : "gbv";
+
+    if (isRev) {
+      // REV records - no Discogs lookup, just use the data as-is
+      return;
+    }
 
     if (isAmrep) {
       const amrepDaily = daily as AmrepRecordOfDay;
@@ -180,7 +187,7 @@ export function useRecordOfDay() {
     }
 
     fetchAlbumLink();
-  }, [isAmrep]);
+  }, [isAmrep, isRev]);
 
   const albumHref = albumId ? `${site.basePath}/albums/${albumId}` : null;
   const displayTitle =

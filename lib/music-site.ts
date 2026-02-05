@@ -200,7 +200,7 @@ export const REVELATION_SITE: MusicSiteConfig = {
   basePath: "/rev",
   chatLabel: "ChatREV",
   headerTitle: "Revelation By The Numbers",
-  headerTextClass: "text-white",
+  headerTextClass: "",
   logoSrc: "/revelation-logo.png",
   chatIconSrc: "/revelation-logo.png",
   placeholderIconSrc: "/revelation-logo.png",
