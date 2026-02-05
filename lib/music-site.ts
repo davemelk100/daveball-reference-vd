@@ -12,6 +12,7 @@ export interface MusicSiteConfig {
   chatIconSrc: string;
   placeholderIconSrc: string;
   shellClass: string;
+  logoClassName?: string;
   navLabels: {
     discography: string;
     members: string;
@@ -192,7 +193,64 @@ export const AMREP_SITE: MusicSiteConfig = {
   },
 };
 
-export const MUSIC_SITES = [GBV_SITE, AMREP_SITE] as const;
+export const REVELATION_SITE: MusicSiteConfig = {
+  id: "rev",
+  name: "Revelation By The Numbers",
+  shortName: "Rev",
+  basePath: "/rev",
+  chatLabel: "ChatREV",
+  headerTitle: "Revelation By The Numbers",
+  headerTextClass: "text-white",
+  logoSrc: "/revelation-logo.png",
+  chatIconSrc: "/revelation-logo.png",
+  placeholderIconSrc: "/revelation-logo.png",
+  shellClass: "revelation-shell",
+  logoClassName: "h-12 w-auto sm:h-16 lg:h-20 lg:w-auto",
+  navLabels: {
+    discography: "Releases",
+    members: "Bands",
+    sideProjects: "Sub-Labels",
+  },
+  footerDisclaimer:
+    "All Content, Rights, Copyrights, etc. are the property of Revelation Records. This is simply a fan site.",
+  sources: [
+    { label: "Discogs", url: "https://www.discogs.com/label/910-Revelation-Records" },
+    { label: "RevHQ", url: "https://revhq.com/" },
+    { label: "Wikipedia", url: "https://en.wikipedia.org/wiki/Revelation_Records" },
+    { label: "MusicBrainz", url: "https://musicbrainz.org/" },
+    { label: "Bandcamp", url: "https://bandcamp.com/" },
+  ],
+  imageSources: [
+    { label: "Discogs", url: "https://www.discogs.com/" },
+    { label: "RevHQ", url: "https://revhq.com/" },
+    { label: "Wikipedia", url: "https://en.wikipedia.org/" },
+    { label: "Wikimedia Commons", url: "https://commons.wikimedia.org/" },
+    { label: "Bandcamp", url: "https://bandcamp.com/" },
+  ],
+  searchPlaceholder: "Search Rev...",
+  seo: {
+    title: "Revelation Records",
+    titleTemplate: "%s | Revelation Records",
+    description:
+      "Explore Revelation Records: artist roster, discography, label history, and milestones.",
+    keywords: [
+      "Revelation Records",
+      "hardcore",
+      "punk",
+      "straight edge",
+      "discography",
+      "artists",
+      "releases",
+      "label history",
+    ],
+    siteName: "Major League Numbers",
+    ogImage: "https://majorleaguenumbers.com/revelation-logo.png",
+    ogImageAlt: "Revelation Records",
+    twitterImage: "https://majorleaguenumbers.com/revelation-logo.png",
+  },
+};
+
+export const MUSIC_SITES = [GBV_SITE, AMREP_SITE, REVELATION_SITE] as const;
 
 export type MusicSiteId = (typeof MUSIC_SITES)[number]["id"];
 

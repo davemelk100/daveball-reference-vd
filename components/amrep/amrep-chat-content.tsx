@@ -79,8 +79,17 @@ const amrepChatPrompts = [
   "Ask about an AmRep artist or release.",
   "Looking for noisy rock from the AmRep roster?",
   "Which AmRep era are you exploring?",
-  "Need a quick primer on the label’s catalog?",
-  "Let’s dig into AmRep’s artist roster.",
+  "Need a quick primer on the label's catalog?",
+  "Let's dig into AmRep's artist roster.",
+];
+
+const revChatPrompts = [
+  "Ask about a Revelation Records artist or release.",
+  "Which Rev era are you exploring?",
+  "Need a primer on the Rev catalog?",
+  "Let's dig into Revelation's artist roster.",
+  "Looking for hardcore from the Rev roster?",
+  "Want a quick Revelation Records label history?",
 ];
 
 interface SavedChat {
@@ -101,6 +110,11 @@ const CHAT_KEYS = {
     chats: "amrep-saved-chats",
     session: "amrep-chat-session",
     idPrefix: "amrep",
+  },
+  rev: {
+    chats: "rev-saved-chats",
+    session: "rev-chat-session",
+    idPrefix: "rev",
   },
 };
 
@@ -197,7 +211,7 @@ export function GbvChatContent() {
   const pathname = usePathname();
   const site = getMusicSiteFromPathname(pathname);
   const keys = CHAT_KEYS[site.id as keyof typeof CHAT_KEYS];
-  const sitePrompts = site.id === "amrep" ? amrepChatPrompts : chatPrompts;
+  const sitePrompts = site.id === "amrep" ? amrepChatPrompts : site.id === "rev" ? revChatPrompts : chatPrompts;
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState("");
@@ -212,7 +226,7 @@ export function GbvChatContent() {
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: site.id === "amrep" ? "/api/amrep/ask" : "/api/gbv/ask",
+        api: site.id === "amrep" ? "/api/amrep/ask" : site.id === "rev" ? "/api/rev/ask" : "/api/gbv/ask",
       }),
     [],
   );

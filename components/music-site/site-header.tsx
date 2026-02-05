@@ -38,7 +38,7 @@ export function SiteHeader() {
             width={140}
             height={140}
             className={cn(
-              "h-12 w-auto sm:h-16 lg:h-[173px] lg:w-[173px]",
+              site.logoClassName || "h-12 w-auto sm:h-16 lg:h-[173px] lg:w-[173px]",
               pathname === askPath && "hidden sm:block",
             )}
             priority
