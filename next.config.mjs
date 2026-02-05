@@ -143,6 +143,14 @@ const nextConfig = {
         protocol: "https",
         hostname: "themelvins.net",
       },
+      {
+        protocol: "https",
+        hostname: "assets.nhle.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cms.nhl.bamgrid.com",
+      },
     ],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24, // 24 hours
