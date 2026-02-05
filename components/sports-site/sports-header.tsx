@@ -86,7 +86,7 @@ export function SportsHeader() {
                     alt=""
                     width={32}
                     height={32}
-                    className="h-8 w-8"
+                    className="h-8 w-auto object-contain"
                   />
                 )}
                 <span className="text-md">{site.chatLabel}</span>
@@ -111,7 +111,7 @@ export function SportsHeader() {
                 alt=""
                 width={24}
                 height={24}
-                className="h-6 w-6"
+                className="h-6 w-auto object-contain"
               />
             )}
             <span className="text-sm">{site.chatLabel}</span>

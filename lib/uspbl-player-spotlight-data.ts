@@ -5,6 +5,7 @@ export interface USPBLSpotlightPlayer {
   team: string;
   years: string;
   fact: string;
+  imageUrl?: string;
 }
 
 export const uspblSpotlightPlayers: USPBLSpotlightPlayer[] = [
@@ -15,6 +16,7 @@ export const uspblSpotlightPlayers: USPBLSpotlightPlayer[] = [
     team: "Utica Unicorns → Minnesota Twins",
     years: "2017 USPBL → 2019 MLB Debut",
     fact: "The USPBL's biggest success story. Pitched for the Utica Unicorns before being signed by the Minnesota Twins, making his MLB debut on August 9, 2019. He became the first USPBL alum to reach the Major Leagues.",
+    imageUrl: "https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/677976/headshot/67/current",
   },
   {
     id: "spotlight-koenig",
@@ -23,6 +25,7 @@ export const uspblSpotlightPlayers: USPBLSpotlightPlayer[] = [
     team: "Utica Unicorns → Oakland Athletics",
     years: "USPBL → 2022 MLB Debut",
     fact: "Left-handed pitcher who used the USPBL as a springboard to professional baseball. Made his MLB debut with the Oakland Athletics during the 2022 season.",
+    imageUrl: "https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/657649/headshot/67/current",
   },
   {
     id: "spotlight-gillaspie",
@@ -31,6 +34,7 @@ export const uspblSpotlightPlayers: USPBLSpotlightPlayer[] = [
     team: "Diamond Hoppers → Baltimore Orioles",
     years: "USPBL → 2022 MLB Debut",
     fact: "Pitched for the Eastside Diamond Hoppers before being signed by the Baltimore Orioles organization. Was called up to the Orioles on May 17, 2022.",
+    imageUrl: "https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/670810/headshot/67/current",
   },
   {
     id: "spotlight-wiemer",
@@ -39,6 +43,7 @@ export const uspblSpotlightPlayers: USPBLSpotlightPlayer[] = [
     team: "Beavers → Milwaukee Brewers",
     years: "USPBL → 2023 MLB",
     fact: "Outfielder who played for the Birmingham Bloomfield Beavers before being signed by the Milwaukee Brewers organization and reaching the Major League roster in 2023.",
+    imageUrl: "https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/686894/headshot/67/current",
   },
   {
     id: "spotlight-wynne",
@@ -47,6 +52,7 @@ export const uspblSpotlightPlayers: USPBLSpotlightPlayer[] = [
     team: "Beavers → Cincinnati Reds",
     years: "USPBL → 2023 MLB",
     fact: "Right-handed pitcher from the Birmingham Bloomfield Beavers who was signed by the Cincinnati Reds and reached their Major League roster in 2023.",
+    imageUrl: "https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/691094/headshot/67/current",
   },
   {
     id: "spotlight-contreras",
@@ -55,6 +61,7 @@ export const uspblSpotlightPlayers: USPBLSpotlightPlayer[] = [
     team: "Diamond Hoppers → Houston Astros",
     years: "USPBL → 2024 MLB",
     fact: "Infielder who played for the Eastside Diamond Hoppers before being signed by the Houston Astros organization and making it to the MLB roster in 2024.",
+    imageUrl: "https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/664351/headshot/67/current",
   },
   {
     id: "spotlight-darnell",
@@ -63,6 +70,7 @@ export const uspblSpotlightPlayers: USPBLSpotlightPlayer[] = [
     team: "Diamond Hoppers → Colorado Rockies",
     years: "USPBL → 2025 MLB",
     fact: "The latest USPBL success story. Played for the Eastside Diamond Hoppers before being signed by the Colorado Rockies and reaching the Major League roster in 2025.",
+    imageUrl: "https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_213,q_auto:best/v1/people/699911/headshot/67/current",
   },
   {
     id: "spotlight-johnson",
@@ -81,12 +89,12 @@ export const uspblSpotlightPlayers: USPBLSpotlightPlayer[] = [
     fact: "Dominant right-handed pitcher for the Utica Unicorns who was signed by the Tampa Bay Rays organization in 2022.",
   },
   {
-    id: "spotlight-appleby",
-    name: "Andy Appleby",
-    position: "Founder & CEO",
-    team: "USPBL",
-    years: "2016-present",
-    fact: "Former Detroit Pistons executive who founded the USPBL in 2016. His vision created a league that has sent 52+ players to MLB organizations and 7 to Major League rosters, all from a single stadium in Utica, Michigan.",
+    id: "spotlight-huffman",
+    name: "Andrew Huffman",
+    position: "RHP",
+    team: "Beavers → Minnesota Twins",
+    years: "USPBL → 2024 MiLB",
+    fact: "Right-handed pitcher who played for the Birmingham Bloomfield Beavers before being signed by the Minnesota Twins organization in 2024.",
   },
 ];
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
+import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import { getDailyUSPBLPlayer, type USPBLSpotlightPlayer } from "@/lib/uspbl-player-spotlight-data";
 
@@ -65,10 +66,20 @@ function USPBLPlayerSpotlightContent() {
           <p className="text-sm text-muted-foreground">{player.years}</p>
           <p className="text-sm text-muted-foreground">{player.fact}</p>
         </div>
-        <div className="shrink-0 w-[70px] sm:w-[120px] h-[70px] sm:h-[120px] rounded-xl bg-muted/50 flex items-center justify-center">
-          <span className="text-3xl sm:text-5xl font-bold text-muted-foreground/50">
-            {player.position.charAt(0)}
-          </span>
+        <div className="shrink-0 w-[70px] sm:w-[120px] h-[70px] sm:h-[120px] rounded-xl bg-muted/50 flex items-center justify-center overflow-hidden">
+          {player.imageUrl ? (
+            <Image
+              src={player.imageUrl}
+              alt={player.name}
+              width={120}
+              height={120}
+              className="w-full h-full object-cover"
+            />
+          ) : (
+            <span className="text-3xl sm:text-5xl font-bold text-muted-foreground/50">
+              {player.position.charAt(0)}
+            </span>
+          )}
         </div>
       </div>
     </div>

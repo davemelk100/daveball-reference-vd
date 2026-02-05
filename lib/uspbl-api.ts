@@ -134,17 +134,22 @@ export interface USPBLMLBAlumni {
   yearSigned: number;
   madeMLBRoster: boolean;
   mlbDebut?: string;
+  mlbPlayerId?: number;
+}
+
+export function getMLBHeadshotUrl(mlbPlayerId: number, width: number = 213): string {
+  return `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:headshot:67:current.png/w_${width},q_auto:best/v1/people/${mlbPlayerId}/headshot/67/current`;
 }
 
 export const USPBL_MLB_ALUMNI: USPBLMLBAlumni[] = [
   // Players who reached MLB rosters
-  { name: "Dugan Darnell", uspblTeam: "Diamond Hoppers", uspblTeamSlug: "eastside-diamond-hoppers", mlbOrganization: "Colorado Rockies", yearSigned: 2025, madeMLBRoster: true },
-  { name: "Luis Contreras", uspblTeam: "Diamond Hoppers", uspblTeamSlug: "eastside-diamond-hoppers", mlbOrganization: "Houston Astros", yearSigned: 2024, madeMLBRoster: true },
-  { name: "Randy Wynne", uspblTeam: "Beavers", uspblTeamSlug: "birmingham-bloomfield-beavers", mlbOrganization: "Cincinnati Reds", yearSigned: 2023, madeMLBRoster: true },
-  { name: "Joey Wiemer", uspblTeam: "Beavers", uspblTeamSlug: "birmingham-bloomfield-beavers", mlbOrganization: "Milwaukee Brewers", yearSigned: 2023, madeMLBRoster: true },
-  { name: "Jared Koenig", uspblTeam: "Unicorns", uspblTeamSlug: "utica-unicorns", mlbOrganization: "Oakland Athletics", yearSigned: 2022, madeMLBRoster: true, mlbDebut: "2022" },
-  { name: "Logan Gillaspie", uspblTeam: "Diamond Hoppers", uspblTeamSlug: "eastside-diamond-hoppers", mlbOrganization: "Baltimore Orioles", yearSigned: 2022, madeMLBRoster: true, mlbDebut: "May 17, 2022" },
-  { name: "Randy Dobnak", uspblTeam: "Unicorns", uspblTeamSlug: "utica-unicorns", mlbOrganization: "Minnesota Twins", yearSigned: 2017, madeMLBRoster: true, mlbDebut: "August 9, 2019" },
+  { name: "Dugan Darnell", uspblTeam: "Diamond Hoppers", uspblTeamSlug: "eastside-diamond-hoppers", mlbOrganization: "Colorado Rockies", yearSigned: 2025, madeMLBRoster: true, mlbPlayerId: 699911 },
+  { name: "Luis Contreras", uspblTeam: "Diamond Hoppers", uspblTeamSlug: "eastside-diamond-hoppers", mlbOrganization: "Houston Astros", yearSigned: 2024, madeMLBRoster: true, mlbPlayerId: 664351 },
+  { name: "Randy Wynne", uspblTeam: "Beavers", uspblTeamSlug: "birmingham-bloomfield-beavers", mlbOrganization: "Cincinnati Reds", yearSigned: 2023, madeMLBRoster: true, mlbPlayerId: 691094 },
+  { name: "Joey Wiemer", uspblTeam: "Beavers", uspblTeamSlug: "birmingham-bloomfield-beavers", mlbOrganization: "Milwaukee Brewers", yearSigned: 2023, madeMLBRoster: true, mlbPlayerId: 686894 },
+  { name: "Jared Koenig", uspblTeam: "Unicorns", uspblTeamSlug: "utica-unicorns", mlbOrganization: "Oakland Athletics", yearSigned: 2022, madeMLBRoster: true, mlbDebut: "2022", mlbPlayerId: 657649 },
+  { name: "Logan Gillaspie", uspblTeam: "Diamond Hoppers", uspblTeamSlug: "eastside-diamond-hoppers", mlbOrganization: "Baltimore Orioles", yearSigned: 2022, madeMLBRoster: true, mlbDebut: "May 17, 2022", mlbPlayerId: 670810 },
+  { name: "Randy Dobnak", uspblTeam: "Unicorns", uspblTeamSlug: "utica-unicorns", mlbOrganization: "Minnesota Twins", yearSigned: 2017, madeMLBRoster: true, mlbDebut: "August 9, 2019", mlbPlayerId: 677976 },
   // Players signed to minor league deals
   { name: "Andrew Huffman", uspblTeam: "Beavers", uspblTeamSlug: "birmingham-bloomfield-beavers", mlbOrganization: "Minnesota Twins", yearSigned: 2024, madeMLBRoster: false },
   { name: "Duncan Hewitt", uspblTeam: "Unicorns", uspblTeamSlug: "utica-unicorns", mlbOrganization: "Minnesota Twins", yearSigned: 2023, madeMLBRoster: false },

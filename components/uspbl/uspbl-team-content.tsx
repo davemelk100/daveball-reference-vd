@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Trophy, Star } from "lucide-react";
-import type { USPBLTeam, USPBLPlayer, USPBLStandingsEntry, USPBLMLBAlumni } from "@/lib/uspbl-api";
+import { getMLBHeadshotUrl, type USPBLTeam, type USPBLPlayer, type USPBLStandingsEntry, type USPBLMLBAlumni } from "@/lib/uspbl-api";
 
 interface USPBLTeamContentProps {
   team: USPBLTeam | null;
@@ -108,7 +108,17 @@ export function USPBLTeamContent({ team, roster, standing, championshipCount, ch
                       <tr key={player.name} className="border-b last:border-0">
                         <td className="py-2 pr-4 font-medium">
                           <div className="flex items-center gap-2">
-                            {player.madeMLBRoster && <Star className="h-3 w-3 text-yellow-500 flex-shrink-0" />}
+                            {player.mlbPlayerId ? (
+                              <Image
+                                src={getMLBHeadshotUrl(player.mlbPlayerId, 40)}
+                                alt={player.name}
+                                width={24}
+                                height={24}
+                                className="w-6 h-6 rounded-full object-cover flex-shrink-0"
+                              />
+                            ) : player.madeMLBRoster ? (
+                              <Star className="h-3 w-3 text-yellow-500 flex-shrink-0" />
+                            ) : null}
                             {player.name}
                           </div>
                         </td>

@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star } from "lucide-react";
-import type { USPBLMLBAlumni } from "@/lib/uspbl-api";
+import { getMLBHeadshotUrl, type USPBLMLBAlumni } from "@/lib/uspbl-api";
 
 interface USPBLAlumniContentProps {
   alumni: USPBLMLBAlumni[];
@@ -28,9 +29,19 @@ export function USPBLAlumniContent({ alumni }: USPBLAlumniContentProps) {
           <Card key={player.name} className="border-primary/20">
             <CardContent className="p-5">
               <div className="flex items-start gap-3">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Star className="h-6 w-6 text-primary" />
-                </div>
+                {player.mlbPlayerId ? (
+                  <Image
+                    src={getMLBHeadshotUrl(player.mlbPlayerId)}
+                    alt={player.name}
+                    width={48}
+                    height={48}
+                    className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                  />
+                ) : (
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <Star className="h-6 w-6 text-primary" />
+                  </div>
+                )}
                 <div>
                   <p className="font-semibold">{player.name}</p>
                   <p className="text-sm text-muted-foreground">{player.mlbOrganization}</p>

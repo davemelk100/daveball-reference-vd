@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { USPBLTriviaPanel } from "@/components/uspbl/uspbl-trivia-panel";
 import { USPBLPlayerSpotlight } from "@/components/uspbl/uspbl-player-spotlight";
 import type { USPBLTeam, USPBLStandingsEntry, USPBLChampionship, USPBLMLBAlumni } from "@/lib/uspbl-api";
+import { getMLBHeadshotUrl } from "@/lib/uspbl-api";
 
 interface USPBLDashboardContentProps {
   standings: USPBLStandingsEntry[];
@@ -40,9 +41,19 @@ export function USPBLDashboardContent({ standings, teams, championships, mlbAlum
             <Card key={player.name}>
               <CardContent className="p-4">
                 <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                    <Star className="h-5 w-5 text-primary" />
-                  </div>
+                  {player.mlbPlayerId ? (
+                    <Image
+                      src={getMLBHeadshotUrl(player.mlbPlayerId)}
+                      alt={player.name}
+                      width={40}
+                      height={40}
+                      className="w-10 h-10 rounded-full object-cover flex-shrink-0"
+                    />
+                  ) : (
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Star className="h-5 w-5 text-primary" />
+                    </div>
+                  )}
                   <div className="min-w-0">
                     <p className="font-medium text-sm">{player.name}</p>
                     <p className="text-xs text-muted-foreground">{player.mlbOrganization}</p>
