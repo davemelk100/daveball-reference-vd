@@ -8,7 +8,7 @@ import {
   Award,
 } from "lucide-react";
 
-export type SportsSiteId = "mlb" | "nhl";
+export type SportsSiteId = "mlb" | "nhl" | "uspbl";
 
 export interface SportsNavItem {
   name: string;
@@ -125,9 +125,40 @@ const nhlSite: SportsSiteConfig = {
   ],
 };
 
+const uspblSite: SportsSiteConfig = {
+  id: "uspbl",
+  basePath: "/uspbl",
+  title: "USPBL Numbers",
+  logoSrc: "/uspbl-logo.png",
+  logoAlt: "USPBL",
+  titleColorClass: "text-[#1a3a5c]",
+  chatLabel: "ChatUSPBL",
+  chatPath: "/uspbl/ask",
+  chatIconSrc: "/uspbl-logo.png",
+  searchLabel: "Search USPBL",
+  navItems: [
+    { name: "ChatUSPBL", href: "/uspbl/ask", image: "/uspbl-logo.png" },
+    { name: "Home", href: "/uspbl", icon: Home },
+    { name: "Players", href: "/uspbl/players", icon: Users },
+    { name: "Teams", href: "/uspbl/teams", icon: Trophy },
+    { name: "Standings", href: "/uspbl/standings", icon: BarChart3 },
+  ],
+  mobileHiddenNames: ["Home"],
+  dataSources: [
+    {
+      category: "Data",
+      items: [
+        { label: "USPBL", url: "https://www.uspbl.com/" },
+        { label: "Wikipedia", url: "https://en.wikipedia.org/" },
+      ],
+    },
+  ],
+};
+
 const sportsSites: Record<SportsSiteId, SportsSiteConfig> = {
   mlb: mlbSite,
   nhl: nhlSite,
+  uspbl: uspblSite,
 };
 
 export function getSportsSiteById(id: SportsSiteId): SportsSiteConfig {
@@ -136,10 +167,11 @@ export function getSportsSiteById(id: SportsSiteId): SportsSiteConfig {
 
 export function getSportsSiteFromPathname(pathname: string): SportsSiteConfig {
   if (pathname.startsWith("/nhl")) return nhlSite;
+  if (pathname.startsWith("/uspbl")) return uspblSite;
   if (pathname.startsWith("/mlb")) return mlbSite;
   return mlbSite;
 }
 
 export function isSportsSiteRoute(pathname: string): boolean {
-  return pathname.startsWith("/mlb") || pathname.startsWith("/nhl");
+  return pathname.startsWith("/mlb") || pathname.startsWith("/nhl") || pathname.startsWith("/uspbl");
 }

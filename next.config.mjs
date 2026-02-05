@@ -151,6 +151,14 @@ const nextConfig = {
         protocol: "https",
         hostname: "cms.nhl.bamgrid.com",
       },
+      {
+        protocol: "https",
+        hostname: "uspbl.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.uspbl.com",
+      },
     ],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24, // 24 hours
