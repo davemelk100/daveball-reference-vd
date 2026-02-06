@@ -17,7 +17,7 @@ const sportsSites = [
   {
     name: "NBA Numbers",
     href: "/nba",
-    logo: "/nba-logo.png",
+    logo: "/nba-logo.svg",
     description: "NBA player stats, rosters & standings",
   },
   {

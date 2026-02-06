@@ -279,7 +279,7 @@ export function NBAAskContent() {
         {chatActions}
 
         <div className="flex-1 flex flex-col items-center px-4">
-          <Image src="/nba-logo.png" alt="ChatNBA" width={128} height={128} className="h-32 w-auto mb-4" />
+          <Image src="/nba-logo.svg" alt="ChatNBA" width={128} height={128} className="h-32 w-auto mb-4" />
           <h1 className="mb-2">ChatNBA</h1>
 
           {randomPrompt && (
@@ -328,7 +328,7 @@ export function NBAAskContent() {
         <div className="mx-auto px-4 sm:px-[calc(1rem+25px)] max-w-4xl w-full">
           <div className="mb-4">
             <div className="flex items-center gap-4">
-              <Image src="/nba-logo.png" alt="ChatNBA" width={96} height={96} className="h-24 w-auto" />
+              <Image src="/nba-logo.svg" alt="ChatNBA" width={96} height={96} className="h-24 w-auto" />
               <div className="flex-1">
                 <h1 className="whitespace-nowrap">
                   ChatNBA
