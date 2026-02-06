@@ -38,7 +38,7 @@ export function AlbumDetailLayout({
         </div>
 
         <div className="lg:col-span-2">
-          <h2 className="font-league capitalize text-[36px] leading-tight mb-4">{rightTitle}</h2>
+          <h2 className="capitalize text-[36px] leading-tight mb-4">{rightTitle}</h2>
           {rightContent}
         </div>
       </div>

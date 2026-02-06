@@ -22,10 +22,10 @@ export function NFLTeamsContent({ standings }: NFLTeamsContentProps) {
 
   const renderConference = (name: string, divisions: NFLDivisionStandings[]) => (
     <div className="mb-8">
-      <h2 className="font-league text-xl mb-4">{name}</h2>
+      <h2 className="text-xl mb-4">{name}</h2>
       {divisions.map((division) => (
         <div key={division.division} className="mb-6">
-          <h3 className="font-league text-lg mb-3">
+          <h3 className="text-lg font-semibold mb-3">
             {division.division}
           </h3>
           <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4">

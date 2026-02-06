@@ -32,7 +32,7 @@ export function NHLTeamsContent({ standings }: NHLTeamsContentProps) {
 
       {divisions.map((division) => (
         <div key={division.name} className="mb-8">
-          <h2 className="font-league text-xl mb-3">
+          <h2 className="text-xl mb-3">
             {division.name} Division
             <span className="text-sm text-muted-foreground ml-2 font-normal normal-case">
               {division.conference} Conference

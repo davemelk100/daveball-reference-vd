@@ -48,7 +48,7 @@ export function RevDashboardContent() {
       {/* Bands */}
       <div className="mb-8">
         <div className="flex items-baseline justify-between mb-4">
-          <h2 className="font-league">Bands</h2>
+          <h2>Bands</h2>
           <Link href={`${site.basePath}/members`} className="text-sm text-muted-foreground hover:underline">
             View all
           </Link>
@@ -70,7 +70,7 @@ export function RevDashboardContent() {
       {/* Releases */}
       <div className="mb-8">
         <div className="flex items-baseline justify-between mb-4">
-          <h2 className="font-league">Releases</h2>
+          <h2>Releases</h2>
           <Link href={`${site.basePath}/albums`} className="text-sm text-muted-foreground hover:underline">
             View all
           </Link>

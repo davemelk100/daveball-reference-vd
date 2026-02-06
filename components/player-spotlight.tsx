@@ -59,7 +59,7 @@ export function PlayerSpotlight() {
     return (
       <div className="w-full h-full bg-muted/30 rounded-lg border p-3 sm:p-4 space-y-2 sm:space-y-4">
         <div className="flex items-center gap-2">
-          <h2 className="font-league mr-4 text-primary">Daily Random Player</h2>
+          <h2 className="mr-4 text-primary">Daily Random Player</h2>
         </div>
         <div className="flex items-center justify-center py-12">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -73,7 +73,7 @@ export function PlayerSpotlight() {
   return (
     <div className="w-full h-full bg-muted/30 rounded-lg border p-3 sm:p-4 space-y-2 sm:space-y-4">
       <div className="flex items-center gap-2">
-        <h2 className="font-league mr-4 text-primary">Daily Random Player</h2>
+        <h2 className="mr-4 text-primary">Daily Random Player</h2>
       </div>
       <div className="flex gap-3 sm:gap-6 items-center">
         <div className="space-y-2 sm:space-y-3 flex-1 min-w-0">

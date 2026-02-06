@@ -80,7 +80,7 @@ export function DashboardSectionHeader({
 }: DashboardSectionHeaderProps) {
   return (
     <div className="flex items-center gap-4 mb-4">
-      <h2 className="font-league">{title}</h2>
+      <h2>{title}</h2>
       <Link
         href={href}
         className="uppercase text-sm text-muted-foreground hover:text-foreground font-bold"

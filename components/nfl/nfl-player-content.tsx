@@ -91,7 +91,7 @@ export function NFLPlayerContent({ playerData, playerId }: NFLPlayerContentProps
 
         {/* Right: stats */}
         <div>
-          <h2 className="font-league mb-4">Statistics</h2>
+          <h2 className="mb-4">Statistics</h2>
           {stats.length > 0 ? (
             <div className="space-y-6">
               {stats.map((statGroup: any, idx: number) => (
@@ -104,27 +104,23 @@ export function NFLPlayerContent({ playerData, playerId }: NFLPlayerContentProps
                       <table className="w-full text-sm">
                         <thead>
                           <tr className="border-b">
-                            <th className="text-left py-2 pr-4">Season</th>
+                            <th className="text-left py-2 pr-4">Split</th>
                             {statGroup.labels?.map((label: string, i: number) => (
-                              <th key={i} className="text-center py-2 px-2">{label}</th>
+                              <th key={i} className="text-center py-2 px-2 whitespace-nowrap">{label}</th>
                             ))}
                           </tr>
                         </thead>
                         <tbody>
-                          {statGroup.seasonTypes?.map((seasonType: any) =>
-                            seasonType.categories?.map((cat: any) =>
-                              cat.statistics?.map((row: any, ri: number) => (
-                                <tr key={ri} className="border-b last:border-0">
-                                  <td className="py-2 pr-4 font-medium">
-                                    {row.season?.displayName || row.displayName || "—"}
-                                  </td>
-                                  {row.stats?.map((val: string, vi: number) => (
-                                    <td key={vi} className="text-center py-2 px-2">{val}</td>
-                                  ))}
-                                </tr>
-                              ))
-                            )
-                          )}
+                          {statGroup.splits?.map((split: any, ri: number) => (
+                            <tr key={ri} className="border-b last:border-0">
+                              <td className="py-2 pr-4 font-medium whitespace-nowrap">
+                                {split.displayName || "—"}
+                              </td>
+                              {split.stats?.map((val: string, vi: number) => (
+                                <td key={vi} className="text-center py-2 px-2">{val}</td>
+                              ))}
+                            </tr>
+                          ))}
                         </tbody>
                       </table>
                     </div>

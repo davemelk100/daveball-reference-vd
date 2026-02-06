@@ -66,7 +66,7 @@ export function NHLTeamContent({ teamAbbrev, roster, team }: NHLTeamContentProps
       </div>
 
       {/* Forwards */}
-      <h2 className="font-league mb-3">Forwards</h2>
+      <h2 className="mb-3">Forwards</h2>
       <Card className="mb-6">
         <CardContent className="p-4">
           <div className="overflow-x-auto">
@@ -89,7 +89,7 @@ export function NHLTeamContent({ teamAbbrev, roster, team }: NHLTeamContentProps
       </Card>
 
       {/* Defensemen */}
-      <h2 className="font-league mb-3">Defensemen</h2>
+      <h2 className="mb-3">Defensemen</h2>
       <Card className="mb-6">
         <CardContent className="p-4">
           <div className="overflow-x-auto">
@@ -112,7 +112,7 @@ export function NHLTeamContent({ teamAbbrev, roster, team }: NHLTeamContentProps
       </Card>
 
       {/* Goalies */}
-      <h2 className="font-league mb-3">Goaltenders</h2>
+      <h2 className="mb-3">Goaltenders</h2>
       <Card className="mb-6">
         <CardContent className="p-4">
           <div className="overflow-x-auto">

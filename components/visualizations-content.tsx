@@ -81,7 +81,7 @@ export function VisualizationsContent({
     <main className="container py-6">
       <div className="mb-8">
         <div className="flex items-center justify-start gap-4 mb-4 flex-wrap">
-          <h2 className="font-league whitespace-nowrap">
+          <h2 className="whitespace-nowrap">
             Data Visualizations
           </h2>
           <div className="flex items-center gap-2">

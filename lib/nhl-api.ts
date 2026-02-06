@@ -215,7 +215,11 @@ export function getTeamLogoUrl(teamAbbrev: string): string {
   return `https://assets.nhle.com/logos/nhl/svg/${teamAbbrev}_dark.svg`;
 }
 
-export function getPlayerHeadshotUrl(playerId: number, teamAbbrev: string, season: string = "20242025"): string {
+export function getPlayerHeadshotUrl(playerId: number, teamAbbrev?: string, season: string = "20242025"): string {
+  // Use "latest" format when team is not provided (works for any current player)
+  if (!teamAbbrev) {
+    return `https://assets.nhle.com/mugs/nhl/latest/${playerId}.png`;
+  }
   return `https://assets.nhle.com/mugs/nhl/${season}/${teamAbbrev}/${playerId}.png`;
 }
 

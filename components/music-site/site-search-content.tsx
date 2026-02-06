@@ -90,7 +90,7 @@ export function SiteSearchContent() {
 
       {filteredMembers.length > 0 && (
         <div className="mb-8">
-          <h2 className="font-league mb-4">
+          <h2 className="mb-4">
             {site.navLabels.members}{" "}
             <span className="align-baseline">({filteredMembers.length})</span>
           </h2>
@@ -121,7 +121,7 @@ export function SiteSearchContent() {
 
       {filteredAlbums.length > 0 && (
         <div className="mb-8">
-          <h2 className="font-league mb-4">
+          <h2 className="mb-4">
             {site.navLabels.discography}{" "}
             <span className="align-baseline">({filteredAlbums.length})</span>
           </h2>

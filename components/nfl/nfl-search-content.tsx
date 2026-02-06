@@ -92,7 +92,7 @@ export function NFLSearchContent() {
           {/* Team Results */}
           {teams.length > 0 && (
             <div>
-              <h2 className="font-league text-lg mb-3">Teams</h2>
+              <h2 className="text-lg mb-3">Teams</h2>
               <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                 {teams.map((team) => (
                   <Link key={team.id} href={`/nfl/teams/${team.id}`}>
@@ -118,7 +118,7 @@ export function NFLSearchContent() {
           {/* Player Results */}
           {players.length > 0 && (
             <div>
-              <h2 className="font-league text-lg mb-3">Players</h2>
+              <h2 className="text-lg mb-3">Players</h2>
               <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                 {players.map((player) => (
                   <Link key={player.id} href={`/nfl/players/${player.id}`}>

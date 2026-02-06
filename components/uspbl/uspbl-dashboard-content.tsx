@@ -31,7 +31,7 @@ export function USPBLDashboardContent({ standings, teams, championships, mlbAlum
       {/* MLB Alumni Spotlight */}
       <div className="mb-8">
         <div className="flex items-baseline justify-between mb-4">
-          <h2 className="font-league">Road to the Majors</h2>
+          <h2>Road to the Majors</h2>
           <Link href="/uspbl/alumni" className="text-sm text-muted-foreground hover:underline">
             View all {mlbAlumni.length} signees
           </Link>
@@ -74,7 +74,7 @@ export function USPBLDashboardContent({ standings, teams, championships, mlbAlum
       {/* Teams */}
       <div className="mb-8">
         <div className="flex items-baseline justify-between mb-4">
-          <h2 className="font-league">Teams</h2>
+          <h2>Teams</h2>
           <Link href="/uspbl/teams" className="text-sm text-muted-foreground hover:underline">
             View all
           </Link>
@@ -113,7 +113,7 @@ export function USPBLDashboardContent({ standings, teams, championships, mlbAlum
         {/* Championship History */}
         <div>
           <div className="flex items-baseline justify-between mb-4">
-            <h2 className="font-league">Championships</h2>
+            <h2>Championships</h2>
           </div>
           <Card>
             <CardContent className="p-4">
@@ -152,7 +152,7 @@ export function USPBLDashboardContent({ standings, teams, championships, mlbAlum
         {/* Standings */}
         <div>
           <div className="flex items-baseline justify-between mb-4">
-            <h2 className="font-league">Standings</h2>
+            <h2>Standings</h2>
             <Link href="/uspbl/standings" className="text-sm text-muted-foreground hover:underline">
               View full
             </Link>

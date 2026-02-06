@@ -42,7 +42,7 @@ export function RevMemberDetailContent({ memberId }: { memberId: string }) {
 
         {/* Right: discography */}
         <div>
-          <h2 className="font-league mb-4">Releases</h2>
+          <h2 className="mb-4">Releases</h2>
           <div className="space-y-2">
             {DUMMY_RELEASES.map((release, i) => (
               <div

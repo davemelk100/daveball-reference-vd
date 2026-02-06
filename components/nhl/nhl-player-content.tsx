@@ -86,7 +86,7 @@ export function NHLPlayerContent({ player }: NHLPlayerContentProps) {
 
         {/* Right: stats tables */}
         <div>
-          <h2 className="font-league mb-4">Career Statistics</h2>
+          <h2 className="mb-4">Career Statistics</h2>
           <Card>
             <CardContent className="p-4">
               <div className="overflow-x-auto">

@@ -90,7 +90,7 @@ export function USPBLTeamContent({ team, roster, standing, championshipCount, ch
       {/* MLB Alumni */}
       {mlbAlumni.length > 0 && (
         <>
-          <h2 className="font-league mb-3">MLB Signees</h2>
+          <h2 className="mb-3">MLB Signees</h2>
           <Card className="mb-6">
             <CardContent className="p-4">
               <div className="overflow-x-auto">
@@ -142,7 +142,7 @@ export function USPBLTeamContent({ team, roster, standing, championshipCount, ch
       )}
 
       {/* Roster */}
-      <h2 className="font-league mb-3">Roster</h2>
+      <h2 className="mb-3">Roster</h2>
       {roster.length === 0 ? (
         <Card>
           <CardContent className="p-4">

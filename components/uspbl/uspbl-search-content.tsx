@@ -91,7 +91,7 @@ export function USPBLSearchContent() {
           {/* Team Results */}
           {teams.length > 0 && (
             <div>
-              <h2 className="font-league text-lg mb-3">Teams</h2>
+              <h2 className="text-lg mb-3">Teams</h2>
               <div className="grid gap-3 grid-cols-1 sm:grid-cols-2">
                 {teams.map((team) => (
                   <Link key={team.slug} href={`/uspbl/teams/${team.slug}`}>
@@ -125,7 +125,7 @@ export function USPBLSearchContent() {
           {/* Player Results */}
           {players.length > 0 && (
             <div>
-              <h2 className="font-league text-lg mb-3">Players</h2>
+              <h2 className="text-lg mb-3">Players</h2>
               <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
                 {players.map((player) => (
                   <Link key={player.id} href={`/uspbl/players/${player.id}`}>

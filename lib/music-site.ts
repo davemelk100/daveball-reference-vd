@@ -92,9 +92,9 @@ export const GBV_SITE: MusicSiteConfig = {
       "songs",
     ],
     siteName: "Guided By Data",
-    ogImage: "https://majorleaguenumbers.com/gbv-rune.png",
+    ogImage: "https://majorleaguenumbers.com/og-gbv.png",
     ogImageAlt: "Guided By Data",
-    twitterImage: "https://majorleaguenumbers.com/gbv-rune.png",
+    twitterImage: "https://majorleaguenumbers.com/og-gbv.png",
   },
 };
 

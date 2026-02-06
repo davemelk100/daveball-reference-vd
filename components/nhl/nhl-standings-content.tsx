@@ -33,7 +33,7 @@ export function NHLStandingsContent({ initialStandings }: NHLStandingsContentPro
       <div className="grid gap-8 lg:grid-cols-2">
         {divisions.map((division) => (
           <div key={division.name}>
-            <h2 className="font-league text-lg mb-3">
+            <h2 className="text-lg mb-3">
               {division.name}
               <span className="text-sm text-muted-foreground ml-2 font-normal normal-case">
                 {division.conference}

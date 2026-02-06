@@ -48,7 +48,7 @@ export function NHLDashboardContent({ leaders, standings }: NHLDashboardContentP
       {/* Leaders */}
       <div className="mb-8">
         <div className="flex items-baseline justify-between mb-4">
-          <h2 className="font-league">League Leaders</h2>
+          <h2>League Leaders</h2>
           <Link href="/nhl/players" className="text-sm text-muted-foreground hover:underline">
             View all
           </Link>
@@ -89,7 +89,7 @@ export function NHLDashboardContent({ leaders, standings }: NHLDashboardContentP
       {/* Standings Preview */}
       <div className="mb-8">
         <div className="flex items-baseline justify-between mb-4">
-          <h2 className="font-league">Standings</h2>
+          <h2>Standings</h2>
           <Link href="/nhl/standings" className="text-sm text-muted-foreground hover:underline">
             View full
           </Link>

@@ -345,8 +345,21 @@ export async function getNFLLeaders(): Promise<NFLLeaderCategory[]> {
 }
 
 export async function getNFLPlayer(id: string): Promise<any> {
-  const url = `${PLAYER_BASE}/${id}/overview`;
-  return fetchJSON<any>(url, CACHE_TTL);
+  // Fetch both athlete info and stats overview
+  const athleteUrl = `https://sports.core.api.espn.com/v2/sports/football/leagues/nfl/athletes/${id}`;
+  const statsUrl = `${PLAYER_BASE}/${id}/overview`;
+
+  const [athleteData, statsData] = await Promise.all([
+    fetchJSON<any>(athleteUrl, CACHE_TTL).catch(() => null),
+    fetchJSON<any>(statsUrl, CACHE_TTL).catch(() => ({})),
+  ]);
+
+  return {
+    athlete: athleteData,
+    stats: statsData?.statistics ? [statsData.statistics] : [],
+    gameLog: statsData?.gameLog,
+    news: statsData?.news,
+  };
 }
 
 export async function getNFLScoreboard(): Promise<any> {

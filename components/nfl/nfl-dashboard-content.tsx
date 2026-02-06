@@ -40,7 +40,7 @@ export function NFLDashboardContent({ leaders, standings }: NFLDashboardContentP
       {/* Leaders */}
       <div className="mb-8">
         <div className="flex items-baseline justify-between mb-4">
-          <h2 className="font-league">League Leaders</h2>
+          <h2>League Leaders</h2>
           <Link href="/nfl/players" className="text-sm text-muted-foreground hover:underline">
             View all
           </Link>
@@ -80,7 +80,7 @@ export function NFLDashboardContent({ leaders, standings }: NFLDashboardContentP
       {/* Standings Preview */}
       <div className="mb-8">
         <div className="flex items-baseline justify-between mb-4">
-          <h2 className="font-league">Standings</h2>
+          <h2>Standings</h2>
           <Link href="/nfl/standings" className="text-sm text-muted-foreground hover:underline">
             View full
           </Link>

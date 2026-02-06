@@ -23,7 +23,7 @@ export function USPBLAlumniContent({ alumni }: USPBLAlumniContentProps) {
       </p>
 
       {/* MLB Roster Players */}
-      <h2 className="font-league text-xl mb-4">Made the Majors</h2>
+      <h2 className="text-xl mb-4">Made the Majors</h2>
       <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-10">
         {mlbRoster.map((player) => (
           <Card key={player.name} className="border-primary/20">
@@ -63,7 +63,7 @@ export function USPBLAlumniContent({ alumni }: USPBLAlumniContentProps) {
       </div>
 
       {/* Minor League Signees */}
-      <h2 className="font-league text-xl mb-4">Signed by MLB Organizations</h2>
+      <h2 className="text-xl mb-4">Signed by MLB Organizations</h2>
       <Card>
         <CardContent className="p-4">
           <div className="overflow-x-auto">

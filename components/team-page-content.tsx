@@ -330,7 +330,7 @@ export function TeamPageContent({ teamId, initialData }: TeamPageContentProps) {
 
         {/* Roster Tab */}
         <TabsContent value="roster" className="space-y-8">
-          <h2 className="font-league">{season} Roster</h2>
+          <h2>{season} Roster</h2>
           {roster.length > 0 ? (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <RosterTable players={pitchers} title="Pitchers" />
@@ -352,7 +352,7 @@ export function TeamPageContent({ teamId, initialData }: TeamPageContentProps) {
 
         {/* Data Tab */}
         <TabsContent value="data" className="space-y-6">
-          <h2 className="font-league">Historical Data (1960-Present)</h2>
+          <h2>Historical Data (1960-Present)</h2>
           {historyLoading ? (
             <div className="space-y-6">
               <Skeleton className="h-80 w-full" />
@@ -374,7 +374,7 @@ export function TeamPageContent({ teamId, initialData }: TeamPageContentProps) {
 
         {/* Postseason Tab */}
         <TabsContent value="postseason" className="space-y-6">
-          <h2 className="font-league">Postseason History (Since 1995)</h2>
+          <h2>Postseason History (Since 1995)</h2>
           {historyLoading ? (
             <Skeleton className="h-96 w-full" />
           ) : postseasonHistory && postseasonHistory.appearances.length > 0 ? (

@@ -70,7 +70,7 @@ export function NFLTeamContent({ team, roster, standing }: NFLTeamContentProps) 
       {/* Roster by position group */}
       {roster.map((group) => (
         <div key={group.name} className="mb-6">
-          <h2 className="font-league mb-3">{group.name}</h2>
+          <h2 className="mb-3">{group.name}</h2>
           <Card>
             <CardContent className="p-4">
               <div className="overflow-x-auto">

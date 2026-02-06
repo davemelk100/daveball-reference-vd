@@ -55,7 +55,7 @@ export function NFLStandingsContent({ standings }: NFLStandingsContentProps) {
       <div className="grid gap-8 lg:grid-cols-2">
         {displayDivisions.map((division) => (
           <div key={division.division}>
-            <h2 className="font-league text-lg mb-3">
+            <h2 className="text-lg mb-3">
               {division.division}
               <span className="text-sm text-muted-foreground ml-2 font-normal normal-case">
                 {division.conference}

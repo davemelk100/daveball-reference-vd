@@ -44,7 +44,7 @@ export function RevAlbumDetailContent({ albumId }: { albumId: string }) {
 
         {/* Right: tracklist */}
         <div>
-          <h2 className="font-league mb-4">Tracklist</h2>
+          <h2 className="mb-4">Tracklist</h2>
           <Card>
             <CardContent className="p-4">
               <div className="space-y-3">

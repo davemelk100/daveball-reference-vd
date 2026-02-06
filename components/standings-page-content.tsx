@@ -159,7 +159,7 @@ export function StandingsPageContent({
           {selectedLeague === "all" && (
             <div className="grid gap-6 xl:grid-cols-2">
               <div className="space-y-6">
-                <h2 className="font-league mr-4">American League</h2>
+                <h2 className="mr-4">American League</h2>
                 {sortedAL.map((division, idx) => (
                   <StandingsTable
                     key={division.division?.id || idx}
@@ -168,7 +168,7 @@ export function StandingsPageContent({
                 ))}
               </div>
               <div className="space-y-6">
-                <h2 className="font-league mr-4">National League</h2>
+                <h2 className="mr-4">National League</h2>
                 {sortedNL.map((division, idx) => (
                   <StandingsTable
                     key={division.division?.id || idx}

@@ -568,6 +568,7 @@
     font-size: 1rem;
   }
 
+  h2,
   h3,
   h4,
   h5,
@@ -576,12 +577,16 @@
     letter-spacing: normal;
   }
 
-  h1,
-  h2 {
+  h1 {
     font-family: var(--font-league-gothic), sans-serif;
     font-size: 46px;
     text-transform: uppercase;
     font-weight: 500;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
   }
 
   h3 {

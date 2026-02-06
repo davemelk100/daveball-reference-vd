@@ -65,7 +65,7 @@ export function USPBLPlayerContent({ player }: USPBLPlayerContentProps) {
 
         {/* Right: team info */}
         <div>
-          <h2 className="font-league mb-4">Player Info</h2>
+          <h2 className="mb-4">Player Info</h2>
           <Card>
             <CardContent className="p-4">
               <div className="space-y-4">
