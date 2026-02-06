@@ -49,7 +49,8 @@ function NHLPlayerSpotlightContent() {
     );
   }
 
-  const headshotUrl = `https://cms.nhl.bamgrid.com/images/headshots/current/168x168/${player.id}.jpg`;
+  // NHL headshot URL - use assets.nhle.com format
+  const headshotUrl = `https://assets.nhle.com/headshots/current/168x168/${player.id}.png`;
 
   return (
     <div className="w-full h-full bg-muted/30 rounded-lg border p-3 sm:p-4 space-y-2 sm:space-y-4">

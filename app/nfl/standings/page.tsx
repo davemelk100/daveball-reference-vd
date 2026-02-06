@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { NFLStandingsContent } from "@/components/nfl/nfl-standings-content";
 import { getNFLStandings } from "@/lib/nfl-api";
 
+export const revalidate = 300; // Revalidate every 5 minutes
+
 export const metadata: Metadata = {
   title: "Standings",
   description: "Current NFL standings by conference and division.",

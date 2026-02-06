@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     siteName: "Major League Numbers",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-mlb.png",
         width: 1200,
         height: 630,
         alt: "Major League Numbers",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Major League Numbers",
     description: "Explore MLB player stats, team rosters, and league standings in real-time.",
-    images: ["/og-image.png"],
+    images: ["/og-mlb.png"],
   },
 };
 

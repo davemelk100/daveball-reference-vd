@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { NFLPlayersContent } from "@/components/nfl/nfl-players-content";
 import { getNFLLeaders } from "@/lib/nfl-api";
 
+export const revalidate = 300; // Revalidate every 5 minutes
+
 export const metadata: Metadata = {
   title: "Players",
   description: "Browse NFL stat leaders and players.",

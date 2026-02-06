@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { NFLDashboardContent } from "@/components/nfl/nfl-dashboard-content";
 import { getNFLLeaders, getNFLStandings } from "@/lib/nfl-api";
 
+export const revalidate = 300; // Revalidate every 5 minutes
+
 export const metadata: Metadata = {
   title: "NFL Numbers",
   description: "NFL player stats, team rosters, and league standings.",

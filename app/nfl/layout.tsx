@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     siteName: "Major League Numbers",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-nfl.png",
         width: 1200,
         height: 630,
         alt: "NFL Numbers",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "NFL Numbers",
     description: "Explore NFL player stats, team rosters, and league standings.",
-    images: ["/og-image.png"],
+    images: ["/og-nfl.png"],
   },
 };
 

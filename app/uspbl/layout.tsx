@@ -21,14 +21,24 @@ export const metadata: Metadata = {
   openGraph: {
     title: "USPBL Numbers",
     description: "Explore USPBL player rosters, team info, and league standings.",
-    images: [{ url: "/uspbl-logo.png", width: 120, height: 78, alt: "USPBL" }],
+    url: "/uspbl",
+    siteName: "Major League Numbers",
+    images: [
+      {
+        url: "/og-uspbl.png",
+        width: 1200,
+        height: 630,
+        alt: "USPBL Numbers",
+      },
+    ],
+    locale: "en_US",
     type: "website",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "USPBL Numbers",
     description: "Explore USPBL player rosters, team info, and league standings.",
-    images: ["/uspbl-logo.png"],
+    images: ["/og-uspbl.png"],
   },
 };
 
