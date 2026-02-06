@@ -4,32 +4,32 @@ import { UpdatesBanner } from "@/components/updates-banner";
 
 export const metadata: Metadata = {
   title: {
-    default: "NHL Numbers",
-    template: "%s | NHL Numbers",
+    default: "NFL Numbers",
+    template: "%s | NFL Numbers",
   },
   description:
-    "Explore NHL player stats, team rosters, and league standings.",
+    "Explore NFL player stats, team rosters, and league standings.",
   keywords: [
-    "NHL",
-    "hockey",
+    "NFL",
+    "football",
     "statistics",
     "player stats",
     "team rosters",
     "standings",
-    "National Hockey League",
-    "hockey reference",
+    "National Football League",
+    "pro football reference",
   ],
   openGraph: {
-    title: "NHL Numbers",
-    description: "Explore NHL player stats, team rosters, and league standings.",
-    url: "/nhl",
+    title: "NFL Numbers",
+    description: "Explore NFL player stats, team rosters, and league standings.",
+    url: "/nfl",
     siteName: "Major League Numbers",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "NHL Numbers",
+        alt: "NFL Numbers",
       },
     ],
     locale: "en_US",
@@ -37,13 +37,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "NHL Numbers",
-    description: "Explore NHL player stats, team rosters, and league standings.",
+    title: "NFL Numbers",
+    description: "Explore NFL player stats, team rosters, and league standings.",
     images: ["/og-image.png"],
   },
 };
 
-export default function NHLLayout({ children }: { children: React.ReactNode }) {
+export default function NFLLayout({ children }: { children: React.ReactNode }) {
   return (
     <SportsSiteLayout banner={<UpdatesBanner />}>
       {children}

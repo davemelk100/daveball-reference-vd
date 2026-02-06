@@ -145,6 +145,18 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "a.espncdn.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.espncdn.com",
+      },
+      {
+        protocol: "https",
+        hostname: "site.api.espn.com",
+      },
+      {
+        protocol: "https",
         hostname: "assets.nhle.com",
       },
       {
