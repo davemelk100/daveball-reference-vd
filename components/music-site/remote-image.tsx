@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { getProxiedImageUrl, normalizeImageUrl } from "@/lib/image-utils";
 
-type SourceState = "direct" | "proxy" | "fallback";
+type SourceState = "direct" | "proxy" | "localFallback" | "fallback";
 
 export type RemoteImageProps = {
   src?: string | null;
@@ -14,6 +14,7 @@ export type RemoteImageProps = {
   height?: number;
   loading?: "lazy" | "eager";
   fallbackSrc?: string;
+  localFallbackSrc?: string | null;
   fit?: "cover" | "contain";
   cacheKey?: string;
   preferProxy?: boolean;
@@ -28,6 +29,7 @@ export function RemoteImage({
   height,
   loading = "lazy",
   fallbackSrc = "/chat-gbv-box.svg",
+  localFallbackSrc,
   fit = "cover",
   cacheKey,
   preferProxy = true,
@@ -96,7 +98,13 @@ export function RemoteImage({
       return;
     }
 
-    if (sourceState === "proxy") {
+    if (sourceState === "proxy" && localFallbackSrc) {
+      setCurrentSrc(localFallbackSrc);
+      setSourceState("localFallback");
+      return;
+    }
+
+    if (sourceState === "proxy" || sourceState === "localFallback") {
       setCurrentSrc(fallbackSrc);
       setSourceState("fallback");
     }

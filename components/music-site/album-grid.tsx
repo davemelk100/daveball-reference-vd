@@ -24,12 +24,14 @@ export type AlbumGridItem = {
    loading?: "lazy" | "eager";
    cacheKey?: string;
    preferProxy?: boolean;
+   localFallbackSrc?: string | null;
  };
 
  type AlbumGridProps<T extends AlbumGridItem> = {
    albums: T[];
    site: MusicSiteConfig;
    getAlbumImage: (album: T) => string | null;
+   getLocalFallbackImage?: (album: T) => string | null;
    getReleaseTypeLabel: (album: T) => string;
    RemoteImage: ComponentType<RemoteImageProps>;
    linkBasePath: string;
@@ -44,6 +46,7 @@ export function AlbumGrid<T extends AlbumGridItem>({
    albums,
    site,
    getAlbumImage,
+   getLocalFallbackImage,
    getReleaseTypeLabel,
    RemoteImage,
    linkBasePath,
@@ -74,6 +77,7 @@ export function AlbumGrid<T extends AlbumGridItem>({
                    loading={index < eagerCount ? "eager" : "lazy"}
                    cacheKey={`${cacheKeyPrefix}:${album.id}`}
                    preferProxy={preferProxy}
+                   localFallbackSrc={getLocalFallbackImage?.(album)}
                  />
                ) : (
                  <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">

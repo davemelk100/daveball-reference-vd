@@ -20,7 +20,7 @@ export function GbvAlbumsContent() {
   );
   const [releaseFilter, setReleaseFilter] = useState<
     "all" | "albums" | "singles"
-  >("albums");
+  >("all");
   const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
 
   // Reset display count when filters change

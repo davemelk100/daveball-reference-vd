@@ -182,14 +182,24 @@ const amrepAlbumImages: Record<number, string> = {
   180: "https://timebomb.co.jp/cdn/shop/products/212202152922pm3j_3.jpg?v=1614334685&width=1200",
   181: "https://i.discogs.com/raaKmQ3NEGADLIg4ibJnH0pVoIu1dQ3TFJs_XvTveR4/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE5ODA3/MDQtMTI1NjkxMjI5/Ny5qcGVn.jpeg",
   182: "https://i.discogs.com/kZmxl2KCF77hflXdrvXONBHErjlVGWOXWM1NCENAup8/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE1MDEw/NzUtMTc0MDY4MjU5/NS0yMjg2LmpwZWc.jpeg",
-  183: "https://www.chokebore.net/images/discography/singles/nobody-throats-to-hit-this.jpg",
+  183: "https://i.discogs.com/iAKuuCRES_REtFApAWP-Asie2KWUgdlnrmuJkofV5u4/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg2OTk3/NS0xMTY3NDY1OTg3/LmpwZWc.jpeg",
   184: "https://metallipromo.com/images/helmet/19891000.jpg",
-  185: "https://www.metalmusicarchives.com/images/covers/today-is-the-day-i-bent-scared-come-on-down-and-get-saved(single)-20200228073900.jpg",
+  185: "https://i.discogs.com/FK4e334wSazVcJ8_YV9nkgej7_p2w-4AIX5677ZKS1I/rs:fit/g:sm/q:90/h:600/w:591/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkwOTkx/Ni0xMTcxODI2MDAz/LmpwZWc.jpeg",
   186: "https://i.discogs.com/BfsmyCcmZiuUZulBpbrK0BYEuS9KB4znZ9Ur4i90_0U/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3NTY5/MzAtMTMzMDAwNDQ2/OS5qcGVn.jpeg",
   187: "https://i.discogs.com/sUxqehgnVcOauKRE5dfk1TalIBJGco0Ojbo0cz98ph8/rs:fit/g:sm/q:90/h:600/w:586/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MTM2/NzYtMTI1MDA4Mjkw/Ny5qcGVn.jpeg",
+  188: "https://i.discogs.com/y5fh2l51ZXretVVtY5oNwZ2mSQ-THxet8pGeD-Zv2vQ/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIzMzYy/NjQtMTMzODQ3MzE1/MS01ODc0LmpwZWc.jpeg",
+  189: "https://m.media-amazon.com/images/I/51nbsPKj3VL._UXNaN_FMjpg_QL85_.jpg",
   190: "https://i.discogs.com/LhcmzuLyZEwrUfqVNGUjPR0eEAzfITxFWX3j688LODY/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE4NjIx/MDQtMTYwOTAyMzgw/OS00NDMyLmpwZWc.jpeg",
+  191: "https://i.discogs.com/TfqCTlQrZFrLM_iihMIEqipaeYROHFrHis39FOPatfE/rs:fit/g:sm/q:90/h:596/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MTM2/ODAtMTc0MTU3Njg5/Mi04NTcxLmpwZWc.jpeg",
   192: "https://i.discogs.com/6CoQVPNpV4Y5WY6MYByxqufvXDeCft3IvwUfYybxH9Y/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTczNzI4/MC0xNDU4MzgxOTg3/LTkwMTYuanBlZw.jpeg",
+  193: "https://i.discogs.com/X8Oo7hbRix-KEnbYMiAPONG4vBAt-GOor-La-MNeYyA/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTM2MTgw/MjAtMTMzNzU2NTQy/Ny0zNjA5LmpwZWc.jpeg",
+  194: "https://i.discogs.com/D0UhKKbveTNDPDoHdERs_XnLqpWM0rElIxLJP9XO-hg/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYwNjM5/Mi0xMTM3NjkxNTUx/LmpwZWc.jpeg",
+  195: "https://i.ytimg.com/vi/J5nxmqsmZds/hqdefault.jpg",
+  196: "https://i.discogs.com/tTJoN4vQzsY4mivKUWNcaZcMhw-ZKEtoPek5dYArc4k/rs:fit/g:sm/q:90/h:286/w:280/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MTM2/ODktMTI1ODcxMTQ2/Mi5qcGVn.jpeg",
+  197: "https://i.discogs.com/ibNJ8kzEv7q6KviwriAuWIytro9z3kHTvVwdR6YI0UU/rs:fit/g:sm/q:90/h:432/w:432/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcyNjc5/MC0xMTUzNTc4NDAz/LmdpZg.jpeg",
+  198: "https://i.discogs.com/wNCTTIxpquHHZxh6Hve2KBxIlZMSLNiq8racidPfZRw/rs:fit/g:sm/q:90/h:599/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNzA4/MjYtMTM0NTk4NTQw/NS03NjQ2LmpwZWc.jpeg",
   199: "https://i.discogs.com/af_7QmcKzQZDYCsLw9v_d9w4RU39fBluQDzWgHOJeIY/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTg0ODI2/NC0xMTY1MjQyMTI1/LmpwZWc.jpeg",
+  209: "https://i.discogs.com/bAx4Hb8AB_x0gMUMqZ7zmTZ_1yLlEGrjxbRgmjK-xNk/rs:fit/g:sm/q:90/h:564/w:576/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MTM2/NzQtMTIyODkwNTU3/Ni5qcGVn.jpeg",
   228: "https://i.discogs.com/RK1nGEtwJa_PFz-hJ0US8XpysPwixnjqSCSsMWqYzmQ/rs:fit/g:sm/q:90/h:443/w:450/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIzODI2/NTgtMTI4MjI0NzI3/MC5qcGVn.jpeg",
   252: "https://i.discogs.com/qfi0_syfCoD1ZG7nqpXNvKOEkOqKHsk3ZbPI7MxDClE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4ODQ1/MjI2LTE2OTk1Mjc2/NTEtNTA5NC5qcGVn.jpeg",
   253: "https://i.discogs.com/qfi0_syfCoD1ZG7nqpXNvKOEkOqKHsk3ZbPI7MxDClE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4ODQ1/MjI2LTE2OTk1Mjc2/NTEtNTA5NC5qcGVn.jpeg",
@@ -207,6 +217,7 @@ const amrepAlbumImages: Record<number, string> = {
   279: "https://i.discogs.com/qfi0_syfCoD1ZG7nqpXNvKOEkOqKHsk3ZbPI7MxDClE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4ODQ1/MjI2LTE2OTk1Mjc2/NTEtNTA5NC5qcGVn.jpeg",
   280: "https://i.discogs.com/mguV0AkAiiN2dXOKEjz3dEB1dzBzpzi2WLNfQf9QXqI/rs:fit/g:sm/q:90/h:600/w:586/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4MDE4/NDU4LTE2OTI0NjA1/MDktNTE1My5qcGVn.jpeg",
   281: "https://i.discogs.com/qfi0_syfCoD1ZG7nqpXNvKOEkOqKHsk3ZbPI7MxDClE/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTI4ODQ1/MjI2LTE2OTk1Mjc2/NTEtNTA5NC5qcGVn.jpeg",
+  282: "https://i.discogs.com/zND2h74r_IkVl4S7htMWm0rdh4AXNEjb2baDWPLkWqw/rs:fit/g:sm/q:90/h:524/w:526/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYwODQz/NTgtMTQxMDY1NjYw/OC0xMjQ3LmpwZWc.jpeg",
   283: "https://i.discogs.com/Sa_XrxwxX5ecn0y9pm6xXVKY5xuKoGV9JI_pcgAX3Go/rs:fit/g:sm/q:90/h:600/w:588/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYwODQ0/NDYtMTQxMDY1OTc1/NS0xOTMyLmpwZWc.jpeg",
   284: "https://i.discogs.com/CXhH-3sh1yGjNFoqFDaKXpVWci3C_MINmgBq98gnlI4/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTY0MTgy/OTItMTQxOTM0MjE4/NS0yNTQxLmpwZWc.jpeg",
   286: "https://www.shoxop.com/cdn/shop/products/helmet_stuck_reg_front_medium.JPG?v=1571438551",
@@ -224,6 +235,15 @@ const amrepAlbumImages: Record<number, string> = {
  */
 export function getAmrepAlbumImage(releaseId: number): string | null {
   return amrepAlbumImages[releaseId] ?? null;
+}
+
+/**
+ * Get local fallback path for an AmRep album image
+ * These are pre-downloaded copies of remote images for resilience
+ */
+export function getLocalAmrepAlbumImage(releaseId: number): string | null {
+  if (!(releaseId in amrepAlbumImages)) return null;
+  return `/images/amrep/albums/album-${releaseId}.jpg`;
 }
 
 /**

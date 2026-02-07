@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Loader2, ExternalLink } from "lucide-react";
 import { AmrepRemoteImage } from "@/components/amrep/amrep-remote-image";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
-import { getAmrepAlbumImage } from "@/lib/amrep-album-images";
+import { getAmrepAlbumImage, getLocalAmrepAlbumImage } from "@/lib/amrep-album-images";
 import { getProxiedImageUrl, getReleaseType } from "@/lib/gbv-utils";
 import {
   useSiteAlbumDetail,
@@ -24,6 +24,11 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
     if (isAmrep) return getAmrepAlbumImage(detail.id);
     return getLocalAlbumImage(detail.id) || getProxiedImageUrl(detail.thumb);
   }, [detail?.id, detail?.thumb, isAmrep]);
+
+  const localFallbackImage = useMemo(() => {
+    if (!detail || !isAmrep) return null;
+    return getLocalAmrepAlbumImage(detail.id);
+  }, [detail?.id, isAmrep]);
 
   const displayTitle = useMemo(() => {
     if (!detail) return "";
@@ -84,6 +89,7 @@ export function GbvAlbumDetailContent({ albumId }: { albumId: string }) {
             className="w-full aspect-square rounded-lg object-contain"
             cacheKey={`gbv-album-thumb:${detail.id}`}
             preferProxy={!isAmrep}
+            localFallbackSrc={localFallbackImage}
           />
         ) : (
           <div className="w-full aspect-square bg-muted rounded-lg flex items-center justify-center">

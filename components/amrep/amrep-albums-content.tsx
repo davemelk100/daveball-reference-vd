@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { Loader2 } from "lucide-react";
 import { AmrepRemoteImage } from "@/components/amrep/amrep-remote-image";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
-import { getAmrepAlbumImage } from "@/lib/amrep-album-images";
+import { getAmrepAlbumImage, getLocalAmrepAlbumImage } from "@/lib/amrep-album-images";
 import { getReleaseType, getProxiedImageUrl } from "@/lib/gbv-utils";
 import { useSiteAlbumsData } from "@/components/music-site/use-site-albums-data";
 import { AlbumGrid } from "@/components/music-site/album-grid";
@@ -20,7 +20,7 @@ export function GbvAlbumsContent() {
   );
   const [releaseFilter, setReleaseFilter] = useState<
     "all" | "albums" | "singles"
-  >("albums");
+  >("all");
   const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
 
   // Reset display count when filters change
@@ -90,6 +90,11 @@ export function GbvAlbumsContent() {
     return getLocalAlbumImage(album.id) || getProxiedImageUrl(album.thumb);
   };
 
+  const getLocalFallbackImage = (album: typeof albums[number]): string | null => {
+    if (isAmrep) return getLocalAmrepAlbumImage(album.id);
+    return null;
+  };
+
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   const sentinelRef = useCallback(
@@ -144,6 +149,7 @@ export function GbvAlbumsContent() {
         albums={visibleAlbums}
         site={site}
         getAlbumImage={getAlbumImage}
+        getLocalFallbackImage={getLocalFallbackImage}
         getReleaseTypeLabel={(album) => getReleaseType(album.format, album.releaseType)}
         RemoteImage={AmrepRemoteImage}
         linkBasePath={`${site.basePath}/albums`}
