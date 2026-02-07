@@ -207,6 +207,7 @@ const amrepAlbumImages: Record<number, string> = {
   205: "https://i.discogs.com/8xnrldkH3drA9ut3sek6M82BJ9sGELZM8wchDTsBNUg/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3NTMy/ODMtMTI5MzEzMzE1/MC5qcGVn.jpeg",
   206: "https://i.discogs.com/nb2HXiN6tTyzfwgraYBcKAeeuAsaveVZXU9VStL8j9Q/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3NTcx/MTgtMTI0MTM3Njcz/Ni5naWY.jpeg",
   207: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8Y_EB8hL_kWCWm2MQ3hvosbkjbE-nxKCwvoRanAjLBw&s",
+  208: "https://i.discogs.com/qWMYm49CX7f18sy4MZz3HjnQLxlR2quBEi3KZJ0Qu08/rs:fit/g:sm/q:40/h:300/w:300/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTkyNzg3/NC0xMTczNzk3MTUy/LmpwZWc.jpeg",
   209: "https://i.discogs.com/bAx4Hb8AB_x0gMUMqZ7zmTZ_1yLlEGrjxbRgmjK-xNk/rs:fit/g:sm/q:90/h:564/w:576/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MTM2/NzQtMTIyODkwNTU3/Ni5qcGVn.jpeg",
   210: "https://i.discogs.com/ePCoZHxzFBf-E_dc5Yk5N0SKV2IriLnMTHPYJ0ckxgo/rs:fit/g:sm/q:90/h:600/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0MTA4/OTYtMTQ1OTU0NDAw/NC01MTIzLmpwZWc.jpeg",
   218: "https://themelvins.net/wiki/images/e/e0/Melam89.jpg",
