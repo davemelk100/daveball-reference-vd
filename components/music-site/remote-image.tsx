@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { getProxiedImageUrl, normalizeImageUrl } from "@/lib/image-utils";
 
 type SourceState = "direct" | "proxy" | "localFallback" | "fallback";
+
+const EMPTY_ARRAY: string[] = [];
 
 export type RemoteImageProps = {
   src?: string | null;
@@ -33,7 +35,7 @@ export function RemoteImage({
   fit = "cover",
   cacheKey,
   preferProxy = true,
-  invalidCacheValues = [],
+  invalidCacheValues = EMPTY_ARRAY,
 }: RemoteImageProps) {
   const normalized = normalizeImageUrl(src);
   const invalidCacheSet = useMemo(
@@ -47,7 +49,17 @@ export function RemoteImage({
   );
   const [currentSrc, setCurrentSrc] = useState<string | null>(normalized);
   const [sourceState, setSourceState] = useState<SourceState>("direct");
+  const [loaded, setLoaded] = useState(false);
+  const imgRef = useRef<HTMLImageElement | null>(null);
   const effectiveFit = sourceState === "fallback" ? "contain" : fit;
+
+  // Handle images that loaded from browser cache before React attached onLoad
+  const refCallback = useCallback((node: HTMLImageElement | null) => {
+    imgRef.current = node;
+    if (node?.complete && node.naturalWidth > 0) {
+      setLoaded(true);
+    }
+  }, []);
 
   useEffect(() => {
     let initialSrc = normalized;
@@ -82,7 +94,10 @@ export function RemoteImage({
       setSourceState("direct");
     }
 
-    setCurrentSrc(initialSrc);
+    setCurrentSrc((prev) => {
+      if (prev !== initialSrc) setLoaded(false);
+      return initialSrc;
+    });
   }, [cacheKey, invalidCacheSet, normalized, preferProxy]);
 
   const handleError = () => {
@@ -107,6 +122,11 @@ export function RemoteImage({
     if (sourceState === "proxy" || sourceState === "localFallback") {
       setCurrentSrc(fallbackSrc);
       setSourceState("fallback");
+      return;
+    }
+
+    if (sourceState === "fallback") {
+      setLoaded(true);
     }
   };
 
@@ -114,6 +134,7 @@ export function RemoteImage({
 
   return (
     <img
+      ref={refCallback}
       src={currentSrc}
       alt={alt}
       width={width}
@@ -122,6 +143,7 @@ export function RemoteImage({
       referrerPolicy="no-referrer"
       onError={handleError}
       onLoad={() => {
+        setLoaded(true);
         if (!cacheKey || sourceState === "fallback") return;
         try {
           localStorage.setItem(cacheKey, currentSrc);
@@ -131,6 +153,7 @@ export function RemoteImage({
       }}
       className={cn(
         "block",
+        !loaded && "bg-muted animate-pulse",
         effectiveFit === "cover" ? "object-cover" : "object-contain",
         className
       )}

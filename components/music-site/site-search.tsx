@@ -79,7 +79,7 @@
              const mappedMembers = amrepArtists.map((artist) => ({
                id: artist.id,
                name: artist.name,
-               active: artist.active,
+               active: false,
              }));
              setAlbums(mappedAlbums);
              setMembers(mappedMembers);
@@ -98,7 +98,7 @@
          const mappedMembers = amrepArtists.map((artist) => ({
            id: artist.id,
            name: artist.name,
-           active: artist.active,
+           active: false,
          }));
          setAlbums(mappedAlbums);
          setMembers(mappedMembers);

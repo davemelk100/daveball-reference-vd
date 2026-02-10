@@ -90,7 +90,7 @@
              amrepArtists.map((artist) => ({
                id: artist.id,
                name: artist.name,
-               active: artist.active,
+               active: false,
                imageUrl: null,
              }))
            );

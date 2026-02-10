@@ -95,7 +95,6 @@ export const AMREP_MEMBER_IMAGE_SKIP: Record<string, true> = {
   "the thrown ups": true,
   vertigo: true,
   // Additional bands with broken/incorrect Wikipedia images
-  unsane: true,
   "the u-men": true,
   "the jesus lizard": true,
   superchunk: true,
@@ -103,6 +102,6 @@ export const AMREP_MEMBER_IMAGE_SKIP: Record<string, true> = {
   "negative approach": true,
   "nashville pussy": true,
   helmet: true,
-  "gas huffer": true,
-  dwarves: true,
+  "the crows": true,
+  "s.w.a.t.": true,
 };

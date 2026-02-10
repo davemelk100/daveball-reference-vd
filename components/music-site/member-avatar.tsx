@@ -4,7 +4,7 @@
 import Image from "next/image";
 import { RemoteImage } from "@/components/music-site/remote-image";
 import { getLocalMemberImage } from "@/lib/gbv-member-images";
-import { getProxiedImageUrl } from "@/lib/image-utils";
+import { getProxiedImageUrl, normalizeImageUrl } from "@/lib/image-utils";
 
 const SITE_LOOKUP_CONTEXT: Record<string, string> = {
   gbv: "Guided By Voices",
@@ -37,7 +37,7 @@ const SITE_LOOKUP_CONTEXT: Record<string, string> = {
    const [hasError, setHasError] = useState(false);
    const [resolvedImageUrl, setResolvedImageUrl] = useState<string | null>(null);
    const [lookupAttempted, setLookupAttempted] = useState(false);
-  const normalizedImageUrl = getProxiedImageUrl(imageUrl);
+  const normalizedImageUrl = normalizeImageUrl(imageUrl);
    const localImageUrl = getLocalMemberImage(memberId);
    const nameKey = name.toLowerCase();
   const fallbackImageUrl = getProxiedImageUrl(fallbackImages?.[nameKey] || null);
@@ -145,6 +145,7 @@ const SITE_LOOKUP_CONTEXT: Record<string, string> = {
         width={400}
         height={400}
         fallbackSrc={fallbackIconSrc}
+        preferProxy={false}
         className={
           fit === "contain"
             ? "rounded-lg object-contain w-full h-full"
