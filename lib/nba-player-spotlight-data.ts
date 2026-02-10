@@ -122,7 +122,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     hasHeadshot: false,
   },
   {
-    id: 4244,
+    id: 3945274,
     name: "Luka Doncic",
     position: "PG/SG",
     team: "Los Angeles Lakers",

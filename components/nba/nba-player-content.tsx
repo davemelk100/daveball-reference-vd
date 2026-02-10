@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,6 +15,11 @@ interface NBAPlayerContentProps {
 
 export function NBAPlayerContent({ playerData, playerId }: NBAPlayerContentProps) {
   const athlete = playerData?.athlete;
+  const careerStats: any[] = playerData?.careerStats || [];
+  const careerTeamsObj: Record<string, any> = playerData?.careerTeams || {};
+
+  const [activeCareerTab, setActiveCareerTab] = useState(0);
+
   if (!athlete) {
     return (
       <div className="container py-6">
@@ -48,6 +54,13 @@ export function NBAPlayerContent({ playerData, playerId }: NBAPlayerContentProps
 
   // Season stats from the overview
   const stats = playerData?.stats || [];
+
+  // Build a team lookup map by ID from the teams object (keyed by slug)
+  const teamMap: Record<string, any> = {};
+  for (const slug of Object.keys(careerTeamsObj)) {
+    const t = careerTeamsObj[slug];
+    if (t?.id) teamMap[String(t.id)] = t;
+  }
 
   return (
     <div className="container py-6">
@@ -90,45 +103,121 @@ export function NBAPlayerContent({ playerData, playerId }: NBAPlayerContentProps
         </div>
 
         {/* Right: stats */}
-        <div>
-          <h2 className="font-semibold mb-4">Statistics</h2>
-          {stats.length > 0 ? (
-            <div className="space-y-6">
-              {stats.map((statGroup: any, idx: number) => (
-                <Card key={idx}>
+        <div className="space-y-8">
+          {/* Current season stats */}
+          {stats.length > 0 && (
+            <div>
+              <h2 className="font-semibold mb-4">Current Season</h2>
+              <div className="space-y-6">
+                {stats.map((statGroup: any, idx: number) => (
+                  <Card key={idx}>
+                    <CardContent className="p-4">
+                      <h3 className="font-medium mb-3 text-sm">
+                        {statGroup.displayName || statGroup.name || "Stats"}
+                      </h3>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="border-b">
+                              <th className="text-left py-2 pr-4">Split</th>
+                              {statGroup.labels?.map((label: string, i: number) => (
+                                <th key={i} className="text-center py-2 px-2 whitespace-nowrap">{label}</th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {statGroup.splits?.map((split: any, ri: number) => (
+                              <tr key={ri} className="border-b last:border-0">
+                                <td className="py-2 pr-4 font-medium whitespace-nowrap">
+                                  {split.displayName || "—"}
+                                </td>
+                                {split.stats?.map((val: string, vi: number) => (
+                                  <td key={vi} className="text-center py-2 px-2">{val}</td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Career stats */}
+          {careerStats.length > 0 && (
+            <div>
+              <h2 className="font-semibold mb-4">Career Stats</h2>
+              {/* Category tabs */}
+              <div className="flex gap-2 mb-4 flex-wrap">
+                {careerStats.map((cat: any, idx: number) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveCareerTab(idx)}
+                    className={`px-3 py-1.5 text-sm rounded-md border transition-colors ${
+                      activeCareerTab === idx
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "bg-muted/50 text-muted-foreground border-border hover:bg-muted"
+                    }`}
+                  >
+                    {cat.displayName || cat.name || `Category ${idx + 1}`}
+                  </button>
+                ))}
+              </div>
+
+              {/* Active category table */}
+              {careerStats[activeCareerTab] && (
+                <Card>
                   <CardContent className="p-4">
-                    <h3 className="font-medium mb-3 text-sm">
-                      {statGroup.displayName || statGroup.name || "Stats"}
-                    </h3>
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm">
                         <thead>
                           <tr className="border-b">
-                            <th className="text-left py-2 pr-4">Split</th>
-                            {statGroup.labels?.map((label: string, i: number) => (
+                            <th className="text-left py-2 pr-4 whitespace-nowrap">Season</th>
+                            <th className="text-left py-2 pr-4 whitespace-nowrap">Team</th>
+                            {careerStats[activeCareerTab].labels?.map((label: string, i: number) => (
                               <th key={i} className="text-center py-2 px-2 whitespace-nowrap">{label}</th>
                             ))}
                           </tr>
                         </thead>
                         <tbody>
-                          {statGroup.splits?.map((split: any, ri: number) => (
-                            <tr key={ri} className="border-b last:border-0">
-                              <td className="py-2 pr-4 font-medium whitespace-nowrap">
-                                {split.displayName || "—"}
-                              </td>
-                              {split.stats?.map((val: string, vi: number) => (
+                          {careerStats[activeCareerTab].statistics?.map((season: any, ri: number) => {
+                            const teamInfo = teamMap[String(season.teamId)] || careerTeamsObj[season.teamSlug];
+                            const teamAbbrev = teamInfo?.abbreviation || "—";
+                            const seasonName = season.season?.displayName || "—";
+                            return (
+                              <tr key={ri} className="border-b last:border-0">
+                                <td className="py-2 pr-4 font-medium whitespace-nowrap">{seasonName}</td>
+                                <td className="py-2 pr-4 whitespace-nowrap">{teamAbbrev}</td>
+                                {season.stats?.map((val: string, vi: number) => (
+                                  <td key={vi} className="text-center py-2 px-2">{val}</td>
+                                ))}
+                              </tr>
+                            );
+                          })}
+                          {/* Career totals row */}
+                          {careerStats[activeCareerTab].totals && (
+                            <tr className="border-t-2 font-semibold">
+                              <td className="py-2 pr-4 whitespace-nowrap">Career</td>
+                              <td className="py-2 pr-4"></td>
+                              {careerStats[activeCareerTab].totals.map((val: string, vi: number) => (
                                 <td key={vi} className="text-center py-2 px-2">{val}</td>
                               ))}
                             </tr>
-                          ))}
+                          )}
                         </tbody>
                       </table>
                     </div>
                   </CardContent>
                 </Card>
-              ))}
+              )}
             </div>
-          ) : (
+          )}
+
+          {/* Fallback if no stats at all */}
+          {stats.length === 0 && careerStats.length === 0 && (
             <Card>
               <CardContent className="p-4">
                 <p className="text-muted-foreground text-sm">No statistics available.</p>

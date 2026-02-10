@@ -346,13 +346,15 @@ export async function getNBALeaders(): Promise<NBALeaderCategory[]> {
 }
 
 export async function getNBAPlayer(id: string): Promise<any> {
-  // Fetch both athlete info and stats overview
+  // Fetch athlete info, stats overview, and full career stats
   const athleteUrl = `https://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/athletes/${id}`;
   const statsUrl = `${PLAYER_BASE}/${id}/overview`;
+  const careerUrl = `${PLAYER_BASE}/${id}/stats`;
 
-  const [athleteData, statsData] = await Promise.all([
+  const [athleteData, statsData, careerData] = await Promise.all([
     fetchJSON<any>(athleteUrl, CACHE_TTL).catch(() => null),
     fetchJSON<any>(statsUrl, CACHE_TTL).catch(() => ({})),
+    fetchJSON<any>(careerUrl, CACHE_TTL).catch(() => ({})),
   ]);
 
   return {
@@ -360,6 +362,8 @@ export async function getNBAPlayer(id: string): Promise<any> {
     stats: statsData?.statistics ? [statsData.statistics] : [],
     gameLog: statsData?.gameLog,
     news: statsData?.news,
+    careerStats: careerData?.categories || [],
+    careerTeams: careerData?.teams || {},
   };
 }
 
