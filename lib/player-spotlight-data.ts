@@ -142,7 +142,7 @@ export const spotlightPlayers: CuratedPlayer[] = [
     fact: "Played 2,632 consecutive games, breaking Lou Gehrig's 'unbreakable' record.",
   },
   {
-    id: 115009,
+    id: 115749,
     name: "Rickey Henderson",
     position: "LF",
     team: "Multiple",
@@ -150,7 +150,7 @@ export const spotlightPlayers: CuratedPlayer[] = [
     fact: "Stole 1,406 bases - 468 more than second place, making it perhaps the most unbreakable record.",
   },
   {
-    id: 111432,
+    id: 111437,
     name: "George Brett",
     position: "3B",
     team: "Royals",
@@ -230,7 +230,7 @@ export const spotlightPlayers: CuratedPlayer[] = [
     fact: "First player unanimously elected to the Hall of Fame, saved 652 games with his legendary cutter.",
   },
   {
-    id: 425844,
+    id: 405395,
     name: "Albert Pujols",
     position: "1B",
     team: "Multiple",
@@ -238,7 +238,7 @@ export const spotlightPlayers: CuratedPlayer[] = [
     fact: "Won 3 MVPs in his first decade and finished with 703 home runs, 4th all-time.",
   },
   {
-    id: 429665,
+    id: 408234,
     name: "Miguel Cabrera",
     position: "1B",
     team: "Multiple",
@@ -278,7 +278,7 @@ export const spotlightPlayers: CuratedPlayer[] = [
     fact: "Set the AL single-season home run record with 62 in 2022, breaking Roger Maris's 61-year-old mark.",
   },
   {
-    id: 493316,
+    id: 456665,
     name: "Steve Pearce",
     position: "1B/OF",
     team: "Multiple",
@@ -286,7 +286,7 @@ export const spotlightPlayers: CuratedPlayer[] = [
     fact: "Won the 2018 World Series MVP with the Red Sox, playing for every AL East team during his career.",
   },
   {
-    id: 456030,
+    id: 554429,
     name: "Dustin Ackley",
     position: "2B/OF",
     team: "Mariners/Yankees",
@@ -295,14 +295,14 @@ export const spotlightPlayers: CuratedPlayer[] = [
   },
   {
     id: 460075,
-    name: "Ryan Ryan",
-    position: "P",
-    team: "Multiple",
-    years: "1998-2003",
-    fact: "A journeyman pitcher who appeared in 6 games over 5 seasons for 3 different teams.",
+    name: "Ryan Braun",
+    position: "OF",
+    team: "Brewers",
+    years: "2007-2020",
+    fact: "Won the 2007 NL Rookie of the Year and 2011 NL MVP, hitting 352 career home runs with the Brewers.",
   },
   {
-    id: 444432,
+    id: 448602,
     name: "Mark Reynolds",
     position: "1B/3B",
     team: "Multiple",

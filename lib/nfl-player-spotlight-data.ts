@@ -27,7 +27,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     fact: "Won three Super Bowls and two Super Bowl MVPs before turning 30, the youngest QB to win multiple titles.",
   },
   {
-    id: 2580,
+    id: 12,
     name: "Jerry Rice",
     position: "WR",
     team: "San Francisco 49ers",
@@ -45,7 +45,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     hasHeadshot: false, // Historical player
   },
   {
-    id: 2565,
+    id: 6445,
     name: "Joe Montana",
     position: "QB",
     team: "San Francisco 49ers",
@@ -54,7 +54,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     hasHeadshot: false, // Historical player
   },
   {
-    id: 2549,
+    id: 2086859,
     name: "Jim Brown",
     position: "RB",
     team: "Cleveland Browns",
@@ -63,7 +63,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     hasHeadshot: false, // Historical player
   },
   {
-    id: 5529,
+    id: 1428,
     name: "Peyton Manning",
     position: "QB",
     team: "Indianapolis Colts / Denver Broncos",
@@ -72,7 +72,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     hasHeadshot: false, // Historical player
   },
   {
-    id: 2564,
+    id: 6705,
     name: "Lawrence Taylor",
     position: "LB",
     team: "New York Giants",
@@ -81,7 +81,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     hasHeadshot: false, // Historical player
   },
   {
-    id: 4040715,
+    id: 3916387,
     name: "Lamar Jackson",
     position: "QB",
     team: "Baltimore Ravens",
@@ -97,7 +97,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     fact: "One of the most physically gifted QBs ever at 6'5\" 237 lbs. Has thrown for 30+ TDs in multiple seasons.",
   },
   {
-    id: 3116593,
+    id: 3116406,
     name: "Tyreek Hill",
     position: "WR",
     team: "Kansas City Chiefs / Miami Dolphins",
@@ -105,7 +105,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     fact: "Known as 'Cheetah' for his blazing speed, he recorded the fastest speed ever tracked by NFL Next Gen Stats at 23.24 mph.",
   },
   {
-    id: 3116406,
+    id: 3043078,
     name: "Derrick Henry",
     position: "RB",
     team: "Tennessee Titans / Baltimore Ravens",
@@ -113,7 +113,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     fact: "Rushed for 2,027 yards in 2020 and is known for his punishing running style at 6'3\" 247 lbs.",
   },
   {
-    id: 2977187,
+    id: 16716,
     name: "Aaron Donald",
     position: "DT",
     team: "Los Angeles Rams",
@@ -121,7 +121,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     fact: "Three-time Defensive Player of the Year and eight-time first-team All-Pro, considered the greatest defensive tackle ever.",
   },
   {
-    id: 3046779,
+    id: 15847,
     name: "Travis Kelce",
     position: "TE",
     team: "Kansas City Chiefs",
@@ -129,7 +129,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     fact: "Holds the record for most 1,000-yard receiving seasons by a tight end and has been named to nine Pro Bowls.",
   },
   {
-    id: 16757,
+    id: 6571,
     name: "Barry Sanders",
     position: "RB",
     team: "Detroit Lions",
@@ -138,7 +138,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     hasHeadshot: false, // Historical player
   },
   {
-    id: 5536,
+    id: 964,
     name: "Ray Lewis",
     position: "LB",
     team: "Baltimore Ravens",
@@ -147,7 +147,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     hasHeadshot: false, // Historical player
   },
   {
-    id: 4241479,
+    id: 4262921,
     name: "Justin Jefferson",
     position: "WR",
     team: "Minnesota Vikings",
@@ -155,7 +155,7 @@ export const nflSpotlightPlayers: NFLSpotlightPlayer[] = [
     fact: "Set the NFL record for most receiving yards in a player's first two seasons with 3,016 yards.",
   },
   {
-    id: 4361307,
+    id: 4361423,
     name: "Micah Parsons",
     position: "LB",
     team: "Dallas Cowboys",

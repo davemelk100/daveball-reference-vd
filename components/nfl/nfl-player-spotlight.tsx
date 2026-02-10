@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const STORAGE_KEY = "nflDailyPlayer";
+const CACHE_VERSION = 2; // bump to invalidate stale cached data
 
 function getTodayKey(): string {
   const today = new Date();
@@ -22,8 +23,8 @@ function NFLPlayerSpotlightContent() {
     try {
       const cached = localStorage.getItem(STORAGE_KEY);
       if (cached) {
-        const { date, player: cachedPlayer } = JSON.parse(cached);
-        if (date === todayKey && cachedPlayer) {
+        const { date, player: cachedPlayer, v } = JSON.parse(cached);
+        if (date === todayKey && v === CACHE_VERSION && cachedPlayer) {
           setPlayer(cachedPlayer);
           return;
         }
@@ -33,7 +34,7 @@ function NFLPlayerSpotlightContent() {
     const daily = getDailyNFLPlayer();
     setPlayer(daily);
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ date: todayKey, player: daily }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ date: todayKey, player: daily, v: CACHE_VERSION }));
     } catch { /* ignore */ }
   }, []);
 

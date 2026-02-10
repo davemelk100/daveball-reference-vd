@@ -58,7 +58,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Scored four goals in his NHL debut, the first player in the modern era to accomplish this feat.",
   },
   {
-    id: 8478483,
+    id: 8480069,
     name: "Cale Makar",
     position: "D",
     team: "Colorado Avalanche",
@@ -82,7 +82,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Won three Stanley Cups with Chicago and the Conn Smythe Trophy in 2013.",
   },
   {
-    id: 8473546,
+    id: 8471679,
     name: "Carey Price",
     position: "G",
     team: "Montreal Canadiens",
@@ -90,7 +90,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Won the Hart Trophy and Vezina Trophy in the same season (2014-15), a rare feat for a goaltender.",
   },
   {
-    id: 8476460,
+    id: 8474578,
     name: "Erik Karlsson",
     position: "D",
     team: "Multiple teams",
@@ -98,7 +98,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Won the Norris Trophy twice with Ottawa, one of the most dynamic offensive defensemen of his generation.",
   },
   {
-    id: 8471679,
+    id: 8468685,
     name: "Henrik Lundqvist",
     position: "G",
     team: "New York Rangers",
@@ -106,7 +106,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Known as 'The King,' he won the Vezina Trophy in 2012 and made 887 career appearances.",
   },
   {
-    id: 8470638,
+    id: 8466138,
     name: "Joe Thornton",
     position: "C",
     team: "Multiple teams",
@@ -114,7 +114,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Won the Hart Trophy and Art Ross Trophy in 2005-06 and recorded over 1,500 career points.",
   },
   {
-    id: 8471339,
+    id: 8465009,
     name: "Zdeno Chara",
     position: "D",
     team: "Multiple teams",
@@ -122,7 +122,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "At 6'9\", he was the tallest player in NHL history and captained the Bruins to the 2011 Stanley Cup.",
   },
   {
-    id: 8473419,
+    id: 8476883,
     name: "Andrei Vasilevskiy",
     position: "G",
     team: "Tampa Bay Lightning",
@@ -138,7 +138,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Scored 61 goals in 2022-23, the most by a Bruin since Phil Esposito.",
   },
   {
-    id: 8480069,
+    id: 8481559,
     name: "Jack Hughes",
     position: "C",
     team: "New Jersey Devils",
@@ -146,7 +146,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Selected 1st overall in 2019, he became one of the youngest players to lead the Devils in scoring.",
   },
   {
-    id: 8478427,
+    id: 8480012,
     name: "Elias Pettersson",
     position: "C",
     team: "Vancouver Canucks",
@@ -154,7 +154,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Won the Calder Trophy as rookie of the year in 2018-19 with an electrifying skill set.",
   },
   {
-    id: 8476459,
+    id: 8476460,
     name: "Mark Scheifele",
     position: "C",
     team: "Winnipeg Jets",
@@ -162,7 +162,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Set an NHL record with 14 goals in his first 15 career playoff games.",
   },
   {
-    id: 8475166,
+    id: 8477493,
     name: "Aleksander Barkov",
     position: "C",
     team: "Florida Panthers",
@@ -170,7 +170,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Won the Selke Trophy as the NHL's best defensive forward and captained the Panthers to the 2024 Cup.",
   },
   {
-    id: 8479339,
+    id: 8478864,
     name: "Kirill Kaprizov",
     position: "LW",
     team: "Minnesota Wild",
@@ -178,7 +178,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Won the Calder Trophy unanimously in 2020-21, the first Wild player to win a major NHL award.",
   },
   {
-    id: 8477493,
+    id: 8477500,
     name: "Bo Horvat",
     position: "C",
     team: "New York Islanders",
@@ -186,7 +186,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Scored 31 goals in just 36 games with the Islanders after a mid-season trade in 2022-23.",
   },
   {
-    id: 8480800,
+    id: 8481542,
     name: "Moritz Seider",
     position: "D",
     team: "Detroit Red Wings",
@@ -194,7 +194,7 @@ export const nhlSpotlightPlayers: NHLSpotlightPlayer[] = [
     fact: "Won the Calder Trophy in 2021-22, the first Red Wing to win the award since Roger Crozier in 1965.",
   },
   {
-    id: 8478550,
+    id: 8478483,
     name: "Mitch Marner",
     position: "RW",
     team: "Toronto Maple Leafs",

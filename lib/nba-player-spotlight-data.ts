@@ -10,7 +10,7 @@ export interface NBASpotlightPlayer {
 
 export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
   {
-    id: 1966,
+    id: 1035,
     name: "Michael Jordan",
     position: "SG",
     team: "Chicago Bulls",
@@ -19,7 +19,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     hasHeadshot: false,
   },
   {
-    id: 2544,
+    id: 1966,
     name: "LeBron James",
     position: "SF",
     team: "Los Angeles Lakers",
@@ -27,7 +27,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     fact: "The NBA's all-time leading scorer with four championships and four MVP awards across three different franchises.",
   },
   {
-    id: 3032977,
+    id: 3112335,
     name: "Nikola Jokic",
     position: "C",
     team: "Denver Nuggets",
@@ -35,7 +35,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     fact: "Three-time MVP and 2023 NBA champion. Drafted 41st overall, the lowest pick to win MVP in NBA history.",
   },
   {
-    id: 110,
+    id: 2334,
     name: "Magic Johnson",
     position: "PG",
     team: "Los Angeles Lakers",
@@ -44,7 +44,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     hasHeadshot: false,
   },
   {
-    id: 1449,
+    id: 2335,
     name: "Larry Bird",
     position: "SF",
     team: "Boston Celtics",
@@ -61,7 +61,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     fact: "Revolutionized basketball with his three-point shooting. NBA's all-time leader in three-pointers made with four championships.",
   },
   {
-    id: 3112335,
+    id: 3032977,
     name: "Giannis Antetokounmpo",
     position: "PF",
     team: "Milwaukee Bucks",
@@ -69,7 +69,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     fact: "The 'Greek Freak' won back-to-back MVPs and led the Bucks to the 2021 championship with a 50-point Finals closeout game.",
   },
   {
-    id: 614,
+    id: 215,
     name: "Tim Duncan",
     position: "PF/C",
     team: "San Antonio Spurs",
@@ -78,7 +78,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     hasHeadshot: false,
   },
   {
-    id: 110,
+    id: 4145,
     name: "Kareem Abdul-Jabbar",
     position: "C",
     team: "Milwaukee Bucks / Los Angeles Lakers",
@@ -87,7 +87,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     hasHeadshot: false,
   },
   {
-    id: 1035,
+    id: 110,
     name: "Kobe Bryant",
     position: "SG",
     team: "Los Angeles Lakers",
@@ -96,7 +96,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     hasHeadshot: false,
   },
   {
-    id: 3547,
+    id: 3202,
     name: "Kevin Durant",
     position: "SF",
     team: "Phoenix Suns",
@@ -104,7 +104,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     fact: "Four-time scoring champion and two-time Finals MVP. One of the most skilled scorers in NBA history at 6'10\".",
   },
   {
-    id: 3468,
+    id: 609,
     name: "Dirk Nowitzki",
     position: "PF",
     team: "Dallas Mavericks",
@@ -113,7 +113,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     hasHeadshot: false,
   },
   {
-    id: 1112,
+    id: 366,
     name: "Allen Iverson",
     position: "PG/SG",
     team: "Philadelphia 76ers",
@@ -130,7 +130,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     fact: "EuroLeague MVP at age 19 before being drafted. Became the youngest player to average a triple-double for a season.",
   },
   {
-    id: 406,
+    id: 614,
     name: "Shaquille O'Neal",
     position: "C",
     team: "Los Angeles Lakers",
@@ -139,7 +139,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     hasHeadshot: false,
   },
   {
-    id: 3202,
+    id: 6450,
     name: "Kawhi Leonard",
     position: "SF",
     team: "Los Angeles Clippers",
@@ -147,7 +147,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     fact: "Two-time Finals MVP with two different teams (Spurs 2014, Raptors 2019). Known for his elite defense and clutch scoring.",
   },
   {
-    id: 3059318,
+    id: 4065648,
     name: "Jayson Tatum",
     position: "SF",
     team: "Boston Celtics",
@@ -155,7 +155,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     fact: "Led the Celtics to the 2024 NBA championship and won Finals MVP, cementing his status among the league's elite.",
   },
   {
-    id: 4066648,
+    id: 4594268,
     name: "Anthony Edwards",
     position: "SG",
     team: "Minnesota Timberwolves",
@@ -163,7 +163,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     fact: "The #1 overall pick in 2020 who has become one of the most exciting and athletic scorers in the NBA.",
   },
   {
-    id: 3136193,
+    id: 3059318,
     name: "Joel Embiid",
     position: "C",
     team: "Philadelphia 76ers",
@@ -171,7 +171,7 @@ export const nbaSpotlightPlayers: NBASpotlightPlayer[] = [
     fact: "The 2023 MVP who came to the US from Cameroon at age 16. Missed his first two seasons with injuries before becoming dominant.",
   },
   {
-    id: 1015,
+    id: 619,
     name: "Hakeem Olajuwon",
     position: "C",
     team: "Houston Rockets",
