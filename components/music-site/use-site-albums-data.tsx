@@ -60,6 +60,7 @@
          title: a.title,
          year: a.year,
          thumb: "",
+         releaseType: a.releaseType,
        }));
 
        const cacheKey = "gbv-albums-cache";

@@ -19,7 +19,7 @@ export function GbvAlbumsContent() {
     "year-asc",
   );
   const [releaseFilter, setReleaseFilter] = useState<
-    "all" | "albums" | "singles"
+    "all" | "albums" | "eps" | "singles"
   >("all");
   const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
 
@@ -44,6 +44,10 @@ export function GbvAlbumsContent() {
     if (releaseFilter === "albums") {
       result = result.filter(
         (album) => getReleaseType(album.format, album.releaseType) === "Album",
+      );
+    } else if (releaseFilter === "eps") {
+      result = result.filter(
+        (album) => getReleaseType(album.format, album.releaseType) === "EP",
       );
     } else if (releaseFilter === "singles") {
       result = result.filter(
@@ -140,9 +144,11 @@ export function GbvAlbumsContent() {
           No{" "}
           {releaseFilter === "albums"
             ? "albums"
-            : releaseFilter === "singles"
-              ? "singles"
-              : "releases"}{" "}
+            : releaseFilter === "eps"
+              ? "EPs"
+              : releaseFilter === "singles"
+                ? "singles"
+                : "releases"}{" "}
           found
           {search && <> matching &quot;{search}&quot;</>}
         </div>

@@ -7,9 +7,11 @@ import { revArtistImages, revArtists } from "@/lib/rev-artists-data";
 
 describe("GBV image coverage", () => {
   it("covers a reasonable percentage of albums", () => {
-    const albumIds = new Set(gbvAlbums.map((a) => a.id));
+    // Only count albums (exclude EPs and singles which won't have local images)
+    const albumsOnly = gbvAlbums.filter((a) => !a.releaseType);
+    const albumIds = new Set(albumsOnly.map((a) => a.id));
     const coveredIds = Object.keys(localAlbumImages).map(Number).filter((id) => albumIds.has(id));
-    const coverage = coveredIds.length / gbvAlbums.length;
+    const coverage = coveredIds.length / albumsOnly.length;
     // Expect at least 50% of albums to have local images
     expect(coverage).toBeGreaterThan(0.5);
   });

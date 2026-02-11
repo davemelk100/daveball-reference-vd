@@ -13,6 +13,7 @@ export function normalizeGbvAlbum(album: GbvAlbum): NormalizedRelease {
     id: album.id,
     title: album.title,
     year: album.year,
+    releaseType: album.releaseType,
   };
 }
 

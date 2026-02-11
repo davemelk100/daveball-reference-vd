@@ -16,9 +16,9 @@
    site: MusicSiteConfig;
    isAmrep: boolean;
    totalCount: number;
-   typeCounts?: { all: number; albums: number; singles: number };
-   releaseFilter: "all" | "albums" | "singles";
-   onReleaseFilterChange: (value: "all" | "albums" | "singles") => void;
+   typeCounts?: { all: number; albums: number; eps: number; singles: number };
+   releaseFilter: "all" | "albums" | "eps" | "singles";
+   onReleaseFilterChange: (value: "all" | "albums" | "eps" | "singles") => void;
    sortBy: "year-asc" | "year-desc" | "title";
    onSortByChange: (value: "year-asc" | "year-desc" | "title") => void;
    search: string;
@@ -47,9 +47,11 @@
                ? "Releases"
                : releaseFilter === "albums"
                  ? "Albums"
-                 : releaseFilter === "singles"
-                   ? "Singles"
-                   : "All"}
+                 : releaseFilter === "eps"
+                   ? "EPs"
+                   : releaseFilter === "singles"
+                     ? "Singles"
+                     : "All"}
              {isAmrep && (
                <span className="align-baseline"> ({totalCount})</span>
              )}
@@ -66,6 +68,9 @@
              </TabsTrigger>
              <TabsTrigger value="albums" className="text-black">
                Albums{typeCounts ? ` (${typeCounts.albums})` : ""}
+             </TabsTrigger>
+             <TabsTrigger value="eps" className="text-black">
+               EPs{typeCounts ? ` (${typeCounts.eps})` : ""}
              </TabsTrigger>
              <TabsTrigger value="singles" className="text-black">
                Singles{typeCounts ? ` (${typeCounts.singles})` : ""}

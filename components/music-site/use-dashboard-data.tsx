@@ -43,6 +43,7 @@ const GBV_FALLBACK_ALBUMS: DashboardAlbum[] = gbvAlbums.map((album) => ({
   id: album.id,
   title: album.title,
   year: album.year,
+  releaseType: album.releaseType,
 }));
 
 const dedupeReleases = (items: DashboardAlbum[]) => {

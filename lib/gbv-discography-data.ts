@@ -2,11 +2,12 @@ export interface GbvAlbum {
   id: number;
   title: string;
   year: number;
+  releaseType?: "album" | "ep" | "single";
 }
 
 // Static GBV discography for fallback when Discogs API is unavailable
 export const gbvAlbums: GbvAlbum[] = [
-  { id: 55986, title: "Forever Since Breakfast", year: 1986 },
+  // ── Albums ──
   { id: 55994, title: "Devil Between My Toes", year: 1987 },
   { id: 1231569, title: "Sandbox", year: 1987 },
   { id: 1175056, title: "Self-Inflicted Aerial Nostalgia", year: 1989 },
@@ -51,4 +52,35 @@ export const gbvAlbums: GbvAlbum[] = [
   { id: 3521938, title: "Strut of Kings", year: 2024 },
   { id: 3742746, title: "Universe Room", year: 2025 },
   { id: 4005469, title: "Thick Rich and Delicious", year: 2025 },
+
+  // ── EPs ──
+  { id: 55986, title: "Forever Since Breakfast", year: 1986, releaseType: "ep" },
+  { id: 55948, title: "The Grand Hour", year: 1993, releaseType: "ep" },
+  { id: 123387, title: "Static Airplane Jive", year: 1993, releaseType: "ep" },
+  { id: 143526, title: "Clown Prince of the Menthol Trailer", year: 1994, releaseType: "ep" },
+  { id: 125538, title: "Get Out of My Stations", year: 1994, releaseType: "ep" },
+  { id: 149595, title: "Fast Japanese Spin Cycle", year: 1994, releaseType: "ep" },
+  { id: 125518, title: "I Am a Scientist EP", year: 1994, releaseType: "ep" },
+  { id: 1174968, title: "Tigerbomb", year: 1995, releaseType: "ep" },
+  { id: 430483, title: "Plantations of Pale Pink", year: 1996, releaseType: "ep" },
+  { id: 125521, title: "Sunfish Holy Breakfast", year: 1996, releaseType: "ep" },
+  { id: 253098, title: "The Official Ironmen Rally Song", year: 1996, releaseType: "ep" },
+  { id: 149597, title: "Wish in One Hand...", year: 1997, releaseType: "ep" },
+  { id: 1536168, title: "Plugs for the Program", year: 1999, releaseType: "ep" },
+  { id: 289698, title: "Hold on Hope EP", year: 2000, releaseType: "ep" },
+  { id: 1042100, title: "Dayton, Ohio 19 Something and 5", year: 2000, releaseType: "ep" },
+  { id: 1495417, title: "Daredevil Stamp Collector", year: 2001, releaseType: "ep" },
+  { id: 125540, title: "The Pipe Dreams of Instant Prince Whippet", year: 2002, releaseType: "ep" },
+  { id: 512417, title: "Down by the Racetrack", year: 2013, releaseType: "ep" },
+  { id: 12826325, title: "Wine Cork Stonehenge", year: 2018, releaseType: "ep" },
+  { id: 12826350, title: "100 Dougs", year: 2018, releaseType: "ep" },
+  { id: 13353128, title: "Umlaut Over the Ozone", year: 2019, releaseType: "ep" },
+  { id: 13353113, title: "1901 Acid Rock", year: 2019, releaseType: "ep" },
+
+  // ── Singles ──
+  { id: 125534, title: "Teenage FBI", year: 1999, releaseType: "single" },
+  { id: 392277, title: "Hold on Hope", year: 1999, releaseType: "single" },
+  { id: 1153472, title: "Surgical Focus", year: 1999, releaseType: "single" },
+  { id: 310725, title: "Glad Girls", year: 2001, releaseType: "single" },
+  { id: 303325, title: "Motor Away / Color of My Blade", year: 1995, releaseType: "single" },
 ];

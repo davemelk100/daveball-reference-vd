@@ -19,7 +19,7 @@ export function GbvAlbumsContent() {
     "year-asc",
   );
   const [releaseFilter, setReleaseFilter] = useState<
-    "all" | "albums" | "singles"
+    "all" | "albums" | "eps" | "singles"
   >("all");
   const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
 
@@ -44,6 +44,10 @@ export function GbvAlbumsContent() {
     if (releaseFilter === "albums") {
       result = result.filter(
         (album) => getReleaseType(album.format, album.releaseType) === "Album",
+      );
+    } else if (releaseFilter === "eps") {
+      result = result.filter(
+        (album) => getReleaseType(album.format, album.releaseType) === "EP",
       );
     } else if (releaseFilter === "singles") {
       result = result.filter(
@@ -75,10 +79,13 @@ export function GbvAlbumsContent() {
     const albumCount = searchFiltered.filter(
       (album) => getReleaseType(album.format, album.releaseType) === "Album",
     ).length;
+    const epCount = searchFiltered.filter(
+      (album) => getReleaseType(album.format, album.releaseType) === "EP",
+    ).length;
     const singleCount = searchFiltered.filter(
       (album) => getReleaseType(album.format, album.releaseType) === "Single",
     ).length;
-    return { all: searchFiltered.length, albums: albumCount, singles: singleCount };
+    return { all: searchFiltered.length, albums: albumCount, eps: epCount, singles: singleCount };
   }, [albums, search]);
 
   // Albums to display (limited by displayCount)

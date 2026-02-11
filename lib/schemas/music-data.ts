@@ -22,6 +22,7 @@ export const GbvAlbumSchema = z.object({
   id: z.number(),
   title: z.string().min(1),
   year: z.number(),
+  releaseType: z.enum(["album", "ep", "single"]).optional(),
 });
 
 export const GbvMemberSchema = z.object({
