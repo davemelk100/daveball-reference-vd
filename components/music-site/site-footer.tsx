@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import Link from "next/link";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
 import { usePathname } from "next/navigation";
@@ -14,8 +14,7 @@ import { ChevronUp } from "lucide-react";
 export function SiteFooter() {
   const pathname = usePathname();
   const site = getMusicSiteFromPathname(pathname);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useSyncExternalStore(() => () => {}, () => true, () => false);
 
   const allSources = [
     { category: "Data", items: site.sources },
