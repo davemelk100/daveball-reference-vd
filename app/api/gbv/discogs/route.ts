@@ -91,7 +91,7 @@ export async function GET(request: Request) {
   const page = searchParams.get("page") || "1";
   const perPage = searchParams.get("per_page") || "50";
   const maxPagesParam = searchParams.get("max_pages");
-  const maxPages = Math.max(1, Number(maxPagesParam || 5));
+  const maxPages = Math.max(1, Number(maxPagesParam || 20));
   const includeMemberImages = searchParams.get("include_member_images") === "true";
   const memberImageLimit = Math.max(0, Number(searchParams.get("member_image_limit") || 30));
   const id = searchParams.get("id");

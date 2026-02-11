@@ -19,7 +19,7 @@ type RemoteImageProps = {
 };
 
 type DashboardMember = {
-  id?: number;
+  id?: number | string;
   name: string;
   imageUrl?: string | null;
 };
@@ -106,7 +106,7 @@ export function DashboardMembersGrid({
               <MemberAvatar
                 name={member.name}
                 imageUrl={member.imageUrl}
-                memberId={member.id}
+                memberId={typeof member.id === "number" ? member.id : undefined}
                 fallbackIconSrc={site.placeholderIconSrc}
                 cacheKeyPrefix={site.id}
                 {...memberAvatarProps}

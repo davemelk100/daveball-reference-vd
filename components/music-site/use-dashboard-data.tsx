@@ -77,7 +77,7 @@ export function useDashboardData() {
         members: amrepArtists.map((artistEntry) => ({
           id: artistEntry.id,
           name: artistEntry.name,
-          active: artistEntry.active,
+          active: true,
           imageUrl: null,
         })),
       });
@@ -236,7 +236,7 @@ export function useDashboardData() {
     ? amrepArtists.slice(0, 6).map((artistEntry) => ({
         id: artistEntry.id,
         name: artistEntry.name,
-        active: artistEntry.active,
+        active: true,
       }))
     : GBV_FALLBACK_MEMBERS;
   const memberLimit = isAmrep ? 6 : 5;

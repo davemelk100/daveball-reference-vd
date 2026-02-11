@@ -50,7 +50,7 @@ const hardcodedDocs: AmrepSourceDoc[] = [
 const artistDocs: AmrepSourceDoc[] = amrepArtists.map((a) => ({
   id: `artist-${a.id}`,
   title: a.name,
-  text: `AmRep artist: ${a.name}. ${a.description || ""} Status: ${a.active ? "active" : "inactive"}.`,
+  text: `AmRep artist: ${a.name}. ${a.description || ""}`,
   sourceLabel: "AmRep roster",
 }));
 
