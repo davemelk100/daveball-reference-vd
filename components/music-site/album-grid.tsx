@@ -60,59 +60,63 @@ export function AlbumGrid<T extends AlbumGridItem>({
 
    return (
      <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-       {albums.map((album, index) => (
-         <Link
-           key={`${album.id ?? "release"}-${album.year ?? "unknown"}-${index}`}
-           href={`${linkBasePath}/${album.id}`}
-         >
-           <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
-             <CardContent className="p-3">
-               {getAlbumImage(album) ? (
-                 <RemoteImage
-                   src={getAlbumImage(album) as string}
-                   alt={album.title}
-                   width={200}
-                   height={200}
-                   className={imageClassName}
-                   loading={index < eagerCount ? "eager" : "lazy"}
-                   cacheKey={`${cacheKeyPrefix}:${album.id}`}
-                   preferProxy={preferProxy}
-                   localFallbackSrc={getLocalFallbackImage?.(album)}
-                 />
-               ) : (
-                 <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
-                   <Image
-                     src={site.placeholderIconSrc}
-                     alt={`${site.shortName} logo`}
-                     width={24}
-                     height={24}
-                     className="w-1/2 h-1/2 gbv-nav-icon object-contain"
-                   />
-                 </div>
-               )}
-               <h3 className="font-semibold text-base truncate">{album.title}</h3>
-               <div className="flex items-center justify-between text-xs text-muted-foreground">
-                 <span>{album.year}</span>
-                 <span className="border border-border rounded px-1.5 py-0.5 text-[10px] uppercase tracking-wide">
-                   {getReleaseTypeLabel(album)}
-                 </span>
-               </div>
-               {getPurchaseUrl?.(album) && (
-                 <a
-                   href={getPurchaseUrl(album)!}
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   className="flex items-center justify-center gap-1.5 w-full text-xs text-primary hover:underline mt-1 border border-primary/30 rounded px-2 py-1.5"
-                   onClick={(e) => e.stopPropagation()}
-                 >
-                   <ShoppingCart className="h-3.5 w-3.5" />
-                   Buy on Rockathon
-                 </a>
-               )}
-             </CardContent>
-           </Card>
-         </Link>
-       ))}
+       {albums.map((album, index) => {
+         const purchaseUrl = getPurchaseUrl?.(album);
+         return (
+           <div
+             key={`${album.id ?? "release"}-${album.year ?? "unknown"}-${index}`}
+             className="relative"
+           >
+             <Link href={`${linkBasePath}/${album.id}`}>
+               <Card className="hover:bg-muted/50 transition-colors cursor-pointer h-full">
+                 <CardContent className={`p-3${purchaseUrl ? " pb-10" : ""}`}>
+                   {getAlbumImage(album) ? (
+                     <RemoteImage
+                       src={getAlbumImage(album) as string}
+                       alt={album.title}
+                       width={200}
+                       height={200}
+                       className={imageClassName}
+                       loading={index < eagerCount ? "eager" : "lazy"}
+                       cacheKey={`${cacheKeyPrefix}:${album.id}`}
+                       preferProxy={preferProxy}
+                       localFallbackSrc={getLocalFallbackImage?.(album)}
+                     />
+                   ) : (
+                     <div className="w-full aspect-square bg-muted rounded-lg mb-2 flex items-center justify-center">
+                       <Image
+                         src={site.placeholderIconSrc}
+                         alt={`${site.shortName} logo`}
+                         width={24}
+                         height={24}
+                         className="w-1/2 h-1/2 gbv-nav-icon object-contain"
+                       />
+                     </div>
+                   )}
+                   <h3 className="font-semibold text-base truncate">{album.title}</h3>
+                   <div className="flex items-center justify-between text-xs text-muted-foreground">
+                     <span>{album.year}</span>
+                     <span className="border border-border rounded px-1.5 py-0.5 text-[10px] uppercase tracking-wide">
+                       {getReleaseTypeLabel(album)}
+                     </span>
+                   </div>
+                 </CardContent>
+               </Card>
+             </Link>
+             {purchaseUrl && (
+               <a
+                 href={purchaseUrl}
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 className="absolute bottom-0 left-0 right-0 flex items-center justify-center gap-1.5 text-xs text-primary hover:underline mx-3 mb-3 border border-primary/30 rounded px-2 py-1.5"
+               >
+                 <ShoppingCart className="h-3.5 w-3.5" />
+                 Buy on Rockathon
+               </a>
+             )}
+           </div>
+         );
+       })}
      </div>
    );
  }

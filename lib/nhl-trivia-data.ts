@@ -1,3 +1,5 @@
+import { isYearQuestion } from "./trivia-utils";
+
 export interface NHLTriviaQuestion {
   id: number;
   question: string;
@@ -337,7 +339,8 @@ export const nhlTriviaQuestions: NHLTriviaQuestion[] = [
 
 export function getDailyNHLTriviaQuestions(date?: Date): NHLTriviaQuestion[] {
   const now = date || new Date();
-  const totalQuestions = nhlTriviaQuestions.length;
+  const pool = nhlTriviaQuestions.filter((q) => !isYearQuestion(q));
+  const totalQuestions = pool.length;
   const questionsPerDay = 5;
 
   const getEpochDay = (d: Date) => {
@@ -346,7 +349,7 @@ export function getDailyNHLTriviaQuestions(date?: Date): NHLTriviaQuestion[] {
   };
 
   const shuffleQuestions = (seed: number) => {
-    const shuffled = [...nhlTriviaQuestions];
+    const shuffled = [...pool];
     let currentSeed = seed;
     for (let i = shuffled.length - 1; i > 0; i -= 1) {
       currentSeed = (currentSeed * 16807) % 2147483647;

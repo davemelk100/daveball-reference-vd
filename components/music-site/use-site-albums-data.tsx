@@ -4,6 +4,7 @@
  import { usePathname } from "next/navigation";
  import { getMusicSiteFromPathname } from "@/lib/music-site";
  import { amrepReleases } from "@/lib/amrep-releases-data";
+ import { gbvAlbums } from "@/lib/gbv-discography-data";
 
  export interface SiteAlbum {
    id: number;
@@ -53,7 +54,16 @@
          return;
        }
 
+       // Use static data immediately so the page is never empty
+       const staticAlbums: SiteAlbum[] = gbvAlbums.map((a) => ({
+         id: a.id,
+         title: a.title,
+         year: a.year,
+         thumb: "",
+       }));
+
        const cacheKey = "gbv-albums-cache";
+       let hasCachedOrStatic = false;
        try {
          const cached = localStorage.getItem(cacheKey);
          if (cached) {
@@ -64,10 +74,17 @@
            if (parsed?.albums?.length && isActive) {
              setAlbums(parsed.albums);
              setIsLoading(false);
+             hasCachedOrStatic = true;
            }
          }
        } catch {
          // ignore cache errors
+       }
+
+       if (!hasCachedOrStatic && isActive) {
+         setAlbums(staticAlbums);
+         setIsLoading(false);
+         hasCachedOrStatic = true;
        }
 
        try {
@@ -75,7 +92,7 @@
          if (!res.ok) throw new Error("Failed to fetch");
          const data = await res.json();
          const nextAlbums = data.albums || [];
-         if (isActive) {
+         if (nextAlbums.length > 0 && isActive) {
            setAlbums(nextAlbums);
            try {
              localStorage.setItem(

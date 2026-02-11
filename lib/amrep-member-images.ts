@@ -104,4 +104,6 @@ export const AMREP_MEMBER_IMAGE_SKIP: Record<string, true> = {
   helmet: true,
   "the crows": true,
   "s.w.a.t.": true,
+  lollipop: true,
+  gaylord: true,
 };

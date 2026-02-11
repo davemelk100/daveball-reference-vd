@@ -108,37 +108,67 @@ export function GbvMemberDetailContent({ memberId }: { memberId: string }) {
           .filter(Boolean);
 
         try {
+          // Start with local JSON data (complete catalog)
+          const localMatches = amrepReleases
+            .filter((release) => {
+              const releaseArtist = normalizeArtistName(release.artist);
+              return normalizedNames.some((name) => releaseArtist.includes(name));
+            })
+            .map((release) => ({
+              id: release.id,
+              title: release.artist ? `${release.artist} — ${release.title}` : release.title,
+              year: release.year,
+              thumb: "",
+              type: "release",
+              role: release.format || "Release",
+            }));
+
+          // Overlay Discogs API data for thumbnails
           const res = await fetch("/api/amrep/discogs?type=releases&per_page=200");
           if (res.ok) {
             const data = await res.json();
             const releasesList = Array.isArray(data?.releases) ? data.releases : [];
-            const matches = releasesList.filter((release: any) => {
+            const apiMatches = releasesList.filter((release: any) => {
               const releaseArtist = normalizeArtistName(release.artist || "");
               return normalizedNames.some((name) => releaseArtist.includes(name));
             });
 
+            // Build a set of titles already covered by API results
+            const apiTitleKeys = new Set(
+              apiMatches.map((r: any) =>
+                normalizeArtistName(`${r.artist || ""}${r.title || ""}`)
+              )
+            );
+
+            const apiMapped = apiMatches.map((release: any) => ({
+              id: release.id,
+              title: release.artist ? `${release.artist} — ${release.title}` : release.title,
+              year: release.year,
+              thumb: release.thumb || "",
+              type: "release",
+              role: Array.isArray(release.format)
+                ? release.format.join(", ")
+                : release.format || "Release",
+            }));
+
+            // Add any local releases not found in API results
+            const extras = localMatches.filter((local) => {
+              const key = normalizeArtistName(local.title.replace(" — ", ""));
+              return !apiTitleKeys.has(key);
+            });
+
             if (isActive) {
-              setReleases(
-                matches.map((release: any) => ({
-                  id: release.id,
-                  title: release.artist ? `${release.artist} — ${release.title}` : release.title,
-                  year: release.year,
-                  thumb: release.thumb || "",
-                  type: "release",
-                  role: Array.isArray(release.format)
-                    ? release.format.join(", ")
-                    : release.format || "Release",
-                }))
-              );
+              setReleases([...apiMapped, ...extras]);
             }
+          } else if (isActive) {
+            setReleases(localMatches);
           }
         } catch {
           const fallback = amrepReleases
-            .filter((release) =>
-              normalizeArtistName(release.artist).includes(
-                normalizeArtistName(artist.name)
-              )
-            )
+            .filter((release) => {
+              const releaseArtist = normalizeArtistName(release.artist);
+              return normalizedNames.some((name) => releaseArtist.includes(name));
+            })
             .map((release) => ({
               id: release.id,
               title: release.artist ? `${release.artist} — ${release.title}` : release.title,

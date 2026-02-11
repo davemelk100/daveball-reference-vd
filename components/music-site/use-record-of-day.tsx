@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { pickDailyGbvRecord, type GbvRecordOfDay } from "@/lib/gbv-records-data";
+import { pickDailyGbvRecord, getDailyGbvRecord, type GbvRecordOfDay } from "@/lib/gbv-records-data";
 import { getDailyAmrepRecord, type AmrepRecordOfDay } from "@/lib/amrep-records-data";
 import { getDailyRevRecord, type RevRecordOfDay } from "@/lib/rev-records-data";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
@@ -108,13 +108,22 @@ export function useRecordOfDay() {
       return;
     }
 
-    // GBV - fetch albums from API/cache and pick daily record
+    // GBV - use static data immediately, then enhance with API data
+    const gbvDaily = getDailyGbvRecord();
+    setRecord(gbvDaily);
+    if (gbvDaily.id) {
+      setAlbumId(gbvDaily.id);
+      const localImage = getLocalAlbumImage(gbvDaily.id);
+      if (localImage) {
+        setCoverUrl(localImage);
+      }
+    }
+
     const albumsCacheKey = "gbv-albums-cache";
 
-    async function fetchGbvAlbumsAndPickDaily() {
+    async function enhanceWithApiData() {
       let albums: Array<{ id?: number; title?: string; year?: number; thumb?: string }> = [];
 
-      // Try cache first
       try {
         const cached = localStorage.getItem(albumsCacheKey);
         if (cached) {
@@ -127,7 +136,6 @@ export function useRecordOfDay() {
         // ignore cache errors
       }
 
-      // Fetch fresh data if cache empty
       if (albums.length === 0) {
         try {
           const res = await fetch("/api/gbv/discogs?type=albums");
@@ -145,15 +153,13 @@ export function useRecordOfDay() {
         }
       }
 
-      // Pick daily record from albums
+      // Enhance with API data if available (may have thumb URLs)
       const daily = pickDailyGbvRecord(albums);
       if (daily) {
         setRecord(daily);
         if (daily.id) {
           setAlbumId(daily.id);
         }
-
-        // Get cover image
         const localImage = getLocalAlbumImage(daily.id);
         const normalizeImageUrl = (url: string | null | undefined) =>
           url ? url.replace(/^http:/, "https:") : null;
@@ -164,7 +170,7 @@ export function useRecordOfDay() {
       }
     }
 
-    fetchGbvAlbumsAndPickDaily();
+    enhanceWithApiData();
   }, [isAmrep, isRev]);
 
   const albumHref = albumId ? `${site.basePath}/albums/${albumId}` : null;

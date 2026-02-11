@@ -47,6 +47,7 @@ const AMREP_ARTIST_IMAGES: Record<number, string> = {
   40: "https://media.pitchfork.com/photos/5931b4afa28a096fc428f200/2:1/w_2560%2Cc_limit/bbf21bbc.jpg",
   41: "https://i.discogs.com/jTmauyEW5UcThw_RdMzp2edmusqGm1O-45bkFQG2d18/rs:fit/g:sm/q:90/h:462/w:600/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9BLTI2NTQw/NS0xMzM1ODg1MDMw/LmpwZWc.jpeg",
   46: "https://static.wikia.nocookie.net/peel/images/8/82/Cherubs.jpg",
+  78: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTEHklscjqQ3axUnWoxuxD33FawWpOcyylGw&s",
 };
 import { MemberAvatar } from "@/components/music-site/member-avatar";
 import { MembersControls } from "@/components/music-site/members-controls";

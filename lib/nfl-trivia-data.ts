@@ -1,3 +1,5 @@
+import { isYearQuestion } from "./trivia-utils";
+
 export interface NFLTriviaQuestion {
   id: number;
   question: string;
@@ -297,7 +299,8 @@ export const nflTriviaQuestions: NFLTriviaQuestion[] = [
 
 export function getDailyNFLTriviaQuestions(date?: Date): NFLTriviaQuestion[] {
   const now = date || new Date();
-  const totalQuestions = nflTriviaQuestions.length;
+  const pool = nflTriviaQuestions.filter((q) => !isYearQuestion(q));
+  const totalQuestions = pool.length;
   const questionsPerDay = 5;
 
   const getEpochDay = (d: Date) => {
@@ -306,7 +309,7 @@ export function getDailyNFLTriviaQuestions(date?: Date): NFLTriviaQuestion[] {
   };
 
   const shuffleQuestions = (seed: number) => {
-    const shuffled = [...nflTriviaQuestions];
+    const shuffled = [...pool];
     let currentSeed = seed;
     for (let i = shuffled.length - 1; i > 0; i -= 1) {
       currentSeed = (currentSeed * 16807) % 2147483647;

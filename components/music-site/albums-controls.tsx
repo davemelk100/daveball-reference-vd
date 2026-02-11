@@ -49,8 +49,10 @@
                  ? "Albums"
                  : releaseFilter === "singles"
                    ? "Singles"
-                   : "All"}{" "}
-             <span className="align-baseline">({totalCount})</span>
+                   : "All"}
+             {isAmrep && (
+               <span className="align-baseline"> ({totalCount})</span>
+             )}
            </p>
          </div>
          <Tabs

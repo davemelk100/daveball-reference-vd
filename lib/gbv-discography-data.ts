@@ -1,0 +1,47 @@
+export interface GbvAlbum {
+  id: number;
+  title: string;
+  year: number;
+}
+
+// Static GBV discography for fallback when Discogs API is unavailable
+export const gbvAlbums: GbvAlbum[] = [
+  { id: 55986, title: "Forever Since Breakfast", year: 1986 },
+  { id: 55994, title: "Devil Between My Toes", year: 1987 },
+  { id: 55962, title: "Propeller", year: 1992 },
+  { id: 55982, title: "Vampire on Titus", year: 1993 },
+  { id: 55972, title: "Bee Thousand", year: 1994 },
+  { id: 55999, title: "Alien Lanes", year: 1995 },
+  { id: 125525, title: "Under the Bushes Under the Stars", year: 1996 },
+  { id: 107441, title: "Mag Earwhig!", year: 1997 },
+  { id: 56004, title: "Do the Collapse", year: 1999 },
+  { id: 114711, title: "Isolation Drills", year: 2001 },
+  { id: 107445, title: "Universal Truths and Cycles", year: 2002 },
+  { id: 114709, title: "Earthquake Glue", year: 2003 },
+  { id: 107438, title: "Half Smiles of the Decomposed", year: 2004 },
+  { id: 399990, title: "Let's Go Eat the Factory", year: 2012 },
+  { id: 444261, title: "Class Clown Spots a UFO", year: 2012 },
+  { id: 491759, title: "The Bears for Lunch", year: 2012 },
+  { id: 546312, title: "English Little League", year: 2013 },
+  { id: 656789, title: "Motivational Jumpsuit", year: 2014 },
+  { id: 687303, title: "Cool Planet", year: 2014 },
+  { id: 990781, title: "Please Be Honest", year: 2016 },
+  { id: 1156531, title: "August by Cake", year: 2017 },
+  { id: 1216150, title: "How Do You Spell Heaven", year: 2017 },
+  { id: 1334357, title: "Space Gun", year: 2018 },
+  { id: 1493318, title: "Zeppelin Over China", year: 2019 },
+  { id: 1539699, title: "Warp and Woof", year: 2019 },
+  { id: 1626973, title: "Sweating the Plague", year: 2019 },
+  { id: 1676848, title: "Volcano", year: 2020 },
+  { id: 1680624, title: "Surrender Your Poppy Field", year: 2020 },
+  { id: 1786417, title: "Mirrored Aztec", year: 2020 },
+  { id: 1886511, title: "Styles We Paid For", year: 2020 },
+  { id: 2094985, title: "Earth Man Blues", year: 2021 },
+  { id: 2331202, title: "It's Not Them. It Couldn't Be Them. It Is Them!", year: 2021 },
+  { id: 2525626, title: "Crystal Nuns Cathedral", year: 2022 },
+  { id: 2841028, title: "Scalping the Guru", year: 2022 },
+  { id: 3167943, title: "Welshpool Frillies", year: 2023 },
+  { id: 3312568, title: "Nowhere to Go but Up", year: 2023 },
+  { id: 3521938, title: "Strut of Kings", year: 2024 },
+  { id: 3742746, title: "Universe Room", year: 2024 },
+];

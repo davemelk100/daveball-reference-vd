@@ -9,6 +9,7 @@ import { getLocalAlbumImage } from "@/lib/gbv-album-images";
 import { getAmrepAlbumImage } from "@/lib/amrep-album-images";
 import { getProxiedImageUrl } from "@/lib/gbv-utils";
 import { gbvMembers } from "@/lib/gbv-members-data";
+import { gbvAlbums } from "@/lib/gbv-discography-data";
 
 export type DashboardMember = {
   id?: number;
@@ -38,14 +39,11 @@ const GBV_ARTIST_ID = 83529;
 
 const GBV_FALLBACK_MEMBERS: DashboardMember[] = gbvMembers.filter((m) => m.active);
 
-const GBV_FALLBACK_ALBUMS: DashboardAlbum[] = [
-  { title: "Bee Thousand", year: 1994 },
-  { title: "Alien Lanes", year: 1995 },
-  { title: "Under the Bushes Under the Stars", year: 1996 },
-  { title: "Mag Earwhig!", year: 1997 },
-  { title: "Propeller", year: 1992 },
-  { title: "Isolation Drills", year: 2001 },
-];
+const GBV_FALLBACK_ALBUMS: DashboardAlbum[] = gbvAlbums.map((album) => ({
+  id: album.id,
+  title: album.title,
+  year: album.year,
+}));
 
 const dedupeReleases = (items: DashboardAlbum[]) => {
   const seen = new Set<string>();
@@ -213,14 +211,16 @@ export function useDashboardData() {
         if (!res.ok) throw new Error("Failed to fetch albums");
         const data = await res.json();
         const nextAlbums = data.albums || [];
-        setAlbums(nextAlbums);
-        try {
-          localStorage.setItem(
-            cacheKey,
-            JSON.stringify({ timestamp: Date.now(), albums: nextAlbums }),
-          );
-        } catch {
-          // ignore cache errors
+        if (nextAlbums.length > 0) {
+          setAlbums(nextAlbums);
+          try {
+            localStorage.setItem(
+              cacheKey,
+              JSON.stringify({ timestamp: Date.now(), albums: nextAlbums }),
+            );
+          } catch {
+            // ignore cache errors
+          }
         }
       } catch (err) {
         console.error(err);

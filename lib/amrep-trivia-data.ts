@@ -1,3 +1,5 @@
+import { isYearQuestion } from "./trivia-utils";
+
 export interface AmrepTriviaQuestion {
   id: number;
   question: string;
@@ -1929,7 +1931,8 @@ export function getDailyAmrepTriviaQuestions(
   date?: Date,
 ): AmrepTriviaQuestion[] {
   const now = date || new Date();
-  const totalQuestions = amrepTriviaQuestions.length;
+  const pool = amrepTriviaQuestions.filter((q) => !isYearQuestion(q));
+  const totalQuestions = pool.length;
   const questionsPerDay = 5;
 
   const getEpochDay = (d: Date) => {
@@ -1938,7 +1941,7 @@ export function getDailyAmrepTriviaQuestions(
   };
 
   const shuffleQuestions = (seed: number) => {
-    const shuffled = [...amrepTriviaQuestions];
+    const shuffled = [...pool];
     let currentSeed = seed;
     for (let i = shuffled.length - 1; i > 0; i -= 1) {
       currentSeed = (currentSeed * 16807) % 2147483647;

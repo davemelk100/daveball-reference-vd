@@ -1,3 +1,5 @@
+import { isYearQuestion } from "./trivia-utils";
+
 export interface GbvTriviaQuestion {
   id: number;
   question: string;
@@ -1317,7 +1319,8 @@ export const gbvTriviaQuestions: GbvTriviaQuestion[] = [
 
 export function getDailyGbvTriviaQuestions(date?: Date): GbvTriviaQuestion[] {
   const now = date || new Date();
-  const totalQuestions = gbvTriviaQuestions.length;
+  const pool = gbvTriviaQuestions.filter((q) => !isYearQuestion(q));
+  const totalQuestions = pool.length;
   const questionsPerDay = 5;
 
   const getEpochDay = (d: Date) => {
@@ -1326,7 +1329,7 @@ export function getDailyGbvTriviaQuestions(date?: Date): GbvTriviaQuestion[] {
   };
 
   const shuffleQuestions = (seed: number) => {
-    const shuffled = [...gbvTriviaQuestions];
+    const shuffled = [...pool];
     let currentSeed = seed;
     for (let i = shuffled.length - 1; i > 0; i -= 1) {
       currentSeed = (currentSeed * 16807) % 2147483647;

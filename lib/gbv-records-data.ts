@@ -1,3 +1,5 @@
+import { gbvAlbums } from "./gbv-discography-data";
+
 export interface GbvRecordOfDay {
   id?: number;
   title: string;
@@ -34,11 +36,24 @@ export function pickDailyGbvRecord(
   };
 }
 
-// Fallback for when albums haven't loaded yet
+// Pick a daily record from static GBV discography data
 export function getDailyGbvRecord(date = new Date()): GbvRecordOfDay {
+  const dateString = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+  let hash = 0;
+  for (let i = 0; i < dateString.length; i++) {
+    const char = dateString.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash | 0;
+  }
+
+  const index = Math.abs(hash) % gbvAlbums.length;
+  const album = gbvAlbums[index];
+
   return {
-    title: "Loading...",
-    year: 0,
-    highlight: "",
+    id: album.id,
+    title: album.title,
+    year: album.year,
+    highlight: `${album.year}`,
   };
 }

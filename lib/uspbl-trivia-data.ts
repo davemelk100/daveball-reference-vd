@@ -1,3 +1,5 @@
+import { isYearQuestion } from "./trivia-utils";
+
 export interface USPBLTriviaQuestion {
   id: number;
   question: string;
@@ -172,7 +174,8 @@ export const uspblTriviaQuestions: USPBLTriviaQuestion[] = [
 
 export function getDailyUSPBLTriviaQuestions(date?: Date): USPBLTriviaQuestion[] {
   const now = date || new Date();
-  const totalQuestions = uspblTriviaQuestions.length;
+  const pool = uspblTriviaQuestions.filter((q) => !isYearQuestion(q));
+  const totalQuestions = pool.length;
   const questionsPerDay = 5;
 
   const getEpochDay = (d: Date) => {
@@ -181,7 +184,7 @@ export function getDailyUSPBLTriviaQuestions(date?: Date): USPBLTriviaQuestion[]
   };
 
   const shuffleQuestions = (seed: number) => {
-    const shuffled = [...uspblTriviaQuestions];
+    const shuffled = [...pool];
     let currentSeed = seed;
     for (let i = shuffled.length - 1; i > 0; i -= 1) {
       currentSeed = (currentSeed * 16807) % 2147483647;
