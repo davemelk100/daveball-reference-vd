@@ -78,53 +78,41 @@ export function NHLPlayersContent({
         ))}
       </div>
 
-      {/* Leader table */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left py-2 pr-2 w-8">#</th>
-                  <th className="text-left py-2 pr-4">Player</th>
-                  <th className="text-left py-2 px-2">Team</th>
-                  <th className="text-center py-2 px-2">Pos</th>
-                  <th className="text-center py-2 px-2 font-bold">{statLabel[activeTab]}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {leaders.map((player, i) => (
-                  <tr key={player.id} className="border-b last:border-0">
-                    <td className="py-2 pr-2 text-muted-foreground">{i + 1}</td>
-                    <td className="py-2 pr-4">
-                      <Link
-                        href={`/nhl/players/${player.id}`}
-                        className="flex items-center gap-2 hover:underline"
-                      >
-                        <Image
-                          src={player.headshot}
-                          alt={`${player.firstName.default} ${player.lastName.default}`}
-                          width={32}
-                          height={32}
-                          className="rounded-full"
-                        />
-                        <span className="font-medium">
-                          {player.firstName.default} {player.lastName.default}
-                        </span>
-                      </Link>
-                    </td>
-                    <td className="py-2 px-2 text-muted-foreground">{player.teamAbbrev}</td>
-                    <td className="text-center py-2 px-2">
-                      <Badge variant="outline" className="text-xs">{player.position}</Badge>
-                    </td>
-                    <td className="text-center py-2 px-2 font-bold text-lg">{player.value}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Card grid */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {leaders.map((player) => (
+          <Link key={player.id} href={`/nhl/players/${player.id}`}>
+            <Card className="hover:bg-secondary/50 transition-colors cursor-pointer h-full">
+              <CardContent className="p-1.5 pl-3">
+                <div className="flex items-center gap-3">
+                  <div className="shrink-0">
+                    <Image
+                      src={player.headshot}
+                      alt={`${player.firstName.default} ${player.lastName.default}`}
+                      width={96}
+                      height={96}
+                      className="rounded-lg h-24"
+                      style={{ width: "auto" }}
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold truncate">
+                      {player.firstName.default} {player.lastName.default}
+                    </h3>
+                    <p className="text-sm text-muted-foreground truncate">{player.teamAbbrev}</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <Badge variant="secondary">{player.position}</Badge>
+                    </div>
+                    <p className="text-sm font-bold mt-1">
+                      {player.value} {statLabel[activeTab]}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

@@ -80,15 +80,15 @@ function NBAPlayerSpotlightContent() {
             <Image
               src={headshotUrl}
               alt={player.name}
-              width={168}
-              height={168}
-              className="rounded-xl transition-transform group-hover:scale-105 w-[70px] sm:w-[120px] md:w-[150px] lg:w-[168px] h-auto"
+              width={275}
+              height={275}
+              className="rounded-xl transition-transform group-hover:scale-105 w-[70px] sm:w-[200px] md:w-[250px] lg:w-[300px] h-auto"
               unoptimized
               priority
             />
           </Link>
         ) : (
-          <div className="shrink-0 w-[70px] sm:w-[120px] md:w-[150px] lg:w-[168px] h-[70px] sm:h-[120px] md:h-[150px] lg:h-[168px] bg-muted rounded-xl flex items-center justify-center">
+          <div className="shrink-0 w-[70px] sm:w-[200px] md:w-[250px] lg:w-[300px] h-[70px] sm:h-[200px] md:h-[250px] lg:h-[300px] bg-muted rounded-xl flex items-center justify-center">
             <span className="text-3xl sm:text-5xl font-bold text-muted-foreground">
               {player.position}
             </span>

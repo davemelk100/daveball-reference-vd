@@ -11,6 +11,11 @@ const ROUTES = [
   { path: "/rev", label: "Rev dashboard" },
   { path: "/rev/albums", label: "Rev albums" },
   { path: "/rev/members", label: "Rev members" },
+  { path: "/mlb", label: "MLB home" },
+  { path: "/nfl", label: "NFL home" },
+  { path: "/nba", label: "NBA home" },
+  { path: "/nhl", label: "NHL home" },
+  { path: "/uspbl", label: "USPBL home" },
 ];
 
 for (const route of ROUTES) {

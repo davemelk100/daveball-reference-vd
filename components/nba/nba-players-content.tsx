@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { NBALeaderCategory } from "@/lib/nba-api";
 import { getPlayerHeadshotUrl } from "@/lib/nba-api";
@@ -30,36 +31,37 @@ export function NBAPlayersContent({ leaderCategories }: NBAPlayersContentProps) 
 
         {leaderCategories.map((cat) => (
           <TabsContent key={cat.name} value={cat.name}>
-            <Card>
-              <CardContent className="p-4">
-                <div className="grid gap-3">
-                  {cat.leaders.slice(0, 20).map((leader, idx) => (
-                    <Link
-                      key={leader.id}
-                      href={`/nba/players/${leader.id}`}
-                      className="flex items-center gap-3 p-2 rounded hover:bg-muted/50 transition-colors"
-                    >
-                      <span className="text-sm text-muted-foreground w-6">{idx + 1}</span>
-                      <Image
-                        src={leader.headshot || getPlayerHeadshotUrl(leader.id)}
-                        alt={leader.name}
-                        width={40}
-                        height={40}
-                        className="rounded-full bg-muted"
-                        unoptimized
-                      />
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-sm truncate">{leader.name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {leader.teamAbbrev} · {leader.position}
-                        </p>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {cat.leaders.slice(0, 20).map((leader) => (
+                <Link key={leader.id} href={`/nba/players/${leader.id}`}>
+                  <Card className="hover:bg-secondary/50 transition-colors cursor-pointer h-full">
+                    <CardContent className="p-1.5 pl-3">
+                      <div className="flex items-center gap-3">
+                        <div className="shrink-0">
+                          <Image
+                            src={leader.headshot || getPlayerHeadshotUrl(leader.id)}
+                            alt={leader.name}
+                            width={96}
+                            height={96}
+                            className="rounded-lg h-24"
+                            style={{ width: "auto" }}
+                            unoptimized
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold truncate">{leader.name}</h3>
+                          <p className="text-sm text-muted-foreground truncate">{leader.teamAbbrev}</p>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <Badge variant="secondary">{leader.position}</Badge>
+                          </div>
+                          <p className="text-sm font-bold mt-1">{leader.displayValue}</p>
+                        </div>
                       </div>
-                      <span className="text-sm font-bold text-primary">{leader.displayValue}</span>
-                    </Link>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                    </CardContent>
+                  </Card>
+                </Link>
+              ))}
+            </div>
           </TabsContent>
         ))}
       </Tabs>

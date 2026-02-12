@@ -46,52 +46,38 @@ export function NFLPlayersContent({ leaderCategories }: NFLPlayersContentProps) 
         ))}
       </div>
 
-      {/* Leader table */}
-      <Card>
-        <CardContent className="p-4">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b">
-                  <th className="text-left py-2 pr-2 w-8">#</th>
-                  <th className="text-left py-2 pr-4">Player</th>
-                  <th className="text-left py-2 px-2">Team</th>
-                  <th className="text-center py-2 px-2">Pos</th>
-                  <th className="text-center py-2 px-2 font-bold">{activeCategory?.displayName || "Stat"}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {activeCategory?.leaders.map((player, i) => (
-                  <tr key={player.id} className="border-b last:border-0">
-                    <td className="py-2 pr-2 text-muted-foreground">{i + 1}</td>
-                    <td className="py-2 pr-4">
-                      <Link
-                        href={`/nfl/players/${player.id}`}
-                        className="flex items-center gap-2 hover:underline"
-                      >
-                        <Image
-                          src={player.headshot}
-                          alt={player.name}
-                          width={32}
-                          height={32}
-                          className="rounded-full"
-                          unoptimized
-                        />
-                        <span className="font-medium">{player.name}</span>
-                      </Link>
-                    </td>
-                    <td className="py-2 px-2 text-muted-foreground">{player.teamAbbrev}</td>
-                    <td className="text-center py-2 px-2">
-                      <Badge variant="outline" className="text-xs">{player.position}</Badge>
-                    </td>
-                    <td className="text-center py-2 px-2 font-bold text-lg">{player.displayValue}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Card grid */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {activeCategory?.leaders.map((player) => (
+          <Link key={player.id} href={`/nfl/players/${player.id}`}>
+            <Card className="hover:bg-secondary/50 transition-colors cursor-pointer h-full">
+              <CardContent className="p-1.5 pl-3">
+                <div className="flex items-center gap-3">
+                  <div className="shrink-0">
+                    <Image
+                      src={player.headshot}
+                      alt={player.name}
+                      width={96}
+                      height={96}
+                      className="rounded-lg h-24"
+                      style={{ width: "auto" }}
+                      unoptimized
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold truncate">{player.name}</h3>
+                    <p className="text-sm text-muted-foreground truncate">{player.teamAbbrev}</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <Badge variant="secondary">{player.position}</Badge>
+                    </div>
+                    <p className="text-sm font-bold mt-1">{player.displayValue}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

@@ -56,47 +56,32 @@ export function USPBLPlayersContent({ players }: USPBLPlayersContentProps) {
           </CardContent>
         </Card>
       ) : (
-        <Card>
-          <CardContent className="p-4">
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b">
-                    <th className="text-left py-2 pr-2 w-8">#</th>
-                    <th className="text-left py-2 pr-4">Player</th>
-                    <th className="text-center py-2 px-2">Pos</th>
-                    <th className="text-left py-2 px-2">Team</th>
-                    <th className="text-left py-2 px-2 hidden sm:table-cell">College</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filtered.map((player) => (
-                    <tr key={player.id} className="border-b last:border-0">
-                      <td className="py-2 pr-2 text-muted-foreground">{player.number || "—"}</td>
-                      <td className="py-2 pr-4">
-                        <Link
-                          href={`/uspbl/players/${player.id}`}
-                          className="font-medium hover:underline"
-                        >
-                          {player.name}
-                        </Link>
-                      </td>
-                      <td className="text-center py-2 px-2">
-                        <Badge variant="outline" className="text-xs">{player.position}</Badge>
-                      </td>
-                      <td className="py-2 px-2 text-muted-foreground text-sm">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {filtered.map((player) => (
+            <Link key={player.id} href={`/uspbl/players/${player.id}`}>
+              <Card className="hover:bg-secondary/50 transition-colors cursor-pointer h-full">
+                <CardContent className="p-1.5 pl-3">
+                  <div className="flex items-center gap-3">
+                    <div className="shrink-0 h-24 w-20 rounded-lg bg-muted/30 flex items-center justify-center">
+                      <span className="text-2xl font-bold text-muted-foreground">
+                        {player.number || "—"}
+                      </span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-semibold truncate">{player.name}</h3>
+                      <p className="text-sm text-muted-foreground truncate">
                         {player.teamName.split(" ").pop()}
-                      </td>
-                      <td className="py-2 px-2 text-muted-foreground hidden sm:table-cell">
-                        {player.college || "—"}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </CardContent>
-        </Card>
+                      </p>
+                      <div className="flex items-center gap-2 mt-0.5">
+                        <Badge variant="secondary">{player.position}</Badge>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          ))}
+        </div>
       )}
     </div>
   );

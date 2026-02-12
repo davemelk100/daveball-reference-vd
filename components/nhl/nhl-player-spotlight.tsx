@@ -81,9 +81,9 @@ function NHLPlayerSpotlightContent() {
           <Image
             src={headshotUrl}
             alt={player.name}
-            width={168}
-            height={168}
-            className="rounded-xl transition-transform group-hover:scale-105 w-[70px] sm:w-[120px] md:w-[150px] lg:w-[168px] h-auto"
+            width={275}
+            height={275}
+            className="rounded-xl transition-transform group-hover:scale-105 w-[70px] sm:w-[200px] md:w-[250px] lg:w-[300px] h-auto"
             priority
           />
         </Link>

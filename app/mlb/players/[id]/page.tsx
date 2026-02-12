@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { StatCard } from "@/components/stat-card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { PlayerJsonLd, BreadcrumbJsonLd } from "@/components/json-ld";
 import {
   getPlayer,
@@ -11,15 +10,7 @@ import {
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  ArrowLeft,
-  Calendar,
-  MapPin,
-  Ruler,
-  Scale,
-  Star,
-  GraduationCap,
-} from "lucide-react";
+import { ArrowLeft, Star } from "lucide-react";
 import { PlayerPageContent } from "@/components/player-page-content";
 
 interface PlayerPageProps {
@@ -105,6 +96,12 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
   const hasPitchingStats = pitchingStats.length > 0;
   const hasFieldingStats = fieldingStats.length > 0;
 
+  const position = player.primaryPosition?.abbreviation || player.primaryPosition?.name || "—";
+  const jersey = player.primaryNumber || "—";
+  const birthPlace = [player.birthCity, player.birthCountry]
+    .filter(Boolean)
+    .join(", ");
+
   return (
     <>
       <PlayerJsonLd player={player} />
@@ -118,157 +115,104 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
           },
         ]}
       />
-      <main className="container py-2">
-        {/* Back button */}
-        <Button variant="ghost" size="sm" asChild className="mb-6">
-          <Link href="/mlb/players">
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Players
-          </Link>
-        </Button>
+      <main className="container py-6">
+        <Link
+          href="/mlb/players"
+          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:underline mb-6"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Players
+        </Link>
 
-        {/* Player Header */}
-        <div className="flex flex-row gap-4 md:gap-6 mb-8">
-          <div className="shrink-0">
-            <Image
-              src={
-                getPlayerHeadshotUrl(player.id, "large") || "/placeholder.svg"
-              }
-              alt={player.fullName}
-              width={200}
-              height={200}
-              className="h-[120px] md:h-[180px] rounded-lg"
-              style={{ width: "auto" }}
-              priority
-            />
-          </div>
-          <div className="flex-1">
-            <div className="mb-1 flex items-center gap-3">
-              <h2 className="leading-tight">{player.fullName}</h2>
+        <div className="grid gap-8 lg:grid-cols-[300px_1fr]">
+          {/* Left: player photo + bio */}
+          <div>
+            <div className="w-full aspect-square bg-muted/30 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+              <Image
+                src={getPlayerHeadshotUrl(player.id, "large") || "/placeholder.svg"}
+                alt={player.fullName}
+                width={300}
+                height={300}
+                className="object-cover"
+                priority
+              />
+            </div>
+            <h1 className="font-league mb-2">{player.fullName}</h1>
+            <div className="flex gap-2 mb-3">
+              <Badge variant="outline">{position}</Badge>
+              {jersey !== "—" && <Badge variant="outline">#{jersey}</Badge>}
               {player.active && (
-                <Badge
-                  variant="outline"
-                  className="border-green-500/50 text-green-500"
-                >
+                <Badge variant="outline" className="border-green-500/50 text-green-500">
                   Active
                 </Badge>
               )}
             </div>
-            <p className="text-sm text-muted-foreground mb-2">
-              {player.currentTeam?.name || "Free Agent"} •{" "}
-              {player.primaryPosition?.name}
-            </p>
-            <div className="flex flex-wrap gap-4 text-sm text-muted-foreground">
-              <div className="flex items-center gap-1">
-                <Calendar className="h-4 w-4" />
-                <span>Age {player.currentAge}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Ruler className="h-4 w-4" />
-                <span>{player.height}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Scale className="h-4 w-4" />
-                <span>{player.weight} lbs</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <MapPin className="h-4 w-4" />
-                <span>
-                  {player.birthCity}, {player.birthCountry}
-                </span>
-              </div>
+            <div className="space-y-1 text-sm text-muted-foreground">
+              <p>Team: {player.currentTeam?.name || "Free Agent"}</p>
+              <p>Height: {player.height || "—"}</p>
+              <p>Weight: {player.weight ? `${player.weight} lbs` : "—"}</p>
+              <p>Born: {player.birthDate || "—"}{player.currentAge ? ` (Age ${player.currentAge})` : ""}</p>
+              <p>Birthplace: {birthPlace || "—"}</p>
+              {player.draft && (
+                <p>
+                  Draft: {player.draft.year} by {player.draft.team?.name || "Unknown"}
+                  {player.draft.round ? ` (Round ${player.draft.round}, Pick ${player.draft.pickNumber})` : ""}
+                  {player.draft.school?.name ? ` from ${player.draft.school.name}` : ""}
+                </p>
+              )}
+              {allStarAppearances.length > 0 && (
+                <p className="flex items-center gap-1">
+                  <Star className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500" />
+                  {allStarAppearances.length}x All-Star ({allStarAppearances.map((a) => a.season).join(", ")})
+                </p>
+              )}
             </div>
-            {allStarAppearances.length > 0 && (
-              <div className="mt-2 flex items-center gap-2 text-sm">
-                <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-                <span className="font-medium">
-                  {allStarAppearances.length}x All-Star
-                </span>
-                <span className="text-muted-foreground">
-                  ({allStarAppearances.map((a) => a.season).join(", ")})
-                </span>
+          </div>
+
+          {/* Right: stats */}
+          <div>
+            {/* Current Season Stats Quick View */}
+            {(currentHitting || currentPitching) && (
+              <div className="mb-8">
+                <h2 className="mb-4">2024 Season</h2>
+                {isPitcher && currentPitching ? (
+                  <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+                    <StatCard
+                      title="W-L"
+                      value={`${currentPitching.stat.wins || 0}-${currentPitching.stat.losses || 0}`}
+                    />
+                    <StatCard title="ERA" value={currentPitching.stat.era || "—"} />
+                    <StatCard title="IP" value={currentPitching.stat.inningsPitched || "—"} />
+                    <StatCard title="K" value={currentPitching.stat.strikeOuts || "—"} />
+                    <StatCard title="WHIP" value={currentPitching.stat.whip || "—"} />
+                    <StatCard title="SV" value={currentPitching.stat.saves || "—"} />
+                  </div>
+                ) : currentHitting ? (
+                  <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
+                    <StatCard title="AVG" value={currentHitting.stat.avg || "—"} />
+                    <StatCard title="HR" value={currentHitting.stat.homeRuns || "—"} />
+                    <StatCard title="RBI" value={currentHitting.stat.rbi || "—"} />
+                    <StatCard title="OPS" value={currentHitting.stat.ops || "—"} />
+                    <StatCard title="SB" value={currentHitting.stat.stolenBases || "—"} />
+                    <StatCard title="H" value={currentHitting.stat.hits || "—"} />
+                  </div>
+                ) : null}
               </div>
             )}
-            {player.draft && (
-              <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
-                <GraduationCap className="h-4 w-4" />
-                <span>
-                  Drafted {player.draft.year} by{" "}
-                  {player.draft.team?.name || "Unknown"}
-                  {player.draft.round
-                    ? ` (Round ${player.draft.round}, Pick ${player.draft.pickNumber})`
-                    : ""}
-                  {player.draft.school?.name
-                    ? ` from ${player.draft.school.name}`
-                    : ""}
-                </span>
-              </div>
-            )}
+
+            {/* Career Stats Toggle */}
+            <PlayerPageContent
+              playerName={player.fullName}
+              playerId={player.id}
+              hittingStats={hittingStats}
+              pitchingStats={pitchingStats}
+              fieldingStats={fieldingStats}
+              hasHittingStats={hasHittingStats}
+              hasPitchingStats={hasPitchingStats}
+              hasFieldingStats={hasFieldingStats}
+            />
           </div>
         </div>
-
-        {/* Current Season Stats Quick View */}
-        {(currentHitting || currentPitching) && (
-          <div className="mb-8">
-            <h2 className="mb-4">
-              2024 Season
-            </h2>
-            {isPitcher && currentPitching ? (
-              <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
-                <StatCard
-                  title="W-L"
-                  value={`${currentPitching.stat.wins || 0}-${
-                    currentPitching.stat.losses || 0
-                  }`}
-                />
-                <StatCard title="ERA" value={currentPitching.stat.era || "—"} />
-                <StatCard
-                  title="IP"
-                  value={currentPitching.stat.inningsPitched || "—"}
-                />
-                <StatCard
-                  title="K"
-                  value={currentPitching.stat.strikeOuts || "—"}
-                />
-                <StatCard
-                  title="WHIP"
-                  value={currentPitching.stat.whip || "—"}
-                />
-                <StatCard
-                  title="SV"
-                  value={currentPitching.stat.saves || "—"}
-                />
-              </div>
-            ) : currentHitting ? (
-              <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
-                <StatCard title="AVG" value={currentHitting.stat.avg || "—"} />
-                <StatCard
-                  title="HR"
-                  value={currentHitting.stat.homeRuns || "—"}
-                />
-                <StatCard title="RBI" value={currentHitting.stat.rbi || "—"} />
-                <StatCard title="OPS" value={currentHitting.stat.ops || "—"} />
-                <StatCard
-                  title="SB"
-                  value={currentHitting.stat.stolenBases || "—"}
-                />
-                <StatCard title="H" value={currentHitting.stat.hits || "—"} />
-              </div>
-            ) : null}
-          </div>
-        )}
-
-        {/* Career Stats Toggle */}
-        <PlayerPageContent
-          playerName={player.fullName}
-          playerId={player.id}
-          hittingStats={hittingStats}
-          pitchingStats={pitchingStats}
-          fieldingStats={fieldingStats}
-          hasHittingStats={hasHittingStats}
-          hasPitchingStats={hasPitchingStats}
-          hasFieldingStats={hasFieldingStats}
-        />
       </main>
     </>
   );
