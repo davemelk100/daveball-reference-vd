@@ -53,26 +53,23 @@ function USPBLPlayerSpotlightContent() {
       <div className="flex items-center gap-2">
         <h2 className="mr-4 text-primary">Player of the Day</h2>
       </div>
-      <div className="flex gap-3 sm:gap-6 items-center">
-        <div className="space-y-2 sm:space-y-3 flex-1 min-w-0">
-          <div>
-            <span className="text-base sm:text-2xl font-bold block">
+      <div className="flex flex-col gap-3">
+        <div className="space-y-2">
+          <div className="flex items-baseline gap-2">
+            <span className="text-base sm:text-2xl font-bold">
               {player.name}
             </span>
-            <p className="text-sm text-muted-foreground mt-1">
-              {player.team} &middot; {player.position}
-            </p>
+            <span className="text-sm text-muted-foreground">{player.position}</span>
           </div>
-          <p className="text-sm text-muted-foreground">{player.years}</p>
           <p className="text-sm text-muted-foreground">{player.fact}</p>
         </div>
-        <div className="shrink-0 w-[70px] sm:w-[120px] h-[70px] sm:h-[120px] rounded-xl bg-muted/50 flex items-center justify-center overflow-hidden">
+        <div className="w-[120px] sm:w-[160px] h-[120px] sm:h-[160px] rounded-xl bg-muted/50 flex items-center justify-center overflow-hidden mx-auto">
           {player.imageUrl ? (
             <Image
               src={player.imageUrl}
               alt={player.name}
-              width={120}
-              height={120}
+              width={160}
+              height={160}
               className="w-full h-full object-cover"
             />
           ) : (

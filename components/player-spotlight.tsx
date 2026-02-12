@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Calendar, MapPin, Hand, Users, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import {
   getDailyPlayer,
   type SpotlightPlayer,
@@ -75,51 +75,25 @@ export function PlayerSpotlight() {
       <div className="flex items-center gap-2">
         <h2 className="mr-4 text-primary">Daily Random Player</h2>
       </div>
-      <div className="flex gap-3 sm:gap-6 items-center">
-        <div className="space-y-2 sm:space-y-3 flex-1 min-w-0">
-          <div>
+      <div className="flex flex-col gap-3">
+        <div className="space-y-2 sm:space-y-3">
+          <div className="flex items-baseline gap-2">
             <Link
               href={`/mlb/players/${player.id}`}
-              className="text-base sm:text-2xl font-bold hover:underline decoration-primary decoration-2 underline-offset-4 block"
+              className="text-base sm:text-2xl font-bold hover:underline decoration-primary decoration-2 underline-offset-4"
             >
               {player.name}
             </Link>
-            <p className="text-sm text-muted-foreground mt-1">
-              {player.team} • {player.position}
-            </p>
+            <span className="text-sm text-muted-foreground">{player.position}</span>
           </div>
 
-          <div className="flex flex-col gap-1 text-sm text-muted-foreground">
-            <div className="flex items-center gap-1">
-              <Calendar className="h-4 w-4" />
-              <span>{player.years}</span>
-            </div>
-            {player.birthplace && (
-              <div className="flex items-center gap-1">
-                <MapPin className="h-4 w-4" />
-                <span>{player.birthplace}</span>
-              </div>
-            )}
-            {player.bats && (
-              <div className="flex items-center gap-1">
-                <Hand className="h-4 w-4" />
-                <span>Bats {player.bats}</span>
-              </div>
-            )}
-            {player.throws && (
-              <div className="flex items-center gap-1">
-                <Users className="h-4 w-4" />
-                <span>Throws {player.throws}</span>
-              </div>
-            )}
-          </div>
 
           {player.careerStats && (
-            <div className="hidden sm:block">
+            <div>
               <span className="text-sm font-semibold text-primary uppercase tracking-wider">
                 Career Stats
               </span>
-              <div className="flex flex-col gap-1 text-sm text-muted-foreground mt-1">
+              <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground mt-1">
                 {player.careerStats.isPitcher ? (
                   <>
                     {player.careerStats.wins !== undefined &&
@@ -211,15 +185,14 @@ export function PlayerSpotlight() {
         </div>
         <Link
           href={`/mlb/players/${player.id}`}
-          className="shrink-0 group relative overflow-hidden rounded-xl"
+          className="group relative overflow-hidden rounded-xl flex justify-center"
         >
           <Image
             src={getPlayerHeadshotUrl(player.id, "large")}
             alt={player.name}
             width={275}
             height={275}
-            className="rounded-xl transition-transform group-hover:scale-105 w-[70px] sm:w-[200px] md:w-[250px] lg:w-[300px] h-auto"
-            priority
+            className="rounded-xl transition-transform group-hover:scale-105 w-[200px] sm:w-[250px] lg:w-[300px] h-auto"
           />
         </Link>
       </div>

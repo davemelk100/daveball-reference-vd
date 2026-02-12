@@ -59,8 +59,8 @@ export function RecordOfDayCard({
     <Card className="w-full h-full min-h-[120px]">
       <CardContent className="p-4 flex flex-col gap-3">
         <h2>Record of the Day</h2>
-        <div className="flex gap-4 items-stretch">
-          <div className="flex flex-col gap-2 w-1/2 justify-center">
+        <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1">
             {albumHref ? (
               <Link
                 href={albumHref}
@@ -74,7 +74,7 @@ export function RecordOfDayCard({
             <div className="text-xs text-muted-foreground">{record.year}</div>
             <p className="text-sm text-muted-foreground">{record.highlight}</p>
           </div>
-          <div className="w-1/2 relative md:h-[140px] lg:h-[180px]">
+          <div className="relative h-[160px] lg:h-[200px]">
             {coverUrl ? (
               albumHref ? (
                 <Link href={albumHref} className="absolute inset-0">

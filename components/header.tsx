@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -15,11 +15,11 @@ import { Search } from "lucide-react";
 
 export function Header() {
   const pathname = usePathname();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  const isMounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   return (
     <header className="z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-6 mb-4">
@@ -33,7 +33,7 @@ export function Header() {
             className="h-12 w-auto sm:h-16 lg:h-20"
           />
           <h1 className="uppercase flex-shrink-0 text-[#f4232b] hidden sm:block">
-            Major League Numbers
+            MLB Numbers
           </h1>
         </Link>
 

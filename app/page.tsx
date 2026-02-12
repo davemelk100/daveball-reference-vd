@@ -61,7 +61,11 @@ const musicSites = [
   },
 ];
 
-function SiteCard({ site }: { site: { name: string; href: string; logo: string; description: string } }) {
+function SiteCard({
+  site,
+}: {
+  site: { name: string; href: string; logo: string; description: string };
+}) {
   return (
     <Link
       href={site.href}
@@ -85,7 +89,12 @@ function SiteCard({ site }: { site: { name: string; href: string; logo: string; 
 export default function LandingPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen px-4 py-12">
-      <h1 className="text-3xl font-bold mb-10 normal-case" style={{ fontFamily: "var(--font-lato), sans-serif" }}>Major League Numbers</h1>
+      <h1
+        className="text-3xl font-bold mb-10 normal-case"
+        style={{ fontFamily: "var(--font-lato), sans-serif" }}
+      >
+        MLB Numbers
+      </h1>
       <div className="max-w-4xl w-full space-y-10">
         <section>
           <h2 className="text-center mb-6">Sports</h2>

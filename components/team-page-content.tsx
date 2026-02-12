@@ -247,7 +247,7 @@ export function TeamPageContent({ teamId, initialData }: TeamPageContentProps) {
               <CardContent>
                 <p
                   className={`text-2xl font-bold ${teamRecord.runDifferential > 0
-                      ? "text-green-500"
+                      ? "text-green-600 dark:text-green-400"
                       : teamRecord.runDifferential < 0
                         ? "text-red-500"
                         : ""
@@ -440,7 +440,7 @@ export function TeamPageContent({ teamId, initialData }: TeamPageContentProps) {
                           <div className="flex items-center gap-3">
                             {wonWorldSeries && <Trophy className="h-5 w-5 text-yellow-500" />}
                             <span className="font-bold text-lg">{year}</span>
-                            <span className={`text-sm ${wonWorldSeries ? "text-green-500 font-medium" : "text-muted-foreground"}`}>
+                            <span className={`text-sm ${wonWorldSeries ? "text-green-600 dark:text-green-400 font-medium" : "text-muted-foreground"}`}>
                               {resultText}
                             </span>
                           </div>
@@ -462,7 +462,7 @@ export function TeamPageContent({ teamId, initialData }: TeamPageContentProps) {
                                   <p className="font-medium">{appearance.round}</p>
                                   <p className="text-sm text-muted-foreground">vs {appearance.opponent}</p>
                                 </div>
-                                <p className={`font-bold ${appearance.won ? "text-green-500" : "text-red-500"}`}>
+                                <p className={`font-bold ${appearance.won ? "text-green-600 dark:text-green-400" : "text-red-500"}`}>
                                   {appearance.won ? "Won" : "Lost"} {appearance.result}
                                 </p>
                               </div>

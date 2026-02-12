@@ -42,7 +42,7 @@ export interface SportsSiteConfig {
 const mlbSite: SportsSiteConfig = {
   id: "mlb",
   basePath: "/mlb",
-  title: "Major League Numbers",
+  title: "MLB Numbers",
   logoSrc: "https://www.mlbstatic.com/team-logos/league-on-dark/1.svg",
   logoAlt: "MLB",
   titleColorClass: "text-[#f4232b]",

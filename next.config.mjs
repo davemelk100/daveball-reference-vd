@@ -3,11 +3,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Generate source maps in production for debugging
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
   // Enable modern JavaScript output and minimize legacy code
   experimental: {
-    optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
+    optimizePackageImports: ["lucide-react", "@radix-ui/react-icons", "recharts", "react-markdown"],
   },
   // Compiler optimizations
   compiler: {
@@ -215,6 +214,16 @@ const nextConfig = {
           {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      // Cache dashboard API responses
+      {
+        source: "/api/dashboard",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=300, stale-while-revalidate=600",
           },
         ],
       },

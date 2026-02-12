@@ -41,8 +41,8 @@ export function SportsLeftNav() {
               className={cn(
                 "group flex flex-col items-center justify-center gap-0.5 px-2 py-2 rounded-md transition-all duration-200 w-full",
                 showActive
-                  ? "text-primary bg-primary/10 -translate-y-0.5 shadow-[0_6px_14px_rgba(0,0,0,0.18)]"
-                  : "text-muted-foreground hover:text-primary hover:bg-primary/10 hover:-translate-y-0.5 hover:shadow-[0_6px_14px_rgba(0,0,0,0.18)]"
+                  ? "text-primary bg-muted -translate-y-0.5 shadow-[0_6px_14px_rgba(0,0,0,0.18)]"
+                  : "text-muted-foreground hover:text-primary hover:bg-muted hover:-translate-y-0.5 hover:shadow-[0_6px_14px_rgba(0,0,0,0.18)]"
               )}
             >
               {item.image ? (
@@ -114,7 +114,7 @@ export function SportsFooterNav() {
               className={cn(
                 "flex flex-col items-center justify-center gap-0.5 px-2 py-1.5 rounded-md transition-colors min-w-[48px]",
                 showActive
-                  ? "text-primary bg-primary/10 ring-1 ring-primary/30 shadow-[0_0_0_1px_rgba(0,0,0,0.15),_inset_0_0_0_1px_rgba(0,0,0,0.08)]"
+                  ? "text-primary bg-muted ring-1 ring-primary/30 shadow-[0_0_0_1px_rgba(0,0,0,0.15),_inset_0_0_0_1px_rgba(0,0,0,0.08)]"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
               )}
             >

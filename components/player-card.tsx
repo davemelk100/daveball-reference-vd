@@ -34,7 +34,7 @@ export function PlayerCard({ player }: PlayerCardProps) {
                   <Badge variant="secondary">{positionAbbreviation}</Badge>
                 )}
                 {player.active && (
-                  <Badge variant="outline" className="border-green-500/50 text-green-500">
+                  <Badge variant="outline" className="border-green-500/50 text-green-600 dark:text-green-400">
                     Active
                   </Badge>
                 )}

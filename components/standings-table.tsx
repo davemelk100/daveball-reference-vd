@@ -68,7 +68,7 @@ export function StandingsTable({ division }: StandingsTableProps) {
                     <TableCell
                       className={cn(
                         "text-center font-mono font-semibold",
-                        diff > 0 ? "text-green-500" : diff < 0 ? "text-red-500" : "",
+                        diff > 0 ? "text-green-600 dark:text-green-400" : diff < 0 ? "text-red-500" : "",
                       )}
                     >
                       {diff > 0 ? `+${diff}` : diff}
@@ -78,7 +78,7 @@ export function StandingsTable({ division }: StandingsTableProps) {
                         className={cn(
                           "text-xs font-medium px-2 py-0.5 rounded",
                           record.streak?.streakCode?.startsWith("W")
-                            ? "bg-green-500/10 text-green-500"
+                            ? "bg-green-500/10 text-green-600 dark:text-green-400"
                             : "bg-red-500/10 text-red-500",
                         )}
                       >

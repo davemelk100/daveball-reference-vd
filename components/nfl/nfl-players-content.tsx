@@ -30,7 +30,7 @@ export function NFLPlayersContent({ leaderCategories }: NFLPlayersContentProps) 
       <h1 className="font-league mb-6">Players</h1>
 
       {/* Tabs */}
-      <div className="flex gap-2 mb-6 overflow-x-auto">
+      <div className="flex flex-wrap gap-2 mb-6">
         {leaderCategories.map((cat, i) => (
           <button
             key={cat.name}

@@ -263,7 +263,7 @@ function TriviaPanelContent() {
             >
               <span className="flex items-start gap-2">
                 {(currentAnswered || showYesterday) && isCorrectAnswer && (
-                  <CheckCircle2 className="h-3 w-3 text-green-500 flex-shrink-0 mt-0.5" />
+                  <CheckCircle2 className="h-3 w-3 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
                 )}
                 {!showYesterday &&
                   currentAnswered &&

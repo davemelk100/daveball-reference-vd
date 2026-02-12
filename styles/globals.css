@@ -446,6 +446,11 @@
     color: #1a1a1a;
   }
 
+  .revelation-shell nav a[aria-current="page"],
+  .revelation-shell nav a:hover {
+    background-color: rgba(0, 0, 0, 0.10);
+  }
+
   .e6-shell {
     background-color: #E8E0C8;
     background-image: radial-gradient(1200px 900px at 15% -10%, rgba(191, 192, 149, 0.15), transparent 60%),
@@ -568,6 +573,11 @@
     color: #000000;
   }
 
+  .e6-shell nav a[aria-current="page"],
+  .e6-shell nav a:hover {
+    background-color: rgba(0, 0, 0, 0.10);
+  }
+
   .amrep-shell {
     background-color: #d7dbe0;
     background-image: radial-gradient(1200px 900px at 15% -10%, rgba(255, 255, 255, 0.75), transparent 60%),
@@ -632,6 +642,11 @@
   .amrep-shell nav a span,
   .amrep-shell nav svg {
     color: #111827;
+  }
+
+  .amrep-shell nav a[aria-current="page"],
+  .amrep-shell nav a:hover {
+    background-color: rgba(0, 0, 0, 0.10);
   }
 
   .amrep-shell .gbv-submit-button {

@@ -237,7 +237,7 @@ function TriviaCardContent() {
                 >
                   <span className="flex items-start gap-2">
                     {(currentAnswered || showYesterday) && isCorrectAnswer && (
-                      <CheckCircle2 className="h-3 w-3 text-green-500 flex-shrink-0 mt-0.5" />
+                      <CheckCircle2 className="h-3 w-3 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
                     )}
                     {!showYesterday &&
                       currentAnswered &&
@@ -524,7 +524,7 @@ function TriviaPanelContent() {
             >
               <span className="flex items-start gap-2">
                 {(currentAnswered || showYesterday) && isCorrectAnswer && (
-                  <CheckCircle2 className="h-3 w-3 text-green-500 flex-shrink-0 mt-0.5" />
+                  <CheckCircle2 className="h-3 w-3 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
                 )}
                 {!showYesterday &&
                   currentAnswered &&
@@ -540,15 +540,15 @@ function TriviaPanelContent() {
       </div>
 
       {(currentAnswered || showYesterday) && (
-        <div className="p-2 rounded-lg text-sm bg-white">
+        <div className="p-2 rounded-lg text-sm bg-muted/50">
           {!showYesterday &&
             (currentAnswered?.isCorrect ? (
-              <p className="font-medium text-sm text-green-500">Correct!</p>
+              <p className="font-medium text-sm text-green-600 dark:text-green-400">Correct!</p>
             ) : (
               <p className="font-medium text-red-400 text-sm">Not quite!</p>
             ))}
           {showYesterday && (
-            <p className="font-medium text-green-500 text-sm">
+            <p className="font-medium text-green-600 dark:text-green-400 text-sm">
               Correct Answer:
             </p>
           )}

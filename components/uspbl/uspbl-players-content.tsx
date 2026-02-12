@@ -21,7 +21,7 @@ export function USPBLPlayersContent({ players }: USPBLPlayersContentProps) {
       <h1 className="font-league mb-6">Players</h1>
 
       {/* Team filter tabs */}
-      <div className="flex gap-2 mb-6 overflow-x-auto">
+      <div className="flex flex-wrap gap-2 mb-6">
         <button
           onClick={() => setFilter("all")}
           className={`px-4 py-2 text-sm rounded-lg border transition-colors whitespace-nowrap ${

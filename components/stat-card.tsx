@@ -94,7 +94,7 @@ export function StatCard({ title, value, description, leaders, icon: Icon, trend
             </>
           )}
           {trend && (
-            <p className={cn("text-xs", trend.isPositive ? "text-green-500" : "text-red-500")}>
+            <p className={cn("text-xs", trend.isPositive ? "text-green-600 dark:text-green-400" : "text-red-500")}>
               {trend.isPositive ? "+" : ""}
               {trend.value}% from last season
             </p>

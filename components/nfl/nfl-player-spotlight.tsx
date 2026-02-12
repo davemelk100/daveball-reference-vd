@@ -60,36 +60,33 @@ function NFLPlayerSpotlightContent() {
       <div className="flex items-center gap-2">
         <h2 className="mr-4 text-primary">Player of the Day</h2>
       </div>
-      <div className="flex gap-3 sm:gap-6 items-center">
-        <div className="space-y-2 sm:space-y-3 flex-1 min-w-0">
-          <div>
-            <span className="text-base sm:text-2xl font-bold block">
+      <div className="flex flex-col gap-3">
+        <div className="space-y-2">
+          <div className="flex items-baseline gap-2">
+            <span className="text-base sm:text-2xl font-bold">
               {player.name}
             </span>
-            <p className="text-sm text-muted-foreground mt-1">
-              {player.team} &middot; {player.position}
-            </p>
+            <span className="text-sm text-muted-foreground">{player.position}</span>
           </div>
-          <p className="text-sm text-muted-foreground">{player.years}</p>
           <p className="text-sm text-muted-foreground">{player.fact}</p>
         </div>
         {headshotUrl ? (
           <Link
             href={`/nfl/players/${player.id}`}
-            className="shrink-0 group relative overflow-hidden rounded-xl"
+            className="group relative overflow-hidden rounded-xl flex justify-center"
           >
             <Image
               src={headshotUrl}
               alt={player.name}
               width={275}
               height={275}
-              className="rounded-xl transition-transform group-hover:scale-105 w-[70px] sm:w-[200px] md:w-[250px] lg:w-[300px] h-auto"
+              className="rounded-xl transition-transform group-hover:scale-105 w-[200px] sm:w-[250px] lg:w-[300px] h-auto"
               unoptimized
               priority
             />
           </Link>
         ) : (
-          <div className="shrink-0 w-[70px] sm:w-[200px] md:w-[250px] lg:w-[300px] h-[70px] sm:h-[200px] md:h-[250px] lg:h-[300px] bg-muted rounded-xl flex items-center justify-center">
+          <div className="w-[200px] sm:w-[250px] lg:w-[300px] h-[200px] sm:h-[250px] lg:h-[300px] bg-muted rounded-xl flex items-center justify-center mx-auto">
             <span className="text-3xl sm:text-5xl font-bold text-muted-foreground">
               {player.position}
             </span>

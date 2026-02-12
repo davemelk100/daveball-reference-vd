@@ -179,7 +179,7 @@ export function HistoricalTable({ data }: HistoricalTableProps) {
                   <TableCell className="text-right hidden sm:table-cell">{record.runsScored}</TableCell>
                   <TableCell className="text-right hidden sm:table-cell">{record.runsAllowed}</TableCell>
                   <TableCell
-                    className={`text-right font-medium ${record.runDifferential > 0 ? "text-green-500" : record.runDifferential < 0 ? "text-red-500" : ""
+                    className={`text-right font-medium ${record.runDifferential > 0 ? "text-green-600 dark:text-green-400" : record.runDifferential < 0 ? "text-red-500" : ""
                       }`}
                   >
                     {record.runDifferential > 0 ? "+" : ""}

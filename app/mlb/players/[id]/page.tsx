@@ -142,7 +142,7 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
               <Badge variant="outline">{position}</Badge>
               {jersey !== "—" && <Badge variant="outline">#{jersey}</Badge>}
               {player.active && (
-                <Badge variant="outline" className="border-green-500/50 text-green-500">
+                <Badge variant="outline" className="border-green-500/50 text-green-600 dark:text-green-400">
                   Active
                 </Badge>
               )}

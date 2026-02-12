@@ -25,7 +25,6 @@ const TriviaPanel = dynamicImport(
     })),
   {
     loading: () => <Skeleton className="h-[300px] w-full" />,
-    ssr: false,
   },
 );
 

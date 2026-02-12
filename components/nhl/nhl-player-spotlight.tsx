@@ -58,32 +58,29 @@ function NHLPlayerSpotlightContent() {
       <div className="flex items-center gap-2">
         <h2 className="mr-4 text-primary">Player of the Day</h2>
       </div>
-      <div className="flex gap-3 sm:gap-6 items-center">
-        <div className="space-y-2 sm:space-y-3 flex-1 min-w-0">
-          <div>
+      <div className="flex flex-col gap-3">
+        <div className="space-y-2">
+          <div className="flex items-baseline gap-2">
             <Link
               href={`/nhl/players/${player.id}`}
-              className="text-base sm:text-2xl font-bold hover:underline decoration-primary decoration-2 underline-offset-4 block"
+              className="text-base sm:text-2xl font-bold hover:underline decoration-primary decoration-2 underline-offset-4"
             >
               {player.name}
             </Link>
-            <p className="text-sm text-muted-foreground mt-1">
-              {player.team} &middot; {player.position}
-            </p>
+            <span className="text-sm text-muted-foreground">{player.position}</span>
           </div>
-          <p className="text-sm text-muted-foreground">{player.years}</p>
           <p className="text-sm text-muted-foreground">{player.fact}</p>
         </div>
         <Link
           href={`/nhl/players/${player.id}`}
-          className="shrink-0 group relative overflow-hidden rounded-xl"
+          className="group relative overflow-hidden rounded-xl flex justify-center"
         >
           <Image
             src={headshotUrl}
             alt={player.name}
             width={275}
             height={275}
-            className="rounded-xl transition-transform group-hover:scale-105 w-[70px] sm:w-[200px] md:w-[250px] lg:w-[300px] h-auto"
+            className="rounded-xl transition-transform group-hover:scale-105 w-[200px] sm:w-[250px] lg:w-[300px] h-auto"
             priority
           />
         </Link>

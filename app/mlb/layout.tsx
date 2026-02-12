@@ -4,8 +4,8 @@ import { SportsSiteLayout } from "@/components/sports-site/sports-layout";
 
 export const metadata: Metadata = {
   title: {
-    default: "Major League Numbers",
-    template: "%s | Major League Numbers",
+    default: "MLB Numbers",
+    template: "%s | MLB Numbers",
   },
   description:
     "Explore MLB player stats, team rosters, and league standings in real-time.",
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     "baseball reference",
   ],
   openGraph: {
-    title: "Major League Numbers",
+    title: "MLB Numbers",
     description: "Explore MLB player stats, team rosters, and league standings in real-time.",
     url: "/mlb",
     siteName: "Major League Numbers",
