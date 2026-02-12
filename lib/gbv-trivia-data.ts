@@ -111,8 +111,8 @@ export const gbvTriviaQuestions: GbvTriviaQuestion[] = [
     id: 13,
     question: "How many studio albums did GBV release in 2022?",
     options: ["1", "2", "3", "4"],
-    correctAnswer: 1,
-    explanation: "GBV released two albums in 2022: Crystal Nuns Cathedral and Tremblers and Goggles by Rank. La La Land and Welshpool Frillies were released in 2023.",
+    correctAnswer: 2,
+    explanation: "GBV released three albums in 2022: Crystal Nuns Cathedral, Tremblers and Goggles by Rank, and Scalping the Guru.",
     category: "history",
   },
   {
@@ -135,8 +135,8 @@ export const gbvTriviaQuestions: GbvTriviaQuestion[] = [
     id: 16,
     question: "How many studio albums did GBV release in 2020?",
     options: ["1", "2", "3", "4"],
-    correctAnswer: 2,
-    explanation: "GBV released three albums in 2020: Surrender Your Poppy Field, Mirrored Aztec, and Styles We Paid For.",
+    correctAnswer: 3,
+    explanation: "GBV released four albums in 2020: Volcano, Surrender Your Poppy Field, Mirrored Aztec, and Styles We Paid For.",
     category: "history",
   },
   {
@@ -265,7 +265,7 @@ export const gbvTriviaQuestions: GbvTriviaQuestion[] = [
     question: "What year was Bee Thousand released?",
     options: ["1992", "1993", "1994", "1995"],
     correctAnswer: 2,
-    explanation: "Bee Thousand was released in 1994 on Matador Records.",
+    explanation: "Bee Thousand was released in 1994 on Scat Records.",
     category: "albums",
   },
   {
@@ -475,7 +475,7 @@ export const gbvTriviaQuestions: GbvTriviaQuestion[] = [
     question: "What is the name of GBV's album that shares its title with a Ryan Gosling movie?",
     options: ["Cool Planet", "La La Land", "Half Smiles of the Decomposed", "Space Gun"],
     correctAnswer: 1,
-    explanation: "La La Land was released in 2022.",
+    explanation: "La La Land was released in 2023.",
     category: "albums",
   },
   {
@@ -483,15 +483,15 @@ export const gbvTriviaQuestions: GbvTriviaQuestion[] = [
     question: "Which GBV album has a Welsh place name in its title?",
     options: ["Crystal Nuns Cathedral", "Janitor Revealed", "Welshpool Frillies", "Tremblers and Goggles by Rank"],
     correctAnswer: 2,
-    explanation: "Welshpool Frillies was released in 2022.",
+    explanation: "Welshpool Frillies was released in 2023.",
     category: "albums",
   },
   {
     id: 59,
-    question: "What is the title of the GBV album released between The Bears for Lunch and English Little League?",
-    options: ["Let's Go Eat the Factory", "Class Clown Spots a UFO", "Motivational Jumpsuit", "Cool Planet"],
-    correctAnswer: 0,
-    explanation: "Let's Go Eat the Factory, Class Clown Spots a UFO, and The Bears for Lunch were all released in 2012, followed by English Little League in 2013.",
+    question: "Which of these albums was NOT released in 2012?",
+    options: ["Let's Go Eat the Factory", "Class Clown Spots a UFO", "English Little League", "The Bears for Lunch"],
+    correctAnswer: 2,
+    explanation: "English Little League was released in 2013. The other three — Let's Go Eat the Factory, Class Clown Spots a UFO, and The Bears for Lunch — were all released in 2012.",
     category: "albums",
   },
   {
@@ -763,7 +763,7 @@ export const gbvTriviaQuestions: GbvTriviaQuestion[] = [
   {
     id: 93,
     question: "Who was the drummer in the classic GBV lineup?",
-    options: ["Jim Macpherson", "Kevin March", "Kevin Fennell", "Don Thrasher"],
+    options: ["Jim MacPherson", "Kevin March", "Kevin Fennell", "Don Thrasher"],
     correctAnswer: 2,
     explanation: "Kevin Fennell was the drummer in the classic GBV lineup.",
     category: "members",
@@ -787,7 +787,7 @@ export const gbvTriviaQuestions: GbvTriviaQuestion[] = [
   {
     id: 96,
     question: "Who is the drummer in GBV's current (2024) lineup?",
-    options: ["Kevin Fennell", "Jim Macpherson", "Kevin March", "Jon McCann"],
+    options: ["Kevin Fennell", "Jim MacPherson", "Kevin March", "Jon McCann"],
     correctAnswer: 2,
     explanation: "Kevin March is the drummer in the current GBV lineup.",
     category: "members",
@@ -818,10 +818,10 @@ export const gbvTriviaQuestions: GbvTriviaQuestion[] = [
   },
   {
     id: 100,
-    question: "Which Robert Pollard side project was a power trio active from 2008-2011?",
+    question: "Which Robert Pollard side project was a power trio active from 2008-2013?",
     options: ["Circus Devils", "Boston Spaceships", "Ricked Wicky", "Lifeguards"],
     correctAnswer: 1,
-    explanation: "Boston Spaceships was a Pollard side project active from 2008 to 2011.",
+    explanation: "Boston Spaceships was a Pollard side project active from 2008 to 2013.",
     category: "members",
   },
   {
@@ -938,9 +938,9 @@ export const gbvTriviaQuestions: GbvTriviaQuestion[] = [
   {
     id: 113,
     question: "Which former GBV drummer later played with the Breeders?",
-    options: ["Kevin Fennell", "Jim Macpherson", "Kevin March", "Don Thrasher"],
+    options: ["Kevin Fennell", "Jim MacPherson", "Kevin March", "Don Thrasher"],
     correctAnswer: 1,
-    explanation: "Jim Macpherson played drums in GBV and also with the Breeders.",
+    explanation: "Jim MacPherson played drums in GBV and also with the Breeders.",
     category: "members",
   },
   {
@@ -1130,8 +1130,8 @@ export const gbvTriviaQuestions: GbvTriviaQuestion[] = [
     id: 133,
     question: "How many albums did GBV release in the year 2022?",
     options: ["1", "2", "3", "4"],
-    correctAnswer: 1,
-    explanation: "GBV released two albums in 2022: Crystal Nuns Cathedral (March) and Tremblers and Goggles by Rank (July).",
+    correctAnswer: 2,
+    explanation: "GBV released three albums in 2022: Crystal Nuns Cathedral, Tremblers and Goggles by Rank, and Scalping the Guru.",
     category: "facts",
   },
   {
