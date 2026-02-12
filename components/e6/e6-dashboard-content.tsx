@@ -64,8 +64,8 @@ export function E6DashboardContent() {
           RemoteImage={E6RemoteImage}
           imageFit="contain"
           placeholderVariant="next-image"
-          placeholderClassName="w-1/2 h-1/2 object-contain"
-          placeholderSize={32}
+          placeholderClassName="w-full h-auto opacity-30 p-4"
+          placeholderSize={200}
         />
       </DashboardDailyRow>
 
@@ -98,8 +98,8 @@ export function E6DashboardContent() {
           cacheKeyPrefix="e6-release-thumb"
           imageFit="cover"
           placeholderVariant="next-image"
-          placeholderClassName="w-1/2 h-1/2 object-contain"
-          placeholderSize={32}
+          placeholderClassName="w-full h-auto opacity-30 p-4"
+          placeholderSize={200}
         />
       </div>
     </div>

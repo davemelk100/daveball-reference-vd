@@ -162,11 +162,7 @@ function TriviaPanelContent() {
 
   const handleShare = async () => {
     const score = answeredQuestions.filter((a) => a.isCorrect).length;
-    const date = new Date().toLocaleDateString("en-US", {
-      month: "numeric",
-      day: "numeric",
-    });
-    const text = `I got ${score}/5 on today's (${date}) ${site.name} trivia!\n\nPlay here: https://majorleaguenumbers.com${site.basePath}`;
+    const text = `I got ${score}/5 on ${site.name} trivia; play here! https://majorleaguenumbers.com${site.basePath}`;
 
     if (navigator.share) {
       try {

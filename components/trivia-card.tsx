@@ -126,11 +126,7 @@ function TriviaCardContent() {
 
   const handleShare = async () => {
     const score = answeredQuestions.filter((a) => a.isCorrect).length;
-    const date = new Date().toLocaleDateString("en-US", {
-      month: "numeric",
-      day: "numeric",
-    });
-    const text = `I got ${score}/5 on today's (${date}) Major League Numbers trivia! ⚾\n\nPlay here: https://majorleaguenumbers.com/mlb`;
+    const text = `I got ${score}/5 on Major League Numbers trivia; play here! https://majorleaguenumbers.com/mlb`;
 
     if (navigator.share) {
       try {
@@ -425,11 +421,7 @@ function TriviaPanelContent() {
 
   const handleShare = async () => {
     const score = answeredQuestions.filter((a) => a.isCorrect).length;
-    const date = new Date().toLocaleDateString("en-US", {
-      month: "numeric",
-      day: "numeric",
-    });
-    const text = `I got ${score}/5 on today's (${date}) Major League Numbers trivia! ⚾\n\nPlay here: https://majorleaguenumbers.com/mlb`;
+    const text = `I got ${score}/5 on Major League Numbers trivia; play here! https://majorleaguenumbers.com/mlb`;
 
     if (navigator.share) {
       try {

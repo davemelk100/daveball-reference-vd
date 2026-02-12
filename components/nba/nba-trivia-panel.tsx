@@ -102,11 +102,7 @@ function NBATriviaContent() {
 
   const handleShare = async () => {
     const score = answeredQuestions.filter((a) => a.isCorrect).length;
-    const date = new Date().toLocaleDateString("en-US", {
-      month: "numeric",
-      day: "numeric",
-    });
-    const text = `I got ${score}/5 on today's (${date}) NBA Numbers trivia!\n\nPlay here: https://majorleaguenumbers.com/nba`;
+    const text = `I got ${score}/5 on NBA Numbers trivia; play here! https://majorleaguenumbers.com/nba`;
 
     if (navigator.share) {
       try {

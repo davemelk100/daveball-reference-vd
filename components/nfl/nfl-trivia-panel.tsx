@@ -102,11 +102,7 @@ function NFLTriviaPanelContent() {
 
   const handleShare = async () => {
     const score = answeredQuestions.filter((a) => a.isCorrect).length;
-    const date = new Date().toLocaleDateString("en-US", {
-      month: "numeric",
-      day: "numeric",
-    });
-    const text = `I got ${score}/5 on today's (${date}) NFL Numbers trivia!\n\nPlay here: https://majorleaguenumbers.com/nfl`;
+    const text = `I got ${score}/5 on NFL Numbers trivia; play here! https://majorleaguenumbers.com/nfl`;
 
     if (navigator.share) {
       try {
