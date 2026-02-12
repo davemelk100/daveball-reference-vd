@@ -7,6 +7,7 @@ const USER_AGENT = "Elephant6RecordingCo/1.0";
 const E6_LABEL_ID = 43843;
 
 const releaseCache = new Map<string, { data: any; timestamp: number }>();
+const artistCache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_TTL = 24 * 60 * 60 * 1000;
 
 let labelReleaseLookup: Map<string, number> | null = null;
@@ -156,6 +157,44 @@ export async function GET(request: Request) {
 
       releaseCache.set(cacheKey, { data: release, timestamp: Date.now() });
       return NextResponse.json({ release });
+    }
+
+    if (type === "artist") {
+      const name = searchParams.get("name") || "";
+      if (!name) {
+        return NextResponse.json({ artist: null });
+      }
+
+      const cacheKey = name.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const cached = artistCache.get(cacheKey);
+      if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+        return NextResponse.json({ artist: cached.data, cached: true });
+      }
+
+      const q = encodeURIComponent(name);
+      const searchData = await fetchFromDiscogs(
+        `/database/search?q=${q}&type=artist&per_page=5`
+      );
+      const results = searchData?.results || [];
+      const match = results.find((r: any) =>
+        r.title?.toLowerCase() === name.toLowerCase()
+      ) || results[0];
+
+      if (!match) {
+        artistCache.set(cacheKey, { data: null, timestamp: Date.now() });
+        return NextResponse.json({ artist: null });
+      }
+
+      const artistData = {
+        id: match.id,
+        name: match.title,
+        imageUrl: match.cover_image && !match.cover_image.includes("spacer.gif")
+          ? match.cover_image
+          : undefined,
+      };
+
+      artistCache.set(cacheKey, { data: artistData, timestamp: Date.now() });
+      return NextResponse.json({ artist: artistData });
     }
 
     return NextResponse.json({ error: "Invalid type parameter" }, { status: 400 });

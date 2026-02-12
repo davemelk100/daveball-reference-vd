@@ -117,12 +117,95 @@ const amrepEditorialSources: Source[] = [
   },
 ];
 
+const e6DataSources: Source[] = [
+  {
+    name: "Discogs",
+    url: "https://www.discogs.com/label/43843-The-Elephant-6-Recording-Company",
+    description: "Music database for E6 discography, tracklists, and cover art.",
+  },
+  {
+    name: "Wikipedia",
+    url: "https://en.wikipedia.org/wiki/The_Elephant_6_Recording_Company",
+    description: "History, member roster, and overview of the Elephant 6 collective.",
+  },
+  {
+    name: "Wikimedia Commons",
+    url: "https://commons.wikimedia.org/",
+    description: "Freely usable media files including artist and band photos.",
+  },
+  {
+    name: "Bandcamp",
+    url: "https://bandcamp.com/",
+    description: "Artist images and music from E6-affiliated bands.",
+  },
+];
+
+const e6EditorialSources: Source[] = [
+  {
+    name: "Pitchfork",
+    url: "https://pitchfork.com/",
+    description: "Reviews of landmark E6 albums including In the Aeroplane Over the Sea.",
+  },
+  {
+    name: "AllMusic",
+    url: "https://www.allmusic.com/",
+    description: "Artist biographies and album reviews for E6-affiliated acts.",
+  },
+];
+
+const revDataSources: Source[] = [
+  {
+    name: "Discogs",
+    url: "https://www.discogs.com/label/2883-Revelation-Records",
+    description: "Music database for Revelation Records discography and release details.",
+  },
+  {
+    name: "Revelation Records",
+    url: "https://www.revelationrecords.com/",
+    description: "Official label site with catalog, artist roster, and store.",
+  },
+  {
+    name: "Wikipedia",
+    url: "https://en.wikipedia.org/wiki/Revelation_Records",
+    description: "Label history, discography, and founding story.",
+  },
+  {
+    name: "Wikimedia Commons",
+    url: "https://commons.wikimedia.org/",
+    description: "Freely usable media files including band and artist photos.",
+  },
+];
+
+const revEditorialSources: Source[] = [
+  {
+    name: "Punknews.org",
+    url: "https://www.punknews.org/",
+    description: "Coverage of hardcore and punk releases on the Revelation roster.",
+  },
+  {
+    name: "AllMusic",
+    url: "https://www.allmusic.com/",
+    description: "Album reviews and artist profiles for Revelation Records bands.",
+  },
+];
+
+function getSourcesForSite(siteId: string) {
+  switch (siteId) {
+    case "amrep":
+      return { data: amrepDataSources, editorial: amrepEditorialSources };
+    case "e6":
+      return { data: e6DataSources, editorial: e6EditorialSources };
+    case "rev":
+      return { data: revDataSources, editorial: revEditorialSources };
+    default:
+      return { data: dataSources, editorial: editorialSources };
+  }
+}
+
 export function SiteSourcesContent() {
   const pathname = usePathname();
   const site = getMusicSiteFromPathname(pathname);
-  const isAmrep = site.id === "amrep";
-  const data = isAmrep ? amrepDataSources : dataSources;
-  const editorial = isAmrep ? amrepEditorialSources : editorialSources;
+  const { data, editorial } = getSourcesForSite(site.id);
 
   return (
     <div className="container py-6">

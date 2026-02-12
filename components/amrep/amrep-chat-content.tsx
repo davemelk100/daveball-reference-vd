@@ -92,6 +92,15 @@ const revChatPrompts = [
   "Want a quick Revelation Records label history?",
 ];
 
+const e6ChatPrompts = [
+  "Ask about an Elephant 6 artist or release.",
+  "Want to explore the E6 collective?",
+  "Looking for lo-fi psychedelic pop?",
+  "Let's dig into the E6 catalog.",
+  "Need a primer on the Elephant 6 roster?",
+  "Want a quick Elephant 6 history?",
+];
+
 interface SavedChat {
   id: string;
   title: string;
@@ -115,6 +124,11 @@ const CHAT_KEYS = {
     chats: "rev-saved-chats",
     session: "rev-chat-session",
     idPrefix: "rev",
+  },
+  e6: {
+    chats: "e6-saved-chats",
+    session: "e6-chat-session",
+    idPrefix: "e6",
   },
 };
 
@@ -211,7 +225,7 @@ export function GbvChatContent() {
   const pathname = usePathname();
   const site = getMusicSiteFromPathname(pathname);
   const keys = CHAT_KEYS[site.id as keyof typeof CHAT_KEYS];
-  const sitePrompts = site.id === "amrep" ? amrepChatPrompts : site.id === "rev" ? revChatPrompts : chatPrompts;
+  const sitePrompts = site.id === "amrep" ? amrepChatPrompts : site.id === "rev" ? revChatPrompts : site.id === "e6" ? e6ChatPrompts : chatPrompts;
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState("");
@@ -226,7 +240,7 @@ export function GbvChatContent() {
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: site.id === "amrep" ? "/api/amrep/ask" : site.id === "rev" ? "/api/rev/ask" : "/api/gbv/ask",
+        api: site.id === "amrep" ? "/api/amrep/ask" : site.id === "rev" ? "/api/rev/ask" : site.id === "e6" ? "/api/e6/ask" : "/api/gbv/ask",
       }),
     [],
   );

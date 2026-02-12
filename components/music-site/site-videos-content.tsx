@@ -119,12 +119,72 @@ const revVideos: Video[] = [
   },
 ];
 
+const e6Videos: Video[] = [
+  {
+    id: "W6H8WcTPnWM",
+    title: "Neutral Milk Hotel - In the Aeroplane Over the Sea",
+    description: "Title track from the landmark album In the Aeroplane Over the Sea (1998).",
+  },
+  {
+    id: "Nu91q_F4fuA",
+    title: "Neutral Milk Hotel - Holland, 1945",
+    description: "The only single from In the Aeroplane Over the Sea (1998).",
+  },
+  {
+    id: "LULmbLlPvVk",
+    title: "Neutral Milk Hotel - The King of Carrot Flowers, Pt. 1",
+    description: "Opening track from In the Aeroplane Over the Sea (1998).",
+  },
+  {
+    id: "L8cCPH1qnYI",
+    title: "of Montreal - Wraith Pinned to the Mist and Other Games",
+    description: "Official music video from The Sunlandic Twins (2005).",
+  },
+  {
+    id: "HBfgQvM7wtE",
+    title: "of Montreal - Gronlandic Edit",
+    description: "Official music video from Hissing Fauna, Are You the Destroyer? (2007).",
+  },
+  {
+    id: "5VeIL7juFE0",
+    title: "of Montreal - Heimdalsgate Like a Promethean Curse",
+    description: "Official music video from Hissing Fauna, Are You the Destroyer? (2007).",
+  },
+  {
+    id: "B6gSSsCdFeA",
+    title: "The Apples in Stereo - Energy",
+    description: "Music video directed by Elijah Wood from New Magnetic Wonder (2007).",
+  },
+  {
+    id: "H74VcyVetrA",
+    title: "The Olivia Tremor Control - The Sylvan Screen",
+    description: "From Music from the Unrealized Film Script: Dusk at Cubist Castle (1996).",
+  },
+  {
+    id: "VmXtP3ciD0I",
+    title: "Beulah - Score From Augusta",
+    description: "From The Coast Is Never Clear (2001).",
+  },
+  {
+    id: "cS5AhnmjDJ0",
+    title: "Circulatory System - Inside Blasts",
+    description: "From the self-titled debut Circulatory System (2001).",
+  },
+];
+
+function getVideosForSite(siteId: string) {
+  switch (siteId) {
+    case "amrep": return amrepVideos;
+    case "e6": return e6Videos;
+    case "rev": return revVideos;
+    default: return videos;
+  }
+}
+
 export function SiteVideosContent() {
   const pathname = usePathname();
   const site = getMusicSiteFromPathname(pathname);
-  const isAmrep = site.id === "amrep";
-  const isRev = site.id === "rev";
-  const list = isRev ? revVideos : isAmrep ? amrepVideos : videos;
+  const list = getVideosForSite(site.id);
 
   return (
     <div className="container py-6">

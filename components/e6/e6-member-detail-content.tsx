@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, ExternalLink } from "lucide-react";
@@ -10,19 +10,34 @@ import { getE6ArtistById, getE6ArtistImageUrl } from "@/lib/e6-artists-data";
 import { getE6ReleasesByArtist } from "@/lib/e6-discography-data";
 import Image from "next/image";
 
-function DetailArtistImage({ name, imageUrl }: { name: string; imageUrl?: string }) {
+function DetailArtistImage({ name, staticUrl }: { name: string; staticUrl?: string }) {
+  const [imageUrl, setImageUrl] = useState<string | null>(staticUrl || null);
   const [failed, setFailed] = useState(false);
   const handleError = useCallback(() => setFailed(true), []);
 
-  if (!imageUrl || failed) {
+  useEffect(() => {
+    if (staticUrl) return;
+
+    const params = new URLSearchParams({ type: "artist", name });
+    fetch(`/api/e6/discogs?${params}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.artist?.imageUrl) {
+          setImageUrl(data.artist.imageUrl);
+        }
+      })
+      .catch(() => {});
+  }, [name, staticUrl]);
+
+  if (imageUrl && !failed) {
     return (
       <div className="w-full aspect-square bg-muted/30 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
-        <Image
-          src="/e6-logo.png"
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={imageUrl}
           alt={name}
-          width={200}
-          height={200}
-          className="opacity-30 w-full h-auto p-4"
+          className="w-full h-full object-cover"
+          onError={handleError}
         />
       </div>
     );
@@ -30,12 +45,12 @@ function DetailArtistImage({ name, imageUrl }: { name: string; imageUrl?: string
 
   return (
     <div className="w-full aspect-square bg-muted/30 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
-      <img
-        src={imageUrl}
+      <Image
+        src="/e6-logo.png"
         alt={name}
-        className="w-full h-full object-cover"
-        loading="lazy"
-        onError={handleError}
+        width={200}
+        height={200}
+        className="opacity-30 w-full h-auto p-4"
       />
     </div>
   );
@@ -76,7 +91,7 @@ export function E6MemberDetailContent({ memberId }: { memberId: string }) {
       <div className="grid gap-8 lg:grid-cols-[1fr_1.5fr]">
         {/* Left: artist image + info */}
         <div>
-          <DetailArtistImage name={artist.name} imageUrl={imageUrl} />
+          <DetailArtistImage name={artist.name} staticUrl={imageUrl} />
           <h1 className="font-league mb-2">{artist.name}</h1>
           {artist.yearsActive && (
             <p className="text-sm text-muted-foreground mb-2">

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Home } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
@@ -74,6 +75,19 @@ export function SiteSwitcher({ variant = "default" }: { variant?: "default" | "m
         className="bg-popover text-popover-foreground w-56 p-3"
       >
         <div className="space-y-3">
+          <Link
+            href="/"
+            onClick={() => setOpen(false)}
+            className={cn(
+              "flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm transition-colors",
+              pathname === "/"
+                ? "bg-primary/10 text-primary font-medium"
+                : "hover:bg-muted text-popover-foreground"
+            )}
+          >
+            <Home className="h-5 w-5" />
+            Home
+          </Link>
           <div>
             <p className="text-xs font-semibold text-muted-foreground mb-1.5 px-1">Sports</p>
             <div className="space-y-0.5">
