@@ -4,6 +4,7 @@ const MUSIC_SITES = [
   { id: "gbv", name: "GBV", albumId: 55972 },
   { id: "amrep", name: "AmRep", albumId: 1 },
   { id: "rev", name: "Rev", albumId: 1 },
+  { id: "e6", name: "E6", albumId: 2 },
 ];
 
 const SPORTS_SITES = [

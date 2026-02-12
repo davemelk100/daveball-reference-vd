@@ -47,7 +47,7 @@ export function Header() {
                   className="h-12 w-12 p-0 xl:hidden"
                   aria-label="Search MLB"
                 >
-                  <Search className="h-7 w-7" />
+                  <Search className="h-9 w-9" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent
@@ -65,7 +65,7 @@ export function Header() {
               className="h-12 w-12 p-0 xl:hidden"
               aria-label="Search MLB"
             >
-              <Search className="h-7 w-7" />
+              <Search className="h-9 w-9" />
             </Button>
           )}
           <div className="hidden xl:flex items-center gap-4">
