@@ -210,7 +210,7 @@ export const E6_SITE: MusicSiteConfig = {
   chatIconSrc: "/e6-logo.png",
   placeholderIconSrc: "/e6-logo.png",
   shellClass: "e6-shell",
-  logoClassName: "h-10 w-auto sm:h-12 lg:h-14 lg:w-auto",
+  logoClassName: "h-auto w-[15%]",
   description:
     "The Elephant 6 Recording Company is a collective of musicians formed in the early 1990s, centered in Athens, Georgia. Built around a shared love of lo-fi recording, psychedelic pop, and collaborative creativity, E6 produced some of the most acclaimed indie music of the era through artists like Neutral Milk Hotel, The Apples in Stereo, The Olivia Tremor Control, and of Montreal.",
   navLabels: {
@@ -271,7 +271,7 @@ export const REVELATION_SITE: MusicSiteConfig = {
   chatIconSrc: "/rev-icon.svg",
   placeholderIconSrc: "/rev-icon.svg",
   shellClass: "revelation-shell",
-  logoClassName: "h-10 w-auto sm:h-12 lg:h-14 lg:w-auto",
+  logoClassName: "h-auto w-[15%]",
   description:
     "Revelation Records is an independent record label founded by Jordan Cooper in 1987 in New Haven, Connecticut. A cornerstone of the American hardcore and punk scene, Revelation helped launch the careers of iconic bands like Youth of Today, Gorilla Biscuits, Bold, Chain of Strength, and Judge, and remains one of the most influential labels in hardcore music history.",
   navLabels: {

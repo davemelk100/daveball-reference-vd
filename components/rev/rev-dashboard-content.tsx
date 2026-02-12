@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
 import { TriviaPanel } from "@/components/music-site/trivia-panel";
@@ -13,7 +14,7 @@ import {
   DashboardSectionHeader,
 } from "@/components/music-site/dashboard-sections";
 import { getRevArtistImageUrl, type RevArtist } from "@/lib/rev-artists-data";
-import { getRevReleaseImageUrl, type RevRelease } from "@/lib/rev-discography-data";
+import { type RevRelease } from "@/lib/rev-discography-data";
 
 const FEATURED_BANDS: (RevArtist & { imageUrl?: string | null })[] = [
   { id: "youth-of-today", name: "Youth of Today" },
@@ -34,27 +35,58 @@ type RevDashboardAlbum = {
   format?: string;
 };
 
-const FEATURED_RELEASES: RevDashboardAlbum[] = [
+const FEATURED_RELEASE_DATA: RevRelease[] = [
   { catalogNumber: 1, artist: "Warzone", title: "Lower East Side Crew", year: 1987 },
   { catalogNumber: 8, artist: "Youth of Today", title: "Break Down the Walls", year: 1986 },
   { catalogNumber: 12, artist: "Gorilla Biscuits", title: "Start Today", year: 1989 },
   { catalogNumber: 15, artist: "Judge", title: "Bringin' It Down", year: 1989 },
   { catalogNumber: 16, artist: "Shelter", title: "Perfection of Desire", year: 1990 },
   { catalogNumber: 18, artist: "Quicksand", title: "Quicksand", year: 1990 },
-].map((r: RevRelease) => ({
+];
+
+const FEATURED_RELEASES: RevDashboardAlbum[] = FEATURED_RELEASE_DATA.map((r) => ({
   id: r.catalogNumber,
   title: `${r.artist} — ${r.title}`,
   year: r.year,
   format: r.format,
 }));
 
-function getRevDashboardAlbumImage(album: RevDashboardAlbum): string | null {
-  return getRevReleaseImageUrl(album.id) ?? null;
-}
-
 export function RevDashboardContent() {
   const pathname = usePathname();
   const site = getMusicSiteFromPathname(pathname);
+  const [coverImages, setCoverImages] = useState<Record<number, string>>({});
+
+  useEffect(() => {
+    let active = true;
+    async function fetchCovers() {
+      for (const r of FEATURED_RELEASE_DATA) {
+        if (!active) break;
+        try {
+          const params = new URLSearchParams({
+            type: "resolve",
+            artist: r.artist,
+            title: r.title,
+          });
+          const res = await fetch(`/api/rev/discogs?${params}`);
+          if (!res.ok) continue;
+          const data = await res.json();
+          const url = data.release?.coverImage;
+          if (url && active) {
+            setCoverImages((prev) => ({ ...prev, [r.catalogNumber]: url }));
+          }
+        } catch {
+          // skip failed fetches
+        }
+      }
+    }
+    fetchCovers();
+    return () => { active = false; };
+  }, []);
+
+  const getAlbumImage = useCallback(
+    (album: RevDashboardAlbum): string | null => coverImages[album.id] ?? null,
+    [coverImages],
+  );
 
   return (
     <div className="container py-2">
@@ -75,7 +107,7 @@ export function RevDashboardContent() {
       {/* Bands */}
       <div className="mb-8">
         <DashboardSectionHeader
-          title="Bands"
+          title="Featured Bands"
           href={`${site.basePath}/members`}
         />
         <DashboardMembersGrid
@@ -88,14 +120,14 @@ export function RevDashboardContent() {
       {/* Releases */}
       <div className="mb-8">
         <DashboardSectionHeader
-          title="Releases"
+          title="Featured Releases"
           href={`${site.basePath}/albums`}
         />
         <DashboardDiscographyGrid
           albums={FEATURED_RELEASES}
           site={site}
           linkBasePath={`${site.basePath}/albums`}
-          getAlbumImage={getRevDashboardAlbumImage}
+          getAlbumImage={getAlbumImage}
           getReleaseTypeLabel={() => "Album"}
           RemoteImage={RevRemoteImage}
           cacheKeyPrefix="rev-release-thumb"

@@ -9,6 +9,7 @@ import { getProxiedImageUrl, normalizeImageUrl } from "@/lib/image-utils";
 const SITE_LOOKUP_CONTEXT: Record<string, string> = {
   gbv: "Guided By Voices",
   amrep: "Amphetamine Reptile Records",
+  e6: "Elephant 6 Recording Company",
 };
 
  type MemberAvatarProps = {
@@ -83,17 +84,33 @@ const SITE_LOOKUP_CONTEXT: Record<string, string> = {
 
      let isActive = true;
     const lookupContext = SITE_LOOKUP_CONTEXT[cacheKeyPrefix];
-    async function fetchCommons() {
+    const useDiscogsLookup = cacheKeyPrefix === "e6" || cacheKeyPrefix === "rev";
+
+    async function fetchImage() {
        try {
-        const query = new URLSearchParams({ name });
-        if (lookupContext) {
-          query.set("context", lookupContext);
+        let imageUrl: string | null = null;
+
+        if (useDiscogsLookup) {
+          const q = new URLSearchParams({ type: "artist", name });
+          const res = await fetch(`/api/${cacheKeyPrefix}/discogs?${q.toString()}`);
+          if (!res.ok) return;
+          const data = await res.json();
+          imageUrl = data?.artist?.imageUrl || null;
+        } else {
+          const query = new URLSearchParams({ name });
+          if (lookupContext) {
+            query.set("context", lookupContext);
+          }
+          const res = await fetch(`/api/gbv/commons-image?${query.toString()}`);
+          if (!res.ok) return;
+          const data = await res.json();
+          imageUrl = typeof data?.imageUrl === "string" && data.imageUrl.length > 0
+            ? data.imageUrl
+            : null;
         }
-        const res = await fetch(`/api/gbv/commons-image?${query.toString()}`);
-         if (!res.ok) return;
-         const data = await res.json();
-        if (typeof data?.imageUrl === "string" && data.imageUrl.length > 0) {
-          const proxiedUrl = getProxiedImageUrl(data.imageUrl);
+
+        if (imageUrl) {
+          const proxiedUrl = getProxiedImageUrl(imageUrl);
           if (!proxiedUrl) return;
            if (isActive) {
             setResolvedImageUrl(proxiedUrl);
@@ -113,7 +130,7 @@ const SITE_LOOKUP_CONTEXT: Record<string, string> = {
        }
      }
 
-     fetchCommons();
+     fetchImage();
      return () => {
        isActive = false;
      };

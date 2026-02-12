@@ -77,14 +77,19 @@ export function GbvDashboardContent() {
           members={membersToShow}
           site={site}
           linkBasePath={`${site.basePath}/members`}
-          memberAvatarProps={{ fallbackImages: MEMBER_IMAGE_FALLBACKS }}
+          memberAvatarProps={{
+            fallbackImages: MEMBER_IMAGE_FALLBACKS,
+            placeholderSize: 200,
+            placeholderClassName: "opacity-30 w-full h-auto p-4",
+            fallbackClassName: "opacity-30 w-full h-auto p-4",
+          }}
         />
       </div>
 
       {/* Discography */}
       <div className="mb-8">
         <DashboardSectionHeader
-          title={site.navLabels.discography}
+          title="Featured Releases"
           href={`${site.basePath}/albums`}
         />
         <DashboardDiscographyGrid
@@ -99,8 +104,8 @@ export function GbvDashboardContent() {
           cacheKeyPrefix="gbv-album-thumb"
           imageFit="cover"
           placeholderVariant="next-image"
-          placeholderClassName="w-1/2 h-1/2 gbv-nav-icon object-contain"
-          placeholderSize={24}
+          placeholderClassName="w-full h-auto opacity-30 p-4"
+          placeholderSize={200}
         />
       </div>
     </div>

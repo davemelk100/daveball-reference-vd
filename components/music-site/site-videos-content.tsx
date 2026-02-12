@@ -117,6 +117,46 @@ const revVideos: Video[] = [
     title: "Revelation Records",
     description: "Revelation Records video.",
   },
+  {
+    id: "YnIEgnar4aY",
+    title: "Gorilla Biscuits - New Direction",
+    description: "From Start Today (Revelation Records, 1989). Iconic NYHC straight edge anthem.",
+  },
+  {
+    id: "RjR0GUOAXOU",
+    title: "Gorilla Biscuits - Start Today",
+    description: "Title track from Start Today (Revelation Records, 1989).",
+  },
+  {
+    id: "la_kXIiM8lQ",
+    title: "Youth of Today - Break Down the Walls",
+    description: "Title track from Break Down the Walls (1986). Straight edge youth crew classic.",
+  },
+  {
+    id: "T9oS9kk5Im4",
+    title: "Judge - New York Crew",
+    description: "From the New York Crew 7\" EP (1988). NYHC anthem from Mike Judge and Porcell.",
+  },
+  {
+    id: "dDpbMND2f0w",
+    title: "Judge - Bringin' It Down",
+    description: "Title track from Bringin' It Down (Revelation Records, 1989).",
+  },
+  {
+    id: "HGPzJs1WK88",
+    title: "Quicksand - Fazer",
+    description: "Official music video from Slip (1993). Post-hardcore crossover.",
+  },
+  {
+    id: "qdo5E8v9vXo",
+    title: "Chain of Strength - True Till Death",
+    description: "From the True Till Death 7\" EP (Revelation Records, 1989). SoCal straight edge.",
+  },
+  {
+    id: "3pr9TOf-RpU",
+    title: "Inside Out - Burning Fight",
+    description: "From No Spiritual Surrender (Revelation Records, 1990). Zack de la Rocha's pre-RATM band.",
+  },
 ];
 
 const e6Videos: Video[] = [

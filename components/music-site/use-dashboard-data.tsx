@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
 import { amrepArtists } from "@/lib/amrep-artists-data";
+import { AMREP_ARTIST_IMAGES } from "@/lib/amrep-member-images";
 import { amrepReleases } from "@/lib/amrep-releases-data";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
 import { getAmrepAlbumImage } from "@/lib/amrep-album-images";
@@ -79,7 +80,7 @@ export function useDashboardData() {
           id: artistEntry.id,
           name: artistEntry.name,
           active: true,
-          imageUrl: null,
+          imageUrl: AMREP_ARTIST_IMAGES[artistEntry.id] ?? null,
         })),
       });
       setIsLoading(false);
@@ -240,11 +241,25 @@ export function useDashboardData() {
         active: true,
       }))
     : GBV_FALLBACK_MEMBERS;
-  const memberLimit = isAmrep ? 6 : 5;
-  const membersToShow =
-    activeMembers.length > 0
-      ? activeMembers.slice(0, memberLimit)
-      : fallbackMembers.slice(0, memberLimit);
+  const memberLimit = isAmrep ? 5 : 5;
+
+  // For AmRep, cycle through 5 different artists each day
+  const membersToShow = (() => {
+    const source =
+      activeMembers.length > 0
+        ? activeMembers
+        : fallbackMembers;
+    if (isAmrep && source.length > memberLimit) {
+      const daysSinceEpoch = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+      const offset = (daysSinceEpoch * memberLimit) % source.length;
+      const cycled = [];
+      for (let i = 0; i < memberLimit; i++) {
+        cycled.push(source[(offset + i) % source.length]);
+      }
+      return cycled;
+    }
+    return source.slice(0, memberLimit);
+  })();
 
   const fallbackAlbums: DashboardAlbum[] = isAmrep
     ? amrepReleases.slice(0, 6).map((release) => ({

@@ -54,7 +54,7 @@ export function AmrepDashboardContent() {
           RemoteImage={AmrepRemoteImage}
           imageFit="contain"
           placeholderVariant="img"
-          placeholderClassName="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
+          placeholderClassName="w-full h-auto opacity-30 p-4"
         />
       </DashboardDailyRow>
 
@@ -79,6 +79,9 @@ export function AmrepDashboardContent() {
             fallbackImages: AMREP_MEMBER_IMAGE_FALLBACKS,
             skipImages: AMREP_MEMBER_IMAGE_SKIP,
             fit: "contain",
+            placeholderSize: 200,
+            placeholderClassName: "opacity-30 w-full h-auto p-4",
+            fallbackClassName: "opacity-30 w-full h-auto p-4",
           }}
         />
       </div>
@@ -86,7 +89,7 @@ export function AmrepDashboardContent() {
       {/* Discography */}
       <div className="mb-8">
         <DashboardSectionHeader
-          title={site.navLabels.discography}
+          title="Featured Releases"
           href={`${site.basePath}/albums`}
         />
         <DashboardDiscographyGrid
@@ -101,7 +104,8 @@ export function AmrepDashboardContent() {
           cacheKeyPrefix="gbv-album-thumb"
           imageFit="contain"
           placeholderVariant="img"
-          placeholderClassName="w-auto h-auto max-w-1/2 max-h-1/2 gbv-nav-icon object-contain"
+          placeholderClassName="w-full h-auto opacity-30 p-4"
+          placeholderSize={200}
         />
       </div>
 
