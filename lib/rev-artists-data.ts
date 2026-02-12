@@ -12,6 +12,7 @@ export interface RevArtist {
 // Artist image URLs from Wikipedia
 export const revArtistImages: Record<string, string> = {
   "battery": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/Battery_Coney_Island_High_1998.jpg/330px-Battery_Coney_Island_High_1998.jpg",
+  "be-well": "https://noecho.net/wp-content/uploads/2024/05/be-well-band-live.jpg",
   "bold": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Bold_live.jpg/250px-Bold_live.jpg",
   "civ": "https://upload.wikimedia.org/wikipedia/en/thumb/1/18/CIV_Lava.jpg/250px-CIV_Lava.jpg",
   "dag-nasty": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Dag_Nasty.jpg/250px-Dag_Nasty.jpg",

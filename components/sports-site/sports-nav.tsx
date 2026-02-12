@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { getSportsSiteFromPathname } from "@/lib/sports-site";
+import { SiteSwitcher } from "@/components/site-switcher";
 
 export function SportsLeftNav() {
   const pathname = usePathname();
@@ -19,6 +20,7 @@ export function SportsLeftNav() {
   return (
     <nav className="fixed top-0 left-0 bottom-0 z-40 w-20 bg-background border-r border-border pt-4 hidden sm:flex flex-col">
       <div className="flex flex-col items-center gap-2 px-2 py-2">
+        <SiteSwitcher />
         {site.navItems.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;

@@ -17,6 +17,7 @@
  } from "lucide-react";
  import { cn } from "@/lib/utils";
  import { getMusicSiteFromPathname } from "@/lib/music-site";
+ import { SiteSwitcher } from "@/components/site-switcher";
 
  interface NavItem {
    name: string;
@@ -49,6 +50,7 @@
    return (
      <nav className="fixed top-0 left-0 bottom-0 z-40 w-20 pt-4 hidden sm:flex flex-col">
        <div className="flex flex-col items-center gap-2 px-2 py-2">
+         <SiteSwitcher variant="music" />
          {navigation.map((item) => {
            const Icon = item.icon;
           const isActive = pathname === item.href;

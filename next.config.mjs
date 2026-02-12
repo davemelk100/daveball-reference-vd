@@ -171,6 +171,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "www.uspbl.com",
       },
+      {
+        protocol: "https",
+        hostname: "noecho.net",
+      },
     ],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24, // 24 hours

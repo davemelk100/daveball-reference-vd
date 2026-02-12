@@ -4,7 +4,6 @@ import { League_Gothic, Lato } from "next/font/google";
 import { LayoutWrapper } from "@/components/layout-wrapper";
 import { WebsiteJsonLd } from "@/components/json-ld";
 import { Toaster } from "@/components/ui/sonner";
-// import { Analytics } from "@vercel/analytics/react"
 import "@/styles/globals.css";
 
 const leagueGothic = League_Gothic({
@@ -72,7 +71,6 @@ export default function RootLayout({
       >
         <LayoutWrapper>{children}</LayoutWrapper>
         <Toaster />
-        {/* <Analytics /> */}
       </body>
     </html>
   );
