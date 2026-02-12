@@ -207,7 +207,7 @@ export function DashboardContent({ initialSeason }: { initialSeason: number }) {
               onValueChange={(val) => setTableLeague(val as "AL" | "NL")}
             >
               <SelectTrigger className="w-auto border-0 shadow-none p-0 h-auto bg-transparent hover:bg-transparent focus:ring-0 focus-visible:ring-0">
-                <span className="font-league text-[40px] leading-none border-b-2 border-foreground">
+                <span className="text-2xl text-bold leading-none border-b-2 border-foreground">
                   <SelectValue />
                 </span>
               </SelectTrigger>

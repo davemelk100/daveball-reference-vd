@@ -47,7 +47,7 @@ export async function generateMetadata({
     title: `${player.fullName} Stats`,
     description,
     alternates: {
-      canonical: `/players/${player.id}`,
+      canonical: `/mlb/players/${player.id}`,
     },
     openGraph: {
       title: `${player.fullName} - MLB Player Stats`,
@@ -111,17 +111,17 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
       <BreadcrumbJsonLd
         items={[
           { name: "Home", url: "https://majorleaguenumbers.com" },
-          { name: "Players", url: "https://majorleaguenumbers.com/players" },
+          { name: "Players", url: "https://majorleaguenumbers.com/mlb/players" },
           {
             name: player.fullName,
-            url: `https://majorleaguenumbers.com/players/${player.id}`,
+            url: `https://majorleaguenumbers.com/mlb/players/${player.id}`,
           },
         ]}
       />
       <main className="container py-2">
         {/* Back button */}
         <Button variant="ghost" size="sm" asChild className="mb-6">
-          <Link href="/players">
+          <Link href="/mlb/players">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Players
           </Link>
@@ -137,7 +137,8 @@ export default async function PlayerPage({ params }: PlayerPageProps) {
               alt={player.fullName}
               width={200}
               height={200}
-              className="h-[120px] md:h-[180px] w-auto rounded-lg"
+              className="h-[120px] md:h-[180px] rounded-lg"
+              style={{ width: "auto" }}
               priority
             />
           </div>

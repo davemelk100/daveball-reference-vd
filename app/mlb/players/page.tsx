@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description:
     "Browse MLB players, search by name or team, and view detailed statistics for current and historical players.",
   alternates: {
-    canonical: "/players",
+    canonical: "/mlb/players",
   },
   openGraph: {
     title: "MLB Players - Search & Stats",

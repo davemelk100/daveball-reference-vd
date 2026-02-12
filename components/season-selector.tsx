@@ -66,7 +66,7 @@ export function SeasonSelector({
               <span className="sr-only font-league text-2xl md:text-3xl font-semibold text-[#4e6095]">
                 Season
               </span>
-              <span className="font-league text-[40px] leading-none border-b-2 border-foreground">
+              <span className="text-2xl text-bold leading-none border-b-2 border-foreground">
                 <SelectValue placeholder="Season" />
               </span>
               {isLoading && (

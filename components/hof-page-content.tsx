@@ -61,7 +61,7 @@ export function HofPageContent({ hofMembers }: HofPageContentProps) {
                 <span className="sr-only font-league text-2xl md:text-2xl font-semibold text-[#4e6095]">
                   Induction Year
                 </span>
-                <span className="font-league text-[40px] leading-none border-b-2 border-foreground">
+                <span className="text-2xl text-bold leading-none border-b-2 border-foreground">
                   <SelectValue placeholder="All Years" />
                 </span>
               </div>
