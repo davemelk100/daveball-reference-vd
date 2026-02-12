@@ -16,6 +16,79 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { getPlayerHeadshotUrl, type AwardWinner } from "@/lib/mlb-api";
 import { SeasonSelector } from "@/components/season-selector";
 
+function RosterGrid({ players }: { players: AwardWinner[] }) {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {players.length > 0 ? (
+        players.map((player) => (
+          <Link
+            key={`${player.playerId}-${player.id}`}
+            href={`/mlb/players/${player.playerId}`}
+          >
+            <Card className="hover:bg-secondary/50 transition-colors cursor-pointer h-full">
+              <CardContent className="p-2 pl-4">
+                <div className="flex items-center gap-3">
+                  <div className="shrink-0">
+                    <Image
+                      src={
+                        getPlayerHeadshotUrl(player.playerId, "small") ||
+                        "/placeholder.svg"
+                      }
+                      alt={player.playerName}
+                      width={96}
+                      height={96}
+                      className="rounded-lg h-24 w-auto"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold truncate">
+                      {player.playerName}
+                    </h3>
+                    {player.team && (
+                      <p className="text-sm text-muted-foreground truncate">
+                        {player.team.name}
+                      </p>
+                    )}
+                    {player.notes && (
+                      <p className="text-xs text-muted-foreground italic mt-1 truncate">
+                        {player.notes}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        ))
+      ) : (
+        <div className="col-span-full py-12 text-center text-muted-foreground">
+          No All-Star data available for this league/season.
+        </div>
+      )}
+    </div>
+  );
+}
+
+function RosterGridSkeleton() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {Array.from({ length: 12 }).map((_, i) => (
+        <Card key={i}>
+          <CardContent className="p-2 pl-4">
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-24 w-24 rounded-lg shrink-0" />
+              <div className="flex-1 min-w-0">
+                <Skeleton className="h-5 w-32 mb-2" />
+                <Skeleton className="h-4 w-24" />
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  );
+}
+
 interface AllStarPageContentProps {
   initialSeason: number;
   rosters: {
@@ -52,76 +125,6 @@ export function AllStarPageContent({
       : selectedLeague === "nl"
         ? "National League"
         : "All-Star";
-
-  const RosterGrid = ({ players }: { players: AwardWinner[] }) => (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {players.length > 0 ? (
-        players.map((player) => (
-          <Link
-            key={`${player.playerId}-${player.id}`}
-            href={`/mlb/players/${player.playerId}`}
-          >
-            <Card className="hover:bg-secondary/50 transition-colors cursor-pointer h-full">
-              <CardContent className="p-2 pl-4">
-                <div className="flex items-center gap-3">
-                  <div className="shrink-0">
-                    <Image
-                      src={
-                        getPlayerHeadshotUrl(player.playerId, "small") ||
-                        "/placeholder.svg" ||
-                        "/placeholder.svg"
-                      }
-                      alt={player.playerName}
-                      width={96}
-                      height={96}
-                      className="rounded-lg h-24 w-auto"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold truncate">
-                      {player.playerName}
-                    </h3>
-                    {player.team && (
-                      <p className="text-sm text-muted-foreground truncate">
-                        {player.team.name}
-                      </p>
-                    )}
-                    {player.notes && (
-                      <p className="text-xs text-muted-foreground italic mt-1 truncate">
-                        {player.notes}
-                      </p>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        ))
-      ) : (
-        <div className="col-span-full py-12 text-center text-muted-foreground">
-          No All-Star data available for this league/season.
-        </div>
-      )}
-    </div>
-  );
-
-  const RosterGridSkeleton = () => (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {Array.from({ length: 12 }).map((_, i) => (
-        <Card key={i}>
-          <CardContent className="p-2 pl-4">
-            <div className="flex items-center gap-3">
-              <Skeleton className="h-24 w-24 rounded-lg shrink-0" />
-              <div className="flex-1 min-w-0">
-                <Skeleton className="h-5 w-32 mb-2" />
-                <Skeleton className="h-4 w-24" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
 
   return (
     <main className="container py-2">
