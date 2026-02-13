@@ -1,5 +1,33 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  openGraph: {
+    title: "Major League Numbers",
+    description:
+      "Sports stats and music encyclopedias — MLB, NHL, GBV, AmRep, and Revelation Records.",
+    url: "/",
+    siteName: "Major League Numbers",
+    images: [
+      {
+        url: "/og-mln.png",
+        width: 1200,
+        height: 630,
+        alt: "Major League Numbers",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Major League Numbers",
+    description:
+      "Sports stats and music encyclopedias — MLB, NHL, GBV, AmRep, and Revelation Records.",
+    images: ["/og-mln.png"],
+  },
+};
 
 const sportsSites = [
   {
