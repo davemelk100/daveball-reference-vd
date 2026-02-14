@@ -6,7 +6,7 @@ import { getDailyPGAPlayer, type PGASpotlightPlayer } from "@/lib/pga-player-spo
 import Link from "next/link";
 
 const STORAGE_KEY = "pgaDailyPlayer";
-const CACHE_VERSION = 4;
+const CACHE_VERSION = 5;
 
 function getTodayKey(): string {
   const today = new Date();
