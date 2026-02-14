@@ -10,6 +10,7 @@ const SITE_LOOKUP_CONTEXT: Record<string, string> = {
   gbv: "Guided By Voices",
   amrep: "Amphetamine Reptile Records",
   e6: "Elephant 6 Recording Company",
+  sg: "Skin Graft Records",
 };
 
  type MemberAvatarProps = {

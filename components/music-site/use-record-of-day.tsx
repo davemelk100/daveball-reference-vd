@@ -6,6 +6,7 @@ import { pickDailyGbvRecord, getDailyGbvRecord, type GbvRecordOfDay } from "@/li
 import { getDailyAmrepRecord, type AmrepRecordOfDay } from "@/lib/amrep-records-data";
 import { getDailyRevRecord, type RevRecordOfDay } from "@/lib/rev-records-data";
 import { getDailyE6Record, type E6RecordOfDay } from "@/lib/e6-records-data";
+import { getDailySgRecord, type SgRecordOfDay } from "@/lib/sg-records-data";
 import { getLocalAlbumImage } from "@/lib/gbv-album-images";
 import { getAmrepAlbumImage } from "@/lib/amrep-album-images";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
@@ -16,11 +17,24 @@ export function useRecordOfDay() {
   const isAmrep = site.id === "amrep";
   const isRev = site.id === "rev";
   const isE6 = site.id === "e6";
-  const [record, setRecord] = useState<GbvRecordOfDay | AmrepRecordOfDay | RevRecordOfDay | E6RecordOfDay | null>(null);
+  const isSg = site.id === "sg";
+  const [record, setRecord] = useState<GbvRecordOfDay | AmrepRecordOfDay | RevRecordOfDay | E6RecordOfDay | SgRecordOfDay | null>(null);
   const [coverUrl, setCoverUrl] = useState<string | null>(null);
   const [albumId, setAlbumId] = useState<number | null>(null);
 
   useEffect(() => {
+    if (isSg) {
+      const sgDaily = getDailySgRecord();
+      setRecord(sgDaily);
+      if ("catalogNumber" in sgDaily) {
+        setAlbumId(sgDaily.catalogNumber);
+      }
+      if (sgDaily.coverUrl) {
+        setCoverUrl(sgDaily.coverUrl);
+      }
+      return;
+    }
+
     if (isRev) {
       const revDaily = getDailyRevRecord();
       setRecord(revDaily);
@@ -216,7 +230,7 @@ export function useRecordOfDay() {
     }
 
     enhanceWithApiData();
-  }, [isAmrep, isRev, isE6]);
+  }, [isAmrep, isRev, isE6, isSg]);
 
   const albumHref = albumId ? `${site.basePath}/albums/${albumId}` : null;
   const displayTitle =

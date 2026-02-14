@@ -336,11 +336,77 @@ export const REVELATION_SITE: MusicSiteConfig = {
   },
 };
 
+export const SKINGRAFT_SITE: MusicSiteConfig = {
+  id: "sg",
+  name: "Skin Graft By The Numbers",
+  shortName: "SG",
+  basePath: "/sg",
+  chatLabel: "ChatSG",
+  headerTitle: "Skin Graft By The Numbers",
+  headerTextClass: "text-white",
+  logoSrc: "/sg-logo.png",
+  chatIconSrc: "/sg-logo.png",
+  placeholderIconSrc: "/sg-logo.png",
+  shellClass: "skingraft-shell",
+  logoClassName: "h-auto w-[15%]",
+  description:
+    "Skin Graft Records is an independent record label founded by Mark Fischer in 1991 in Chicago. Known for releasing experimental, noise rock, and avant-garde music, Skin Graft has championed some of the most daring and uncompromising artists in underground music, including The Flying Luttenbachers, U.S. Maple, Dazzling Killmen, Mount Shasta, and Cheer-Accident.",
+  navLabels: {
+    discography: "Releases",
+    members: "Artists",
+    sideProjects: "Imprints",
+  },
+  footerDisclaimer:
+    "All Content, Rights, Copyrights, etc. are the property of Skin Graft Records and the respective artists. This is simply a fan site.",
+  sources: [
+    {
+      label: "Discogs",
+      url: "https://www.discogs.com/label/1252-Skin-Graft-Records",
+    },
+    {
+      label: "Wikipedia",
+      url: "https://en.wikipedia.org/wiki/Skin_Graft_Records",
+    },
+    { label: "Bandcamp", url: "https://bandcamp.com/" },
+    { label: "AllMusic", url: "https://www.allmusic.com/" },
+  ],
+  imageSources: [
+    { label: "Discogs", url: "https://www.discogs.com/" },
+    { label: "Wikipedia", url: "https://en.wikipedia.org/" },
+    { label: "Wikimedia Commons", url: "https://commons.wikimedia.org/" },
+    { label: "Bandcamp", url: "https://bandcamp.com/" },
+    { label: "Last.fm", url: "https://www.last.fm/" },
+  ],
+  searchPlaceholder: "Search Skin Graft...",
+  seo: {
+    title: "Skin Graft Records",
+    titleTemplate: "%s | Skin Graft Records",
+    description:
+      "Explore Skin Graft Records: artist roster, releases, label history, and milestones.",
+    keywords: [
+      "Skin Graft Records",
+      "noise rock",
+      "experimental",
+      "avant-garde",
+      "independent label",
+      "Chicago",
+      "artists",
+      "releases",
+      "label history",
+    ],
+    siteName: "Major League Numbers",
+    ogImage: "https://majorleaguenumbers.com/sg-logo.png",
+    ogImageAlt: "Skin Graft Records",
+    twitterImage: "https://majorleaguenumbers.com/sg-logo.png",
+  },
+};
+
 export const MUSIC_SITES = [
   GBV_SITE,
   AMREP_SITE,
   REVELATION_SITE,
   E6_SITE,
+  SKINGRAFT_SITE,
 ] as const;
 
 export type MusicSiteId = (typeof MUSIC_SITES)[number]["id"];

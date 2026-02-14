@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
 import { amrepTimeline } from "@/lib/amrep-timeline-data";
 import { revTimeline } from "@/lib/rev-timeline-data";
+import { sgTimeline } from "@/lib/sg-timeline-data";
 
 const gbvTimelineEvents = [
   { year: 1983, event: "Band formed in Dayton, Ohio by Robert Pollard" },
@@ -34,8 +35,15 @@ export function SiteTimelineContent() {
   const site = getMusicSiteFromPathname(pathname);
   const isAmrep = site.id === "amrep";
   const isRev = site.id === "rev";
+  const isSg = site.id === "sg";
 
   const getEvents = () => {
+    if (isSg) {
+      return sgTimeline.map((item) => ({
+        year: item.year,
+        event: `${item.title} — ${item.description}`,
+      }));
+    }
     if (isAmrep) {
       return amrepTimeline.map((item) => ({
         year: item.year,

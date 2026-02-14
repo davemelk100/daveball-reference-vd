@@ -101,6 +101,15 @@ const e6ChatPrompts = [
   "Want a quick Elephant 6 history?",
 ];
 
+const sgChatPrompts = [
+  "Ask about a Skin Graft artist or release.",
+  "Want a quick Skin Graft label history?",
+  "Looking for noise rock from the SG roster?",
+  "Let's dig into Skin Graft's catalog.",
+  "Need a primer on the label's artists?",
+  "Which Skin Graft era are you exploring?",
+];
+
 interface SavedChat {
   id: string;
   title: string;
@@ -129,6 +138,11 @@ const CHAT_KEYS = {
     chats: "e6-saved-chats",
     session: "e6-chat-session",
     idPrefix: "e6",
+  },
+  sg: {
+    chats: "sg-saved-chats",
+    session: "sg-chat-session",
+    idPrefix: "sg",
   },
 };
 
@@ -225,7 +239,7 @@ export function GbvChatContent() {
   const pathname = usePathname();
   const site = getMusicSiteFromPathname(pathname);
   const keys = CHAT_KEYS[site.id as keyof typeof CHAT_KEYS];
-  const sitePrompts = site.id === "amrep" ? amrepChatPrompts : site.id === "rev" ? revChatPrompts : site.id === "e6" ? e6ChatPrompts : chatPrompts;
+  const sitePrompts = site.id === "sg" ? sgChatPrompts : site.id === "amrep" ? amrepChatPrompts : site.id === "rev" ? revChatPrompts : site.id === "e6" ? e6ChatPrompts : chatPrompts;
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState("");
@@ -240,7 +254,7 @@ export function GbvChatContent() {
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: site.id === "amrep" ? "/api/amrep/ask" : site.id === "rev" ? "/api/rev/ask" : site.id === "e6" ? "/api/e6/ask" : "/api/gbv/ask",
+        api: site.id === "sg" ? "/api/sg/ask" : site.id === "amrep" ? "/api/amrep/ask" : site.id === "rev" ? "/api/rev/ask" : site.id === "e6" ? "/api/e6/ask" : "/api/gbv/ask",
       }),
     [],
   );

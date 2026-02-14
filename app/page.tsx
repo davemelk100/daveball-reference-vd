@@ -93,6 +93,12 @@ const musicSites = [
     logo: "/e6-logo.png",
     description: "Collective history & catalog",
   },
+  {
+    name: "Skin Graft Records",
+    href: "/sg",
+    logo: "/sg-logo.png",
+    description: "Discography & catalog",
+  },
 ];
 
 function SiteCard({

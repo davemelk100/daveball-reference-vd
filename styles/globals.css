@@ -674,6 +674,110 @@
     border-bottom: 1px solid currentColor;
     text-decoration: none;
   }
+
+  .skingraft-shell {
+    background-color: #e8ddd0;
+    background-image: radial-gradient(1200px 900px at 15% -10%, rgba(255, 248, 240, 0.75), transparent 60%),
+      radial-gradient(1000px 700px at 85% 5%, rgba(220, 200, 180, 0.55), transparent 55%),
+      linear-gradient(135deg, rgba(245, 235, 225, 0.95), rgba(215, 200, 185, 0.95) 45%, rgba(240, 230, 220, 0.95));
+    background-attachment: fixed;
+    color: #1a1a1a;
+  }
+
+  .skingraft-shell [data-slot="card"] {
+    background:
+      radial-gradient(140% 120% at 15% 0%, rgba(255, 250, 245, 0.9), transparent 60%),
+      radial-gradient(120% 100% at 85% 10%, rgba(230, 215, 200, 0.55), transparent 55%),
+      linear-gradient(135deg, rgba(255, 250, 245, 0.85), rgba(230, 220, 210, 0.65));
+    border: 1px solid rgba(30, 20, 10, 0.12);
+    box-shadow:
+      0 18px 40px rgba(30, 20, 10, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    color: #1a1a1a;
+  }
+
+  .skingraft-shell [data-slot="card"] * {
+    color: inherit;
+  }
+
+  .skingraft-shell .text-muted-foreground {
+    color: #5a4e42;
+  }
+
+  .skingraft-shell .text-foreground {
+    color: #1a1a1a;
+  }
+
+  .skingraft-shell .text-white {
+    color: #1a1a1a;
+  }
+
+  .skingraft-shell [data-slot="badge"] {
+    color: #1a1a1a;
+    background-color: rgba(30, 20, 10, 0.06);
+    border-color: rgba(30, 20, 10, 0.2);
+  }
+
+  .skingraft-shell .text-primary,
+  .skingraft-shell .text-secondary-foreground,
+  .skingraft-shell .text-accent-foreground,
+  .skingraft-shell .text-destructive {
+    color: #1a1a1a;
+  }
+
+  .skingraft-shell .gbv-nav-icon {
+    filter: none;
+  }
+
+  .skingraft-shell .gbv-rune-white {
+    filter: none;
+  }
+
+  .skingraft-shell nav a,
+  .skingraft-shell nav a span,
+  .skingraft-shell nav svg {
+    color: #1a1a1a;
+  }
+
+  .skingraft-shell .gbv-submit-button {
+    background-color: #1a1a1a;
+    color: #f8f5f0;
+  }
+
+  .skingraft-shell .gbv-submit-button:hover {
+    background-color: #2d2d2d;
+  }
+
+  .skingraft-shell .gbv-search-button {
+    background-color: transparent;
+    color: #1a1a1a;
+  }
+
+  .skingraft-shell .gbv-search-icon {
+    color: #1a1a1a;
+  }
+
+  .skingraft-shell input,
+  .skingraft-shell textarea,
+  .skingraft-shell select,
+  .skingraft-shell [data-slot="input"] {
+    color: #1a1a1a;
+    border-color: rgba(30, 20, 10, 0.2);
+  }
+
+  .skingraft-shell input::placeholder,
+  .skingraft-shell textarea::placeholder,
+  .skingraft-shell [data-slot="input"]::placeholder {
+    color: #7a6e62;
+  }
+
+  .skingraft-shell .prose a {
+    color: #2d2d2d;
+    border-bottom: 1px solid currentColor;
+    text-decoration: none;
+  }
 }
 
 nav[data-site="mlb"] {
