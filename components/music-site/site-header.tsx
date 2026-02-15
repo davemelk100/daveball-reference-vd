@@ -72,7 +72,7 @@ export function SiteHeader() {
                 >
                   <Search
                     className={cn(
-                      "gbv-search-icon",
+                      "gbv-search-icon !h-10 !w-10",
                       site.id === "amrep" && "text-black",
                     )}
                   />
@@ -98,7 +98,7 @@ export function SiteHeader() {
             >
               <Search
                 className={cn(
-                  "gbv-search-icon",
+                  "gbv-search-icon !h-10 !w-10",
                   site.id === "amrep" && "text-black",
                 )}
               />

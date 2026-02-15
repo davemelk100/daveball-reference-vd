@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
-import { Loader2, Search } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { SgRemoteImage } from "@/components/sg/sg-remote-image";
@@ -13,20 +12,26 @@ import { SitePlaceholderIcon } from "@/components/music-site/site-placeholder-ic
 
 const ITEMS_PER_PAGE = 30;
 
+function getSgReleaseType(format?: string): "Album" | "Single" {
+  if (format === '7"') return "Single";
+  return "Album";
+}
+
 export function SgAlbumsContent() {
   const pathname = usePathname();
   const site = getMusicSiteFromPathname(pathname);
   const [search, setSearch] = useState("");
-  const [searchOpen, setSearchOpen] = useState(false);
-  const searchWrapperRef = useRef<HTMLDivElement>(null);
   const [sortBy, setSortBy] = useState<"year-asc" | "year-desc" | "title">(
     "year-asc",
   );
+  const [releaseFilter, setReleaseFilter] = useState<
+    "all" | "albums" | "eps" | "singles"
+  >("all");
   const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
 
   useEffect(() => {
     setDisplayCount(ITEMS_PER_PAGE);
-  }, [search, sortBy]);
+  }, [search, sortBy, releaseFilter]);
 
   const albums = useMemo(() => {
     return sgDiscography.map((release) => ({
@@ -47,6 +52,12 @@ export function SgAlbumsContent() {
       );
     }
 
+    if (releaseFilter === "albums") {
+      result = result.filter((album) => getSgReleaseType(album.format) === "Album");
+    } else if (releaseFilter === "singles") {
+      result = result.filter((album) => getSgReleaseType(album.format) === "Single");
+    }
+
     if (sortBy === "year-asc") {
       result.sort((a, b) => a.year - b.year || a.id - b.id);
     } else if (sortBy === "year-desc") {
@@ -56,11 +67,24 @@ export function SgAlbumsContent() {
     }
 
     return result;
-  }, [albums, search, sortBy]);
+  }, [albums, search, sortBy, releaseFilter]);
 
   const typeCounts = useMemo(() => {
-    return { all: filteredAlbums.length, albums: 0, eps: 0, singles: 0 };
-  }, [filteredAlbums]);
+    let searchFiltered = albums;
+    if (search) {
+      const searchLower = search.toLowerCase();
+      searchFiltered = albums.filter((album) =>
+        album.title.toLowerCase().includes(searchLower),
+      );
+    }
+    const albumCount = searchFiltered.filter(
+      (album) => getSgReleaseType(album.format) === "Album",
+    ).length;
+    const singleCount = searchFiltered.filter(
+      (album) => getSgReleaseType(album.format) === "Single",
+    ).length;
+    return { all: searchFiltered.length, albums: albumCount, eps: 0, singles: singleCount };
+  }, [albums, search]);
 
   const visibleAlbums = filteredAlbums.slice(0, displayCount);
   const hasMore = displayCount < filteredAlbums.length;
@@ -88,51 +112,18 @@ export function SgAlbumsContent() {
 
   return (
     <div className="container py-6">
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
-        <h1 className="font-league shrink-0">
-          {filteredAlbums.length} {site.navLabels.discography}
-        </h1>
-        <div className="flex items-center gap-3 flex-1 min-w-0">
-          {searchOpen || search.length > 0 ? (
-            <div ref={searchWrapperRef} className="relative flex-1 min-w-0 max-w-xs">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onBlur={() => {
-                  if (search.length === 0) setSearchOpen(false);
-                }}
-                placeholder={site.searchPlaceholder || "Search releases..."}
-                className="h-9 pl-9 pr-3 rounded-md border border-input bg-background text-sm w-full"
-              />
-            </div>
-          ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setSearchOpen(true);
-                requestAnimationFrame(() => {
-                  searchWrapperRef.current?.querySelector("input")?.focus();
-                });
-              }}
-              className="shrink-0 h-9 w-9 flex items-center justify-center rounded-md border border-input hover:bg-muted/50 transition-colors"
-              aria-label="Search"
-            >
-              <Search className="h-4 w-4 text-muted-foreground" />
-            </button>
-          )}
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-            className="h-9 px-3 rounded-md border border-input bg-background text-sm shrink-0"
-          >
-            <option value="year-asc">Year (oldest)</option>
-            <option value="year-desc">Year (newest)</option>
-            <option value="title">Title (A-Z)</option>
-          </select>
-        </div>
-      </div>
+      <AlbumsControls
+        site={site}
+        isAmrep
+        totalCount={filteredAlbums.length}
+        typeCounts={typeCounts}
+        releaseFilter={releaseFilter}
+        onReleaseFilterChange={setReleaseFilter}
+        sortBy={sortBy}
+        onSortByChange={setSortBy}
+        search={search}
+        onSearchChange={setSearch}
+      />
 
       <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {visibleAlbums.map((album, index) => {
@@ -160,7 +151,7 @@ export function SgAlbumsContent() {
                   <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <span>{album.year}</span>
                     <span className="border border-border rounded px-1.5 py-0.5 text-[10px] uppercase tracking-wide">
-                      {album.format || "Release"}
+                      {getSgReleaseType(album.format)}
                     </span>
                   </div>
                 </CardContent>

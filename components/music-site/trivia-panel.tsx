@@ -231,7 +231,6 @@ function TriviaPanelContent() {
                 className={`gap-1 h-7 text-xs ${border} ${txt} ${hoverBg}`}
               >
                 <Share2 className="h-3 w-3" />
-                Share
               </Button>
             )}
           </div>
@@ -342,7 +341,6 @@ function TriviaPanelContent() {
             onClick={handleShare}
             className="gap-1 text-blue-400 hover:text-blue-300 hover:bg-blue-500/10"
           >
-            Share
             <Share2 className="h-4 w-4" />
           </Button>
         ) : (

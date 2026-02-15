@@ -33,7 +33,7 @@ export function SgDashboardContent() {
           RemoteImage={SgRemoteImage}
           imageFit="contain"
           placeholderVariant="img"
-          placeholderClassName="h-auto w-auto object-contain"
+          placeholderClassName="max-h-full max-w-full object-contain"
         />
         <ArtistOfDayCard
           artists={sgArtistsWithImages}
@@ -41,7 +41,7 @@ export function SgDashboardContent() {
           RemoteImage={SgRemoteImage}
           imageFit="contain"
           placeholderVariant="img"
-          placeholderClassName="h-auto w-auto object-contain"
+          placeholderClassName="max-h-full max-w-full object-contain"
         />
       </DashboardDailyRow>
     </div>

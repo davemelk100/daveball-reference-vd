@@ -88,13 +88,13 @@ export function ArtistOfDayCard({
           </div>
           <div className="relative h-[220px] sm:h-[260px] lg:h-[300px]">
             {coverUrl ? (
-              <Link href={albumHref} className="absolute inset-0">
+              <Link href={albumHref} className="absolute inset-0 flex items-center justify-center">
                 <RemoteImage
                   src={coverUrl}
                   alt={`${displayTitle} cover`}
                   className={`rounded-md object-${imageFit} w-full h-full`}
                   loading="eager"
-                  preferProxy={false}
+                  preferProxy
                 />
               </Link>
             ) : (

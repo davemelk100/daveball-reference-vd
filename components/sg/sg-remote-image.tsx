@@ -23,7 +23,7 @@ export function SgRemoteImage({
       localFallbackSrc={localFallbackSrc}
       fit={fit}
       className={cn("rounded-lg", className)}
-      fallbackClassName="object-contain rounded-lg opacity-20"
+      fallbackClassName="object-contain rounded-lg opacity-20 max-w-full max-h-full"
       invalidCacheValues={["/chat-gbv-box.svg", "/sg-logo.png"]}
     />
   );

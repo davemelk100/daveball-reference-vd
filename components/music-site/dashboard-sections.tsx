@@ -1,6 +1,6 @@
 "use client";
 
-import type { ComponentProps, ComponentType, ReactNode } from "react";
+import { Children, type ComponentProps, type ComponentType, type ReactNode } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
@@ -88,10 +88,23 @@ export function DashboardDescription({ text }: { text?: string }) {
 }
 
 export function DashboardDailyRow({ children, columns = 2 }: DashboardDailyRowProps) {
+  if (columns === 3) {
+    const childArray = Children.toArray(children);
+    const first = childArray[0];
+    const rest = childArray.slice(1);
+
+    return (
+      <div className="mb-8 flex flex-col gap-4">
+        <div>{first}</div>
+        <div className="grid gap-4 md:grid-cols-2">
+          {rest}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div
-      className={`mb-8 grid gap-4 ${columns === 3 ? "md:grid-cols-3" : "md:grid-cols-2"}`}
-    >
+    <div className="mb-8 grid gap-4 md:grid-cols-2">
       {children}
     </div>
   );
