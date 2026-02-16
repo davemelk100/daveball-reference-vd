@@ -37,20 +37,6 @@
          <div className="flex items-center gap-4 min-w-0">
            <div className="shrink-0">
              <h1 className="font-league">{site.navLabels.discography}</h1>
-             <p className="text-sm text-muted-foreground">
-               {isAmrep
-                 ? "Releases"
-                 : releaseFilter === "albums"
-                   ? "Albums"
-                   : releaseFilter === "eps"
-                     ? "EPs"
-                     : releaseFilter === "singles"
-                       ? "Singles"
-                       : "All"}
-               {isAmrep && (
-                 <span className="align-baseline"> ({totalCount})</span>
-               )}
-             </p>
            </div>
          </div>
          <div className="flex items-center gap-4">
