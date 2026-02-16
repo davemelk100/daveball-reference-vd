@@ -39,7 +39,7 @@
              <h1 className="font-league">{site.navLabels.discography}</h1>
            </div>
          </div>
-         <div className="flex items-center gap-4">
+         <div className="flex items-center gap-4 lg:ml-auto">
            <Tabs
              value={releaseFilter}
              onValueChange={(v) => onReleaseFilterChange(v as typeof releaseFilter)}

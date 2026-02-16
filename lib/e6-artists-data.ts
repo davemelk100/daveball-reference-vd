@@ -9,50 +9,36 @@ export interface E6Artist {
   wikipediaUrl?: string;
 }
 
-// Artist image URLs from Wikipedia / Wikimedia / Bandcamp
+// Artist image URLs from Wikipedia / Wikimedia
 export const e6ArtistImages: Record<string, string> = {
   "neutral-milk-hotel":
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Neutral_Milk_Hotel_-_Pitchfork_2014_%28Jeff_Mangum%29.jpg/330px-Neutral_Milk_Hotel_-_Pitchfork_2014_%28Jeff_Mangum%29.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Neutral_Milk_Hotel_live_at_Celebrate_Brooklyn.PNG/330px-Neutral_Milk_Hotel_live_at_Celebrate_Brooklyn.PNG",
   "the-apples-in-stereo":
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/The_Apples_in_Stereo.jpg/330px-The_Apples_in_Stereo.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Apples-in-Stereo-Primavera-Festival-%28edit%29.jpg/330px-Apples-in-Stereo-Primavera-Festival-%28edit%29.jpg",
   "the-olivia-tremor-control":
-    "https://upload.wikimedia.org/wikipedia/en/thumb/a/a8/Olivia_Tremor_Control.jpg/250px-Olivia_Tremor_Control.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Olivia_Tremor_Control_2005.jpg/330px-Olivia_Tremor_Control_2005.jpg",
   "of-montreal":
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Of_Montreal_at_Bonnaroo_2012.jpg/330px-Of_Montreal_at_Bonnaroo_2012.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/2015_Of_Montreal-El_Korah_Shrine-Treefort2015-Credit-Kasey_Elliott_%2816385792793%29.jpg/330px-2015_Of_Montreal-El_Korah_Shrine-Treefort2015-Credit-Kasey_Elliott_%2816385792793%29.jpg",
   "elf-power":
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Elf_Power_2007.jpg/330px-Elf_Power_2007.jpg",
-  "the-music-tapes":
-    "https://f4.bcbits.com/img/a2037558893_10.jpg",
-  "circulatory-system":
-    "https://f4.bcbits.com/img/a1655045523_10.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Elf_Power_at_Athfest_2018.jpg/330px-Elf_Power_at_Athfest_2018.jpg",
   "beulah":
-    "https://upload.wikimedia.org/wikipedia/en/thumb/3/31/Beulah_%28band%29.jpg/250px-Beulah_%28band%29.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/BeulahBand.jpg/330px-BeulahBand.jpg",
   "dressy-bessy":
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Dressy_Bessy_2005.jpg/330px-Dressy_Bessy_2005.jpg",
-  "the-gerbils":
-    "https://f4.bcbits.com/img/a3106283850_10.jpg",
-  "marshmallow-coast":
-    "https://f4.bcbits.com/img/a1539455770_10.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Dressybessy.jpg/330px-Dressybessy.jpg",
   "nana-grizol":
-    "https://f4.bcbits.com/img/a2461028651_10.jpg",
-  "great-lakes":
-    "https://f4.bcbits.com/img/a0747685666_10.jpg",
-  "japancakes":
-    "https://f4.bcbits.com/img/a3854946820_10.jpg",
-  "the-sunshine-fix":
-    "https://f4.bcbits.com/img/a2843456771_10.jpg",
-  "the-minders":
-    "https://f4.bcbits.com/img/a3428730143_10.jpg",
-  "essex-green":
-    "https://f4.bcbits.com/img/a1773613291_10.jpg",
-  "half-handed-cloud":
-    "https://f4.bcbits.com/img/a3067476543_10.jpg",
-  "comet":
-    "https://f4.bcbits.com/img/a2715309765_10.jpg",
-  "summer-hymns":
-    "https://f4.bcbits.com/img/a1247860025_10.jpg",
-  "lil-capn-travis":
-    "https://f4.bcbits.com/img/a4220192063_10.jpg",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Nana_Grizol.jpg/330px-Nana_Grizol.jpg",
+  "jeff-mangum":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Jeff_Mangum_at_Coachella_2012_%287260343156%29.jpg/330px-Jeff_Mangum_at_Coachella_2012_%287260343156%29.jpg",
+  "robert-schneider":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Robert_Schneider.jpg/330px-Robert_Schneider.jpg",
+  "kevin-barnes":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Of_Montreal_%2C_Positivus_Music_Festival%2C_Latvia%2C_July_2014-100_%2817836010085%29.jpg/330px-Of_Montreal_%2C_Positivus_Music_Festival%2C_Latvia%2C_July_2014-100_%2817836010085%29.jpg",
+  "julian-koster":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Julian06.JPG/330px-Julian06.JPG",
+  "will-cullen-hart":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Will_Guitar_cropped.JPG/330px-Will_Guitar_cropped.JPG",
+  "bill-doss":
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Bill_Doss_FYF_2010_%28cropped%29.jpg/330px-Bill_Doss_FYF_2010_%28cropped%29.jpg",
 };
 
 // Get image URL for an artist

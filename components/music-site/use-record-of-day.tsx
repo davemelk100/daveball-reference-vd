@@ -42,6 +42,11 @@ export function useRecordOfDay() {
         setAlbumId(revDaily.catalogNumber);
       }
 
+      if (revDaily.coverUrl) {
+        setCoverUrl(revDaily.coverUrl);
+        return;
+      }
+
       async function fetchRevCover() {
         try {
           const params = new URLSearchParams({

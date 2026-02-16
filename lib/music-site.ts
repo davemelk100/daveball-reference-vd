@@ -114,7 +114,7 @@ export const AMREP_SITE: MusicSiteConfig = {
   chatIconSrc: "/noise-bird.svg",
   placeholderIconSrc: "/noise-placeholder.svg",
   shellClass: "amrep-shell",
-  logoClassName: "h-auto w-[15%]",
+  logoClassName: "h-auto w-[20%] lg:w-[25%]",
   description:
     "Amphetamine Reptile Records is an independent record label founded by Tom Hazelmyer in 1986. Based in Minneapolis, AmRep became synonymous with the noise rock movement of the late '80s and '90s, releasing foundational records by artists like the Melvins, Helmet, Halo of Flies, Cows, and Hammerhead, and helping define the sound of underground heavy music.",
   navLabels: {

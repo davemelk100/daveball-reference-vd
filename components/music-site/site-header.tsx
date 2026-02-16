@@ -32,10 +32,10 @@ export function SiteHeader() {
 
   return (
     <header className="z-50 w-full bg-transparent py-1 lg:pt-1 mb-4 lg:mb-1">
-      <div className="container flex items-center gap-3">
+      <div className="container flex items-center gap-3 overflow-hidden">
         <Link
           href={site.basePath}
-          className="flex items-center gap-3 flex-shrink-0"
+          className="flex items-center gap-3 min-w-0"
         >
           <Image
             src={site.logoSrc}
