@@ -22,6 +22,7 @@ export type RemoteImageProps = {
   cacheKey?: string;
   preferProxy?: boolean;
   invalidCacheValues?: string[];
+  onAllFailed?: () => void;
 };
 
 export function RemoteImage({
@@ -38,6 +39,7 @@ export function RemoteImage({
   cacheKey,
   preferProxy = true,
   invalidCacheValues = EMPTY_ARRAY,
+  onAllFailed,
 }: RemoteImageProps) {
   const normalized = normalizeImageUrl(src);
   const invalidCacheSet = useMemo(
@@ -104,8 +106,13 @@ export function RemoteImage({
 
   const handleError = () => {
     if (!normalized) {
-      setCurrentSrc(fallbackSrc);
-      setSourceState("fallback");
+      if (fallbackSrc) {
+        setCurrentSrc(fallbackSrc);
+        setSourceState("fallback");
+      } else {
+        setCurrentSrc(null);
+        onAllFailed?.();
+      }
       return;
     }
 
@@ -122,12 +129,18 @@ export function RemoteImage({
     }
 
     if (sourceState === "proxy" || sourceState === "localFallback") {
-      setCurrentSrc(fallbackSrc);
-      setSourceState("fallback");
+      if (fallbackSrc) {
+        setCurrentSrc(fallbackSrc);
+        setSourceState("fallback");
+      } else {
+        setCurrentSrc(null);
+        onAllFailed?.();
+      }
       return;
     }
 
     if (sourceState === "fallback") {
+      onAllFailed?.();
       setLoaded(true);
     }
   };

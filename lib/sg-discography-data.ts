@@ -12,28 +12,9 @@ export interface SgRelease {
   imageUrl?: string;
 }
 
-// Image URLs from Discogs
-export const sgReleaseImages: Record<number, string> = {
-  1: "https://i.discogs.com/9nCIqJIzFO8kzQjJp8jJ2b9Hn_1R8FKmFrBmSVG2O3E/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMjUx/ODUtMTQ5MjUyNTYz/Ni05Mzk2LmpwZWc.jpeg",
-  2: "https://i.discogs.com/vwh1aHnT1JNDNlPdOzQEL1j6P5p0L5ROUWfkkkFXxDk/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwNjg4/MTktMTUwMzE0Nzg1/Ni02NDUxLmpwZWc.jpeg",
-  3: "https://i.discogs.com/8bJf1pjPvvNm8DRv8EYJZhNqC5UKQhE5eHKHEg-F5gY/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc4NjE1/Ni0xMTYzODQ5MjA3/LmpwZWc.jpeg",
-  4: "https://i.discogs.com/N0NlYmL8s0CX3dXswFB3iSZgTXHy9c_z8SJfyTdvT2Y/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyMDU1/MTQtMTE5NDE5NTk5/MS5qcGVn.jpeg",
-  5: "https://i.discogs.com/R0xWJXG0b6Fc8CvJTvVE3HgVP-PkNMi_8Uw_VK7N2lk/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTExNDI0/MjktMTIxNDY5NzMz/Mi5qcGVn.jpeg",
-  6: "https://i.discogs.com/BtVYX8KQj3HvVkHxF0_r5XK2_PLFcS9bpNJ9VvzLT7k/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTk4MDEw/MC0xMTc5Nzc2ODI3/LmpwZWc.jpeg",
-  7: "https://i.discogs.com/vLK0mEGkK7H5SZhFz8XqGKJTEiV8g-YDHZ6tJSHLYuc/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTQxNTQ0/OC0xMTEyMTczNzE2/LmpwZWc.jpeg",
-  8: "https://i.discogs.com/7N5kVXDBnLn-8Qw4gvQ6n9wQ-PmSSK2b-I0Bd0yYFQI/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3NjAz/NDAtMTI0MzY0MDQz/MC5qcGVn.jpeg",
-  9: "https://i.discogs.com/WDdW-x4eo-XrUyHi-5pUHHB5UdCJTd-A7-58Z6qKyeo/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2Mjc3/ODUtMTIzNjU4NDIw/MC5qcGVn.jpeg",
-  10: "https://i.discogs.com/JR8RJjr-_C4bwNWnqp53gVv18PUnTkqm5O-gBhq3LjU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcxNjA2/NC0xMTU4MTc3OTM5/LmpwZWc.jpeg",
-  11: "https://i.discogs.com/3MZQfPQDPIVJq1nJpGwV4g1E0K1LGC0mPwGgY2-yUWU/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE0ODAz/MDYtMTIzMTE0NzE3/MC5qcGVn.jpeg",
-  12: "https://i.discogs.com/Gmo8njMu0E7I4A7SNjOC4GbPNnHxX4y5bF1VIXFNvSk/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEwMDcw/NzAtMTUyOTQ2NzUy/NC0yMTYyLmpwZWc.jpeg",
-  15: "https://i.discogs.com/xYBxLEhOBYmHhb3kQ3QJkMWdxHvJ-kFm77F8VSTjj5U/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTYxNDA5/Ni0xMTU2NjM2OTk2/LmpwZWc.jpeg",
-  16: "https://i.discogs.com/vFnG0D6YGEfqzIRPPTlQ9WVQY3rJ4NdFmHThAK56i38/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTcyOTg4/OS0xNjYyMTQ4ODQ4/LTM2MDIuanBlZw.jpeg",
-  20: "https://i.discogs.com/WMwbcVfJh-UvnYDXRdSLK0F_FxvQk3Q6pO-RKzb0e1g/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE3NTk2/NjYtMTI0MzU2NDE0/MS5qcGVn.jpeg",
-  25: "https://i.discogs.com/j2B5pJG4gLCRG6k0wlK98R_YgN2pAqV00FhJt5Uup3A/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTc3MDAx/Ny0xMTY0MjI0NDg0/LmpwZWc.jpeg",
-  30: "https://i.discogs.com/NtTpyEcxh4R3Q1BQqcLvbYeQkjQKfKdZ1l6tSwSk3UA/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTIxOTg1/NjItMTQwNzYyMDQx/Ny0yMDY3LmpwZWc.jpeg",
-  35: "https://i.discogs.com/sM5rUhqG2r4U3CgFq3e7Qi0m6zBewR-7D_DJP3jjxbs/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTE2NDIx/MjItMTIzNTgyNzAy/MS5qcGVn.jpeg",
-  40: "https://i.discogs.com/H-QhDHkZvvHd4jDjGF8JhYkwMOvXqo1E3UrV_YU-AYs/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyMjc5/NTgtMTIxOTIzNjM0/MC5qcGVn.jpeg",
-};
+// Remote Discogs thumbnail URLs removed — all signed URLs expired (403).
+// All working releases now have local images via download script.
+export const sgReleaseImages: Record<number, string> = {};
 
 // Get image URL for a release (prefer local, fall back to remote)
 export function getSgReleaseImageUrl(catalogNumber: number): string | undefined {

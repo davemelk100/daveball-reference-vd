@@ -2,7 +2,7 @@
  * Download Skin Graft Records images
  *
  * Part A: Band photos from skingraftrecords.com photo galleries
- * Part B: Release cover art from Discogs (label 33275)
+ * Part B: Release cover art from MusicBrainz/Cover Art Archive + Discogs fallback
  * Part C: Generate lib/sg-local-images.ts mapping file
  *
  * Usage: npx tsx scripts/download-sg-images.ts
@@ -18,6 +18,12 @@ const SG_LABEL_IDS = [33275];
 const DISCOGS_BASE = "https://api.discogs.com";
 const USER_AGENT = "SkinGraft/1.0";
 const RATE_LIMIT_MS = 1200;
+
+// MusicBrainz / Cover Art Archive
+const MUSICBRAINZ_BASE = "https://musicbrainz.org/ws/2";
+const COVER_ART_BASE = "https://coverartarchive.org";
+const MB_USER_AGENT = "MajorLeagueNumbers/1.0 (https://majorleaguenumbers.com)";
+const MB_RATE_LIMIT_MS = 1100;
 
 const ARTISTS_DIR = path.join(process.cwd(), "public", "images", "sg", "artists");
 const ALBUMS_DIR = path.join(process.cwd(), "public", "images", "sg", "albums");
@@ -214,7 +220,132 @@ async function downloadBandPhotos(): Promise<Record<string, string>> {
   return results;
 }
 
-// ─── Part B: Release cover art from Discogs ───
+// ─── MusicBrainz / Cover Art Archive helpers ───
+
+// Artist name overrides for MusicBrainz search (discog name → MB name)
+const mbArtistOverrides: Record<string, string> = {
+  "The Flying Luttenbachers": "Flying Luttenbachers",
+  "The Psychic Paramount": "Psychic Paramount",
+};
+
+interface MusicBrainzReleaseGroup {
+  id: string;
+  title: string;
+  "primary-type"?: string;
+  "first-release-date"?: string;
+  score: number;
+}
+
+interface CoverArtImage {
+  id: number;
+  image: string;
+  front: boolean;
+  thumbnails: {
+    small?: string;
+    large?: string;
+    "250"?: string;
+    "500"?: string;
+    "1200"?: string;
+  };
+}
+
+function fetchJson(url: string, userAgent: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const client = url.startsWith("https") ? https : http;
+    const req = client.get(url, { headers: { "User-Agent": userAgent } }, (res) => {
+      if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        fetchJson(res.headers.location, userAgent).then(resolve).catch(reject);
+        return;
+      }
+      if (res.statusCode && res.statusCode !== 200) {
+        reject(new Error(`HTTP ${res.statusCode} for ${url}`));
+        return;
+      }
+      const chunks: Buffer[] = [];
+      res.on("data", (chunk) => chunks.push(chunk));
+      res.on("end", () => {
+        try {
+          resolve(JSON.parse(Buffer.concat(chunks).toString("utf-8")));
+        } catch {
+          reject(new Error(`Invalid JSON from ${url}`));
+        }
+      });
+      res.on("error", reject);
+    });
+    req.on("error", reject);
+    req.setTimeout(15000, () => {
+      req.destroy();
+      reject(new Error(`Timeout fetching ${url}`));
+    });
+  });
+}
+
+function pickBestReleaseGroup(groups: MusicBrainzReleaseGroup[]): MusicBrainzReleaseGroup | null {
+  const scored = groups.map((group) => {
+    let bonus = 0;
+    const groupType = (group["primary-type"] || "").toLowerCase();
+
+    // Prefer albums and EPs
+    if (groupType === "album" || groupType === "ep") bonus += 20;
+    if (groupType === "single") bonus += 5;
+
+    return { group, score: group.score + bonus };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+  return scored[0]?.group ?? null;
+}
+
+async function searchMusicBrainzCover(
+  artist: string,
+  title: string,
+): Promise<string | null> {
+  const mbArtist = mbArtistOverrides[artist] || artist;
+  const query = encodeURIComponent(`artist:"${mbArtist}" AND releasegroup:"${title}"`);
+  const searchUrl = `${MUSICBRAINZ_BASE}/release-group?query=${query}&fmt=json&limit=5`;
+
+  try {
+    const data = await fetchJson(searchUrl, MB_USER_AGENT);
+    const releaseGroups: MusicBrainzReleaseGroup[] = data["release-groups"] || [];
+
+    if (releaseGroups.length === 0) return null;
+
+    const best = pickBestReleaseGroup(releaseGroups);
+    if (!best) return null;
+
+    await sleep(MB_RATE_LIMIT_MS);
+
+    // Fetch cover art from Cover Art Archive
+    const caaUrl = `${COVER_ART_BASE}/release-group/${best.id}`;
+    const caaData = await fetchJson(caaUrl, MB_USER_AGENT);
+    const images: CoverArtImage[] = caaData.images || [];
+
+    const toHttps = (url: string | undefined) => url?.replace(/^http:/, "https:");
+
+    // Prefer front cover
+    const frontCover = images.find((img) => img.front);
+    if (frontCover) {
+      return toHttps(
+        frontCover.thumbnails["500"] ||
+        frontCover.thumbnails["1200"] ||
+        frontCover.thumbnails.large ||
+        frontCover.image
+      ) || null;
+    }
+
+    // Fallback to first image
+    if (images.length > 0) {
+      const first = images[0];
+      return toHttps(first.thumbnails["500"] || first.thumbnails.large || first.image) || null;
+    }
+
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+// ─── Part B: Release cover art from MusicBrainz + Discogs fallback ───
 
 function normalizeKey(artist: string, title: string): string {
   return `${artist}::${title}`
@@ -259,15 +390,23 @@ async function fetchAllLabelReleases(): Promise<Map<string, any>> {
   return lookup;
 }
 
+function normalizeForMatch(s: string): string {
+  return s.toLowerCase().replace(/^the\s+/, "").replace(/[^a-z0-9]/g, "");
+}
+
 async function searchDiscogsRelease(artist: string, title: string): Promise<any | null> {
   try {
     const q = `${artist} ${title}`.replace(/[&]/g, "and");
     const data = await fetchDiscogs(
-      `/database/search?q=${encodeURIComponent(q)}&type=release&per_page=3`
+      `/database/search?q=${encodeURIComponent(q)}&type=release&per_page=5`
     );
-    if (data?.results?.length > 0) {
-      // Return the first result — we'll fetch full release details to get images
-      return { id: data.results[0].id };
+    const normArtist = normalizeForMatch(artist);
+    for (const result of data?.results || []) {
+      // Validate that the result's title contains the expected artist name
+      const resultTitle = normalizeForMatch(result.title || "");
+      if (resultTitle.includes(normArtist)) {
+        return { id: result.id };
+      }
     }
   } catch {
     // ignore
@@ -276,55 +415,108 @@ async function searchDiscogsRelease(artist: string, title: string): Promise<any 
 }
 
 async function downloadReleaseCoverArt(): Promise<Record<number, string>> {
-  console.log("\n=== Part B: Release cover art from Discogs ===\n");
+  console.log("\n=== Part B: Release cover art from MusicBrainz + Discogs ===\n");
   const results: Record<number, string> = {};
 
   const lookup = await fetchAllLabelReleases();
 
-  for (const release of sgDiscography) {
-    const key = normalizeKey(release.artist, release.title);
-    let discogsRelease = lookup.get(key);
+  let mbHits = 0;
+  let discogsHits = 0;
 
+  for (const release of sgDiscography) {
+    const catLabel = `GR${String(release.catalogNumber).padStart(3, "0")}`;
     const ext = "jpg";
     const filename = `release-${release.catalogNumber}.${ext}`;
     const outPath = path.join(ALBUMS_DIR, filename);
 
     if (fs.existsSync(outPath)) {
-      console.log(`  [skip] GR${String(release.catalogNumber).padStart(3, "0")} — already exists`);
+      console.log(`  [skip] ${catLabel} — already exists`);
       results[release.catalogNumber] = `/images/sg/albums/${filename}`;
       continue;
     }
 
-    // Fallback: search Discogs by artist + title if label lookup missed
-    if (!discogsRelease) {
-      console.log(`  [search] GR${String(release.catalogNumber).padStart(3, "0")} ${release.artist} — "${release.title}" — trying search...`);
-      const searchResult = await searchDiscogsRelease(release.artist, release.title);
-      await sleep(RATE_LIMIT_MS);
-      if (searchResult) {
-        discogsRelease = { id: searchResult.id, thumb: searchResult.thumb || searchResult.cover_image };
+    let imageUrl: string | null = null;
+    let source: string | null = null;
+
+    // 1. Try Discogs label lookup first (no extra requests — already fetched)
+    const key = normalizeKey(release.artist, release.title);
+    const discogsRelease = lookup.get(key);
+
+    if (discogsRelease) {
+      try {
+        console.log(`  [discogs] ${catLabel} — found in label lookup (id: ${discogsRelease.id})`);
+        const fullRelease = await fetchDiscogs(`/releases/${discogsRelease.id}`);
+        await sleep(RATE_LIMIT_MS);
+
+        // Validate artist matches before accepting the image
+        const releaseArtists = (fullRelease?.artists || [])
+          .map((a: any) => normalizeForMatch(a.name || ""))
+          .join(" ");
+        const normArtist = normalizeForMatch(release.artist);
+
+        if (!releaseArtists.includes(normArtist)) {
+          console.log(`  [skip-mismatch] ${catLabel} — Discogs artist "${fullRelease?.artists?.[0]?.name}" doesn't match "${release.artist}"`);
+        } else {
+          imageUrl =
+            fullRelease?.images?.[0]?.uri ||
+            fullRelease?.images?.[0]?.uri150 ||
+            discogsRelease.thumb || null;
+
+          if (imageUrl) source = "discogs";
+        }
+      } catch {
+        // Discogs fetch failed
       }
     }
 
-    if (!discogsRelease) {
-      console.log(`  [miss] GR${String(release.catalogNumber).padStart(3, "0")} ${release.artist} — "${release.title}" — no Discogs match`);
+    // 2. Try MusicBrainz / Cover Art Archive (2 requests: search + CAA)
+    if (!imageUrl) {
+      try {
+        console.log(`  [mb]   ${catLabel} ${release.artist} — "${release.title}" — searching MusicBrainz...`);
+        imageUrl = await searchMusicBrainzCover(release.artist, release.title);
+        await sleep(MB_RATE_LIMIT_MS);
+        if (imageUrl) source = "mb";
+      } catch {
+        // MusicBrainz failed
+      }
+    }
+
+    // 3. Last resort: Discogs search (only if label lookup missed entirely)
+    if (!imageUrl && !discogsRelease) {
+      console.log(`  [discogs-search] ${catLabel} — trying Discogs search...`);
+      const searchResult = await searchDiscogsRelease(release.artist, release.title);
+      await sleep(RATE_LIMIT_MS);
+
+      if (searchResult) {
+        try {
+          const fullRelease = await fetchDiscogs(`/releases/${searchResult.id}`);
+          await sleep(RATE_LIMIT_MS);
+
+          const releaseArtists = (fullRelease?.artists || [])
+            .map((a: any) => normalizeForMatch(a.name || ""))
+            .join(" ");
+          const normArtist = normalizeForMatch(release.artist);
+
+          if (releaseArtists.includes(normArtist)) {
+            imageUrl =
+              fullRelease?.images?.[0]?.uri ||
+              fullRelease?.images?.[0]?.uri150 || null;
+
+            if (imageUrl) source = "discogs";
+          }
+        } catch {
+          // Discogs fetch failed
+        }
+      }
+    }
+
+    if (!imageUrl) {
+      console.log(`  [miss] ${catLabel} ${release.artist} — "${release.title}" — no image found`);
       continue;
     }
 
+    // 3. Download the image
     try {
-      // Fetch full release details to get full-size image
-      const fullRelease = await fetchDiscogs(`/releases/${discogsRelease.id}`);
-      await sleep(RATE_LIMIT_MS);
-
-      const imageUrl =
-        fullRelease?.images?.[0]?.uri ||
-        fullRelease?.images?.[0]?.uri150 ||
-        discogsRelease.thumb;
-
-      if (!imageUrl) {
-        console.log(`  [miss] GR${String(release.catalogNumber).padStart(3, "0")} — no image URL on Discogs`);
-        continue;
-      }
-
       const buf = await fetchUrl(imageUrl.replace(/^http:/, "https:"));
       const actualExt = getExtFromUrl(imageUrl);
       const actualFilename = `release-${release.catalogNumber}.${actualExt}`;
@@ -332,12 +524,17 @@ async function downloadReleaseCoverArt(): Promise<Record<number, string>> {
 
       fs.writeFileSync(actualPath, buf);
       results[release.catalogNumber] = `/images/sg/albums/${actualFilename}`;
-      console.log(`  [ok]   GR${String(release.catalogNumber).padStart(3, "0")} ${release.artist} — "${release.title}" (${(buf.length / 1024).toFixed(0)} KB)`);
+
+      if (source === "mb") mbHits++;
+      else discogsHits++;
+
+      console.log(`  [ok]   ${catLabel} ${release.artist} — "${release.title}" [${source}] (${(buf.length / 1024).toFixed(0)} KB)`);
     } catch (err: any) {
-      console.log(`  [fail] GR${String(release.catalogNumber).padStart(3, "0")} ${release.artist} — ${err.message}`);
+      console.log(`  [fail] ${catLabel} ${release.artist} — ${err.message}`);
     }
   }
 
+  console.log(`\n  Sources: ${mbHits} from MusicBrainz, ${discogsHits} from Discogs`);
   return results;
 }
 
