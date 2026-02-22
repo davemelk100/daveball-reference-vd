@@ -59,8 +59,7 @@ export function NFLPlayersContent({ leaderCategories }: NFLPlayersContentProps) 
                       alt={player.name}
                       width={96}
                       height={96}
-                      className="rounded-lg h-24"
-                      style={{ width: "auto" }}
+                      className="rounded-lg h-24 w-auto"
                       unoptimized
                     />
                   </div>

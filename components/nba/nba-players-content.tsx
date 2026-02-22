@@ -60,8 +60,7 @@ export function NBAPlayersContent({ leaderCategories }: NBAPlayersContentProps) 
                       alt={leader.name}
                       width={96}
                       height={96}
-                      className="rounded-lg h-24"
-                      style={{ width: "auto" }}
+                      className="rounded-lg h-24 w-auto"
                       unoptimized
                     />
                   </div>
