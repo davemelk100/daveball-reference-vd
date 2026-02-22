@@ -214,6 +214,91 @@ export function parseScoreboardTournament(data: any): PGATournament | null {
   };
 }
 
+export async function getPGAAllPlayers(): Promise<PGALeaderEntry[]> {
+  // 1. Get player IDs from FedEx Cup season leaders (most comprehensive list)
+  const CORE = "https://sports.core.api.espn.com/v2/sports/golf/leagues/pga";
+  const leadersUrl = `${CORE}/seasons/2025/types/2/leaders?limit=300`;
+  const leadersData = await fetchJSON<any>(leadersUrl, CACHE_TTL_LONG).catch(() => null);
+
+  const idSet = new Set<string>();
+
+  if (leadersData?.categories) {
+    for (const cat of leadersData.categories) {
+      for (const entry of cat.leaders || []) {
+        const ref: string = entry.athlete?.$ref || "";
+        const match = ref.match(/athletes\/(\d+)/);
+        if (match) idSet.add(match[1]);
+      }
+    }
+  }
+
+  // 2. Also pull IDs from current scoreboard
+  const scoreboard = await getPGAScoreboard().catch(() => null);
+  for (const event of scoreboard?.events || []) {
+    for (const comp of event.competitions || []) {
+      for (const c of comp.competitors || []) {
+        const id = String(c.athlete?.id || c.id || "");
+        if (id) idSet.add(id);
+      }
+    }
+  }
+
+  // 3. Fetch each athlete's name (with 24h cache per athlete)
+  const ids = Array.from(idSet);
+  const BATCH = 20;
+  const playerMap = new Map<string, PGALeaderEntry>();
+
+  for (let i = 0; i < ids.length; i += BATCH) {
+    const batch = ids.slice(i, i + BATCH);
+    const results = await Promise.all(
+      batch.map(async (id) => {
+        try {
+          const data = await fetchJSON<any>(`${CORE}/athletes/${id}`, CACHE_TTL_LONG);
+          return {
+            id,
+            name: data.displayName || data.fullName || "Unknown",
+            team: data.flag?.alt || data.citizenship || "",
+            teamAbbrev: "",
+            position: "—",
+            headshot: data.headshot?.href || getPlayerHeadshotUrl(id),
+            value: "",
+            displayValue: "",
+          } satisfies PGALeaderEntry;
+        } catch {
+          return null;
+        }
+      })
+    );
+    for (const p of results) {
+      if (p) playerMap.set(p.id, p);
+    }
+  }
+
+  // Also merge scoreboard competitors that have inline data
+  for (const event of scoreboard?.events || []) {
+    for (const comp of event.competitions || []) {
+      for (const c of comp.competitors || []) {
+        const athlete = c.athlete || {};
+        const id = String(athlete.id || c.id || "");
+        if (id && !playerMap.has(id) && athlete.displayName) {
+          playerMap.set(id, {
+            id,
+            name: athlete.displayName || athlete.fullName || "Unknown",
+            team: athlete.flag?.alt || "",
+            teamAbbrev: "",
+            position: "—",
+            headshot: athlete.headshot?.href || getPlayerHeadshotUrl(id),
+            value: "",
+            displayValue: "",
+          });
+        }
+      }
+    }
+  }
+
+  return Array.from(playerMap.values()).sort((a, b) => a.name.localeCompare(b.name));
+}
+
 // ── Helpers ─────────────────────────────────────────────────
 
 export function getPlayerHeadshotUrl(id: string | number): string {

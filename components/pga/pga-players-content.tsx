@@ -1,18 +1,33 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { PGAPlayerHeadshot } from "@/components/pga/pga-player-headshot";
-import type { PGALeaderCategory } from "@/lib/pga-api";
+import type { PGALeaderCategory, PGALeaderEntry } from "@/lib/pga-api";
+
+const ALL_PLAYERS_TAB = -1;
 
 interface PGAPlayersContentProps {
   leaderCategories: PGALeaderCategory[];
+  allPlayers: PGALeaderEntry[];
 }
 
-export function PGAPlayersContent({ leaderCategories }: PGAPlayersContentProps) {
-  const [activeTab, setActiveTab] = useState(0);
+export function PGAPlayersContent({ leaderCategories, allPlayers: serverPlayers }: PGAPlayersContentProps) {
+  const [activeTab, setActiveTab] = useState(ALL_PLAYERS_TAB);
+
+  // Merge server all-players with leader entries (leaders may have players not in current tournament)
+  const allPlayers = useMemo(() => {
+    const map = new Map<string, PGALeaderEntry>();
+    for (const p of serverPlayers) map.set(p.id, p);
+    for (const cat of leaderCategories) {
+      for (const p of cat.leaders) {
+        if (!map.has(p.id)) map.set(p.id, p);
+      }
+    }
+    return Array.from(map.values()).sort((a, b) => a.name.localeCompare(b.name));
+  }, [serverPlayers, leaderCategories]);
 
   if (leaderCategories.length === 0) {
     return (
@@ -23,7 +38,8 @@ export function PGAPlayersContent({ leaderCategories }: PGAPlayersContentProps) 
     );
   }
 
-  const activeCategory = leaderCategories[activeTab];
+  const activeCategory = activeTab === ALL_PLAYERS_TAB ? null : leaderCategories[activeTab];
+  const displayPlayers = activeTab === ALL_PLAYERS_TAB ? allPlayers : (activeCategory?.leaders ?? []);
 
   return (
     <div className="container py-6">
@@ -31,6 +47,16 @@ export function PGAPlayersContent({ leaderCategories }: PGAPlayersContentProps) 
 
       {/* Tabs */}
       <div className="flex flex-wrap gap-2 mb-6">
+        <button
+          onClick={() => setActiveTab(ALL_PLAYERS_TAB)}
+          className={`px-4 py-2 text-sm rounded-lg border transition-colors whitespace-nowrap ${
+            activeTab === ALL_PLAYERS_TAB
+              ? "bg-primary text-primary-foreground"
+              : "hover:bg-muted/50 text-muted-foreground"
+          }`}
+        >
+          All Players ({allPlayers.length})
+        </button>
         {leaderCategories.map((cat, i) => (
           <button
             key={cat.name}
@@ -48,7 +74,7 @@ export function PGAPlayersContent({ leaderCategories }: PGAPlayersContentProps) 
 
       {/* Card grid */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {activeCategory?.leaders.map((player) => (
+        {displayPlayers.map((player) => (
           <Link key={player.id} href={`/pga/players/${player.id}`}>
             <Card className="hover:bg-secondary/50 transition-colors cursor-pointer h-full">
               <CardContent className="p-1.5 pl-3">
@@ -61,7 +87,9 @@ export function PGAPlayersContent({ leaderCategories }: PGAPlayersContentProps) 
                     <div className="flex items-center gap-2 mt-0.5">
                       <Badge variant="secondary">Golf</Badge>
                     </div>
-                    <p className="text-sm font-bold mt-1">{player.displayValue}</p>
+                    {activeTab !== ALL_PLAYERS_TAB && (
+                      <p className="text-sm font-bold mt-1">{player.displayValue}</p>
+                    )}
                   </div>
                 </div>
               </CardContent>
