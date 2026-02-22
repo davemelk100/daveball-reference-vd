@@ -166,11 +166,11 @@ export function DashboardContent({ initialSeason }: { initialSeason: number }) {
         </Alert>
       )}
 
-      {/* Daily Trivia & Player of the Day Row + Jersey Numbers */}
+      {/* Daily Trivia & Player of the Day & Jersey Numbers Row */}
       <div className="grid gap-6 lg:grid-cols-2 mb-8 mt-6">
         <TriviaPanel />
-        <MLBJerseyPanel />
         <PlayerSpotlight />
+        <MLBJerseyPanel />
       </div>
 
       {/* Quick Stats */}

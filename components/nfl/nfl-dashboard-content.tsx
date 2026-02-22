@@ -35,8 +35,8 @@ export function NFLDashboardContent({ leaders, standings }: NFLDashboardContentP
       {/* Daily Trivia + Player of the Day + Jersey Numbers */}
       <div className="grid gap-6 lg:grid-cols-2 mb-8">
         <NFLTriviaPanel />
-        <NFLJerseyPanel />
         <NFLPlayerSpotlight />
+        <NFLJerseyPanel />
       </div>
 
       {/* Leaders */}

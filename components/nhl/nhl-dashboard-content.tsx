@@ -43,8 +43,8 @@ export function NHLDashboardContent({ leaders, standings }: NHLDashboardContentP
       {/* Daily Trivia + Player of the Day + Jersey Numbers */}
       <div className="grid gap-6 lg:grid-cols-2 mb-8">
         <NHLTriviaPanel />
-        <NHLJerseyPanel />
         <NHLPlayerSpotlight />
+        <NHLJerseyPanel />
       </div>
 
       {/* Leaders */}

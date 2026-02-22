@@ -43,8 +43,8 @@ export function NBADashboardContent({ leaders, standings }: NBADashboardContentP
       {/* Daily Trivia + Player of the Day + Jersey Numbers */}
       <div className="grid gap-6 lg:grid-cols-2">
         <NBATriviaPanel />
-        <NBAJerseyPanel />
         <NBAPlayerSpotlight />
+        <NBAJerseyPanel />
       </div>
 
       {/* Leaders Section */}
