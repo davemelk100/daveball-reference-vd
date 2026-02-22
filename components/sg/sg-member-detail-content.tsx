@@ -4,13 +4,12 @@ import { useMemo } from "react";
 import { SgRemoteImage } from "@/components/sg/sg-remote-image";
 import { usePathname } from "next/navigation";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
-import { getSgArtistById, sgArtistImages } from "@/lib/sg-artists-data";
-import { sgDiscography, sgReleaseImages } from "@/lib/sg-discography-data";
+import { getSgArtistById, getSgArtistImageUrl } from "@/lib/sg-artists-data";
+import { sgDiscography } from "@/lib/sg-discography-data";
 import { MemberDetailLayout } from "@/components/music-site/member-detail-layout";
 import { MemberDetailLeft } from "@/components/music-site/member-detail-left";
 import { MemberDetailRight } from "@/components/music-site/member-detail-right";
 import Link from "next/link";
-import { SitePlaceholderIcon } from "@/components/music-site/site-placeholder-icon";
 
 export function SgMemberDetailContent({ memberId }: { memberId: string }) {
   const pathname = usePathname();
@@ -18,7 +17,7 @@ export function SgMemberDetailContent({ memberId }: { memberId: string }) {
 
   const artist = useMemo(() => getSgArtistById(memberId), [memberId]);
 
-  const imageUrl = artist ? sgArtistImages[artist.id] ?? null : null;
+  const imageUrl = artist ? getSgArtistImageUrl(artist.id) ?? null : null;
 
   const releases = useMemo(() => {
     if (!artist) return [];
@@ -35,7 +34,9 @@ export function SgMemberDetailContent({ memberId }: { memberId: string }) {
         backHref={`${site.basePath}/members`}
         backLabel={site.navLabels.members}
         leftContent={
-          <SitePlaceholderIcon site={site} />
+          <div className="w-full aspect-square rounded-lg bg-muted flex items-center justify-center p-4">
+            <span className="text-sm text-muted-foreground font-medium">Artist not found</span>
+          </div>
         }
         rightTitle="Releases"
         rightContent={
@@ -59,7 +60,9 @@ export function SgMemberDetailContent({ memberId }: { memberId: string }) {
             preferProxy
           />
         ) : (
-          <SitePlaceholderIcon site={site} />
+          <div className="w-full aspect-square rounded-lg bg-muted flex items-center justify-center p-4">
+            <span className="text-sm text-muted-foreground font-medium text-center leading-tight">{artist.name}</span>
+          </div>
         )
       }
       name={artist.name}

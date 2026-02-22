@@ -830,17 +830,17 @@ nav[data-site="uspbl"] {
     font-family: var(--font-league-gothic), sans-serif;
     font-size: 46px;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 300;
   }
 
   h2 {
     font-size: 1.5rem;
-    font-weight: 600;
+    font-weight: 300;
   }
 
   h3 {
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 300;
   }
 
   h4 {

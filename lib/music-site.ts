@@ -373,11 +373,12 @@ export const SKINGRAFT_SITE: MusicSiteConfig = {
     { label: "AllMusic", url: "https://www.allmusic.com/" },
   ],
   imageSources: [
-    { label: "Discogs", url: "https://www.discogs.com/" },
+    { label: "Discogs", url: "https://www.discogs.com/label/33275-Skin-Graft-Records" },
+    { label: "Skin Graft Records", url: "https://skingraftrecords.com/photo_galleries.html" },
+    { label: "MusicBrainz", url: "https://musicbrainz.org/label/ce065ac8-48d8-465b-bebd-2a4b3afb4180" },
     { label: "Wikipedia", url: "https://en.wikipedia.org/" },
     { label: "Wikimedia Commons", url: "https://commons.wikimedia.org/" },
     { label: "Bandcamp", url: "https://bandcamp.com/" },
-    { label: "Last.fm", url: "https://www.last.fm/" },
   ],
   searchPlaceholder: "Search Skin Graft...",
   seo: {

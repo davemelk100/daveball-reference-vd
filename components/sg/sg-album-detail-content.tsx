@@ -2,12 +2,11 @@
 
 import { useMemo } from "react";
 import { SgRemoteImage } from "@/components/sg/sg-remote-image";
-import { getSgReleaseByCatalogNumber, sgReleaseImages } from "@/lib/sg-discography-data";
+import { getSgReleaseByCatalogNumber, getSgReleaseImageUrl } from "@/lib/sg-discography-data";
 import { usePathname } from "next/navigation";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
 import { AlbumDetailLayout } from "@/components/music-site/album-detail-layout";
 import { AlbumDetailLeft } from "@/components/music-site/album-detail-left";
-import { SitePlaceholderIcon } from "@/components/music-site/site-placeholder-icon";
 
 export function SgAlbumDetailContent({ albumId }: { albumId: string }) {
   const pathname = usePathname();
@@ -18,7 +17,7 @@ export function SgAlbumDetailContent({ albumId }: { albumId: string }) {
     [albumId],
   );
 
-  const imageUrl = release ? sgReleaseImages[release.catalogNumber] ?? null : null;
+  const imageUrl = release ? getSgReleaseImageUrl(release.catalogNumber) ?? null : null;
 
   if (!release) {
     return (
@@ -27,7 +26,9 @@ export function SgAlbumDetailContent({ albumId }: { albumId: string }) {
         backHref={`${site.basePath}/albums`}
         backLabel={site.navLabels.discography}
         leftContent={
-          <SitePlaceholderIcon site={site} className="mb-4" />
+          <div className="w-full aspect-square rounded-lg bg-muted flex items-center justify-center mb-4 p-4">
+            <span className="text-sm text-muted-foreground font-medium">Release not found</span>
+          </div>
         }
         rightTitle="Details"
         rightContent={
@@ -52,7 +53,9 @@ export function SgAlbumDetailContent({ albumId }: { albumId: string }) {
             cacheKey={`sg-album-thumb:${release.catalogNumber}`}
           />
         ) : (
-          <SitePlaceholderIcon site={site} className="mb-4" />
+          <div className="w-full aspect-square rounded-lg bg-muted flex items-center justify-center mb-4 p-4">
+            <span className="text-sm text-muted-foreground font-medium text-center leading-tight">{displayTitle}</span>
+          </div>
         )
       }
       title={displayTitle}

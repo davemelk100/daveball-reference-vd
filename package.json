@@ -13,7 +13,8 @@
     "typecheck": "tsc --noEmit",
     "predeploy": "npm run typecheck && npm run lint && npm run test && npm run build && npm run test:e2e",
     "ingest-knowledge": "node scripts/ingest-knowledge.mjs",
-    "sync:amrep-wiki": "node scripts/sync-amrep-wiki.mjs"
+    "sync:amrep-wiki": "node scripts/sync-amrep-wiki.mjs",
+    "fetch:sg-images": "tsx scripts/download-sg-images.ts"
   },
   "dependencies": {
     "@ai-sdk/gateway": "^3.0.11",

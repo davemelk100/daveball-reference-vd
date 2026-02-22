@@ -2,9 +2,7 @@
 
 import type { ComponentType } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 import type { MusicSiteConfig } from "@/lib/music-site";
 
 type RemoteImageProps = {
@@ -37,41 +35,17 @@ export function ArtistOfDayCard({
   site,
   RemoteImage,
   imageFit = "contain",
-  placeholderVariant = "next-image",
-  placeholderClassName = "w-1/2 h-1/2 gbv-nav-icon object-contain",
-  placeholderWrapperClassName,
-  placeholderSize = 32,
 }: ArtistOfDayCardProps) {
-  if (artists.length === 0) return null;
+  // Only pick from artists that have images
+  const artistsWithImages = artists.filter((a) => a.imageUrl);
+  if (artistsWithImages.length === 0) return null;
 
   const daysSinceEpoch = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
-  const index = daysSinceEpoch % artists.length;
-  const artist = artists[index];
+  const index = daysSinceEpoch % artistsWithImages.length;
+  const artist = artistsWithImages[index];
   const coverUrl = artist.imageUrl || null;
   const albumHref = `${site.basePath}/members/${artist.id}`;
   const displayTitle = artist.name;
-
-  const renderPlaceholder = () => {
-    if (placeholderVariant === "img") {
-      return (
-        <img
-          src={site.placeholderIconSrc}
-          alt={`${site.shortName} logo`}
-          className={placeholderClassName}
-        />
-      );
-    }
-
-    return (
-      <Image
-        src={site.placeholderIconSrc}
-        alt={`${site.shortName} logo`}
-        width={placeholderSize}
-        height={placeholderSize}
-        className={placeholderClassName}
-      />
-    );
-  };
 
   return (
     <Card className="w-full h-full min-h-[120px]">
@@ -100,10 +74,9 @@ export function ArtistOfDayCard({
             ) : (
               <Link
                 href={albumHref}
-                className={cn("w-full h-full rounded-md flex items-center justify-center", placeholderWrapperClassName)}
-                style={{ opacity: 0.2 }}
+                className="w-full h-full rounded-md bg-muted flex items-center justify-center"
               >
-                {renderPlaceholder()}
+                <span className="text-sm text-muted-foreground font-medium text-center px-4">{displayTitle}</span>
               </Link>
             )}
           </div>

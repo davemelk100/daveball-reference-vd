@@ -30,6 +30,9 @@ const nextConfig = {
         pathname: "/gbv-albums/**",
       },
       {
+        pathname: "/images/sg/**",
+      },
+      {
         pathname: "/noise-bird.svg",
       },
     ],
@@ -180,6 +183,16 @@ const nextConfig = {
   },
   async headers() {
     return [
+      // Cache SG Discogs API responses
+      {
+        source: "/api/sg/discogs",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, s-maxage=3600, stale-while-revalidate=86400",
+          },
+        ],
+      },
       // Cache GBV API responses
       {
         source: "/api/gbv/discogs",

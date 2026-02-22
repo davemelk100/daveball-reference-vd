@@ -1,6 +1,8 @@
 // Skin Graft Records Discography Data
 // Source: Discogs, Wikipedia
 
+import { getSgLocalReleaseImage } from "./sg-local-images";
+
 export interface SgRelease {
   catalogNumber: number;
   artist: string;
@@ -33,9 +35,9 @@ export const sgReleaseImages: Record<number, string> = {
   40: "https://i.discogs.com/H-QhDHkZvvHd4jDjGF8JhYkwMOvXqo1E3UrV_YU-AYs/rs:fit/g:sm/q:40/h:150/w:150/czM6Ly9kaXNjb2dz/LWRhdGFiYXNlLWlt/YWdlcy9SLTEyMjc5/NTgtMTIxOTIzNjM0/MC5qcGVn.jpeg",
 };
 
-// Get image URL for a release
+// Get image URL for a release (prefer local, fall back to remote)
 export function getSgReleaseImageUrl(catalogNumber: number): string | undefined {
-  return sgReleaseImages[catalogNumber];
+  return getSgLocalReleaseImage(catalogNumber) ?? sgReleaseImages[catalogNumber];
 }
 
 export const sgDiscography: SgRelease[] = [

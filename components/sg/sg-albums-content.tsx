@@ -4,11 +4,10 @@ import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { SgRemoteImage } from "@/components/sg/sg-remote-image";
-import { sgDiscography, sgReleaseImages } from "@/lib/sg-discography-data";
+import { sgDiscography, getSgReleaseImageUrl } from "@/lib/sg-discography-data";
 import { usePathname } from "next/navigation";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
 import { AlbumsControls } from "@/components/music-site/albums-controls";
-import { SitePlaceholderIcon } from "@/components/music-site/site-placeholder-icon";
 
 const ITEMS_PER_PAGE = 30;
 
@@ -110,7 +109,7 @@ export function SgAlbumsContent() {
 
       <div className="grid gap-4 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
         {visibleAlbums.map((album, index) => {
-          const imageUrl = sgReleaseImages[album.id] ?? null;
+          const imageUrl = getSgReleaseImageUrl(album.id) ?? null;
           return (
             <Link key={album.id} href={`${site.basePath}/albums/${album.id}`}>
               <Card className="hover:bg-muted/80 transition-colors cursor-pointer h-full">
@@ -126,7 +125,9 @@ export function SgAlbumsContent() {
                       cacheKey={`sg-album-thumb:${album.id}`}
                     />
                   ) : (
-                    <SitePlaceholderIcon site={site} />
+                    <div className="w-full aspect-square rounded-lg bg-muted flex items-center justify-center mb-2 p-2">
+                      <span className="text-xs text-muted-foreground text-center font-medium leading-tight">{album.title}</span>
+                    </div>
                   )}
                   <h3 className="font-semibold text-base truncate">
                     {album.title}

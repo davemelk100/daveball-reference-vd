@@ -12,6 +12,7 @@
    Award,
    Star,
    Video,
+   BookOpen,
    Loader2,
    type LucideIcon,
  } from "lucide-react";
@@ -47,6 +48,7 @@
      { name: site.navLabels.sideProjects, href: `${site.basePath}/side-projects`, icon: Star, mobileHidden: true },
      { name: "Timeline", href: `${site.basePath}/timeline`, icon: Calendar, mobileHidden: true },
      { name: "Awards", href: `${site.basePath}/awards`, icon: Award, mobileHidden: true },
+     ...(isSg ? [{ name: "Comics", href: `${site.basePath}/comics`, icon: BookOpen, mobileHidden: true }] : []),
    ];
 
    return (
@@ -134,6 +136,7 @@
      { name: site.navLabels.sideProjects, href: `${site.basePath}/side-projects`, icon: Star, mobileHidden: true },
      { name: "Timeline", href: `${site.basePath}/timeline`, icon: Calendar, mobileHidden: true },
      { name: "Awards", href: `${site.basePath}/awards`, icon: Award, mobileHidden: true },
+     ...(isSg ? [{ name: "Comics", href: `${site.basePath}/comics`, icon: BookOpen, mobileHidden: true }] : []),
    ];
 
    const mobileNavigation = navigation

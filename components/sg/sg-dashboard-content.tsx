@@ -10,12 +10,12 @@ import {
 } from "@/components/music-site/dashboard-sections";
 import { usePathname } from "next/navigation";
 import { getMusicSiteFromPathname } from "@/lib/music-site";
-import { sgArtists, sgArtistImages } from "@/lib/sg-artists-data";
+import { sgArtists, getSgArtistImageUrl } from "@/lib/sg-artists-data";
 
 const sgArtistsWithImages = sgArtists.map((a) => ({
   id: a.id,
   name: a.name,
-  imageUrl: sgArtistImages[a.id],
+  imageUrl: getSgArtistImageUrl(a.id),
   genre: a.genre,
 }));
 
@@ -32,16 +32,12 @@ export function SgDashboardContent() {
         <RecordOfDayCard
           RemoteImage={SgRemoteImage}
           imageFit="contain"
-          placeholderVariant="img"
-          placeholderClassName="max-h-full max-w-full object-contain"
         />
         <ArtistOfDayCard
           artists={sgArtistsWithImages}
           site={site}
           RemoteImage={SgRemoteImage}
           imageFit="contain"
-          placeholderVariant="img"
-          placeholderClassName="max-h-full max-w-full object-contain"
         />
       </DashboardDailyRow>
     </div>
