@@ -454,7 +454,7 @@
     "catalogNo": "052",
     "artist": "Guzzard",
     "title": "The Alienation Index Survey",
-    "year": null,
+    "year": 1996,
     "format": "CD",
     "section": "US"
   },
@@ -560,7 +560,7 @@
   {
     "id": 64,
     "catalogNo": "064",
-    "artist": "Honky",
+    "artist": "Melvins",
     "title": "Honky",
     "year": 1997,
     "format": "CD, LP",
@@ -686,7 +686,7 @@
   {
     "id": 78,
     "catalogNo": "078",
-    "artist": "The Bride Screamed Murder",
+    "artist": "Melvins",
     "title": "The Bride Screamed Murder",
     "year": 2011,
     "format": "LP",
@@ -722,7 +722,7 @@
   {
     "id": 83,
     "catalogNo": "088",
-    "artist": "The Bulls & the Bees",
+    "artist": "Melvins",
     "title": "The Bulls & the Bees",
     "year": 2012,
     "format": "LP",
@@ -1028,7 +1028,7 @@
   {
     "id": 118,
     "catalogNo": "123",
-    "artist": "A Walk with Love & Death",
+    "artist": "Melvins",
     "title": "A Walk with Love & Death",
     "year": 2018,
     "format": "LP",
@@ -2361,7 +2361,7 @@
     "id": 269,
     "catalogNo": "139",
     "artist": "Melvins",
-    "title": "A Tribute to Pop-O-Pies/Tales of Terror",
+    "title": "\"A Tribute to Pop-O-Pies\"/\"Tales of Terror\"",
     "year": 2014,
     "format": "7\"",
     "section": "Singles"
@@ -2572,5 +2572,95 @@
     "year": 1990,
     "format": "CD, CS, LP",
     "section": "US"
+  },
+  {
+    "id": 294,
+    "catalogNo": "044",
+    "artist": "Various artists",
+    "title": "Operation: Break Even",
+    "year": 1996,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 295,
+    "catalogNo": "084",
+    "artist": "Melvins",
+    "title": "Endless Residency",
+    "year": 2011,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 296,
+    "catalogNo": "085",
+    "artist": "Melvins",
+    "title": "Endless Residency",
+    "year": 2011,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 297,
+    "catalogNo": "086",
+    "artist": "Melvins",
+    "title": "Endless Residency",
+    "year": 2011,
+    "format": "CD",
+    "section": "US"
+  },
+  {
+    "id": 298,
+    "catalogNo": "087",
+    "artist": "Melvins",
+    "title": "1983",
+    "year": 2012,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 299,
+    "catalogNo": "103",
+    "artist": "Gay Witch Abortion with Haze XXL",
+    "title": "Beer Hippy",
+    "year": 2015,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 300,
+    "catalogNo": "124",
+    "artist": "Melvins",
+    "title": "Sabbath",
+    "year": 2018,
+    "format": "CD, LP",
+    "section": "US"
+  },
+  {
+    "id": 301,
+    "catalogNo": "15",
+    "artist": "Pogo the Clown",
+    "title": "Lederhosen",
+    "year": 1988,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 302,
+    "catalogNo": "128",
+    "artist": "Melvins/Hammerhead",
+    "title": "Amphetamine Reptile Records Cage Match",
+    "year": 2012,
+    "format": "7\"",
+    "section": "Singles"
+  },
+  {
+    "id": 303,
+    "catalogNo": "163",
+    "artist": "Unsane",
+    "title": "\"Fix It\"/\"Wrung\"",
+    "year": 2017,
+    "format": "7\"",
+    "section": "Singles"
   }
 ]
